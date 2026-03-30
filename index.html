@@ -1,598 +1,819 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chris Kelley â Implementation & AI Automation Consulting</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chris Kelley | AI Automation & Systems Consulting</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <style>
-    /* âââ Reset & Base âââ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+
     :root {
       --blue: #0E6BA8;
       --blue-dark: #1A3C5E;
-      --blue-light: #E8F2FA;
+      --blue-deeper: #0d2c47;
       --green: #28B485;
-      --green-dark: #1E8C66;
-      --green-light: #E6F7F2;
-      --text: #1A2332;
-      --text-mid: #4A5568;
-      --text-soft: #718096;
-      --border: #E2E8F0;
-      --bg: #FFFFFF;
-      --bg-soft: #F8FAFC;
-      --bg-mid: #F1F5F9;
-      --radius-sm: 6px;
-      --radius-md: 12px;
-      --radius-lg: 20px;
+      --green-dark: #1e9068;
+      --off-white: #F7F8FA;
+      --text: #1a1a2e;
+      --text-muted: #5a6070;
+      --border: #e4e8ef;
+      --radius: 10px;
+      --font-sans: 'DM Sans', sans-serif;
+      --font-serif: 'DM Serif Display', serif;
     }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: var(--font-sans);
       color: var(--text);
-      background: var(--bg);
+      background: #fff;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-logo span { color: var(--green); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: var(--radius);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+
+    /* HERO */
+    .hero {
+      padding: 7rem 2rem 6rem;
+      max-width: 860px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: rgba(14, 107, 168, 0.08);
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1.15;
+      color: var(--blue-dark);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
       line-height: 1.7;
     }
 
-    /* âââ Nav âââ */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-    }
-    .nav-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
-    }
-    .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.15rem; color: var(--blue-dark);
-      text-decoration: none; font-weight: 400;
-    }
-    .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-links a {
-      font-size: 0.9rem; color: var(--text-mid);
-      text-decoration: none; font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--blue); }
-    .nav-cta {
-      background: var(--green); color: #fff !important;
-      padding: 0.5rem 1.2rem; border-radius: var(--radius-sm);
-      font-weight: 600 !important; font-size: 0.85rem !important;
-      transition: background 0.2s;
-    }
-    .nav-cta:hover { background: var(--green-dark); }
-
-    /* âââ Sections âââ */
-    section { padding: 5rem 2rem; }
-    .container { max-width: 1100px; margin: 0 auto; }
-    .section-label {
-      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.08em; color: var(--blue); margin-bottom: 0.75rem;
-    }
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      color: var(--blue-dark); line-height: 1.2;
-      margin-bottom: 1rem; max-width: 700px;
-    }
-    .section-sub {
-      font-size: 1.1rem; color: var(--text-mid);
-      max-width: 600px; line-height: 1.7;
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
-    /* âââ Hero âââ */
-    .hero { padding: 6rem 2rem 4rem; text-align: center; background: var(--bg-soft); }
-    .hero .section-title {
-      font-size: clamp(2.2rem, 5vw, 3.2rem);
-      margin: 0 auto 1.25rem; max-width: 800px;
-    }
-    .hero .section-sub {
-      margin: 0 auto 2rem; max-width: 640px;
-      font-size: 1.15rem;
-    }
-    .hero-cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--green); color: #fff;
-      padding: 0.85rem 1.8rem; border-radius: var(--radius-sm);
-      font-weight: 600; font-size: 1rem; text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: transparent; color: var(--blue-dark);
-      padding: 0.85rem 1.8rem; border-radius: var(--radius-sm);
-      font-weight: 600; font-size: 1rem; text-decoration: none;
-      border: 2px solid var(--border);
-      transition: border-color 0.2s;
-    }
-    .btn-secondary:hover { border-color: var(--blue); }
-
-    /* âââ Stats Bar âââ */
+    /* STATS BAR */
     .stats-bar {
-      background: var(--blue-dark); color: #fff;
-      padding: 2rem; text-align: center;
+      background: var(--blue-dark);
+      padding: 3rem 2rem;
     }
-    .stats-row {
-      max-width: 1000px; margin: 0 auto;
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem 3rem;
-    }
-    .stat { display: flex; flex-direction: column; align-items: center; }
-    .stat-num { font-family: 'DM Serif Display', serif; font-size: 1.6rem; }
-    .stat-label { font-size: 0.8rem; opacity: 0.7; margin-top: 0.2rem; }
 
-    /* âââ Problem Section âââ */
-    .problem { background: var(--bg); }
-    .problem-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 3rem; margin-top: 2.5rem; align-items: start;
+    .stats-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 2rem;
+      text-align: center;
     }
-    .problem-list { list-style: none; }
-    .problem-list li {
-      padding: 1rem 0; border-bottom: 1px solid var(--border);
-      font-size: 1.05rem; color: var(--text-mid); line-height: 1.6;
-      display: flex; gap: 0.75rem; align-items: flex-start;
-    }
-    .problem-list .icon {
-      flex-shrink: 0; width: 24px; height: 24px;
-      background: #FEE2E2; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem; margin-top: 0.2rem;
-    }
-    .solution-box {
-      background: var(--green-light); border-radius: var(--radius-md);
-      padding: 2rem; border-left: 4px solid var(--green);
-    }
-    .solution-box h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.3rem; color: var(--blue-dark); margin-bottom: 0.75rem;
-    }
-    .solution-box p { color: var(--text-mid); line-height: 1.7; }
 
-    /* âââ Process Section âââ */
-    .process { background: var(--bg-soft); }
-    .process-steps {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem; margin-top: 2.5rem;
+    .stat-item strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      color: #fff;
+      line-height: 1.1;
     }
-    .step {
-      background: var(--bg); border-radius: var(--radius-md);
-      padding: 2rem; border: 1px solid var(--border);
+
+    .stat-item span {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.65);
+      font-weight: 400;
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    /* SECTIONS */
+    section { padding: 5.5rem 2rem; }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 1rem;
+    }
+
+    .section-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      color: var(--blue-dark);
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-sub {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      line-height: 1.7;
+    }
+
+    /* THE SHIFT */
+    .shift { background: var(--off-white); }
+
+    .shift-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .shift-points {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .shift-point {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .shift-point-icon {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 8px;
+      background: rgba(40, 180, 133, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.1rem;
+    }
+
+    .shift-point-icon svg { width: 18px; height: 18px; color: var(--green); }
+
+    .shift-point h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .shift-point p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .shift-callout {
+      background: var(--blue-dark);
+      color: #fff;
+      border-radius: 16px;
+      padding: 2.5rem;
+    }
+
+    .shift-callout h3 {
+      font-family: var(--font-serif);
+      font-size: 1.7rem;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    .shift-callout p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 1.5rem;
+    }
+
+    .shift-callout .pill {
+      display: inline-block;
+      background: rgba(40,180,133,0.2);
+      color: #5edcb4;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      margin-bottom: 0.5rem;
+      margin-right: 0.4rem;
+    }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 3rem;
       position: relative;
     }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      left: 22px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .step {
+      display: flex;
+      gap: 1.75rem;
+      position: relative;
+      padding-bottom: 2.5rem;
+    }
+
+    .step:last-child { padding-bottom: 0; }
+
     .step-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2rem; color: var(--blue); opacity: 0.3;
-      position: absolute; top: 1rem; right: 1.5rem;
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      border-radius: 50%;
+      background: var(--blue-dark);
+      color: #fff;
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
     }
-    .step h3 {
-      font-size: 1.1rem; font-weight: 600;
-      color: var(--blue-dark); margin-bottom: 0.5rem;
-    }
-    .step p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.6; }
 
-    /* âââ Services âââ */
-    .services { background: var(--bg); }
-    .service-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem; margin-top: 2.5rem;
+    .step-body { padding-top: 0.5rem; }
+
+    .step-body h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--text);
     }
+
+    .step-body p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 560px;
+    }
+
+    .step-tag {
+      display: inline-block;
+      background: rgba(14,107,168,0.08);
+      color: var(--blue);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.65rem;
+      border-radius: 50px;
+      margin-top: 0.5rem;
+    }
+
+    /* SERVICES */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
     .service-card {
-      background: var(--bg-soft); border-radius: var(--radius-md);
-      padding: 2rem; border: 1px solid var(--border);
-      display: flex; flex-direction: column;
-      transition: border-color 0.2s;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem 1.75rem;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
     }
-    .service-card:hover { border-color: var(--blue); }
+
+    .service-card:hover {
+      border-color: var(--blue);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(14,107,168,0.1);
+    }
+
     .service-card.featured {
-      border: 2px solid var(--green);
-      background: linear-gradient(to bottom, var(--green-light), var(--bg));
+      border-color: var(--green);
+      background: linear-gradient(135deg, rgba(40,180,133,0.04) 0%, rgba(14,107,168,0.04) 100%);
     }
-    .service-card.agent-card {
-      border: 2px solid var(--blue);
-      background: linear-gradient(135deg, var(--blue-light), #F0F4FF);
+
+    .featured-badge {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: var(--green);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 50px;
+      letter-spacing: 0.04em;
     }
-    .service-tag {
-      display: inline-block; font-size: 0.7rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      padding: 0.25rem 0.6rem; border-radius: 999px;
-      margin-bottom: 1rem; width: fit-content;
+
+    .service-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.4rem;
     }
-    .tag-starter { background: var(--blue-light); color: var(--blue); }
-    .tag-core { background: var(--green-light); color: var(--green-dark); }
-    .tag-premium { background: #FEF3C7; color: #92400E; }
-    .tag-agent { background: var(--blue-dark); color: #fff; }
-    .service-name {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.3rem; color: var(--blue-dark); margin-bottom: 0.5rem;
+
+    .service-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
     }
-    .service-desc {
-      font-size: 0.95rem; color: var(--text-mid);
-      line-height: 1.6; margin-bottom: 1.25rem; flex-grow: 1;
-    }
+
     .service-price {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.8rem; color: var(--blue-dark);
-    }
-    .service-price .was {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem; color: var(--text-soft);
-      text-decoration: line-through; margin-left: 0.5rem;
-    }
-    .service-price .freq {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem; color: var(--text-soft);
-    }
-    .service-includes {
-      list-style: none; margin-top: 1.25rem; padding-top: 1.25rem;
-      border-top: 1px solid var(--border);
-    }
-    .service-includes li {
-      font-size: 0.9rem; color: var(--text-mid);
-      padding: 0.3rem 0; display: flex; align-items: center; gap: 0.5rem;
-    }
-    .service-includes .check { color: var(--green); font-weight: 700; }
-    .service-timeline {
-      font-size: 0.8rem; color: var(--text-soft); margin-top: 1rem;
-      font-weight: 500;
-    }
-    .launch-badge {
-      display: inline-block; font-size: 0.75rem; font-weight: 600;
-      background: #FEF3C7; color: #92400E; padding: 0.2rem 0.6rem;
-      border-radius: 999px; margin-top: 0.5rem;
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      color: var(--blue-dark);
+      font-weight: 400;
+      margin-bottom: 0.75rem;
     }
 
-    /* âââ ROI Section âââ */
-    .roi { background: var(--blue-dark); color: #fff; }
-    .roi .section-label { color: var(--green); }
-    .roi .section-title { color: #fff; }
-    .roi .section-sub { color: rgba(255,255,255,0.7); }
+    .service-price small {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ROI */
+    .roi-section {
+      background: var(--blue-deeper);
+      color: #fff;
+    }
+
+    .roi-section .section-heading { color: #fff; }
+    .roi-section .section-label { color: rgba(94,220,180,0.9); }
+
     .roi-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem; margin-top: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
     }
+
     .roi-card {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: var(--radius-md); padding: 1.75rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 1.75rem;
     }
-    .roi-card h3 { font-size: 1rem; color: var(--green); margin-bottom: 0.5rem; font-weight: 600; }
-    .roi-card p { font-size: 0.95rem; color: rgba(255,255,255,0.7); line-height: 1.6; }
 
-    /* âââ Who Section âââ */
-    .who { background: var(--bg-soft); }
+    .roi-card .roi-num {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .roi-card h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .roi-card p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+
+    /* WHO I HELP */
+    .who { background: var(--off-white); }
+
     .who-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem; margin-top: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
     }
+
     .who-card {
-      background: var(--bg); border-radius: var(--radius-md);
-      padding: 1.75rem; border: 1px solid var(--border);
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
     }
-    .who-card h3 {
-      font-size: 1.05rem; font-weight: 600;
-      color: var(--blue-dark); margin-bottom: 0.5rem;
-    }
-    .who-card p { font-size: 0.9rem; color: var(--text-mid); line-height: 1.6; }
 
-    /* âââ CTA Section âââ */
+    .who-card .who-emoji { font-size: 2rem; margin-bottom: 0.75rem; }
+
+    .who-card h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .who-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA */
     .cta-section {
-      background: linear-gradient(135deg, var(--blue-dark), #0D3B5C);
-      color: #fff; text-align: center; padding: 5rem 2rem;
+      text-align: center;
+      padding: 6rem 2rem;
     }
-    .cta-section .section-title { color: #fff; margin: 0 auto 1rem; }
-    .cta-section p {
-      color: rgba(255,255,255,0.75); max-width: 550px;
-      margin: 0 auto 2rem; font-size: 1.1rem; line-height: 1.7;
-    }
-    .cta-section .btn-primary { font-size: 1.1rem; padding: 1rem 2.2rem; }
-    .cta-contact {
-      margin-top: 1.5rem; font-size: 0.9rem;
-      color: rgba(255,255,255,0.5);
-    }
-    .cta-contact a { color: rgba(255,255,255,0.7); text-decoration: none; }
-    .cta-contact a:hover { color: #fff; }
 
-    /* âââ Footer âââ */
+    .cta-section .section-heading { margin-bottom: 1rem; }
+    .cta-section .section-sub { margin: 0 auto 2.5rem; }
+
+    /* FOOTER */
     footer {
-      background: var(--bg); border-top: 1px solid var(--border);
-      padding: 2rem; text-align: center;
-      font-size: 0.85rem; color: var(--text-soft);
+      background: var(--blue-dark);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
     }
-    footer a { color: var(--text-mid); text-decoration: none; }
 
-    /* âââ Responsive âââ */
+    footer a { color: rgba(255,255,255,0.8); text-decoration: none; }
+
+    /* RESPONSIVE */
     @media (max-width: 768px) {
-      .problem-grid { grid-template-columns: 1fr; }
-      .nav-links a:not(.nav-cta) { display: none; }
-      section { padding: 3.5rem 1.25rem; }
+      .shift-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 5rem 1.25rem 4rem; }
+      section { padding: 4rem 1.25rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- âââ Nav âââ -->
+<!-- NAV -->
 <nav>
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">Chris Kelley.</a>
-    <div class="nav-links">
-      <a href="#process">How It Works</a>
-      <a href="#services">Services</a>
-      <a href="#who">Who I Help</a>
-      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="nav-cta">Book a Call &rarr;</a>
-    </div>
-  </div>
+  <a href="#" class="nav-logo">Chris Kelley<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#who">Who I Help</a></li>
+  </ul>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call â</a>
 </nav>
 
-<!-- âââ Hero âââ -->
+<!-- HERO -->
 <section class="hero">
-  <div class="container">
-    <div class="section-label">Implementation & Automation Consulting</div>
-    <h1 class="section-title">You don't have a tech problem.<br>You have a systems problem.</h1>
-    <p class="section-sub">
-      Most businesses are paying for tools they barely use, losing leads to slow follow-up, and running on workflows held together by memory and sticky notes. I find exactly where the money's leaking â then build the systems to stop it.
-    </p>
-    <div class="hero-cta-row">
-      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn-primary">Book a Discovery Call &rarr;</a>
-      <a href="#process" class="btn-secondary">See how it works</a>
-    </div>
+  <span class="hero-label">Implementation &amp; AI Automation Consulting</span>
+  <h1>The tools are better than they've ever been. Let's make sure you're using them.</h1>
+  <p>AI, automation, smarter CRM, connected workflows â the capability is here right now. Most businesses just need someone to set it up right, connect it to how they actually work, and measure what it's worth. That's what I do.</p>
+  <div class="hero-ctas">
+    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Discovery Call â</a>
+    <a href="#how-it-works" class="btn btn-outline">See how it works</a>
   </div>
 </section>
 
-<!-- âââ Stats Bar âââ -->
+<!-- STATS BAR -->
 <div class="stats-bar">
-  <div class="stats-row">
-    <div class="stat"><span class="stat-num">250+</span><span class="stat-label">Businesses onboarded</span></div>
-    <div class="stat"><span class="stat-num">10+ yrs</span><span class="stat-label">Implementation experience</span></div>
-    <div class="stat"><span class="stat-num">40%</span><span class="stat-label">Faster to first revenue</span></div>
-    <div class="stat"><span class="stat-num">7 days</span><span class="stat-label">First result, guaranteed</span></div>
-    <div class="stat"><span class="stat-num">90%+</span><span class="stat-label">Client renewal rate</span></div>
+  <div class="stats-inner">
+    <div class="stat-item"><strong>250+</strong><span>Businesses onboarded</span></div>
+    <div class="stat-item"><strong>10+ yrs</strong><span>Implementation experience</span></div>
+    <div class="stat-item"><strong>40%</strong><span>Faster to first revenue</span></div>
+    <div class="stat-item"><strong>7 days</strong><span>First result, guaranteed</span></div>
+    <div class="stat-item"><strong>90%+</strong><span>Client renewal rate</span></div>
   </div>
 </div>
 
-<!-- âââ Problem âââ -->
-<section class="problem">
+<!-- THE SHIFT -->
+<section class="shift">
   <div class="container">
-    <div class="section-label">The Real Issue</div>
-    <h2 class="section-title">The tools aren't broken. The way you're using them is.</h2>
-    <p class="section-sub">These are the patterns I see every week in businesses doing $500Kâ$5M.</p>
-    <div class="problem-grid">
-      <ul class="problem-list">
-        <li><span class="icon">&#10005;</span> Leads come in and sit for hours â sometimes days â before anyone responds</li>
-        <li><span class="icon">&#10005;</span> Your CRM has data in it, but nobody trusts it and nobody uses it</li>
-        <li><span class="icon">&#10005;</span> You're paying for 4â6 tools and they don't talk to each other</li>
-        <li><span class="icon">&#10005;</span> Follow-up is manual, inconsistent, and falls on whoever remembers</li>
-        <li><span class="icon">&#10005;</span> You know you should be doing more with automation but don't know where to start</li>
-      </ul>
-      <div class="solution-box">
-        <h3>What changes when it's fixed</h3>
-        <p>
-          Leads get a response in under 60 seconds. Follow-up runs itself. Your CRM becomes the single source of truth your team actually trusts. And you stop spending mental energy on things a system should handle â so you can spend it on the work that grows the business.
-        </p>
-        <p style="margin-top: 1rem;">
-          That's what I build. Not more tools â better systems around the ones you already have.
-        </p>
+    <div class="shift-grid">
+      <div>
+        <p class="section-label">The Opportunity</p>
+        <h2 class="section-heading">We're at a real turning point.</h2>
+        <p class="section-sub">The same tools that used to cost enterprise companies hundreds of thousands of dollars are now available to any small business â for a few hundred a month. The playing field is leveling. The question is who moves first.</p>
+
+        <div class="shift-points">
+          <div class="shift-point">
+            <div class="shift-point-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            </div>
+            <div>
+              <h4>AI tools are now accessible to everyone</h4>
+              <p>Not just the Fortune 500. Small businesses can run automations, build AI agents, and connect their entire stack â right now.</p>
+            </div>
+          </div>
+          <div class="shift-point">
+            <div class="shift-point-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <h4>Time is the real ROI</h4>
+              <p>Every hour your team spends on repetitive work is an hour not spent on customers, sales, or growth. We find it, we fix it, we track it.</p>
+            </div>
+          </div>
+          <div class="shift-point">
+            <div class="shift-point-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <h4>Your competitors are figuring this out</h4>
+              <p>The businesses that implement now will have a compounding advantage. Don't be the one playing catch-up in two years.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="shift-callout">
+        <h3>Built for businesses that run on doing â not on managing software.</h3>
+        <p>No jargon. No 6-month rollouts. No bloated tech stacks. I map what you actually do, find where time and money are leaking, and build systems that fix it â in days, not quarters.</p>
+        <span class="pill">No-code friendly</span>
+        <span class="pill">Results in 7 days</span>
+        <span class="pill">ROI tracked monthly</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- âââ Process âââ -->
-<section class="process" id="process">
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
   <div class="container">
-    <div class="section-label">How It Works</div>
-    <h2 class="section-title">Every engagement starts with a map â not a pitch.</h2>
-    <p class="section-sub">Before I touch a single tool, I need to understand where your time actually goes. Most businesses don't have an automation problem. They have a clarity problem.</p>
-    <div class="process-steps">
+    <p class="section-label">The Process</p>
+    <h2 class="section-heading">How it works</h2>
+    <p class="section-sub">Every engagement starts with understanding how your business actually runs â not how you think it runs. From there, we build and measure.</p>
+
+    <div class="steps">
       <div class="step">
-        <span class="step-num">01</span>
-        <h3>Map your workflows</h3>
-        <p>We list every repeatable process â lead to close, post-sale to renewal, the admin stuff nobody talks about. Nothing gets skipped, especially the small things. That's usually where the time goes.</p>
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h3>Map Your Week</h3>
+          <p>Before we build anything, we need to see how you and your team actually spend your time. I use a lightweight activity tracking pipeline that runs quietly in the background â no timesheets, no manual logging, no extra steps for your team.</p>
+          <span class="step-tag">Screenpipe â n8n â Claude analysis</span>
+        </div>
       </div>
       <div class="step">
-        <span class="step-num">02</span>
-        <h3>Find the bottlenecks</h3>
-        <p>Three questions: What tasks do you dread? What gets delayed or forgotten? What could someone else handle if the process was clear? The answers tell us where to look first.</p>
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h3>Find Where the Time Goes</h3>
+          <p>The data gets automatically analyzed and turned into a clear scorecard: where your hours are going, which tasks are repetitive, and where the highest-leverage opportunities are hiding. This is the foundation everything else is built on.</p>
+          <span class="step-tag">Automated analysis + opportunity scoring</span>
+        </div>
       </div>
       <div class="step">
-        <span class="step-num">03</span>
-        <h3>Score every process</h3>
-        <p>Not everything that's painful is a good automation candidate. Each workflow gets scored on five criteria â repetitive, time-consuming, rules-based, high-impact, data-driven. Anything above 15/25 is ready to build.</p>
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h3>Prioritize What Moves the Needle</h3>
+          <p>Not every automation is worth building. We rank opportunities by impact and effort â so we're always working on what gives you the most back, fastest. Quick wins first, bigger systems second.</p>
+        </div>
       </div>
       <div class="step">
-        <span class="step-num">04</span>
-        <h3>Separate quick wins from strategic plays</h3>
-        <p>Auto-responding to new leads is a quick win. Building an AI-powered scoring system is a strategic play. Both matter. We do them in the right order â something ships in the first seven days.</p>
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <h3>Build the Systems</h3>
+          <p>Automations, AI workflows, CRM connections, lead pipelines, AI agent employees â built to fit your actual tools and how your team works. Not generic templates, not duct-taped solutions.</p>
+          <span class="step-tag">n8n Â· Make Â· HubSpot Â· Claude Agents</span>
+        </div>
       </div>
       <div class="step">
-        <span class="step-num">05</span>
-        <h3>Track the ROI</h3>
-        <p>Every automation gets measured. Time saved, leads recovered, response time improvement, revenue impact. You'll know exactly what the work is worth â no guessing, no hand-waving. Real numbers, monthly.</p>
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <h3>Track the ROI</h3>
+          <p>Every automation gets a number attached to it. Hours saved per month. Revenue influenced. Cost per lead reduced. We review it together monthly â so you always know exactly what you're getting.</p>
+          <span class="step-tag">Monthly ROI reporting included</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- âââ Services âââ -->
-<section class="services" id="services">
+<!-- SERVICES -->
+<section id="services" style="background: var(--off-white);">
   <div class="container">
-    <div class="section-label">Services</div>
-    <h2 class="section-title">Pick your starting point.</h2>
-    <p class="section-sub">Three project tiers and one option that changes the math entirely. The goal is always the same â a real result in the first week.</p>
+    <p class="section-label">Services</p>
+    <h2 class="section-heading">Pick your starting point</h2>
+    <p class="section-sub">Every engagement is tailored to what we find in the audit. These packages give you a sense of scope â not a box to fit in.</p>
 
-    <div class="service-grid">
-
-      <!-- Starter -->
+    <div class="services-grid">
       <div class="service-card">
-        <span class="service-tag tag-starter">Quick Win</span>
-        <h3 class="service-name">One Automation, One Week</h3>
-        <p class="service-desc">Your highest-impact automation, identified and running in seven days. Instant lead response, a follow-up sequence, a booking workflow â whatever moves the needle most right now.</p>
-        <div class="service-price">$500 <span class="was">$1,500</span></div>
-        <div class="launch-badge">Launch pricing â first 5 clients</div>
-        <ul class="service-includes">
-          <li><span class="check">&#10003;</span> Workflow audit & scoring</li>
-          <li><span class="check">&#10003;</span> 1 custom automation build</li>
-          <li><span class="check">&#10003;</span> Integration setup & testing</li>
-          <li><span class="check">&#10003;</span> Walkthrough call</li>
-        </ul>
-        <div class="service-timeline">Timeline: ~1 week</div>
+        <div class="service-icon" style="background: rgba(14,107,168,0.08);">â¡</div>
+        <h3>Quick Win</h3>
+        <div class="service-price">$500 <small>flat</small></div>
+        <p>One high-impact automation or workflow fix. Identified from the audit. Built and running in a week. A great first step if you want to see what this looks like before going deeper.</p>
       </div>
 
-      <!-- Core -->
+      <div class="service-card">
+        <div class="service-icon" style="background: rgba(14,107,168,0.08);">âï¸</div>
+        <h3>Systems Buildout</h3>
+        <div class="service-price">$1,500 <small>project</small></div>
+        <p>A connected set of automations built around one key area of your business â onboarding, lead follow-up, reporting, ops. Designed to save 5â15 hours per week from day one.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon" style="background: rgba(14,107,168,0.08);">ð¯</div>
+        <h3>AI-Powered Lead Engine</h3>
+        <div class="service-price">$3,000 <small>project</small></div>
+        <p>Full CRM setup + automated lead scoring, follow-up sequences, and pipeline visibility. Built for businesses that need to stop losing deals to slow response and inconsistent follow-through.</p>
+      </div>
+
       <div class="service-card featured">
-        <span class="service-tag tag-core">Most Popular</span>
-        <h3 class="service-name">CRM & Workflow Buildout</h3>
-        <p class="service-desc">Full CRM setup or overhaul â pipelines, automated follow-ups, email and SMS sequences, team training. Everything configured so leads actually get worked and nothing falls through the cracks.</p>
-        <div class="service-price">$1,500 <span class="was">$3,000â$5,000</span></div>
-        <div class="launch-badge">Launch pricing â first 5 clients</div>
-        <ul class="service-includes">
-          <li><span class="check">&#10003;</span> Full workflow audit</li>
-          <li><span class="check">&#10003;</span> CRM configuration</li>
-          <li><span class="check">&#10003;</span> 3â5 automated workflows</li>
-          <li><span class="check">&#10003;</span> Email + SMS sequences</li>
-          <li><span class="check">&#10003;</span> Team training session</li>
-          <li><span class="check">&#10003;</span> Documentation</li>
-        </ul>
-        <div class="service-timeline">Timeline: 2â3 weeks</div>
-      </div>
-
-      <!-- Premium -->
-      <div class="service-card">
-        <span class="service-tag tag-premium">Full System</span>
-        <h3 class="service-name">AI-Powered Lead Engine</h3>
-        <p class="service-desc">The full stack â AI that texts and emails leads within seconds, qualifies them, books appointments, and feeds everything into your CRM. Plus after-hours coverage so you never miss a window.</p>
-        <div class="service-price">$3,000 <span class="was">$5,000â$8,000</span></div>
-        <div class="launch-badge">Launch pricing â first 5 clients</div>
-        <ul class="service-includes">
-          <li><span class="check">&#10003;</span> Everything in CRM Buildout</li>
-          <li><span class="check">&#10003;</span> AI chatbot setup</li>
-          <li><span class="check">&#10003;</span> Instant lead response automation</li>
-          <li><span class="check">&#10003;</span> Appointment booking integration</li>
-          <li><span class="check">&#10003;</span> After-hours AI handling</li>
-        </ul>
-        <div class="service-timeline">Timeline: 3â5 weeks</div>
-      </div>
-
-      <!-- AI Agent Employee -->
-      <div class="service-card agent-card">
-        <span class="service-tag tag-agent">New â AI Agent Setup</span>
-        <h3 class="service-name">Your First AI Employee</h3>
-        <p class="service-desc">
-          An always-on AI agent â trained on your business, connected to your tools, ready to draft emails, research leads, build documents, manage tasks, and handle the operational work that eats your day. Think of it as a sharp, tireless team member for a fraction of what you'd pay a hire.
-        </p>
-        <div class="service-price">$750 <span class="freq">setup</span></div>
-        <p style="font-size: 0.9rem; color: var(--text-mid); margin-top: 0.25rem;">+ ~$20â50/mo platform cost</p>
-        <ul class="service-includes">
-          <li><span class="check">&#10003;</span> AI agent configured for your business</li>
-          <li><span class="check">&#10003;</span> Connected to your CRM, email, calendar, docs</li>
-          <li><span class="check">&#10003;</span> Custom skills & workflows built in</li>
-          <li><span class="check">&#10003;</span> Training session â how to work with your agent</li>
-          <li><span class="check">&#10003;</span> 30 days of support & tuning</li>
-        </ul>
-        <div class="service-timeline">Timeline: 1â2 weeks</div>
-      </div>
-
-    </div>
-
-    <!-- Retainer Options -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; max-width: 700px;">
-      <div style="background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem;">
-        <h4 style="font-size: 0.95rem; color: var(--blue-dark); margin-bottom: 0.3rem;">Maintain & Optimize</h4>
-        <p style="font-size: 0.85rem; color: var(--text-mid); margin-bottom: 0.5rem;">Monitoring, tweaks, one new automation/month, monthly reporting.</p>
-        <span style="font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--blue-dark);">$500<span style="font-family: 'DM Sans'; font-size: 0.8rem; color: var(--text-soft);"> /mo</span></span>
-      </div>
-      <div style="background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem;">
-        <h4 style="font-size: 0.95rem; color: var(--blue-dark); margin-bottom: 0.3rem;">Growth Partner</h4>
-        <p style="font-size: 0.85rem; color: var(--text-mid); margin-bottom: 0.5rem;">Active optimization, new automations monthly, fractional ops support.</p>
-        <span style="font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--blue-dark);">$2,000â$3,500<span style="font-family: 'DM Sans'; font-size: 0.8rem; color: var(--text-soft);"> /mo</span></span>
+        <div class="featured-badge">NEW</div>
+        <div class="service-icon" style="background: rgba(40,180,133,0.1);">ð¤</div>
+        <h3>Your First AI Employee</h3>
+        <div class="service-price">$750 <small>setup</small></div>
+        <p>A Claude-powered AI agent connected to your CRM, email, calendar, and docs â doing real work in your business. Handles intake, scheduling, follow-up, or custom tasks you define.</p>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.75rem;">~$20â50/mo platform cost after setup. No ongoing retainer required.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- âââ ROI âââ -->
-<section class="roi">
+<!-- ROI SECTION -->
+<section class="roi-section">
   <div class="container">
-    <div class="section-label">Results</div>
-    <h2 class="section-title">Every automation gets measured. No exceptions.</h2>
-    <p class="section-sub">You'll know exactly what the work is worth. These are the metrics I track for every client, every month.</p>
+    <p class="section-label">The Numbers</p>
+    <h2 class="section-heading">What clients actually see</h2>
+
     <div class="roi-grid">
       <div class="roi-card">
-        <h3>Lead Response Time</h3>
-        <p>From hours (or days) down to under 60 seconds. The data is clear â respond in the first minute and you're 5x more likely to close.</p>
+        <div class="roi-num">8â15</div>
+        <h4>Hours saved per week</h4>
+        <p>Across the average Systems Buildout engagement, measured in month one.</p>
       </div>
       <div class="roi-card">
-        <h3>Recovered Revenue</h3>
-        <p>Leads that used to fall through the cracks now get worked automatically. Most clients recover 2â5 lost deals in the first month alone.</p>
+        <div class="roi-num">3Ã</div>
+        <h4>Faster lead response</h4>
+        <p>Automated follow-up means leads hear from you in minutes, not days.</p>
       </div>
       <div class="roi-card">
-        <h3>Hours Saved per Week</h3>
-        <p>Manual follow-up, data entry, scheduling â measured before and after. The average is 8â12 hours back per week across the team.</p>
+        <div class="roi-num">7 days</div>
+        <h4>To first real result</h4>
+        <p>Every engagement is built to produce something measurable in the first week.</p>
       </div>
       <div class="roi-card">
-        <h3>Cost per Acquisition</h3>
-        <p>When follow-up is automated and leads convert faster, your cost to acquire a customer drops. I'll show you the number.</p>
+        <div class="roi-num">90%+</div>
+        <h4>Client renewal rate</h4>
+        <p>Most clients stick around because we keep finding new places to improve.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- âââ Who I Help âââ -->
-<section class="who" id="who">
+<!-- WHO I HELP -->
+<section id="who" class="who">
   <div class="container">
-    <div class="section-label">Who I Help</div>
-    <h2 class="section-title">Built for businesses running on effort instead of systems.</h2>
-    <p class="section-sub">The sweet spot: doing $500Kâ$5M, spending money on tools that aren't earning it back, and losing deals to slow follow-up.</p>
+    <p class="section-label">Who I Work With</p>
+    <h2 class="section-heading">Built for owners who are already busy</h2>
+    <p class="section-sub">You don't need to know anything about AI. You just need to know that your business could run smoother â and you're ready to fix that.</p>
+
     <div class="who-grid">
       <div class="who-card">
-        <h3>Home Services</h3>
-        <p>HVAC, roofing, plumbing, pool service. High-ticket jobs mean recovering 2â3 lost leads pays for the entire engagement. The ROI math is hard to beat.</p>
+        <div class="who-emoji">ð¡</div>
+        <h4>Real Estate</h4>
+        <p>Agents &amp; teams tired of losing leads to slow follow-up</p>
       </div>
       <div class="who-card">
-        <h3>Real Estate Teams</h3>
-        <p>Already tech-forward, understand that lead response time is everything, and actively spending money on tools they're underusing.</p>
+        <div class="who-emoji">ð </div>
+        <h4>Service Businesses</h4>
+        <p>Contractors, agencies, consultants running on manual processes</p>
       </div>
       <div class="who-card">
-        <h3>Med Spas & Dental</h3>
-        <p>High-ticket services, steady lead flow, and consistently poor follow-up systems. Very retainer-friendly once the first automation proves itself.</p>
+        <div class="who-emoji">ð¥</div>
+        <h4>Healthcare &amp; Wellness</h4>
+        <p>Clinics and practices drowning in scheduling &amp; intake</p>
       </div>
       <div class="who-card">
-        <h3>Service Businesses ($500Kâ$5M)</h3>
-        <p>Big enough to afford the tools and the fee. Small enough that you don't have an internal IT person to figure it all out. That's the gap I fill.</p>
+        <div class="who-emoji">ð</div>
+        <h4>E-commerce &amp; Retail</h4>
+        <p>Store owners wanting smarter ops without more headcount</p>
+      </div>
+      <div class="who-card">
+        <div class="who-emoji">ð</div>
+        <h4>Professional Services</h4>
+        <p>Law, finance, accounting â high-value work buried in admin</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- âââ CTA âââ -->
+<!-- CTA -->
 <section class="cta-section">
   <div class="container">
-    <h2 class="section-title">Let's put a win on the board in one week.</h2>
-    <p>Start with a discovery call. I'll map your workflows, find the highest-ROI automation in your business, and tell you exactly what it'll cost and what it's worth. No pitch deck. Just the plan.</p>
-    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn-primary">Book a Discovery Call &rarr;</a>
-    <div class="cta-contact">
-      <a href="tel:8328073093">832-807-3093</a> &nbsp;&middot;&nbsp;
-      <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> &nbsp;&middot;&nbsp;
-      Houston, TX
-    </div>
+    <p class="section-label">Get Started</p>
+    <h2 class="section-heading">Start with a free discovery call.</h2>
+    <p class="section-sub">30 minutes. I'll tell you exactly what I'd fix first â and what I'd expect it to be worth. No pitch deck, no pressure.</p>
+    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary" style="font-size: 1.05rem; padding: 0.85rem 2rem;">Book a Discovery Call â</a>
   </div>
 </section>
 
-<!-- âââ Footer âââ -->
+<!-- FOOTER -->
 <footer>
-  <div class="container">
-    <strong style="color: var(--blue-dark);">Chris Kelley.</strong> Implementation & AI Automation Consulting<br>
-    <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> &middot; <a href="tel:8328073093">832-807-3093</a> &middot; Houston, TX
-  </div>
+  <p>Â© 2026 Chris Kelley Â· <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a></p>
 </footer>
 
 </body>
