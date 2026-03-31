@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for E-commerce & Retail — Chris Kelley</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0E6BA8;
+    --blue-dark: #1A3C5E;
+    --green: #28B485;
+    --off-white: #F7F8FA;
+    --text: #1a1a2e;
+    --text-muted: #5a6070;
+    --border: #e4e8ef;
+    --font-sans: 'DM Sans', sans-serif;
+    --font-serif: 'DM Serif Display', serif;
+  }
+  body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.96); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px;
+  }
+  .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: #1e9068; transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+
+  .hero {
+    min-height: 80vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem;
+    background: linear-gradient(160deg, #fff8f0 0%, var(--off-white) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -60px; left: 50%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(40,180,133,0.07) 0%, transparent 70%);
+    pointer-events: none; transform: translateX(-50%);
+  }
+  .hero-inner { max-width: 700px; position: relative; }
+  .coming-pill {
+    display: inline-block;
+    background: rgba(40,180,133,0.12);
+    color: var(--green);
+    font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.35rem 1rem; border-radius: 50px;
+    margin-bottom: 2rem;
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    color: var(--blue-dark);
+    line-height: 1.15; margin-bottom: 1.5rem;
+  }
+  .hero p {
+    font-size: 1.15rem; color: var(--text-muted);
+    line-height: 1.7; margin-bottom: 2.5rem;
+    max-width: 560px; margin-left: auto; margin-right: auto;
+  }
+  .emoji-big { font-size: 4rem; margin-bottom: 1.5rem; display: block; }
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  .teaser {
+    padding: 5rem 2rem;
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+  }
+  .teaser-card {
+    background: var(--off-white);
+    border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 2rem;
+  }
+  .teaser-card h3 { font-family: var(--font-serif); font-size: 1.3rem; color: var(--blue-dark); margin-bottom: 0.75rem; }
+  .teaser-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.65; }
+  .teaser-num { font-family: var(--font-serif); font-size: 2.5rem; color: var(--green); line-height: 1; margin-bottom: 0.5rem; }
+
+  footer { background: var(--blue-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 2rem; font-size: 0.85rem; }
+  footer a { color: rgba(255,255,255,0.8); text-decoration: none; }
+
+  @media (max-width: 640px) { .teaser { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Chris Kelley<span>.</span></a>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="emoji-big">&#128717;</span>
+    <div class="coming-pill">Coming Soon</div>
+    <h1>AI for E-commerce & Retail</h1>
+    <p>More SKUs, more orders, more customer questions — but not more headcount. This page is being built out now. If you're running a store and want to see where AI makes the most immediate dent, let's talk.</p>
+    <div class="hero-ctas">
+      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Discovery Call &rarr;</a>
+      <a href="/" class="btn btn-outline">&larr; Back home</a>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 5rem 2rem; background: #fff;">
+  <div style="max-width: 900px; margin: 0 auto;">
+    <p style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 1rem;">A sneak peek</p>
+    <h2 style="font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--blue-dark); margin-bottom: 3rem; line-height: 1.2;">What we'll cover on this page</h2>
+    <div class="teaser">
+      <div class="teaser-card">
+        <div class="teaser-num">01</div>
+        <h3>AI customer support & returns</h3>
+        <p>An AI agent that handles order status, returns, and FAQs 24/7 — so your team handles the stuff that actually needs a human.</p>
+      </div>
+      <div class="teaser-card">
+        <div class="teaser-num">02</div>
+        <h3>Product description generation</h3>
+        <p>Bulk-generate SEO-optimized product copy from your catalog data. 500 SKUs? Done in an afternoon.</p>
+      </div>
+      <div class="teaser-card">
+        <div class="teaser-num">03</div>
+        <h3>Inventory & reorder automation</h3>
+        <p>Stock levels monitored, reorder triggers set, supplier comms sent — automatically, before you run out.</p>
+      </div>
+      <div class="teaser-card">
+        <div class="teaser-num">04</div>
+        <h3>Post-purchase flows & win-backs</h3>
+        <p>Personalized follow-up sequences, review requests, and re-engagement campaigns that run without you touching them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Chris Kelley &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io &middot; Houston, Texas</a></p>
+</footer>
+
+</body>
+</html>

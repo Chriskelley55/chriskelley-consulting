@@ -512,6 +512,40 @@
       text-align: center;
     }
 
+    a.who-card {
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+
+    a.who-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 8px 32px rgba(14,107,168,0.13);
+      transform: translateY(-3px);
+    }
+
+    a.who-card:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(14,107,168,0.1);
+    }
+
+    a.who-card .who-link-hint {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--blue);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    a.who-card:hover .who-link-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .who-card .who-emoji { font-size: 2rem; margin-bottom: 0.75rem; }
 
     .who-card h4 {
@@ -772,31 +806,36 @@
     <p class="section-sub">You don't need to know anything about AI. You just need to know that your business could run smoother &mdash; and you're ready to fix that.</p>
 
     <div class="who-grid">
-      <div class="who-card">
+      <a href="/realestate.html" class="who-card">
         <div class="who-emoji">&#127969;</div>
         <h4>Real Estate</h4>
         <p>Agents &amp; teams tired of losing leads to slow follow-up</p>
-      </div>
-      <div class="who-card">
+        <span class="who-link-hint">See how it works &rarr;</span>
+      </a>
+      <a href="/service-businesses.html" class="who-card">
         <div class="who-emoji">&#128736;</div>
         <h4>Service Businesses</h4>
         <p>Contractors, agencies, consultants running on manual processes</p>
-      </div>
-      <div class="who-card">
+        <span class="who-link-hint">See how it works &rarr;</span>
+      </a>
+      <a href="/healthcare.html" class="who-card">
         <div class="who-emoji">&#127973;</div>
         <h4>Healthcare &amp; Wellness</h4>
         <p>Clinics and practices drowning in scheduling &amp; intake</p>
-      </div>
-      <div class="who-card">
+        <span class="who-link-hint">See how it works &rarr;</span>
+      </a>
+      <a href="/ecommerce.html" class="who-card">
         <div class="who-emoji">&#128717;</div>
         <h4>E-commerce &amp; Retail</h4>
         <p>Store owners wanting smarter ops without more headcount</p>
-      </div>
-      <div class="who-card">
+        <span class="who-link-hint">See how it works &rarr;</span>
+      </a>
+      <a href="/professional-services.html" class="who-card">
         <div class="who-emoji">&#128202;</div>
         <h4>Professional Services</h4>
         <p>Law, finance, accounting &mdash; high-value work buried in admin</p>
-      </div>
+        <span class="who-link-hint">See how it works &rarr;</span>
+      </a>
     </div>
   </div>
 </section>
