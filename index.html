@@ -321,10 +321,12 @@
     }
 
     .step {
-      display: flex;
+      display: grid;
+      grid-template-columns: 46px 1fr 320px;
       gap: 1.75rem;
       position: relative;
-      padding-bottom: 2.5rem;
+      padding-bottom: 3rem;
+      align-items: start;
     }
 
     .step:last-child { padding-bottom: 0; }
@@ -358,7 +360,30 @@
       font-size: 0.95rem;
       color: var(--text-muted);
       line-height: 1.65;
-      max-width: 560px;
+    }
+
+    .step-visual {
+      background: var(--off-white);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px;
+      margin-top: 0.5rem;
+    }
+
+    .step-visual svg { width: 100%; height: auto; }
+
+    @media (max-width: 860px) {
+      .step { grid-template-columns: 46px 1fr; }
+      .step-visual { grid-column: 2; }
+    }
+
+    @media (max-width: 540px) {
+      .step { grid-template-columns: 46px 1fr; }
+      .step-visual { display: none; }
     }
 
     .step-tag {
@@ -711,14 +736,55 @@
     <p class="section-sub">Every engagement starts with understanding how your business actually runs &mdash; not how you think it runs. From there, we build and measure.</p>
 
     <div class="steps">
+      <!-- Step 01 -->
       <div class="step">
         <div class="step-num">01</div>
         <div class="step-body">
-          <h3>Map Your Week</h3>
+          <h3>Map Your Work</h3>
           <p>Before we build anything, we need to see how you and your team actually spend your time. I use a lightweight activity tracking pipeline that runs quietly in the background &mdash; no timesheets, no manual logging, no extra steps for your team.</p>
           <span class="step-tag">Screenpipe &rarr; n8n &rarr; Claude analysis</span>
         </div>
+        <div class="step-visual">
+          <!-- Activity timeline -->
+          <svg viewBox="0 0 280 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Row labels -->
+            <text x="8" y="30" font-family="DM Sans,sans-serif" font-size="9" fill="#5a6070">Email</text>
+            <text x="8" y="58" font-family="DM Sans,sans-serif" font-size="9" fill="#5a6070">CRM</text>
+            <text x="8" y="86" font-family="DM Sans,sans-serif" font-size="9" fill="#5a6070">Admin</text>
+            <text x="8" y="114" font-family="DM Sans,sans-serif" font-size="9" fill="#5a6070">Calls</text>
+            <!-- Grid lines -->
+            <line x1="46" y1="14" x2="272" y2="14" stroke="#e4e8ef" stroke-width="1"/>
+            <line x1="46" y1="42" x2="272" y2="42" stroke="#e4e8ef" stroke-width="1"/>
+            <line x1="46" y1="70" x2="272" y2="70" stroke="#e4e8ef" stroke-width="1"/>
+            <line x1="46" y1="98" x2="272" y2="98" stroke="#e4e8ef" stroke-width="1"/>
+            <line x1="46" y1="126" x2="272" y2="126" stroke="#e4e8ef" stroke-width="1"/>
+            <!-- Email activity blocks -->
+            <rect x="48" y="18" width="38" height="18" rx="4" fill="#0E6BA8" opacity="0.7"/>
+            <rect x="92" y="18" width="20" height="18" rx="4" fill="#0E6BA8" opacity="0.4"/>
+            <rect x="120" y="18" width="52" height="18" rx="4" fill="#0E6BA8" opacity="0.8"/>
+            <rect x="180" y="18" width="28" height="18" rx="4" fill="#0E6BA8" opacity="0.5"/>
+            <rect x="218" y="18" width="44" height="18" rx="4" fill="#0E6BA8" opacity="0.6"/>
+            <!-- CRM blocks -->
+            <rect x="56" y="46" width="24" height="18" rx="4" fill="#28B485" opacity="0.6"/>
+            <rect x="136" y="46" width="36" height="18" rx="4" fill="#28B485" opacity="0.8"/>
+            <rect x="200" y="46" width="16" height="18" rx="4" fill="#28B485" opacity="0.5"/>
+            <rect x="240" y="46" width="24" height="18" rx="4" fill="#28B485" opacity="0.7"/>
+            <!-- Admin blocks -->
+            <rect x="48" y="74" width="60" height="18" rx="4" fill="#5a6070" opacity="0.35"/>
+            <rect x="116" y="74" width="40" height="18" rx="4" fill="#5a6070" opacity="0.25"/>
+            <rect x="168" y="74" width="72" height="18" rx="4" fill="#5a6070" opacity="0.35"/>
+            <!-- Calls blocks -->
+            <rect x="80" y="102" width="30" height="18" rx="4" fill="#0E6BA8" opacity="0.5"/>
+            <rect x="160" y="102" width="46" height="18" rx="4" fill="#0E6BA8" opacity="0.6"/>
+            <rect x="222" y="102" width="30" height="18" rx="4" fill="#0E6BA8" opacity="0.4"/>
+            <!-- Scanning indicator -->
+            <line x1="196" y1="14" x2="196" y2="126" stroke="#28B485" stroke-width="1.5" stroke-dasharray="3 2" opacity="0.7"/>
+            <circle cx="196" cy="14" r="3" fill="#28B485"/>
+          </svg>
+        </div>
       </div>
+
+      <!-- Step 02 -->
       <div class="step">
         <div class="step-num">02</div>
         <div class="step-body">
@@ -726,14 +792,74 @@
           <p>The data gets automatically analyzed and turned into a clear scorecard: where your hours are going, which tasks are repetitive, and where the highest-leverage opportunities are hiding. This is the foundation everything else is built on.</p>
           <span class="step-tag">Automated analysis + opportunity scoring</span>
         </div>
+        <div class="step-visual">
+          <!-- Time breakdown horizontal bars -->
+          <svg viewBox="0 0 280 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text x="8" y="20" font-family="DM Sans,sans-serif" font-size="9.5" font-weight="600" fill="#1a1a2e">Where your time goes</text>
+            <!-- Admin bar -->
+            <text x="8" y="42" font-family="DM Sans,sans-serif" font-size="8.5" fill="#5a6070">Admin &amp; email</text>
+            <rect x="8" y="47" width="200" height="13" rx="3" fill="#e4e8ef"/>
+            <rect x="8" y="47" width="154" height="13" rx="3" fill="#5a6070" opacity="0.5"/>
+            <text x="168" y="57" font-family="DM Sans,sans-serif" font-size="8.5" font-weight="700" fill="#5a6070">42%</text>
+            <!-- Follow-up bar -->
+            <text x="8" y="76" font-family="DM Sans,sans-serif" font-size="8.5" fill="#5a6070">Manual follow-up</text>
+            <rect x="8" y="81" width="200" height="13" rx="3" fill="#e4e8ef"/>
+            <rect x="8" y="81" width="110" height="13" rx="3" fill="#0E6BA8" opacity="0.6"/>
+            <text x="124" y="91" font-family="DM Sans,sans-serif" font-size="8.5" font-weight="700" fill="#0E6BA8">28%</text>
+            <!-- High value bar -->
+            <text x="8" y="110" font-family="DM Sans,sans-serif" font-size="8.5" fill="#5a6070">High-value work</text>
+            <rect x="8" y="115" width="200" height="13" rx="3" fill="#e4e8ef"/>
+            <rect x="8" y="115" width="56" height="13" rx="3" fill="#28B485" opacity="0.85"/>
+            <text x="70" y="125" font-family="DM Sans,sans-serif" font-size="8.5" font-weight="700" fill="#28B485">15%</text>
+            <!-- Alert icon -->
+            <circle cx="254" cy="86" r="16" fill="rgba(14,107,168,0.08)" stroke="#0E6BA8" stroke-width="1"/>
+            <text x="254" y="82" font-family="DM Serif Display,serif" font-size="11" text-anchor="middle" fill="#0E6BA8">70%</text>
+            <text x="254" y="93" font-family="DM Sans,sans-serif" font-size="6.5" text-anchor="middle" fill="#5a6070">automatable</text>
+          </svg>
+        </div>
       </div>
+
+      <!-- Step 03 -->
       <div class="step">
         <div class="step-num">03</div>
         <div class="step-body">
           <h3>Prioritize What Moves the Needle</h3>
           <p>Not every automation is worth building. We rank opportunities by impact and effort &mdash; so we're always working on what gives you the most back, fastest. Quick wins first, bigger systems second.</p>
         </div>
+        <div class="step-visual">
+          <!-- Impact / effort matrix -->
+          <svg viewBox="0 0 280 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Axes -->
+            <line x1="44" y1="16" x2="44" y2="118" stroke="#e4e8ef" stroke-width="1.5"/>
+            <line x1="44" y1="118" x2="262" y2="118" stroke="#e4e8ef" stroke-width="1.5"/>
+            <!-- Axis labels -->
+            <text x="36" y="67" font-family="DM Sans,sans-serif" font-size="8" fill="#5a6070" transform="rotate(-90 36 67)" text-anchor="middle">Impact</text>
+            <text x="153" y="131" font-family="DM Sans,sans-serif" font-size="8" fill="#5a6070" text-anchor="middle">Effort</text>
+            <!-- Quadrant labels -->
+            <text x="82" y="30" font-family="DM Sans,sans-serif" font-size="7.5" fill="#28B485" font-weight="700">Quick Wins</text>
+            <text x="190" y="30" font-family="DM Sans,sans-serif" font-size="7.5" fill="#0E6BA8">Big Bets</text>
+            <text x="82" y="103" font-family="DM Sans,sans-serif" font-size="7.5" fill="#5a6070">Fill-ins</text>
+            <text x="190" y="103" font-family="DM Sans,sans-serif" font-size="7.5" fill="#5a6070">Skip</text>
+            <!-- Divider lines -->
+            <line x1="153" y1="16" x2="153" y2="118" stroke="#e4e8ef" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="44" y1="67" x2="262" y2="67" stroke="#e4e8ef" stroke-width="1" stroke-dasharray="4 3"/>
+            <!-- Dots — quick wins (high impact, low effort) -->
+            <circle cx="80" cy="38" r="7" fill="#28B485" opacity="0.85"/>
+            <circle cx="102" cy="48" r="5" fill="#28B485" opacity="0.65"/>
+            <circle cx="118" cy="42" r="9" fill="#28B485" opacity="0.75"/>
+            <text x="80" y="41" font-family="DM Sans,sans-serif" font-size="7" text-anchor="middle" fill="#fff">1</text>
+            <text x="118" y="45" font-family="DM Sans,sans-serif" font-size="7" text-anchor="middle" fill="#fff">2</text>
+            <!-- Big bets -->
+            <circle cx="200" cy="40" r="6" fill="#0E6BA8" opacity="0.55"/>
+            <circle cx="228" cy="52" r="5" fill="#0E6BA8" opacity="0.4"/>
+            <!-- Low priority -->
+            <circle cx="90" cy="92" r="4" fill="#5a6070" opacity="0.3"/>
+            <circle cx="210" cy="88" r="4" fill="#5a6070" opacity="0.25"/>
+          </svg>
+        </div>
       </div>
+
+      <!-- Step 04 -->
       <div class="step">
         <div class="step-num">04</div>
         <div class="step-body">
@@ -741,13 +867,81 @@
           <p>Automations, AI workflows, CRM connections, lead pipelines, AI agent employees &mdash; built to fit your actual tools and how your team works. Not generic templates, not duct-taped solutions.</p>
           <span class="step-tag">n8n &middot; Make &middot; HubSpot &middot; Claude Agents</span>
         </div>
+        <div class="step-visual">
+          <!-- Flow diagram -->
+          <svg viewBox="0 0 280 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Trigger node -->
+            <rect x="8" y="50" width="56" height="30" rx="8" fill="#0E6BA8" opacity="0.12" stroke="#0E6BA8" stroke-width="1.5"/>
+            <text x="36" y="62" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="middle" fill="#0E6BA8" font-weight="600">New Lead</text>
+            <text x="36" y="72" font-family="DM Sans,sans-serif" font-size="7" text-anchor="middle" fill="#0E6BA8">Trigger</text>
+            <!-- Arrow 1 -->
+            <line x1="64" y1="65" x2="84" y2="65" stroke="#0E6BA8" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <polygon points="84,61 92,65 84,69" fill="#0E6BA8"/>
+            <!-- AI node -->
+            <rect x="92" y="44" width="56" height="42" rx="8" fill="#1A3C5E" stroke="#1A3C5E" stroke-width="1.5"/>
+            <text x="120" y="62" font-family="DM Sans,sans-serif" font-size="8" text-anchor="middle" fill="#fff" font-weight="600">Claude</text>
+            <text x="120" y="73" font-family="DM Sans,sans-serif" font-size="7" text-anchor="middle" fill="rgba(255,255,255,0.7)">AI Agent</text>
+            <!-- Arrow 2 -->
+            <line x1="148" y1="65" x2="168" y2="65" stroke="#28B485" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <polygon points="168,61 176,65 168,69" fill="#28B485"/>
+            <!-- Branch node -->
+            <rect x="176" y="44" width="56" height="42" rx="8" fill="#28B485" opacity="0.12" stroke="#28B485" stroke-width="1.5"/>
+            <text x="204" y="62" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="middle" fill="#28B485" font-weight="600">Route &amp;</text>
+            <text x="204" y="72" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="middle" fill="#28B485" font-weight="600">Act</text>
+            <!-- Output lines -->
+            <line x1="232" y1="55" x2="272" y2="38" stroke="#28B485" stroke-width="1" opacity="0.6"/>
+            <line x1="232" y1="65" x2="272" y2="65" stroke="#28B485" stroke-width="1" opacity="0.6"/>
+            <line x1="232" y1="75" x2="272" y2="92" stroke="#28B485" stroke-width="1" opacity="0.6"/>
+            <!-- Output labels -->
+            <text x="238" y="34" font-family="DM Sans,sans-serif" font-size="7" fill="#5a6070">→ CRM</text>
+            <text x="238" y="62" font-family="DM Sans,sans-serif" font-size="7" fill="#5a6070">→ Email</text>
+            <text x="238" y="89" font-family="DM Sans,sans-serif" font-size="7" fill="#5a6070">→ Slack</text>
+            <!-- n8n label -->
+            <text x="8" y="120" font-family="DM Sans,sans-serif" font-size="7.5" fill="#5a6070" opacity="0.7">Powered by n8n · Make · Claude Agents</text>
+          </svg>
+        </div>
       </div>
+
+      <!-- Step 05 -->
       <div class="step">
         <div class="step-num">05</div>
         <div class="step-body">
           <h3>Track the ROI</h3>
           <p>Every automation gets a number attached to it. Hours saved per month. Revenue influenced. Cost per lead reduced. We review it together monthly &mdash; so you always know exactly what you're getting.</p>
           <span class="step-tag">Monthly ROI reporting included</span>
+        </div>
+        <div class="step-visual">
+          <!-- ROI chart -->
+          <svg viewBox="0 0 280 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Axis -->
+            <line x1="32" y1="16" x2="32" y2="102" stroke="#e4e8ef" stroke-width="1.5"/>
+            <line x1="32" y1="102" x2="268" y2="102" stroke="#e4e8ef" stroke-width="1.5"/>
+            <!-- Y labels -->
+            <text x="28" y="20" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="end" fill="#5a6070">50h</text>
+            <text x="28" y="46" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="end" fill="#5a6070">25h</text>
+            <text x="28" y="72" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="end" fill="#5a6070">10h</text>
+            <!-- Grid -->
+            <line x1="32" y1="18" x2="268" y2="18" stroke="#e4e8ef" stroke-width="0.75" stroke-dasharray="4 3"/>
+            <line x1="32" y1="44" x2="268" y2="44" stroke="#e4e8ef" stroke-width="0.75" stroke-dasharray="4 3"/>
+            <line x1="32" y1="70" x2="268" y2="70" stroke="#e4e8ef" stroke-width="0.75" stroke-dasharray="4 3"/>
+            <!-- Month labels -->
+            <text x="64" y="114" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="middle" fill="#5a6070">Mo 1</text>
+            <text x="112" y="114" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="middle" fill="#5a6070">Mo 2</text>
+            <text x="160" y="114" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="middle" fill="#5a6070">Mo 3</text>
+            <text x="208" y="114" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="middle" fill="#5a6070">Mo 4</text>
+            <text x="256" y="114" font-family="DM Sans,sans-serif" font-size="7.5" text-anchor="middle" fill="#5a6070">Mo 5</text>
+            <!-- Hours saved bars -->
+            <rect x="48" y="88" width="28" height="14" rx="3" fill="#0E6BA8" opacity="0.35"/>
+            <rect x="96" y="76" width="28" height="26" rx="3" fill="#0E6BA8" opacity="0.5"/>
+            <rect x="144" y="56" width="28" height="46" rx="3" fill="#0E6BA8" opacity="0.65"/>
+            <rect x="192" y="36" width="28" height="66" rx="3" fill="#0E6BA8" opacity="0.75"/>
+            <rect x="240" y="20" width="28" height="82" rx="3" fill="#28B485" opacity="0.85"/>
+            <!-- Trend line -->
+            <polyline points="62,91 110,79 158,59 206,39 254,21" stroke="#28B485" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="254" cy="21" r="4" fill="#28B485"/>
+            <!-- Label -->
+            <text x="238" y="16" font-family="DM Sans,sans-serif" font-size="8" fill="#28B485" font-weight="700" text-anchor="middle">+47h/mo</text>
+          </svg>
         </div>
       </div>
     </div>
