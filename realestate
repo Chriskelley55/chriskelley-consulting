@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Real Estate &mdash; Chris Kelley</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #0E6BA8;
+    --blue-dark: #1A3C5E;
+    --blue-deeper: #0d2c47;
+    --green: #28B485;
+    --green-dark: #1e9068;
+    --off-white: #F7F8FA;
+    --surface: #EEF4FB;
+    --text: #1a1a2e;
+    --text-muted: #5a6070;
+    --border: #e0e8f0;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #fff;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .nav-logo span { color: var(--green); }
+  .nav-back {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--blue); }
+  nav a.cta-nav {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--green);
+    padding: 0.55rem 1.25rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.01em;
+  }
+  nav a.cta-nav:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -80px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(40,180,133,0.07) 0%, rgba(14,107,168,0.05) 50%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(14,107,168,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px; height: 1.5px;
+    background: var(--green);
+    border-radius: 2px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(40px, 5vw, 62px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.5px;
+    color: var(--blue-dark);
+    margin-bottom: 28px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--green);
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 44px;
+    max-width: 460px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--green);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.8rem 1.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-block;
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--border);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--blue); border-color: var(--blue); }
+
+  /* HERO RIGHT &mdash; stat stack */
+  .hero-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-left: 1.5px solid var(--border);
+    padding-left: 56px;
+  }
+  .stat-row {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-row:first-child { padding-top: 0; }
+  .stat-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 52px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--blue-dark);
+    letter-spacing: -1px;
+  }
+  .stat-num sup {
+    font-family: var(--sans);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--green);
+    vertical-align: super;
+    letter-spacing: 0;
+  }
+  .stat-label {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.45;
+  }
+
+  /* SECTION LABELS */
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 28px; height: 1.5px;
+    background: var(--green);
+    border-radius: 2px;
+  }
+
+  /* USE CASES */
+  .usecases-wrap {
+    background: var(--off-white);
+    padding: 80px 0;
+  }
+  .usecases {
+    padding: 0 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .use-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .use-item {
+    background: var(--off-white);
+    padding: 28px 24px;
+    transition: background 0.2s;
+  }
+  .use-item:hover { background: var(--surface); }
+  .use-num {
+    font-family: var(--serif);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--green);
+    opacity: 0.85;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+  }
+  .use-title {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--blue-dark);
+    margin-bottom: 8px;
+  }
+  .use-desc {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* COPY SECTION */
+  .copy-section {
+    padding: 100px 48px;
+    background: var(--surface);
+  }
+  .copy-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .copy-left h2 {
+    font-family: var(--serif);
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.3px;
+    color: var(--blue-dark);
+    margin-bottom: 28px;
+  }
+  .copy-left h2 em { font-style: italic; color: var(--green); }
+  .copy-left p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+  .copy-right { padding-top: 8px; }
+  .copy-right p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.85;
+    margin-bottom: 20px;
+  }
+  .copy-right p strong {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .copy-right .pull-quote {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--blue-dark);
+    line-height: 1.5;
+    border-left: 3px solid var(--green);
+    padding-left: 24px;
+    margin: 36px 0;
+  }
+
+  /* HOW IT WORKS */
+  .how-wrap {
+    padding: 100px 48px;
+    background: #fff;
+  }
+  .how {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .how-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 64px;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .how-header h2 {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.3px;
+    color: var(--blue-dark);
+  }
+  .how-header h2 em { font-style: italic; color: var(--green); }
+  .how-header p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    max-width: 300px;
+    line-height: 1.65;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+  .step { position: relative; }
+  .step-line {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .step-dot {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--blue-dark);
+    color: #fff;
+    font-family: var(--serif);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-connector {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .step h3 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--blue-dark);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .step p {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* SCORECARD CTA */
+  .scorecard-wrap {
+    padding: 0 48px 100px;
+    background: #fff;
+  }
+  .scorecard {
+    background: var(--blue-deeper);
+    border-radius: 16px;
+    padding: 72px 80px;
+    position: relative;
+    overflow: hidden;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .scorecard::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(40,180,133,0.2) 0%, rgba(14,107,168,0.1) 50%, transparent 70%);
+    pointer-events: none;
+  }
+  .scorecard::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 40%;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(14,107,168,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .scorecard-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 60px;
+    align-items: center;
+  }
+  .scorecard h2 {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .scorecard h2 em { font-style: italic; color: var(--green); }
+  .scorecard p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.75;
+    max-width: 500px;
+  }
+  .scorecard .btn-cta {
+    display: inline-block;
+    background: var(--green);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 1rem 2.25rem;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .scorecard .btn-cta:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: #fff;
+  }
+  footer p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  footer a.email-link {
+    color: var(--blue);
+    text-decoration: none;
+  }
+  footer a.email-link:hover { color: var(--green); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.55s ease both; }
+  .hero h1      { animation: fadeUp 0.55s 0.1s ease both; }
+  .hero-sub     { animation: fadeUp 0.55s 0.2s ease both; }
+  .hero-actions { animation: fadeUp 0.55s 0.3s ease both; }
+  .hero-stats   { animation: fadeUp 0.65s 0.2s ease both; }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    nav { padding: 0 24px; }
+    .hero { padding: 100px 24px 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero-stats {
+      border-left: none;
+      border-top: 1.5px solid var(--border);
+      padding-left: 0; padding-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .stat-row { border-bottom: none; border-right: 1px solid var(--border); padding: 0 20px; }
+    .stat-row:last-child { border-right: none; }
+    .usecases { padding: 0 24px; }
+    .usecases-wrap { padding: 60px 0; }
+    .use-grid { grid-template-columns: repeat(2, 1fr); }
+    .copy-section { padding: 60px 24px; }
+    .copy-inner { grid-template-columns: 1fr; gap: 40px; }
+    .how-wrap { padding: 60px 24px; }
+    .steps { grid-template-columns: 1fr; gap: 36px; }
+    .scorecard-wrap { padding: 0 24px 60px; }
+    .scorecard { padding: 48px 32px; }
+    .scorecard-inner { grid-template-columns: 1fr; gap: 32px; }
+    footer { padding: 32px 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-stats { grid-template-columns: 1fr; }
+    .stat-row { border-right: none; border-bottom: 1px solid var(--border); padding: 20px 0; }
+    .stat-row:last-child { border-bottom: none; }
+    .use-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">Chris Kelley<span>.</span></a>
+  <div class="nav-right">
+    <a href="/" class="nav-back">&larr; Back to main site</a>
+    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="cta-nav">Book a Call &rarr;</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-eyebrow">AI Automation for Real Estate</div>
+      <h1>You didn&rsquo;t get into real estate<br>to do <em>paperwork.</em></h1>
+      <p class="hero-sub">Lead follow-up. Market reports. Transaction coordination. Listing content. There&rsquo;s a version of your business where most of that runs on its own &mdash; and you&rsquo;re spending your time closing deals and building relationships instead.</p>
+      <div class="hero-actions">
+        <a href="#scorecard" class="btn-primary">See Where You&rsquo;re Leaving Time on the Table</a>
+        <a href="#how" class="btn-ghost">How it works</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-row">
+        <div class="stat-num">16<sup>hrs</sup></div>
+        <div class="stat-label">saved per week with AI-assisted<br>CRM and transaction workflows</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-num">87<sup>%</sup></div>
+        <div class="stat-label">of top brokerages now using<br>AI tools in daily operations</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-num">16</div>
+        <div class="stat-label">AI use cases mapped specifically<br>to how your business works</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<div class="usecases-wrap">
+  <div class="usecases">
+    <div class="section-label">What we automate</div>
+    <div class="use-grid">
+      <div class="use-item">
+        <div class="use-num">01</div>
+        <div class="use-title">Lead qualification &amp; nurturing</div>
+        <div class="use-desc">AI qualifies, scores, and follows up with leads 24/7 &mdash; so you&rsquo;re only spending time on the ones who are ready.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">02</div>
+        <div class="use-title">AI-powered CRM</div>
+        <div class="use-desc">Your CRM becomes proactive. It surfaces who to call today, triggers follow-ups automatically, and reduces data entry to near zero.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">03</div>
+        <div class="use-title">Listing copy generation</div>
+        <div class="use-desc">Property descriptions, social captions, and listing emails written in seconds from MLS data &mdash; in your voice.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">04</div>
+        <div class="use-title">Automated CMAs &amp; market reports</div>
+        <div class="use-desc">Walk into every listing appointment with a polished, data-backed CMA that took minutes to build, not half a morning.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">05</div>
+        <div class="use-title">Predictive seller targeting</div>
+        <div class="use-desc">AI identifies homeowners most likely to sell before they list &mdash; so your outreach lands at exactly the right time.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">06</div>
+        <div class="use-title">Contract &amp; document automation</div>
+        <div class="use-desc">Key dates, contingencies, and compliance flags extracted automatically from every contract. Nothing slips through.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">07</div>
+        <div class="use-title">Website chatbots &amp; voice agents</div>
+        <div class="use-desc">A 24/7 AI assistant that answers questions, qualifies visitors, and schedules showings &mdash; even when you&rsquo;re on-site.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">08</div>
+        <div class="use-title">Transaction management</div>
+        <div class="use-desc">Timelines built from contracts automatically. Deadlines tracked. Stakeholders updated. Deals don&rsquo;t fall through the cracks.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">09</div>
+        <div class="use-title">Off-market deal sourcing</div>
+        <div class="use-desc">Machine learning surfaces motivated sellers before they list &mdash; using ownership data, equity signals, and market patterns.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">10</div>
+        <div class="use-title">Email &amp; communication automation</div>
+        <div class="use-desc">Drip campaigns, client updates, and follow-up sequences that run on their own &mdash; and still sound like you wrote them.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">11</div>
+        <div class="use-title">Lease abstraction &amp; review</div>
+        <div class="use-desc">AI extracts critical terms, obligations, and renewal dates from complex leases in seconds &mdash; not hours.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">12</div>
+        <div class="use-title">Reputation management</div>
+        <div class="use-desc">AI monitors and responds to reviews on Zillow, Google, and Yelp &mdash; so your reputation stays sharp without daily babysitting.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">13</div>
+        <div class="use-title">Personalized property matching</div>
+        <div class="use-desc">AI learns buyer preferences and auto-alerts clients to listings that fit &mdash; before they go looking somewhere else.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">14</div>
+        <div class="use-title">MLS photo compliance</div>
+        <div class="use-desc">Computer vision tags rooms, flags non-compliant images, and generates ADA alt text &mdash; at scale, without a human touch.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">15</div>
+        <div class="use-title">Invoice &amp; AP automation</div>
+        <div class="use-desc">Vendor invoices captured, matched, and routed for approval automatically. Manual data entry goes away.</div>
+      </div>
+      <div class="use-item">
+        <div class="use-num">16</div>
+        <div class="use-title">Automated market reports</div>
+        <div class="use-desc">Branded, data-rich market reports assembled on demand &mdash; and repurposed automatically for email, social, and blog.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COPY SECTION -->
+<section class="copy-section">
+  <div class="copy-inner">
+    <div class="copy-left">
+      <div class="section-label">The real problem</div>
+      <h2>Real estate runs on <em>relationships.</em><br>Not spreadsheets.</h2>
+      <p>The best agents I know aren&rsquo;t the ones who work the hardest. They&rsquo;re the ones who figured out what to stop doing.</p>
+      <p>AI doesn&rsquo;t replace what makes you good at this. It clears the path so you can do more of it.</p>
+    </div>
+    <div class="copy-right">
+      <p>Most agents are running the same business they built five years ago &mdash; spreadsheets for transactions, calendar reminders for follow-ups, manually pulling MLS data for CMAs. It works. Until it doesn&rsquo;t.</p>
+      <p>The agents pulling ahead right now aren&rsquo;t necessarily better at the job. They&rsquo;ve just automated the parts that don&rsquo;t require them personally. <strong>Lead qualification running while they&rsquo;re on a showing. Market reports delivered before the listing appointment. Transaction timelines built the second a contract comes in.</strong></p>
+      <div class="pull-quote">&ldquo;The goal isn&rsquo;t to change how you work. It&rsquo;s to eliminate the parts you shouldn&rsquo;t have to do yourself.&rdquo;</div>
+      <p>That&rsquo;s what I help real estate professionals build. Not a software stack &mdash; a system. One that fits how you already operate, scales with your pipeline, and gives you back the hours that should&rsquo;ve been yours all along.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="how-wrap" id="how">
+  <div class="how">
+    <div class="how-header">
+      <div>
+        <div class="section-label">The process</div>
+        <h2>How we build<br>your <em>automation layer</em></h2>
+      </div>
+      <p>No complex setup. No ripping out your current tools. Just a clear process that maps AI to the way your business already runs.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot">1</div>
+          <div class="step-connector"></div>
+        </div>
+        <h3>Map your current workflow</h3>
+        <p>We start with a conversation about how you actually work &mdash; where your leads come from, how you manage transactions, what&rsquo;s eating the most time. No assumptions, no cookie-cutter audit.</p>
+      </div>
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot">2</div>
+          <div class="step-connector"></div>
+        </div>
+        <h3>Build the right stack</h3>
+        <p>I identify the tools and automations that solve your specific gaps &mdash; and connect them to the systems you&rsquo;re already using. CRM, MLS, calendar, email. All of it talking to each other.</p>
+      </div>
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot">3</div>
+        </div>
+        <h3>Hand it off and run</h3>
+        <p>You get working automations, clear documentation on how it all works, and a system you can actually maintain. I stay available as things evolve &mdash; the business changes, the automations adapt.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCORECARD CTA -->
+<div class="scorecard-wrap" id="scorecard">
+  <div class="scorecard">
+    <div class="scorecard-inner">
+      <div>
+        <h2>Find out where AI can move the needle in <em>your</em> business.</h2>
+        <p>I put together a free scorecard built specifically for real estate professionals. Takes about five minutes. You&rsquo;ll walk away knowing exactly which parts of your workflow are most ready for automation &mdash; and what the ROI looks like.</p>
+      </div>
+      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn-cta">Get the Free Scorecard</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <a href="/" class="nav-logo">Chris Kelley<span>.</span></a>
+  <p>Questions? Reach out &mdash; <a href="mailto:chris@chriskelley.io" class="email-link">chris@chriskelley.io</a></p>
+  <p style="font-size:0.72rem;">&copy; 2026 chriskelley.io</p>
+</footer>
+
+</body>
+</html>
