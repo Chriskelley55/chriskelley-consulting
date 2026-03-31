@@ -395,6 +395,33 @@
       box-shadow: 0 12px 40px rgba(14,107,168,0.1);
     }
 
+    a.service-card {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      cursor: pointer;
+    }
+
+    a.service-card.featured:hover { border-color: var(--green); box-shadow: 0 12px 40px rgba(40,180,133,0.15); }
+
+    .service-link-hint {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--blue);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    a.service-card.featured .service-link-hint { color: var(--green); }
+
+    a.service-card:hover .service-link-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .service-card.featured {
       border-color: var(--green);
       background: linear-gradient(135deg, rgba(40,180,133,0.04) 0%, rgba(14,107,168,0.04) 100%);
@@ -735,35 +762,39 @@
     <p class="section-sub">Every engagement is tailored to what we find in the audit. These packages give you a sense of scope &mdash; not a box to fit in.</p>
 
     <div class="services-grid">
-      <div class="service-card">
+      <a href="/quick-win.html" class="service-card">
         <div class="service-icon" style="background: rgba(14,107,168,0.08);">&#9889;</div>
         <h3>Quick Win</h3>
         <div class="service-price">$500 <small>flat</small></div>
         <p>One high-impact automation or workflow fix. Identified from the audit. Built and running in a week. A great first step if you want to see what this looks like before going deeper.</p>
-      </div>
+        <span class="service-link-hint">Learn more &rarr;</span>
+      </a>
 
-      <div class="service-card">
+      <a href="/systems-buildout.html" class="service-card">
         <div class="service-icon" style="background: rgba(14,107,168,0.08);">&#9881;&#65039;</div>
         <h3>Systems Buildout</h3>
         <div class="service-price">$1,500 <small>project</small></div>
         <p>A connected set of automations built around one key area of your business &mdash; onboarding, lead follow-up, reporting, ops. Designed to save 5&ndash;15 hours per week from day one.</p>
-      </div>
+        <span class="service-link-hint">Learn more &rarr;</span>
+      </a>
 
-      <div class="service-card">
+      <a href="/lead-engine.html" class="service-card">
         <div class="service-icon" style="background: rgba(14,107,168,0.08);">&#127919;</div>
         <h3>AI-Powered Lead Engine</h3>
         <div class="service-price">$3,000 <small>project</small></div>
         <p>Full CRM setup + automated lead scoring, follow-up sequences, and pipeline visibility. Built for businesses that need to stop losing deals to slow response and inconsistent follow-through.</p>
-      </div>
+        <span class="service-link-hint">Learn more &rarr;</span>
+      </a>
 
-      <div class="service-card featured">
+      <a href="/ai-employee.html" class="service-card featured">
         <div class="featured-badge">NEW</div>
         <div class="service-icon" style="background: rgba(40,180,133,0.1);">&#129302;</div>
         <h3>Your First AI Employee</h3>
         <div class="service-price">$750 <small>setup</small></div>
         <p>A Claude-powered AI agent connected to your CRM, email, calendar, and docs &mdash; doing real work in your business. Handles intake, scheduling, follow-up, or custom tasks you define.</p>
         <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.75rem;">~$20&ndash;50/mo platform cost after setup. No ongoing retainer required.</p>
-      </div>
+        <span class="service-link-hint">Learn more &rarr;</span>
+      </a>
     </div>
   </div>
 </section>

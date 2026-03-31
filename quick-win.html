@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<title>Quick Win — Chris Kelley</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
+    --green: #28B485; --green-dark: #1e9068;
+    --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
+    --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
+  }
+  body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; font-family: var(--font-sans); }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+
+  .hero {
+    padding: 7rem 2rem 5rem;
+    background: var(--blue-deeper);
+    color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '⚡';
+    position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+    font-size: 18rem; opacity: 0.04; line-height: 1;
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .price-badge {
+    display: inline-flex; align-items: baseline; gap: 0.5rem;
+    background: rgba(40,180,133,0.15); border: 1px solid rgba(40,180,133,0.3);
+    border-radius: 8px; padding: 0.5rem 1.1rem;
+    margin-bottom: 2rem;
+  }
+  .price-badge strong { font-family: var(--font-serif); font-size: 1.6rem; color: var(--green); }
+  .price-badge span { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.12; margin-bottom: 1.5rem; }
+  .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 580px; margin-bottom: 2.5rem; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
+  .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
+
+  .what-section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .what-section h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--blue-dark); margin-bottom: 1rem; }
+  .what-section .lead { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 3rem; max-width: 620px; }
+
+  .example-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+  .example-card { background: var(--off-white); border: 1.5px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+  .example-card .tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.75rem; }
+  .example-card h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; }
+  .example-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+  .how-bar { background: var(--off-white); padding: 4rem 2rem; }
+  .how-bar-inner { max-width: 900px; margin: 0 auto; }
+  .how-bar h2 { font-family: var(--font-serif); font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--blue-dark); margin-bottom: 2.5rem; }
+  .timeline { display: flex; gap: 0; }
+  .tl-item { flex: 1; position: relative; padding-right: 2rem; }
+  .tl-item::after { content: '→'; position: absolute; right: 0.25rem; top: 0; color: var(--border); font-size: 1.2rem; }
+  .tl-item:last-child::after { display: none; }
+  .tl-day { font-family: var(--font-serif); font-size: 1.8rem; color: var(--green); line-height: 1; margin-bottom: 0.4rem; }
+  .tl-label { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+  .tl-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+  .cta-bar { background: var(--blue-dark); color: #fff; padding: 4rem 2rem; text-align: center; }
+  .cta-bar h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1rem; }
+  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; }
+
+  footer { background: var(--blue-deeper); color: rgba(255,255,255,0.5); text-align: center; padding: 2rem; font-size: 0.85rem; }
+  footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+
+  @media (max-width: 640px) { .timeline { flex-direction: column; gap: 1.5rem; } .tl-item::after { display: none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Chris Kelley<span>.</span></a>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="price-badge"><strong>$500</strong><span>flat &middot; one week</span></div>
+    <h1>One automation.<br>Running in a week.</h1>
+    <p>Not a pitch. Not a proposal. An actual thing — built, tested, and working in your business in seven days. The Quick Win is designed to show you what this looks like before you commit to anything bigger.</p>
+    <div class="hero-ctas">
+      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
+      <a href="/" class="btn btn-outline" style="border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);">&larr; Back home</a>
+    </div>
+  </div>
+</section>
+
+<section class="what-section">
+  <h2>What we build in a week</h2>
+  <p class="lead">The Quick Win starts with a conversation about what's eating your time right now. From there, I identify the single highest-impact automation I can build and deliver in seven days. Here's what that typically looks like:</p>
+  <div class="example-grid">
+    <div class="example-card">
+      <div class="tag">Lead follow-up</div>
+      <h4>Auto-respond to new inquiries</h4>
+      <p>New lead comes in &rarr; personalized email goes out in minutes, not hours. CRM updated automatically.</p>
+    </div>
+    <div class="example-card">
+      <div class="tag">Intake</div>
+      <h4>Client onboarding flow</h4>
+      <p>Form submitted &rarr; welcome email sent, folder created, task assigned. Zero manual steps.</p>
+    </div>
+    <div class="example-card">
+      <div class="tag">Reporting</div>
+      <h4>Weekly summary digest</h4>
+      <p>Key numbers from your tools pulled together and delivered to your inbox every Monday morning.</p>
+    </div>
+    <div class="example-card">
+      <div class="tag">Scheduling</div>
+      <h4>Booking confirmation sequence</h4>
+      <p>Appointment booked &rarr; confirmation sent, reminder sequence triggered, prep materials delivered.</p>
+    </div>
+  </div>
+</section>
+
+<section class="how-bar">
+  <div class="how-bar-inner">
+    <h2>How the week works</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-day">Day 1</div>
+        <div class="tl-label">Discovery call</div>
+        <div class="tl-desc">30 min to map your workflow and pick the right win.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">Day 2–3</div>
+        <div class="tl-label">Build</div>
+        <div class="tl-desc">I build it. You do nothing.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">Day 4–5</div>
+        <div class="tl-label">Test & refine</div>
+        <div class="tl-desc">We run it, check it, tweak it.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-day">Day 7</div>
+        <div class="tl-label">Live & documented</div>
+        <div class="tl-desc">Running in your business with a plain-English guide.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-bar">
+  <h2>Ready to see what one week can do?</h2>
+  <p>30-minute call. No pitch deck. I'll tell you exactly what I'd build first.</p>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary" style="font-size: 1rem; padding: 0.85rem 2rem;">Book a Discovery Call &rarr;</a>
+</section>
+
+<footer>
+  <p>&copy; 2026 Chris Kelley &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io &middot; Houston, Texas</a></p>
+</footer>
+
+</body>
+</html>

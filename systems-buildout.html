@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<title>Systems Buildout — Chris Kelley</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
+    --green: #28B485; --green-dark: #1e9068;
+    --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
+    --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
+  }
+  body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; font-family: var(--font-sans); }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+
+  .hero {
+    padding: 7rem 2rem 5rem;
+    background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-deeper) 100%);
+    color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '⚙️';
+    position: absolute; right: 4%; top: 50%; transform: translateY(-50%);
+    font-size: 16rem; opacity: 0.06; line-height: 1;
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .price-badge {
+    display: inline-flex; align-items: baseline; gap: 0.5rem;
+    background: rgba(40,180,133,0.15); border: 1px solid rgba(40,180,133,0.3);
+    border-radius: 8px; padding: 0.5rem 1.1rem; margin-bottom: 2rem;
+  }
+  .price-badge strong { font-family: var(--font-serif); font-size: 1.6rem; color: var(--green); }
+  .price-badge span { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.12; margin-bottom: 1.5rem; }
+  .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 580px; margin-bottom: 2.5rem; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
+  .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
+
+  .areas { padding: 5rem 2rem; max-width: 960px; margin: 0 auto; }
+  .areas h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--blue-dark); margin-bottom: 1rem; }
+  .areas .lead { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 3rem; max-width: 620px; }
+  .area-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .area-card { border: 1.5px solid var(--border); border-radius: 14px; padding: 1.75rem; transition: all 0.2s; }
+  .area-card:hover { border-color: var(--blue); box-shadow: 0 8px 30px rgba(14,107,168,0.08); transform: translateY(-2px); }
+  .area-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .area-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+  .area-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
+  .area-card ul { margin-top: 0.75rem; padding-left: 1.1rem; }
+  .area-card ul li { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+
+  .stat-bar { background: var(--off-white); padding: 4rem 2rem; }
+  .stat-bar-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 2rem; text-align: center; }
+  .stat strong { display: block; font-family: var(--font-serif); font-size: 2.4rem; color: var(--blue-dark); line-height: 1.1; }
+  .stat span { font-size: 0.88rem; color: var(--text-muted); margin-top: 0.3rem; display: block; }
+
+  .cta-bar { background: var(--blue-dark); color: #fff; padding: 4rem 2rem; text-align: center; }
+  .cta-bar h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1rem; }
+  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; }
+
+  footer { background: var(--blue-deeper); color: rgba(255,255,255,0.5); text-align: center; padding: 2rem; font-size: 0.85rem; }
+  footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Chris Kelley<span>.</span></a>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="price-badge"><strong>$1,500</strong><span>project &middot; 5–15 hrs/week saved</span></div>
+    <h1>A connected system<br>for how you actually work.</h1>
+    <p>Not a single automation — a whole layer. The Systems Buildout takes one key area of your business and builds everything needed to make it run without you in the middle of it.</p>
+    <div class="hero-ctas">
+      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
+      <a href="/" class="btn btn-outline" style="border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);">&larr; Back home</a>
+    </div>
+  </div>
+</section>
+
+<section class="areas">
+  <h2>Pick an area. We'll own it.</h2>
+  <p class="lead">Every buildout is scoped around one core part of your business. Here are the areas where we typically do the most damage (in a good way):</p>
+  <div class="area-grid">
+    <div class="area-card">
+      <div class="area-icon">&#128272;</div>
+      <h3>Lead & Client Onboarding</h3>
+      <p>From first contact to fully onboarded — automated intake, welcome flows, document collection, and CRM setup.</p>
+    </div>
+    <div class="area-card">
+      <div class="area-icon">&#128233;</div>
+      <h3>Follow-up & Nurture</h3>
+      <p>Multi-step sequences that keep leads warm, follow up on proposals, and re-engage cold contacts — all on autopilot.</p>
+    </div>
+    <div class="area-card">
+      <div class="area-icon">&#128202;</div>
+      <h3>Reporting & Ops</h3>
+      <p>Weekly digests, pipeline reports, and KPI dashboards assembled automatically from your existing tools.</p>
+    </div>
+    <div class="area-card">
+      <div class="area-icon">&#128467;</div>
+      <h3>Scheduling & Coordination</h3>
+      <p>Booking flows, reminders, rescheduling logic, and internal task assignment — without the back-and-forth.</p>
+    </div>
+  </div>
+</section>
+
+<section class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat"><strong>5–15</strong><span>hours saved per week<br>from day one</span></div>
+    <div class="stat"><strong>2–3</strong><span>weeks to full<br>buildout delivery</span></div>
+    <div class="stat"><strong>0</strong><span>ongoing retainer<br>required</span></div>
+  </div>
+</section>
+
+<section class="cta-bar">
+  <h2>Let's find the bottleneck worth fixing first.</h2>
+  <p>30-minute call. I'll map your workflow and tell you exactly what a buildout would look like for your business.</p>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary" style="font-size: 1rem; padding: 0.85rem 2rem;">Book a Discovery Call &rarr;</a>
+</section>
+
+<footer>
+  <p>&copy; 2026 Chris Kelley &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io &middot; Houston, Texas</a></p>
+</footer>
+
+</body>
+</html>

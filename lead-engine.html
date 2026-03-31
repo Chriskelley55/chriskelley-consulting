@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<title>AI-Powered Lead Engine — Chris Kelley</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
+    --green: #28B485; --green-dark: #1e9068;
+    --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
+    --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
+  }
+  body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; font-family: var(--font-sans); }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+
+  .hero {
+    padding: 7rem 2rem 5rem;
+    background: linear-gradient(135deg, #0a2440 0%, #0f3d6b 100%);
+    color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '🎯';
+    position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+    font-size: 16rem; opacity: 0.07; line-height: 1;
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .price-badge {
+    display: inline-flex; align-items: baseline; gap: 0.5rem;
+    background: rgba(40,180,133,0.15); border: 1px solid rgba(40,180,133,0.3);
+    border-radius: 8px; padding: 0.5rem 1.1rem; margin-bottom: 2rem;
+  }
+  .price-badge strong { font-family: var(--font-serif); font-size: 1.6rem; color: var(--green); }
+  .price-badge span { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.12; margin-bottom: 1.5rem; }
+  .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 580px; margin-bottom: 2.5rem; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
+  .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
+
+  .pipeline { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .pipeline h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--blue-dark); margin-bottom: 1rem; }
+  .pipeline .lead { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 3rem; max-width: 620px; }
+  .pipe-steps { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .pipe-step { background: #fff; padding: 1.75rem 2rem; display: grid; grid-template-columns: auto 1fr auto; gap: 1.5rem; align-items: center; }
+  .pipe-step:hover { background: var(--off-white); }
+  .pipe-num { font-family: var(--font-serif); font-size: 1.8rem; color: var(--blue); line-height: 1; min-width: 2rem; }
+  .pipe-body h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
+  .pipe-body p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+  .pipe-tag { font-size: 0.75rem; font-weight: 600; color: var(--blue); background: rgba(14,107,168,0.08); padding: 0.25rem 0.7rem; border-radius: 50px; white-space: nowrap; }
+
+  .includes { background: var(--off-white); padding: 4rem 2rem; }
+  .includes-inner { max-width: 900px; margin: 0 auto; }
+  .includes h2 { font-family: var(--font-serif); font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--blue-dark); margin-bottom: 2rem; }
+  .include-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+  .include-item { background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; display: flex; gap: 0.75rem; align-items: flex-start; }
+  .check { color: var(--green); font-size: 1.1rem; margin-top: 0.05rem; flex-shrink: 0; }
+  .include-item p { font-size: 0.9rem; color: var(--text); font-weight: 500; }
+
+  .cta-bar { background: var(--blue-dark); color: #fff; padding: 4rem 2rem; text-align: center; }
+  .cta-bar h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1rem; }
+  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; }
+
+  footer { background: var(--blue-deeper); color: rgba(255,255,255,0.5); text-align: center; padding: 2rem; font-size: 0.85rem; }
+  footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+
+  @media (max-width: 640px) { .pipe-step { grid-template-columns: auto 1fr; } .pipe-tag { display: none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Chris Kelley<span>.</span></a>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="price-badge"><strong>$3,000</strong><span>project &middot; full CRM + pipeline</span></div>
+    <h1>Stop losing deals<br>to slow follow-up.</h1>
+    <p>The AI-Powered Lead Engine is a full CRM setup plus the automations that make it actually work — lead scoring, follow-up sequences, and pipeline visibility built around how your business closes deals.</p>
+    <div class="hero-ctas">
+      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
+      <a href="/" class="btn btn-outline" style="border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);">&larr; Back home</a>
+    </div>
+  </div>
+</section>
+
+<section class="pipeline">
+  <h2>What the engine does</h2>
+  <p class="lead">From the moment a lead enters your world to the moment they sign — every step is tracked, triggered, and optimized. Here's how it flows:</p>
+  <div class="pipe-steps">
+    <div class="pipe-step">
+      <div class="pipe-num">01</div>
+      <div class="pipe-body">
+        <h4>Lead capture & enrichment</h4>
+        <p>New leads land in your CRM automatically enriched with company data, source tracking, and initial scoring.</p>
+      </div>
+      <div class="pipe-tag">Instant</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">02</div>
+      <div class="pipe-body">
+        <h4>AI scoring & prioritization</h4>
+        <p>Every lead gets scored based on fit, engagement signals, and behavior — so you always know who to call first.</p>
+      </div>
+      <div class="pipe-tag">Automated</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">03</div>
+      <div class="pipe-body">
+        <h4>Personalized follow-up sequences</h4>
+        <p>Multi-touch email and task sequences triggered automatically based on lead behavior and stage.</p>
+      </div>
+      <div class="pipe-tag">AI-written</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">04</div>
+      <div class="pipe-body">
+        <h4>Pipeline visibility & alerts</h4>
+        <p>Deals going cold get flagged. Deals moving fast get surfaced. Nothing slips through without you knowing.</p>
+      </div>
+      <div class="pipe-tag">Real-time</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">05</div>
+      <div class="pipe-body">
+        <h4>Monthly ROI reporting</h4>
+        <p>Leads worked, response times, conversion rates, hours saved — delivered to your inbox every month.</p>
+      </div>
+      <div class="pipe-tag">Included</div>
+    </div>
+  </div>
+</section>
+
+<section class="includes">
+  <div class="includes-inner">
+    <h2>Everything included</h2>
+    <div class="include-list">
+      <div class="include-item"><span class="check">&#10003;</span><p>CRM setup & configuration</p></div>
+      <div class="include-item"><span class="check">&#10003;</span><p>Lead capture integrations</p></div>
+      <div class="include-item"><span class="check">&#10003;</span><p>AI lead scoring model</p></div>
+      <div class="include-item"><span class="check">&#10003;</span><p>Follow-up email sequences</p></div>
+      <div class="include-item"><span class="check">&#10003;</span><p>Pipeline stage automation</p></div>
+      <div class="include-item"><span class="check">&#10003;</span><p>Deal alert & reminder logic</p></div>
+      <div class="include-item"><span class="check">&#10003;</span><p>Monthly ROI reporting</p></div>
+      <div class="include-item"><span class="check">&#10003;</span><p>Full documentation & handoff</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-bar">
+  <h2>Ready to build a pipeline that works while you sleep?</h2>
+  <p>30 minutes. I'll show you exactly what the engine looks like for your business.</p>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary" style="font-size: 1rem; padding: 0.85rem 2rem;">Book a Discovery Call &rarr;</a>
+</section>
+
+<footer>
+  <p>&copy; 2026 Chris Kelley &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io &middot; Houston, Texas</a></p>
+</footer>
+
+</body>
+</html>
