@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+  <title>AI Glossary for Small Business Owners — Chris Kelley</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
+      --green: #28B485; --green-dark: #1e9068;
+      --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
+      --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--green); }
+    .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; font-family: var(--font-sans); }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+    .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+
+    /* HERO */
+    .hero {
+      padding: 6rem 2rem 4rem;
+      background: var(--blue-deeper);
+      color: #fff;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '📖';
+      position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+      font-size: 18rem; opacity: 0.04; line-height: 1;
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(40,180,133,0.15); border: 1px solid rgba(40,180,133,0.3);
+      border-radius: 8px; padding: 0.4rem 1rem;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 1.5rem;
+    }
+    .hero h1 { font-family: var(--font-serif); font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.12; margin-bottom: 1.25rem; }
+    .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 560px; }
+
+    /* JUMP NAV */
+    .jump-nav {
+      background: var(--off-white);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;
+    }
+    .jump-nav a {
+      font-size: 0.82rem; font-weight: 600; color: var(--text-muted);
+      text-decoration: none; padding: 0.35rem 0.85rem;
+      border: 1.5px solid var(--border); border-radius: 20px;
+      transition: all 0.2s; background: #fff;
+    }
+    .jump-nav a:hover { border-color: var(--blue); color: var(--blue); background: #fff; }
+
+    /* MAIN CONTENT */
+    .glossary-wrap {
+      max-width: 860px; margin: 0 auto; padding: 4rem 2rem 6rem;
+    }
+
+    .section-block { margin-bottom: 4rem; scroll-margin-top: 80px; }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 0.5rem;
+    }
+    .section-block h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      color: var(--blue-dark); margin-bottom: 0.5rem;
+    }
+    .section-intro {
+      font-size: 0.95rem; color: var(--text-muted);
+      line-height: 1.7; margin-bottom: 2rem; max-width: 620px;
+    }
+
+    /* TERM CARDS */
+    .term-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .term-card {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .term-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 18px rgba(14,107,168,0.08);
+    }
+    .term-card dt {
+      font-weight: 700; font-size: 1.05rem; color: var(--text);
+      margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.6rem;
+    }
+    .term-card dt .abbr {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--blue);
+      background: rgba(14,107,168,0.08); border-radius: 5px;
+      padding: 0.15rem 0.5rem;
+    }
+    .term-card dd {
+      font-size: 0.95rem; color: var(--text-muted); line-height: 1.7;
+    }
+
+    /* DEEPER TIERS */
+    .tier-mid .term-card { background: var(--off-white); }
+    .tier-deep .term-card { background: #fff; border-style: dashed; }
+    .tier-deep .term-card:hover { border-style: solid; }
+
+    /* CTA */
+    .cta-bar { background: var(--blue-dark); color: #fff; padding: 4rem 2rem; text-align: center; }
+    .cta-bar h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); margin-bottom: 1rem; }
+    .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
+    .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
+
+    footer { background: var(--blue-deeper); color: rgba(255,255,255,0.45); padding: 2rem; text-align: center; font-size: 0.85rem; }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 4rem 1.25rem 3rem; }
+      .glossary-wrap { padding: 2.5rem 1.25rem 4rem; }
+      .term-card { padding: 1.25rem; }
+      .back-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Chris Kelley<span>.</span></a>
+  <a href="index.html" class="btn btn-outline back-btn">&larr; Back to main site</a>
+  <a href="index.html#contact" class="btn btn-primary">Let's Talk</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Resource</div>
+    <h1>AI Glossary for<br>Small Business Owners</h1>
+    <p>Plain English. No fluff. Everything you actually need to know — and nothing you don't.</p>
+  </div>
+</section>
+
+<div class="jump-nav">
+  <a href="#basics">The Basics</a>
+  <a href="#automation">Automation</a>
+  <a href="#tools">AI Tools & Agents</a>
+  <a href="#crm">CRM & Leads</a>
+  <a href="#content">Content & Comms</a>
+  <a href="#big-picture">Big Picture</a>
+  <a href="#deeper">Going Deeper</a>
+  <a href="#curious">For the Curious</a>
+</div>
+
+<div class="glossary-wrap">
+
+  <p style="font-size:1rem; color:var(--text-muted); line-height:1.8; margin-bottom:3rem; max-width:640px;">
+    You've heard the buzzwords. AI, automation, agents, prompts, workflows — everyone's throwing these around like you already know what they mean. Most people don't. Here's what actually matters and what it means for your business.
+  </p>
+
+  <!-- THE BASICS -->
+  <div class="section-block" id="basics">
+    <div class="section-label">01 — Foundation</div>
+    <h2>The Basics</h2>
+    <dl class="term-list">
+      <div class="term-card">
+        <dt>Artificial Intelligence <span class="abbr">AI</span></dt>
+        <dd>Software that can understand language, recognize patterns, and make decisions — without being told exactly what to do every step of the way. Think of it less like a calculator and more like a very fast, very well-read assistant who never sleeps.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Large Language Model <span class="abbr">LLM</span></dt>
+        <dd>The technology behind tools like ChatGPT and Claude. It's trained on massive amounts of text and can read, write, summarize, and respond in plain English. When you type a question and get a smart answer back, you're using an LLM.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Prompt</dt>
+        <dd>The instruction or question you give an AI. "Write a follow-up email to a lead who went cold" is a prompt. Better prompts get better results — this is the most underrated skill in the AI space right now.</dd>
+      </div>
+      <div class="term-card">
+        <dt>System Prompt</dt>
+        <dd>A set of background instructions that shapes how an AI behaves before you ever type anything. Think of it as the employee handbook the AI reads before its first shift.</dd>
+      </div>
+      <div class="term-card">
+        <dt>No-Code / Low-Code</dt>
+        <dd>Building automations and systems without writing software. Tools like Zapier, Make, and HoneyBook let you connect apps and automate tasks by clicking, not coding. This is how most small business automation gets done.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Integration</dt>
+        <dd>When two tools share data automatically. Your scheduling app talks to your calendar. Your contact form talks to your CRM. Your invoice gets paid and your bookkeeping updates. Less copy-paste, fewer mistakes.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- AUTOMATION -->
+  <div class="section-block" id="automation">
+    <div class="section-label">02 — How It Moves</div>
+    <h2>Automation</h2>
+    <dl class="term-list">
+      <div class="term-card">
+        <dt>Automation</dt>
+        <dd>Making a task happen automatically, without someone clicking a button or sending an email. A client fills out your form → they get a confirmation email → their info lands in your CRM → you get a text. That whole chain, zero manual work.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Workflow</dt>
+        <dd>The sequence of steps a task moves through. "New lead comes in → rep gets notified → follow-up email goes out at 24 hours → deal gets logged." That's a workflow. Most small businesses have workflows — they just run them manually.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Trigger</dt>
+        <dd>The event that starts an automation. A new form submission, an incoming email, a calendar event, a payment — any of these can be a trigger. When X happens, do Y.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Zapier / Make / n8n</dt>
+        <dd>Tools that connect your apps and automate workflows without writing code. Zapier is the most beginner-friendly. Make is more flexible. n8n is open source. All three can connect hundreds of apps — Gmail, Slack, HubSpot, Google Sheets, and more.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Missed Call Text-Back</dt>
+        <dd>When someone calls your business and you don't answer, an automated text goes out immediately: "Hey, sorry I missed you — how can I help?" Captures leads that would otherwise just call your competitor next. One of the highest-ROI automations for any local service business.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Appointment Reminder Sequence</dt>
+        <dd>Automated texts or emails that go out 48 hours, 24 hours, and 1 hour before a scheduled appointment. Reduces no-shows by 30–50% for most service businesses. Set it up once.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Review Request Automation</dt>
+        <dd>After a job is complete, a text or email goes out automatically asking the client to leave a Google review. Most happy customers don't leave reviews because nobody asked. This fixes that.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Estimate / Quote Follow-Up</dt>
+        <dd>Automated sequence that follows up on an open estimate — day 2, day 5, day 10. Most contractors and service businesses send quotes and never follow up. The ones who automate this close more jobs without more leads.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Payment Reminder</dt>
+        <dd>Automated message that goes out when an invoice is overdue. Removes the awkward "just checking in on that invoice" conversation from your plate entirely.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- AI TOOLS & AGENTS -->
+  <div class="section-block" id="tools">
+    <div class="section-label">03 — The Tools</div>
+    <h2>AI Tools & Agents</h2>
+    <dl class="term-list">
+      <div class="term-card">
+        <dt>AI Assistant</dt>
+        <dd>A tool you talk to — you ask, it answers. ChatGPT, Claude, Gemini. Great for one-off tasks: writing an email, summarizing a document, answering a question. You're in the loop every step of the way.</dd>
+      </div>
+      <div class="term-card">
+        <dt>AI Agent</dt>
+        <dd>An AI that can take action on its own, not just answer questions. It can browse the web, send emails, update your CRM, run a search — without you doing each step manually. The difference between an assistant and an agent: an assistant advises, an agent executes.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Chatbot</dt>
+        <dd>Software that handles conversations automatically — usually on your website or via text/SMS. A good chatbot answers FAQs, qualifies leads, books appointments. A bad one makes customers want to call your competitor. The quality depends entirely on how it's built.</dd>
+      </div>
+      <div class="term-card">
+        <dt>After-Hours Coverage</dt>
+        <dd>A chatbot or AI receptionist that handles inquiries when you're not available. Answers common questions, captures contact info, books appointments. Your business stays open even when you're at your kid's baseball game.</dd>
+      </div>
+      <div class="term-card">
+        <dt>RAG <span class="abbr">Retrieval-Augmented Generation</span></dt>
+        <dd>A way to make AI answer questions using your specific documents and data, not just its general training. Instead of a generic answer, it searches your files and gives you one grounded in your actual content. Useful for customer support bots that know your product inside and out.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- CRM & LEADS -->
+  <div class="section-block" id="crm">
+    <div class="section-label">04 — Your Pipeline</div>
+    <h2>CRM & Lead Management</h2>
+    <dl class="term-list">
+      <div class="term-card">
+        <dt>CRM <span class="abbr">Customer Relationship Management</span></dt>
+        <dd>A system for tracking your relationships — leads, clients, deals, follow-ups. HubSpot, Salesforce, GoHighLevel are common ones. A CRM is only as good as the data inside it. AI can help keep that data clean and current automatically.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Lead Response Time</dt>
+        <dd>How fast you respond to a new inquiry. Studies show responding within 5 minutes vs. 30 minutes can increase close rates by 400%. Automation closes this gap — an instant reply goes out the moment someone fills out your form, even at midnight.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Lead Nurturing</dt>
+        <dd>The process of staying in touch with potential clients until they're ready to buy — without being annoying about it. Most small businesses lose deals not because the lead said no, but because no one followed up.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Dead Lead Reactivation</dt>
+        <dd>An automated campaign that reaches back out to leads who went cold — 30, 60, or 90 days later. Most businesses have a list of people who said "not yet." AI can work that list on autopilot.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Pipeline</dt>
+        <dd>The stages a deal moves through from first contact to closed. Awareness → Interest → Proposal → Closed. Knowing where every lead sits is the difference between a business that scales and one that scrambles.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Google Business Profile <span class="abbr">GBP</span></dt>
+        <dd>Your free business listing on Google Maps and Search. Reviews, photos, hours, services — this is often the first thing a local customer sees before your website. AI can help you respond to reviews and keep it updated.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- CONTENT & COMMS -->
+  <div class="section-block" id="content">
+    <div class="section-label">05 — Staying in Touch</div>
+    <h2>Content & Communication</h2>
+    <dl class="term-list">
+      <div class="term-card">
+        <dt>Content Calendar</dt>
+        <dd>A schedule of what you're publishing and when — social posts, emails, blogs. Sounds simple, doesn't happen without a system. AI can help generate content, but someone still has to approve and post it (or automate that too).</dd>
+      </div>
+      <div class="term-card">
+        <dt>Email Sequence</dt>
+        <dd>A series of pre-written emails that go out automatically on a schedule. Someone signs up → they get Email 1 immediately, Email 2 on day 3, Email 3 on day 7. Set it up once, runs forever.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Onboarding Sequence</dt>
+        <dd>The automated series of messages a new client gets after signing up or paying. Sets expectations, delivers info, reduces support questions before they happen. Most businesses wing this manually — it should run itself.</dd>
+      </div>
+      <div class="term-card">
+        <dt>SMS / Text Automation</dt>
+        <dd>Automated text messages for reminders, follow-ups, and confirmations. Open rates on texts are 98% vs. 20% for email. For local service businesses especially, text is where your clients actually respond.</dd>
+      </div>
+      <div class="term-card">
+        <dt>SOPs <span class="abbr">Standard Operating Procedures</span></dt>
+        <dd>Step-by-step instructions for how things get done in your business. "When a new client signs, do this. When a complaint comes in, do that." AI can help write SOPs, follow them, and flag when something falls outside them.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- BIG PICTURE -->
+  <div class="section-block" id="big-picture">
+    <div class="section-label">06 — The Big Picture</div>
+    <h2>Big Picture</h2>
+    <dl class="term-list">
+      <div class="term-card">
+        <dt>AI Automation Consultant</dt>
+        <dd>Someone who maps your current workflows, identifies where time and money are leaking, and builds AI-powered systems to fix it. Not a developer, not a software salesperson — someone who understands both your business problems and the tools that solve them.</dd>
+      </div>
+      <div class="term-card">
+        <dt>ROI <span class="abbr">Return on Investment</span></dt>
+        <dd>The math behind whether something is worth doing. If a $1,500 automation saves your team 8 hours a week at $25/hour, that's $200/week in recovered time. It pays for itself in under two months and runs indefinitely after that.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Workflow Audit</dt>
+        <dd>A structured review of how your business actually operates day-to-day — where time goes, what's manual, what's repetitive, what's falling through the cracks. The starting point for any real automation work.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- GOING DEEPER -->
+  <div class="section-block" id="deeper">
+    <div class="section-label">07 — Going Deeper</div>
+    <h2>Going Deeper</h2>
+    <p class="section-intro">Already comfortable with the basics? These are the terms that come up once you start building.</p>
+    <dl class="term-list tier-mid">
+      <div class="term-card">
+        <dt>Webhook</dt>
+        <dd>A way for two apps to talk to each other in real time. When something happens in App A, it instantly pings App B. The plumbing behind most automations.</dd>
+      </div>
+      <div class="term-card">
+        <dt>API <span class="abbr">Application Programming Interface</span></dt>
+        <dd>The connection point that lets software talk to other software. When Zapier connects your form to your CRM, it's using APIs. You don't need to understand it technically — just know it's what makes integrations possible.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Token</dt>
+        <dd>The unit AI uses to measure and process text — roughly ¾ of a word. Relevant when you're paying for API usage — you're billed by tokens consumed.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Fine-tuning</dt>
+        <dd>Training an AI model on your specific data so it gets better at your specific tasks. More advanced, more expensive, and rarely necessary for most small businesses starting out.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Hallucination</dt>
+        <dd>When an AI confidently makes something up. Real term, real problem. A well-built system with guardrails minimizes it — but it's why you don't let AI run unsupervised on anything that matters.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Vector Database</dt>
+        <dd>Where AI stores information so it can search and retrieve it fast. The backbone of RAG systems. You probably won't set one up yourself but you'll hear the term.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- FOR THE CURIOUS -->
+  <div class="section-block" id="curious">
+    <div class="section-label">08 — Under the Hood</div>
+    <h2>For the Curious</h2>
+    <p class="section-intro">You don't need to know these to get started. But if you want to understand what's actually happening:</p>
+    <dl class="term-list tier-deep">
+      <div class="term-card">
+        <dt>Embeddings</dt>
+        <dd>A way of converting text into numbers so AI can understand relationships between concepts. "Dog" and "puppy" end up close together. The math behind semantic search.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Context Window</dt>
+        <dd>How much text an AI can hold in mind at once. Older models had small windows — recent ones can handle entire books. Matters when you're feeding it long documents.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Orchestration</dt>
+        <dd>Managing multiple AI agents working together on a complex task. One agent researches, one writes, one reviews. Becoming more common as agent frameworks mature.</dd>
+      </div>
+      <div class="term-card">
+        <dt>MCP <span class="abbr">Model Context Protocol</span></dt>
+        <dd>A standard that lets AI models connect to external tools and data sources in a consistent way. Early days but becoming important infrastructure.</dd>
+      </div>
+      <div class="term-card">
+        <dt>Agentic Loop</dt>
+        <dd>When an AI agent runs a task, checks its own output, and iterates until it gets the result right — without human input in between. The foundation of autonomous AI workflows.</dd>
+      </div>
+    </dl>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<section class="cta-bar">
+  <h2>Heard a term that isn't here?</h2>
+  <p>Reach out — chris@chriskelley.io — and I'll add it.</p>
+  <a href="index.html#contact" class="btn btn-white">Get in Touch</a>
+</section>
+
+<footer>
+  <p>© 2025 Chris Kelley · <a href="index.html">Home</a> · <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a></p>
+</footer>
+
+</body>
+</html>
