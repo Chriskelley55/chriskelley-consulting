@@ -3,151 +3,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-<title>AI for Healthcare & Wellness — Chris Kelley</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<title>AI for Healthcare Practices — Chris Kelley</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --blue: #0E6BA8;
-    --blue-dark: #1A3C5E;
-    --green: #28B485;
-    --off-white: #F7F8FA;
-    --text: #1a1a2e;
-    --text-muted: #5a6070;
-    --border: #e4e8ef;
-    --font-sans: 'DM Sans', sans-serif;
-    --font-serif: 'DM Serif Display', serif;
+    --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
+    --green: #28B485; --green-dark: #1e9068;
+    --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
+    --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
   }
+  html { scroll-behavior: smooth; }
   body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(255,255,255,0.96); backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px;
-  }
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
   .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
   .nav-logo span { color: var(--green); }
   .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; }
   .btn-primary { background: var(--green); color: #fff; }
-  .btn-primary:hover { background: #1e9068; transform: translateY(-1px); }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
   .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
   .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+  .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
+  .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
 
-  .hero {
-    min-height: 80vh;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center;
-    padding: 6rem 2rem;
-    background: linear-gradient(160deg, #f0faf6 0%, var(--off-white) 100%);
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; bottom: -80px; left: -80px;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(14,107,168,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-inner { max-width: 700px; position: relative; }
-  .coming-pill {
-    display: inline-block;
-    background: rgba(40,180,133,0.12);
-    color: var(--green);
-    font-size: 0.78rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 0.35rem 1rem; border-radius: 50px;
-    margin-bottom: 2rem;
-  }
-  .hero h1 {
-    font-family: var(--font-serif);
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    color: var(--blue-dark);
-    line-height: 1.15; margin-bottom: 1.5rem;
-  }
-  .hero p {
-    font-size: 1.15rem; color: var(--text-muted);
-    line-height: 1.7; margin-bottom: 2.5rem;
-    max-width: 560px; margin-left: auto; margin-right: auto;
-  }
-  .emoji-big { font-size: 4rem; margin-bottom: 1.5rem; display: block; }
-  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .hero { padding: 7rem 2rem 5rem; background: #0a3d5c; color: #fff; position: relative; overflow: hidden; }
+  .hero::before { content: '🏥'; position: absolute; right: 4%; top: 50%; transform: translateY(-50%); font-size: 18rem; opacity: 0.05; line-height: 1; pointer-events: none; }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .hero-badge { display: inline-block; background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; padding: 0.4rem 1rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #38BDF8; margin-bottom: 1.75rem; }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: 1.12; margin-bottom: 1.25rem; }
+  .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 580px; margin-bottom: 2.5rem; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-  .teaser {
-    padding: 5rem 2rem;
-    max-width: 900px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
-  }
-  .teaser-card {
-    background: var(--off-white);
-    border: 1.5px solid var(--border);
-    border-radius: 14px; padding: 2rem;
-  }
-  .teaser-card h3 { font-family: var(--font-serif); font-size: 1.3rem; color: var(--blue-dark); margin-bottom: 0.75rem; }
-  .teaser-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.65; }
-  .teaser-num { font-family: var(--font-serif); font-size: 2.5rem; color: var(--green); line-height: 1; margin-bottom: 0.5rem; }
+  .questions { padding: 5rem 2rem; background: var(--off-white); }
+  .questions-inner { max-width: 860px; margin: 0 auto; }
+  .section-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.75rem; display: block; }
+  .questions h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--blue-dark); margin-bottom: 1rem; }
+  .questions .lead { font-size: 1.05rem; color: var(--text-muted); max-width: 620px; line-height: 1.7; margin-bottom: 3rem; }
+  .q-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  .q-card { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+  .q-card .q-icon { font-size: 1.75rem; margin-bottom: 0.75rem; display: block; }
+  .q-card p { font-size: 1rem; color: var(--text); line-height: 1.6; font-style: italic; }
 
-  footer { background: var(--blue-dark); color: rgba(255,255,255,0.6); text-align: center; padding: 2rem; font-size: 0.85rem; }
-  footer a { color: rgba(255,255,255,0.8); text-decoration: none; }
+  .changes { padding: 5rem 2rem; background: #fff; }
+  .changes-inner { max-width: 860px; margin: 0 auto; }
+  .changes h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--blue-dark); margin-bottom: 0.75rem; }
+  .changes .lead { font-size: 1.05rem; color: var(--text-muted); max-width: 620px; line-height: 1.7; margin-bottom: 3rem; }
+  .change-list { display: flex; flex-direction: column; gap: 1.25rem; }
+  .change-item { border: 1.5px solid var(--border); border-radius: 12px; padding: 1.75rem; display: grid; grid-template-columns: 48px 1fr; gap: 1.25rem; align-items: start; transition: border-color 0.2s, box-shadow 0.2s; }
+  .change-item:hover { border-color: var(--blue); box-shadow: 0 4px 18px rgba(14,107,168,0.08); }
+  .change-icon { font-size: 1.75rem; text-align: center; padding-top: 0.15rem; }
+  .change-item h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+  .change-item p { font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 0.6rem; }
+  .tools-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; color: var(--blue); background: rgba(14,107,168,0.08); border-radius: 5px; padding: 0.2rem 0.6rem; }
 
-  @media (max-width: 640px) { .teaser { grid-template-columns: 1fr; } }
+  .stat-bar { background: #0a3d5c; color: #fff; padding: 3.5rem 2rem; text-align: center; }
+  .stat-bar .stat-num { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4rem); color: var(--green); display: block; line-height: 1; margin-bottom: 0.5rem; }
+  .stat-bar p { font-size: 1rem; color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto; line-height: 1.6; }
+
+  .cta-bar { background: var(--blue-deeper); color: #fff; padding: 5rem 2rem; text-align: center; }
+  .cta-bar h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1rem; }
+  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+  footer { background: var(--blue-deeper); border-top: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.45); text-align: center; padding: 2rem; font-size: 0.85rem; }
+  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+  @media (max-width: 600px) { .q-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="/" class="nav-logo">Chris Kelley<span>.</span></a>
-  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
+  <a href="index.html" class="nav-logo">Chris Kelley<span>.</span></a>
+  <div style="display:flex; gap:0.75rem; align-items:center;">
+    <a href="index.html" class="btn btn-outline" style="font-size:0.85rem; padding:0.5rem 1rem;">&larr; Back home</a>
+    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
+  </div>
 </nav>
 
 <section class="hero">
   <div class="hero-inner">
-    <span class="emoji-big">&#127973;</span>
-    <div class="coming-pill">Coming Soon</div>
-    <h1>AI for Healthcare & Wellness</h1>
-    <p>Clinics and practices are spending half their day on scheduling, intake, and admin instead of patients. This page is getting the full treatment — in the meantime, book a call and let's talk about what you're drowning in.</p>
+    <div class="hero-badge">Healthcare &amp; Medical Practices</div>
+    <h1>Your patients deserve to hear from you more than once a year.</h1>
+    <p>The relationship between a patient and their care team doesn't have to live only in the appointment. There are ways to stay connected, reduce no-shows, handle the paperwork — and make every patient feel looked after between visits.</p>
     <div class="hero-ctas">
-      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Discovery Call &rarr;</a>
-      <a href="/" class="btn btn-outline">&larr; Back home</a>
+      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
+      <a href="#what-changes" class="btn" style="color:rgba(255,255,255,0.8); border:1.5px solid rgba(255,255,255,0.25);">See what changes</a>
     </div>
   </div>
 </section>
 
-<section style="padding: 5rem 2rem; background: #fff;">
-  <div style="max-width: 900px; margin: 0 auto;">
-    <p style="font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 1rem;">A sneak peek</p>
-    <h2 style="font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--blue-dark); margin-bottom: 3rem; line-height: 1.2;">What we'll cover on this page</h2>
-    <div class="teaser">
-      <div class="teaser-card">
-        <div class="teaser-num">01</div>
-        <h3>Automated intake & pre-visit forms</h3>
-        <p>Intake collected, verified, and synced to your system before the patient walks in. Zero paper. Zero re-entry.</p>
+<section class="questions">
+  <div class="questions-inner">
+    <span class="section-tag">The opportunity</span>
+    <h2>A few questions worth sitting with</h2>
+    <p class="lead">Each of these has a straightforward answer — and a system that makes it happen automatically.</p>
+    <div class="q-grid">
+      <div class="q-card"><span class="q-icon">📅</span><p>"What would it mean for the practice if no-shows dropped by 30%?"</p></div>
+      <div class="q-card"><span class="q-icon">📝</span><p>"What if new patients arrived with intake already done?"</p></div>
+      <div class="q-card"><span class="q-icon">🌙</span><p>"What if after-hours questions got answered without waking anyone up?"</p></div>
+      <div class="q-card"><span class="q-icon">🎙️</span><p>"What if your team's expertise could reach more patients — without more hours?"</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="changes" id="what-changes">
+  <div class="changes-inner">
+    <span class="section-tag">What we set up</span>
+    <h2>What actually changes</h2>
+    <p class="lead">Better patient experiences, less admin overhead — built once and running in the background while your team focuses on care.</p>
+    <div class="change-list">
+      <div class="change-item">
+        <div class="change-icon">⏰</div>
+        <div>
+          <h3>Appointment reminder sequences</h3>
+          <p>Automated texts and emails at 48hr, 24hr, and 2hr. Patients confirm or reschedule without calling. No-shows drop 30–50%.</p>
+          <span class="tools-tag">Tools: GoHighLevel · Luma Health · Zapier + scheduling system</span>
+        </div>
       </div>
-      <div class="teaser-card">
-        <div class="teaser-num">02</div>
-        <h3>Scheduling that runs itself</h3>
-        <p>AI handles appointment requests, reminders, cancellations, and rebooking — without your front desk chasing anyone.</p>
+      <div class="change-item">
+        <div class="change-icon">📋</div>
+        <div>
+          <h3>Digital intake that flows into your system</h3>
+          <p>Patients fill out forms before they arrive. Data lands where it needs to — no re-entry, no paper chase at the front desk.</p>
+          <span class="tools-tag">Tools: JotForm · Typeform · Zapier → your EMR</span>
+        </div>
       </div>
-      <div class="teaser-card">
-        <div class="teaser-num">03</div>
-        <h3>Follow-up & care gap outreach</h3>
-        <p>Patients who are due for a visit, overdue on follow-up, or haven't been in — automatically identified and contacted.</p>
+      <div class="change-item">
+        <div class="change-icon">🤖</div>
+        <div>
+          <h3>After-hours AI coverage</h3>
+          <p>A chatbot handles "do you take my insurance?", "what are your hours?", and "I need to reschedule" at 10pm — so nothing falls through and no one needs to be on call.</p>
+          <span class="tools-tag">Tools: Tidio · Intercom · custom Claude-powered bot</span>
+        </div>
       </div>
-      <div class="teaser-card">
-        <div class="teaser-num">04</div>
-        <h3>Insurance & billing pre-checks</h3>
-        <p>Eligibility verified before the appointment. Fewer surprises at checkout. Less time spent on the back-end chase.</p>
+      <div class="change-item">
+        <div class="change-icon">🎙️</div>
+        <div>
+          <h3>AI-powered campaigns in your voice</h3>
+          <p>Using a custom AI "skill" trained on how your doctor or care team actually communicates, we build educational sequences, seasonal health reminders, and post-visit follow-ups that sound like your practice — not a template. Your expertise, reaching more patients, automatically.</p>
+          <span class="tools-tag">Tools: Claude custom skill · ActiveCampaign · Mailchimp</span>
+        </div>
+      </div>
+      <div class="change-item">
+        <div class="change-icon">💌</div>
+        <div>
+          <h3>More touchpoints, no extra staff</h3>
+          <p>Birthday messages, annual checkup reminders, post-procedure check-ins, chronic care follow-ups. Each sequence built once, running for every relevant patient automatically.</p>
+          <span class="tools-tag">Tools: GoHighLevel · HubSpot · custom sequences</span>
+        </div>
       </div>
     </div>
   </div>
+</section>
+
+<section class="stat-bar">
+  <span class="stat-num">$50K+</span>
+  <p>One no-show per day is over $50,000 in lost revenue annually for a small practice. Automated reminders cut that in half.</p>
+</section>
+
+<section class="cta-bar">
+  <h2>Ready to see what this looks like for your practice?</h2>
+  <p>We start with a quick audit — usually 1 hour — and identify where the biggest operational wins are hiding.</p>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
 </section>
 
 <footer>
-  <p>&copy; 2026 Chris Kelley &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io &middot; Houston, Texas</a></p>
+  <p>&copy; 2025 Chris Kelley &middot; <a href="index.html">Home</a> &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> &middot; Houston, TX</p>
 </footer>
-
 </body>
 </html>
