@@ -1,0 +1,44 @@
+# Chris Kelley — AI Automation & Systems Consulting
+
+> Chris Kelley is a Houston-based AI automation consultant with 10+ years of implementation experience. He helps small and mid-size businesses reduce manual work, connect their tools, and build AI-powered workflows that save 5–15 hours per week.
+
+## What Chris Does
+
+Chris builds practical AI automation systems for small businesses — not theoretical advice, but working systems. Services include workflow audits, custom automation builds, lead engines, and ongoing retainers. First results guaranteed within 7 days.
+
+## Who He Helps
+
+- Service businesses and trades (contractors, pool companies, HVAC, landscaping)
+- Real estate agents and brokerages
+- Healthcare and medical practices
+- E-commerce stores
+- Professional services (law firms, accounting, consulting)
+- Coaches and content creators
+
+## Services
+
+- **Workflow Audit** — 1–2 hour structured review identifying top automation opportunities ($200–$2,000)
+- **Quick Win** — single high-impact automation live in 7 days ($500–$1,500)
+- **Systems Buildout** — full workflow audit + 3–5 automations ($1,500–$5,000)
+- **Lead Engine** — end-to-end lead capture, follow-up, and nurture system ($2,000–$4,000)
+- **AI Employee** — custom AI agent trained on the business ($3,000–$6,000+)
+- **Monthly Retainer** — ongoing maintenance and new automations ($500–$2,000/mo)
+
+## Tools & Stack
+
+n8n, Make, Zapier, GoHighLevel, HubSpot, Claude (Anthropic), Vercel, Namecheap, ActiveCampaign, Klaviyo, Dubsado, HoneyBook, Postscript
+
+## Location
+
+Houston, Texas. Works with clients locally and remotely across the US.
+
+## Contact
+
+- Website: https://chriskelley.io
+- Email: chris@chriskelley.io
+- Book a call: https://calendar.app.google/JxvnN4JBC61zMBkM6
+
+## Resources
+
+- [AI Glossary for Small Business Owners](https://chriskelley.io/glossary.html) — plain English definitions of AI and automation terms
+- [How It Works](https://chriskelley.io/#how-it-works) — 5-step process from audit to ROI reporting
