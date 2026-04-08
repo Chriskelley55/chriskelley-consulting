@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<title>Case Study: Google Shopping Brand Monitor — Harney & Sons | Chris Kelley</title>
+<meta name="description" content="How an automated daily scan of Google Shopping caught unauthorized sellers and competitor listings for a premium tea brand — delivered to Slack every morning.">
+<meta name="author" content="Chris Kelley">
+<link rel="canonical" href="https://chriskelley.io/google-shopping-case-study.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chriskelley.io/google-shopping-case-study.html">
+<meta property="og:title" content="Case Study: Google Shopping Brand Monitor">
+<meta property="og:description" content="Automated daily Google Shopping surveillance for a premium tea brand — green light or red flag, every morning in Slack.">
+<meta property="og:site_name" content="Chris Kelley Consulting">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
+    --green: #28B485; --green-dark: #1e9068;
+    --purple: #7C3AED; --purple-dark: #2d1b69;
+    --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
+    --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+  .btn-white { background: #fff; color: var(--purple-dark); font-weight: 700; }
+  .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
+
+  /* Hero */
+  .hero { padding: 7rem 2rem 5rem; background: var(--purple-dark); color: #fff; position: relative; overflow: hidden; }
+  .hero::before { content: '🛍️'; position: absolute; right: 4%; top: 50%; transform: translateY(-50%); font-size: 18rem; opacity: 0.05; line-height: 1; pointer-events: none; }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .hero-badge { display: inline-block; background: rgba(124,58,237,0.2); border: 1px solid rgba(167,139,250,0.4); border-radius: 8px; padding: 0.4rem 1rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #A78BFA; margin-bottom: 1.75rem; }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.12; margin-bottom: 1.25rem; }
+  .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 600px; margin-bottom: 2.5rem; }
+  .hero-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .hero-meta-item { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+  .hero-meta-item strong { display: block; font-size: 0.95rem; color: rgba(255,255,255,0.9); margin-bottom: 2px; }
+
+  /* Stats strip */
+  .stats-strip { background: var(--off-white); border-bottom: 1px solid var(--border); padding: 2.5rem 2rem; }
+  .stats-strip-inner { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; }
+  .stat-item .num { font-family: var(--font-serif); font-size: 2.4rem; color: var(--purple); line-height: 1; margin-bottom: 0.4rem; display: block; }
+  .stat-item .label { font-size: 0.88rem; color: var(--text-muted); line-height: 1.4; }
+
+  /* Sections */
+  .section { padding: 5rem 2rem; }
+  .section-inner { max-width: 760px; margin: 0 auto; }
+  .section-alt { background: var(--off-white); }
+  .section-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 0.75rem; display: block; }
+  .section h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--blue-dark); margin-bottom: 1rem; }
+  .section .lead { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2.5rem; }
+  .prose p { font-size: 1rem; color: var(--text); line-height: 1.8; margin-bottom: 1.25rem; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  /* Problem cards */
+  .problem-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+  .problem-item { border: 1.5px solid var(--border); border-radius: 12px; padding: 1.5rem 1.75rem; display: flex; gap: 1.25rem; align-items: flex-start; }
+  .problem-icon { font-size: 1.5rem; flex-shrink: 0; padding-top: 0.1rem; }
+  .problem-item h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+  .problem-item p { font-size: 0.93rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* Steps */
+  .steps { display: flex; flex-direction: column; gap: 0; margin-top: 2.5rem; position: relative; }
+  .steps::before { content: ''; position: absolute; left: 23px; top: 40px; bottom: 40px; width: 2px; background: var(--border); }
+  .step { display: grid; grid-template-columns: 48px 1fr; gap: 1.25rem; align-items: start; padding: 0 0 2rem; position: relative; }
+  .step:last-child { padding-bottom: 0; }
+  .step-num { width: 48px; height: 48px; border-radius: 50%; background: var(--purple); color: #fff; font-weight: 700; font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; z-index: 1; }
+  .step h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.35rem; padding-top: 0.65rem; }
+  .step p { font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; }
+  .tools-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; color: var(--purple); background: rgba(124,58,237,0.08); border-radius: 5px; padding: 0.2rem 0.6rem; margin-top: 0.5rem; }
+
+  /* Slack mockup */
+  .slack-card { background: #1a1d21; border-radius: 14px; overflow: hidden; margin-top: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.15); font-family: 'Slack-Lato', 'Lato', sans-serif; }
+  .slack-header { background: #19171d; padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .slack-hash { color: #6b6f76; font-size: 1.1rem; font-weight: 700; }
+  .slack-channel { color: #e8e8e8; font-size: 0.9rem; font-weight: 700; }
+  .slack-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+  .slack-msg { display: flex; gap: 0.75rem; align-items: flex-start; }
+  .slack-avatar { width: 36px; height: 36px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .slack-avatar-bot { background: #4a154b; }
+  .slack-avatar-user { background: #1164a3; }
+  .slack-content { flex: 1; }
+  .slack-sender { font-size: 0.82rem; font-weight: 700; margin-bottom: 3px; }
+  .slack-sender .time { font-weight: 400; color: #6b6f76; margin-left: 6px; font-size: 0.75rem; }
+  .slack-text { font-size: 0.88rem; line-height: 1.5; color: #d1d2d3; }
+  .slack-attachment { background: #222529; border-left: 4px solid; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin-top: 6px; }
+  .slack-attachment.green { border-color: #2eb67d; }
+  .slack-attachment.red { border-color: #e01e5a; }
+  .attach-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .attach-title.green { color: #2eb67d; }
+  .attach-title.red { color: #e01e5a; }
+  .attach-field { font-size: 0.8rem; color: #9e9ea6; line-height: 1.6; }
+  .attach-field strong { color: #d1d2d3; }
+  .slack-reply { background: #222529; border-radius: 6px; padding: 0.5rem 0.75rem; margin-top: 6px; font-size: 0.8rem; color: #6b6f76; display: flex; align-items: center; gap: 0.4rem; }
+  .slack-reply span { color: #1d9bd1; }
+
+  /* Quote */
+  .quote-block { border-left: 3px solid var(--green); padding: 1.25rem 1.75rem; background: rgba(40,180,133,0.05); border-radius: 0 12px 12px 0; margin: 2.5rem 0; }
+  .quote-block p { font-size: 1.1rem; font-style: italic; color: var(--text); line-height: 1.7; }
+
+  /* CTA */
+  .cta-bar { background: var(--blue-deeper); color: #fff; padding: 5rem 2rem; text-align: center; }
+  .cta-bar h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1rem; }
+  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: var(--blue-deeper); border-top: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.45); text-align: center; padding: 2rem; font-size: 0.85rem; }
+  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+
+  @media (max-width: 600px) { .stats-strip-inner { grid-template-columns: 1fr; } .hero-meta { gap: 1.25rem; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Chris Kelley<span>.</span></a>
+  <div style="display:flex; gap:0.75rem; align-items:center;">
+    <a href="ecommerce.html" class="btn btn-outline" style="font-size:0.85rem; padding:0.5rem 1rem;">&larr; E-Commerce</a>
+    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Case Study &mdash; E-Commerce AI</div>
+    <h1>Every morning: green light or red flag on Google Shopping.</h1>
+    <p>An automated brand monitoring system that scanned Google Shopping daily, verified every listing against a premium tea brand's catalog, and delivered a structured report to Slack before the team's first coffee — or in this case, tea.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Client</strong>Harney &amp; Sons Fine Teas</div>
+      <div class="hero-meta-item"><strong>Built with</strong>n8n · SerpAPI · Slack</div>
+      <div class="hero-meta-item"><strong>Cadence</strong>Daily cron, every morning</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-strip">
+  <div class="stats-strip-inner">
+    <div class="stat-item">
+      <span class="num">Daily</span>
+      <span class="label">Automated Google Shopping scan across all tracked keywords</span>
+    </div>
+    <div class="stat-item">
+      <span class="num">0</span>
+      <span class="label">Manual searches needed — results delivered straight to Slack</span>
+    </div>
+    <div class="stat-item">
+      <span class="num">Live</span>
+      <span class="label">Search terms updated by replying in a Slack thread</span>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-inner">
+    <span class="section-tag">The Problem</span>
+    <h2>A premium brand flying blind on their own shelf space.</h2>
+    <p class="lead">Google Shopping is a competitive battlefield. For a brand like Harney & Sons — with dozens of SKUs, distinct flavor lines, and a reputation built over decades — knowing what's showing up when customers search matters.</p>
+    <div class="problem-list">
+      <div class="problem-item">
+        <div class="problem-icon">🔍</div>
+        <div>
+          <h3>No visibility into daily search results</h3>
+          <p>The team had no systematic way to know what Google Shopping was showing for their brand keywords each morning. Competitors, grey-market sellers, and mislabeled listings could surface and go unnoticed for days.</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">🍵</div>
+        <div>
+          <h3>SKU complexity made manual checks unrealistic</h3>
+          <p>Harney & Sons carries hundreds of teas across multiple flavor families. Manually searching and verifying each relevant keyword daily wasn't feasible — the volume was too high and the pattern too repetitive.</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">🚨</div>
+        <div>
+          <h3>No alert system when something looked wrong</h3>
+          <p>When a competitor or unauthorized seller appeared in branded search results, there was no mechanism to catch it quickly. The team needed a red flag, not a weekly report.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="section-inner">
+    <span class="section-tag">The Build</span>
+    <h2>How it works</h2>
+    <p class="lead">A fully automated n8n workflow that runs on a cron schedule every morning — no manual trigger, no dashboard to check.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Cron fires every morning</h3>
+          <p>At a set time each day, the n8n workflow wakes up and pulls the current list of search terms to monitor. Keywords can be added, removed, or updated by the client without touching the workflow.</p>
+          <span class="tools-tag">n8n · cron scheduler</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Google Shopping is scanned via API</h3>
+          <p>Each keyword is run through a Shopping search API, returning the live product listings exactly as a customer would see them — title, seller, price, and product details.</p>
+          <span class="tools-tag">SerpAPI · Google Shopping results</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Each result is verified against the brand catalog</h3>
+          <p>The workflow checks each listing: Is this a Harney & Sons product? Is the flavor correct? Is the seller authorized? Results are categorized as confirmed brand listings or flagged anomalies.</p>
+          <span class="tools-tag">n8n logic nodes · product catalog matching</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h3>Report delivered to Slack</h3>
+          <p>A structured message is sent to a dedicated Slack channel. Green attachments confirm brand listings are showing correctly. Red attachments surface the details of anything that needs attention — seller name, product title, price, and URL.</p>
+          <span class="tools-tag">Slack API · n8n Slack node</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>
+          <h3>Search terms updated via Slack thread reply</h3>
+          <p>The client doesn't need to log into n8n to change what's being monitored. A reply in the Slack thread with a new keyword or removal command updates the tracked terms directly.</p>
+          <span class="tools-tag">Slack webhook · n8n trigger</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <span class="section-tag">The Output</span>
+    <h2>What lands in Slack every morning</h2>
+    <p class="lead">A clean report in the brand's dedicated channel — green lights for verified listings, red flags with full details when something's off.</p>
+
+    <div class="slack-card">
+      <div class="slack-header">
+        <span class="slack-hash">#</span>
+        <span class="slack-channel">google-shopping-monitor</span>
+      </div>
+      <div class="slack-body">
+
+        <div class="slack-msg">
+          <div class="slack-avatar slack-avatar-bot">🤖</div>
+          <div class="slack-content">
+            <div class="slack-sender" style="color:#e8e8e8;">Shopping Monitor <span class="time">9:00 AM</span></div>
+            <div class="slack-text">📊 <strong style="color:#e8e8e8;">Daily Google Shopping Report</strong> — Apr 8, 2026<br>Scanned <strong style="color:#e8e8e8;">12 keywords</strong> &nbsp;·&nbsp; <strong style="color:#2eb67d;">10 verified</strong> &nbsp;·&nbsp; <strong style="color:#e01e5a;">2 flagged</strong></div>
+
+            <div class="slack-attachment green">
+              <div class="attach-title green">✅ &nbsp;Harney &amp; Sons Hot Cinnamon Spice</div>
+              <div class="attach-field">
+                <strong>Keyword:</strong> "hot cinnamon spice tea" &nbsp;·&nbsp;
+                <strong>Seller:</strong> Harney &amp; Sons official &nbsp;·&nbsp;
+                <strong>Price:</strong> $12.00 &nbsp;·&nbsp;
+                <strong>Position:</strong> #1
+              </div>
+            </div>
+
+            <div class="slack-attachment green">
+              <div class="attach-title green">✅ &nbsp;Harney &amp; Sons Paris Tea</div>
+              <div class="attach-field">
+                <strong>Keyword:</strong> "paris black tea blend" &nbsp;·&nbsp;
+                <strong>Seller:</strong> Harney &amp; Sons official &nbsp;·&nbsp;
+                <strong>Price:</strong> $9.00 &nbsp;·&nbsp;
+                <strong>Position:</strong> #2
+              </div>
+            </div>
+
+            <div class="slack-attachment red">
+              <div class="attach-title red">🚨 &nbsp;Unverified seller — Hot Cinnamon Spice 50ct</div>
+              <div class="attach-field">
+                <strong>Keyword:</strong> "cinnamon tea harney" &nbsp;·&nbsp;
+                <strong>Seller:</strong> TeaVault Marketplace &nbsp;·&nbsp;
+                <strong>Price:</strong> $8.49 (below MAP) &nbsp;·&nbsp;
+                <strong>Position:</strong> #1 &nbsp;·&nbsp;
+                <strong>Action needed:</strong> Unauthorized reseller, below minimum advertised price
+              </div>
+            </div>
+
+            <div class="slack-attachment red">
+              <div class="attach-title red">🚨 &nbsp;Competitor listing on branded keyword</div>
+              <div class="attach-field">
+                <strong>Keyword:</strong> "harney sons earl grey" &nbsp;·&nbsp;
+                <strong>Seller:</strong> Twinings (via Amazon) &nbsp;·&nbsp;
+                <strong>Price:</strong> $6.99 &nbsp;·&nbsp;
+                <strong>Position:</strong> #1 &nbsp;·&nbsp;
+                <strong>Action needed:</strong> Competitor appearing above brand on brand keyword
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slack-msg">
+          <div class="slack-avatar slack-avatar-user">👤</div>
+          <div class="slack-content">
+            <div class="slack-sender" style="color:#e8e8e8;">Brand Team <span class="time">9:14 AM</span></div>
+            <div class="slack-text" style="background:#222529; border-radius:6px; padding:0.5rem 0.75rem; display:inline-block;">add keyword: "harney sons tower of london"</div>
+            <div class="slack-reply">↩ replied to thread &nbsp;·&nbsp; <span>Keyword added. Will appear in tomorrow's report.</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="section-inner">
+    <span class="section-tag">What We Learned</span>
+    <h2>The real value wasn't the data — it was the habit it replaced.</h2>
+    <div class="prose">
+      <p>Before this system, monitoring Google Shopping was something that happened occasionally — when someone remembered to check, or when a problem surfaced through a customer complaint. That's a reactive posture for a brand that's worked decades to build recognition.</p>
+      <p>The shift wasn't just automation — it was converting a task that required intention and memory into something that happened every single morning without anyone having to think about it. The report shows up in Slack the same way the weather does. The team stopped wondering and started knowing.</p>
+      <p>The Slack-native update flow was the detail that made it stick. Updating search terms through a thread reply meant the client never had to open a tool they weren't already living in. The workflow adapted to their behavior, not the other way around.</p>
+    </div>
+
+    <div class="quote-block">
+      <p>"The best automation is the one the team forgets is running — because the output just shows up, every morning, without anyone having to ask for it."</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-bar">
+  <h2>Want something like this built for your brand?</h2>
+  <p>Whether it's Google Shopping, Amazon listings, or competitor pricing — if it's a daily manual check, we can automate it and pipe the results wherever your team already lives.</p>
+  <div class="cta-btns">
+    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
+    <a href="ecommerce.html" class="btn" style="color:rgba(255,255,255,0.8); border:1.5px solid rgba(255,255,255,0.25);">Back to E-Commerce</a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Chris Kelley &middot; <a href="index.html">Home</a> &middot; <a href="ecommerce.html">E-Commerce</a> &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> &middot; Houston, TX</p>
+</footer>
+</body>
+</html>

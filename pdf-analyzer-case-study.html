@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<title>Case Study: AI Discharge Summary Tool — Hospital PDF Analyzer | Chris Kelley</title>
+<meta name="description" content="How a custom AI tool built on Gemini 2.5 Flash turned a 45-minute manual chart review into a 30-second automated discharge summary — built for real clinical use.">
+<meta name="author" content="Chris Kelley">
+<link rel="canonical" href="https://chriskelley.io/pdf-analyzer-case-study.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chriskelley.io/pdf-analyzer-case-study.html">
+<meta property="og:title" content="Case Study: AI Discharge Summary Tool">
+<meta property="og:description" content="A custom AI tool that turns hospital discharge PDFs into structured clinical summaries in under 30 seconds.">
+<meta property="og:site_name" content="Chris Kelley Consulting">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Case Study: AI Hospital Discharge Summary Tool">
+<meta name="twitter:description" content="From 20-minute manual review to 30-second AI summary — built for real clinical workflow.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
+    --green: #28B485; --green-dark: #1e9068;
+    --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
+    --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+  .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
+  .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
+
+  /* Hero */
+  .hero { padding: 7rem 2rem 5rem; background: #0a3d5c; color: #fff; position: relative; overflow: hidden; }
+  .hero::before { content: '📄'; position: absolute; right: 4%; top: 50%; transform: translateY(-50%); font-size: 18rem; opacity: 0.05; line-height: 1; pointer-events: none; }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .hero-badge { display: inline-block; background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; padding: 0.4rem 1rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #38BDF8; margin-bottom: 1.75rem; }
+  .hero-label { font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; display: block; }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.12; margin-bottom: 1.25rem; }
+  .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 600px; margin-bottom: 2.5rem; }
+  .hero-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .hero-meta-item { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+  .hero-meta-item strong { display: block; font-size: 0.95rem; color: rgba(255,255,255,0.9); margin-bottom: 2px; }
+
+  /* Stats strip */
+  .stats-strip { background: var(--off-white); border-bottom: 1px solid var(--border); padding: 2.5rem 2rem; }
+  .stats-strip-inner { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; }
+  .stat-item .num { font-family: var(--font-serif); font-size: 2.4rem; color: var(--blue); line-height: 1; margin-bottom: 0.4rem; display: block; }
+  .stat-item .label { font-size: 0.88rem; color: var(--text-muted); line-height: 1.4; }
+
+  /* Content sections */
+  .section { padding: 5rem 2rem; }
+  .section-inner { max-width: 760px; margin: 0 auto; }
+  .section-alt { background: var(--off-white); }
+  .section-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.75rem; display: block; }
+  .section h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--blue-dark); margin-bottom: 1rem; }
+  .section .lead { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2.5rem; }
+  .prose p { font-size: 1rem; color: var(--text); line-height: 1.8; margin-bottom: 1.25rem; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  /* Problem cards */
+  .problem-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+  .problem-item { border: 1.5px solid var(--border); border-radius: 12px; padding: 1.5rem 1.75rem; display: flex; gap: 1.25rem; align-items: flex-start; }
+  .problem-icon { font-size: 1.5rem; flex-shrink: 0; padding-top: 0.1rem; }
+  .problem-item h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+  .problem-item p { font-size: 0.93rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* How it works steps */
+  .steps { display: flex; flex-direction: column; gap: 0; margin-top: 2.5rem; position: relative; }
+  .steps::before { content: ''; position: absolute; left: 23px; top: 40px; bottom: 40px; width: 2px; background: var(--border); }
+  .step { display: grid; grid-template-columns: 48px 1fr; gap: 1.25rem; align-items: start; padding: 0 0 2rem; position: relative; }
+  .step:last-child { padding-bottom: 0; }
+  .step-num { width: 48px; height: 48px; border-radius: 50%; background: var(--blue); color: #fff; font-weight: 700; font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; z-index: 1; }
+  .step h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.35rem; padding-top: 0.65rem; }
+  .step p { font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; }
+  .step .tools-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; color: var(--blue); background: rgba(14,107,168,0.08); border-radius: 5px; padding: 0.2rem 0.6rem; margin-top: 0.5rem; }
+
+  /* Output example */
+  .output-card { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; margin-top: 2rem; box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
+  .output-header { background: #0a3d5c; color: #fff; padding: 1rem 1.5rem; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.75rem; }
+  .output-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .output-body { padding: 1.5rem; }
+  .output-section { margin-bottom: 1.25rem; }
+  .output-section:last-child { margin-bottom: 0; }
+  .output-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue); margin-bottom: 0.5rem; }
+  .output-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+  .output-text ul { padding-left: 1.2em; margin-top: 0.35rem; }
+  .output-text li { margin-bottom: 0.25rem; }
+
+  /* Quote */
+  .quote-block { border-left: 3px solid var(--green); padding: 1.25rem 1.75rem; background: rgba(40,180,133,0.05); border-radius: 0 12px 12px 0; margin: 2.5rem 0; }
+  .quote-block p { font-size: 1.1rem; font-style: italic; color: var(--text); line-height: 1.7; }
+
+  /* CTA */
+  .cta-bar { background: var(--blue-deeper); color: #fff; padding: 5rem 2rem; text-align: center; }
+  .cta-bar h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1rem; }
+  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: var(--blue-deeper); border-top: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.45); text-align: center; padding: 2rem; font-size: 0.85rem; }
+  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .stats-strip-inner { grid-template-columns: 1fr; }
+    .hero-meta { gap: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Chris Kelley<span>.</span></a>
+  <div style="display:flex; gap:0.75rem; align-items:center;">
+    <a href="healthcare.html" class="btn btn-outline" style="font-size:0.85rem; padding:0.5rem 1rem;">&larr; Healthcare</a>
+    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Case Study &mdash; Healthcare AI</div>
+    <h1>From 45-minute chart review to 30-second AI summary.</h1>
+    <p>A discharge summary tool built on Gemini 2.5 Flash that reads hospital PDFs and instantly surfaces the three things every care transition team needs to know.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Industry</strong>Post-acute care / care transitions</div>
+      <div class="hero-meta-item"><strong>Built with</strong>Gemini 2.5 Flash · Google Apps Script</div>
+      <div class="hero-meta-item"><strong>Time to build</strong>One session</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-strip">
+  <div class="stats-strip-inner">
+    <div class="stat-item">
+      <span class="num">&lt;30s</span>
+      <span class="label">From PDF upload to structured clinical summary</span>
+    </div>
+    <div class="stat-item">
+      <span class="num">3</span>
+      <span class="label">Clinical questions answered automatically on every document</span>
+    </div>
+    <div class="stat-item">
+      <span class="num">0</span>
+      <span class="label">Manual copy-paste steps in the new workflow</span>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-inner">
+    <span class="section-tag">The Problem</span>
+    <h2>Discharge summaries are long. Care transitions are fast.</h2>
+    <p class="lead">Hospital discharge PDFs average 30–140 pages. The team coordinating the next step in care — rehab, home health, skilled nursing — needs the same three things every time.</p>
+    <div class="problem-list">
+      <div class="problem-item">
+        <div class="problem-icon">⏱️</div>
+        <div>
+          <h3>Time-consuming manual review</h3>
+          <p>A clinician or coordinator would spend 15–25 minutes reading through a full discharge summary just to extract the hospital course, therapy notes, and prior function level — information buried across multiple sections.</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">🔁</div>
+        <div>
+          <h3>Same three questions, every single patient</h3>
+          <p>What brought them in? What did rehab find? What were they doing before the hospital? These questions never change — but finding the answers in an unstructured PDF always took the same manual effort.</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">📬</div>
+        <div>
+          <h3>Email-based workflows created delays</h3>
+          <p>The original approach relied on emailing PDFs and waiting for a reply. When that process broke down — wrong labels, API issues, quota limits — the whole workflow stalled.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="section-inner">
+    <span class="section-tag">The Build</span>
+    <h2>How it works</h2>
+    <p class="lead">A single-page web app that reads any hospital discharge PDF and returns a structured clinical summary — with no login, no backend, and no data stored anywhere.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Upload the PDF</h3>
+          <p>Drag and drop any discharge summary PDF. The file is read entirely in the browser — it never touches a server.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Gemini reads the full document</h3>
+          <p>The PDF is base64-encoded and sent directly to Gemini 2.5 Flash via the API. The model reads the entire document — not just extracted text — and answers three structured clinical questions in a single pass.</p>
+          <span class="tools-tag">Gemini 2.5 Flash · Google AI API</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Results appear in seconds</h3>
+          <p>Hospital course summary, rehab therapy findings, and prior level of function are returned as structured sections — ready to read, copy, or download as a .txt file.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h3>Ask follow-up questions</h3>
+          <p>After the initial summary, the user can ask any additional question about the document — medication reconciliation, specific diagnoses, discharge instructions — without re-uploading or losing context.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <span class="section-tag">The Output</span>
+    <h2>What it returns</h2>
+    <p class="lead">Every document is analyzed against three consistent clinical questions — the same ones a care coordinator would ask manually.</p>
+
+    <div class="output-card">
+      <div class="output-header">
+        <div class="output-dot" style="background:#f87171;"></div>
+        <div class="output-dot" style="background:#fbbf24;"></div>
+        <div class="output-dot" style="background:#4ade80;"></div>
+        &nbsp; PDF_Analysis.txt — Sample Output
+      </div>
+      <div class="output-body">
+        <div class="output-section">
+          <div class="output-label">Hospital Course Summary</div>
+          <div class="output-text">
+            Patient was admitted for severe odynophagia and nausea/vomiting, testing positive for Strep A and Influenza A, presenting with acute hypoxemic respiratory failure.
+            <ul>
+              <li>Transferred to PCU day 2 for worsening work of breathing requiring vapotherm</li>
+              <li>Rapid Response called day 4 — transferred to MICU for worsening AHRF</li>
+              <li>Intubated day 8; ARDS from Flu A confirmed via CT chest</li>
+              <li>Echo showed reduced LVEF (30–35%), recovered to 60–65% by day 13 — stress cardiomyopathy</li>
+              <li>Extubated day 17, weaned to room air; tube feeds discontinued after passing swallow eval</li>
+              <li>Hospital day 30: medically stable, pending IPR approval</li>
+            </ul>
+          </div>
+        </div>
+        <div class="output-section">
+          <div class="output-label">Rehab Therapies</div>
+          <div class="output-text">
+            <ul>
+              <li>PT: transfers with CGA, short gait trials with rolling walker; therapeutic exercises for BLE strength</li>
+              <li>OT: evaluated for deconditioning and weakness</li>
+              <li>SLP: swallow eval passed — cleared for Level 6 dysphagia diet, Level 2 mildly thick liquids</li>
+              <li>PT recommends 3 hrs/day intensive multidisciplinary therapy for IPR</li>
+            </ul>
+          </div>
+        </div>
+        <div class="output-section">
+          <div class="output-label">Prior Level of Care — Function &amp; Mobility</div>
+          <div class="output-text">
+            Prior to admission, patient was independent with all ADLs and ambulatory without an assistive device. Lives with parents in a single-floor home with one entry step. Owned a rolling walker and shower chair. No falls in the past year.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="section-inner">
+    <span class="section-tag">What We Learned</span>
+    <h2>The real insight wasn't the output — it was the iteration speed.</h2>
+    <div class="prose">
+      <p>The first version of this tool lived inside Google Apps Script as an email-based workflow. Send a PDF to a specific Gmail address, get a reply. It worked, but the fragility of email triggers, API quota limits, and label management made it unreliable in practice.</p>
+      <p>The shift to a browser-based web app solved every infrastructure problem in one move. No email routing. No trigger management. No server. The user controls the workflow entirely — drop a file, get an answer.</p>
+      <p>What took an entire clinical session to read and summarize manually now takes less time than it takes to open the document. That's the compounding value of matching the right AI model to a narrow, well-defined task.</p>
+    </div>
+
+    <div class="quote-block">
+      <p>"The same three questions, answered the same way, for every patient — that's exactly the kind of narrow, repetitive task that AI handles best. The hard part was just building the right wrapper around it."</p>
+    </div>
+
+    <div class="prose">
+      <p>The follow-up question feature — added after the initial build — turned out to be more valuable than expected. Rather than re-reading the document for a specific detail, the user can ask naturally: <em>"What were the discharge medications?"</em> or <em>"Was there any mention of wound care?"</em> The model already has the full document in context.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="section-inner">
+    <span class="section-tag">Privacy by Design</span>
+    <h2>Why you bring your own API key — and why that matters.</h2>
+    <div class="prose">
+      <p>Most tools that process sensitive documents run your files through a backend server — a database somewhere stores what you uploaded, when, and what came back. That's a liability for clinical workflows where patient information is involved.</p>
+      <p>This tool has no backend. When you enter a Gemini API key, it's saved only to your own browser's local storage — never transmitted anywhere except directly to Google's API when you click Analyze. Your PDF goes from your browser straight to Gemini and nowhere else. No intermediate server. No database. No logs.</p>
+      <p>The tradeoff is one extra setup step: getting a free API key from Google AI Studio. Once it's saved in your browser, you never have to enter it again. And because the key is yours, you control the usage, the billing, and the data — not us.</p>
+    </div>
+    <div class="quote-block" style="margin-top:2rem;">
+      <p>"No backend means no breach surface. Patient documents never touch a third-party server — just your browser and Google's API, with a key only you hold."</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <span class="section-tag">Try It</span>
+    <h2>The tool is live and free to use.</h2>
+    <p class="lead">Get a free Gemini API key from Google AI Studio, paste it in once, and upload any hospital discharge PDF. Nothing is stored — everything runs in your browser.</p>
+    <a href="https://pdf-analyzer-five.vercel.app" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:1rem; padding:0.85rem 2rem;">Open the PDF Analyzer &rarr;</a>
+  </div>
+</section>
+
+<section class="cta-bar">
+  <h2>Want something like this built for your workflow?</h2>
+  <p>Most clinical and administrative teams have 3–5 repetitive document tasks that AI can handle in seconds. We find them, build the tool, and hand it over.</p>
+  <div class="cta-btns">
+    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
+    <a href="healthcare.html" class="btn" style="color:rgba(255,255,255,0.8); border:1.5px solid rgba(255,255,255,0.25);">Back to Healthcare</a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Chris Kelley &middot; <a href="index.html">Home</a> &middot; <a href="healthcare.html">Healthcare</a> &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> &middot; Houston, TX</p>
+</footer>
+</body>
+</html>
