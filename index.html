@@ -1308,7 +1308,8 @@ resize();
 
 const DOTS = 55;
 const dots = Array.from({ length: DOTS }, () => {
-  const baseR = Math.random() * 5 + 2;
+  const depth = Math.random(); // 0 = far, 1 = close
+  const baseR = depth * 3.5 + 1.5; // far dots small, close dots larger
   return {
     x: Math.random(),
     y: Math.random(),
@@ -1316,13 +1317,11 @@ const dots = Array.from({ length: DOTS }, () => {
     r: baseR,
     vx: (Math.random() - 0.5) * 0.00025,
     vy: (Math.random() - 0.5) * 0.00025,
-    opacity: Math.random() * 0.3 + 0.07,
-    // pulse params — each dot pulses at its own rate/phase
-    pulseSpeed: Math.random() * 0.012 + 0.006,
-    pulseAmp: Math.random() * 0.55 + 0.25,  // how much it grows/shrinks
+    opacity: 0.15 + depth * 0.5,
+    pulseSpeed: Math.random() * 0.008 + 0.004,
+    pulseAmp: 0.18 + Math.random() * 0.18, // subtle pulse — stays crisp
     phase: Math.random() * Math.PI * 2,
-    // depth layer — closer dots are bigger & faster
-    depth: Math.random(),
+    depth,
   };
 });
 
@@ -1333,54 +1332,44 @@ function draw() {
   ctx.clearRect(0, 0, w, h);
   tick++;
 
-  // Draw connection lines
+  // Lines first — drawn under nodes
   for (let i = 0; i < dots.length; i++) {
     for (let j = i + 1; j < dots.length; j++) {
       const dx = (dots[i].x - dots[j].x) * w;
       const dy = (dots[i].y - dots[j].y) * h;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const maxDist = 140;
+      const maxDist = 150;
       if (dist < maxDist) {
-        const alpha = 0.07 * (1 - dist / maxDist) * ((dots[i].depth + dots[j].depth) / 2);
+        const depthAvg = (dots[i].depth + dots[j].depth) / 2;
+        const alpha = (0.04 + depthAvg * 0.08) * (1 - dist / maxDist);
         ctx.beginPath();
         ctx.moveTo(dots[i].x * w, dots[i].y * h);
         ctx.lineTo(dots[j].x * w, dots[j].y * h);
         ctx.strokeStyle = `rgba(14,107,168,${alpha})`;
-        ctx.lineWidth = 0.8;
+        ctx.lineWidth = 0.7 + depthAvg * 0.6;
         ctx.stroke();
       }
     }
   }
 
-  // Draw dots
+  // Nodes — crisp dots with subtle pulse, no blob glow
   dots.forEach(d => {
-    // Pulse — sine wave makes it breathe in and out
     d.r = d.baseR * (1 + Math.sin(tick * d.pulseSpeed + d.phase) * d.pulseAmp);
 
-    // Depth-based opacity — "closer" dots are more visible
-    const depthOpacity = d.opacity * (0.5 + d.depth * 0.7);
-
-    // Glow effect
-    const gradient = ctx.createRadialGradient(
-      d.x * w, d.y * h, 0,
-      d.x * w, d.y * h, d.r * 2.5
-    );
-    gradient.addColorStop(0, `rgba(40,180,133,${depthOpacity})`);
-    gradient.addColorStop(1, `rgba(14,107,168,0)`);
-
+    // Tiny inner ring for depth feel
     ctx.beginPath();
-    ctx.arc(d.x * w, d.y * h, d.r * 2.5, 0, Math.PI * 2);
-    ctx.fillStyle = gradient;
+    ctx.arc(d.x * w, d.y * h, d.r + 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(14,107,168,${d.opacity * 0.2})`;
     ctx.fill();
 
-    // Solid core
+    // Solid node
     ctx.beginPath();
     ctx.arc(d.x * w, d.y * h, d.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(40,180,133,${depthOpacity * 1.4})`;
+    ctx.fillStyle = `rgba(40,180,133,${d.opacity})`;
     ctx.fill();
 
-    // Move — deeper dots move slower (parallax feel)
-    const speed = 0.4 + d.depth * 0.8;
+    // Move — far dots slower, close dots faster (parallax)
+    const speed = 0.3 + d.depth * 0.9;
     d.x += d.vx * speed;
     d.y += d.vy * speed;
     if (d.x < 0 || d.x > 1) d.vx *= -1;
