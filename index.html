@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='6' fill='%2328B485'/%3E%3Ccircle cx='27' cy='7' r='3' fill='%230E6BA8' opacity='0.7'/%3E%3Ccircle cx='28' cy='25' r='2.5' fill='%2328B485' opacity='0.6'/%3E%3Ccircle cx='5' cy='10' r='2.5' fill='%231A3C5E' opacity='0.5'/%3E%3Cline x1='16' y1='16' x2='27' y2='7' stroke='%2328B485' stroke-width='1.5' opacity='0.6'/%3E%3Cline x1='16' y1='16' x2='28' y2='25' stroke='%230E6BA8' stroke-width='1.5' opacity='0.5'/%3E%3Cline x1='16' y1='16' x2='5' y2='10' stroke='%231A3C5E' stroke-width='1.5' opacity='0.4'/%3E%3C/svg%3E">
   <title>Chris Kelley | AI Automation Consultant — Houston, TX</title>
   <meta name="description" content="Houston-based AI automation consultant helping small businesses save 5–15 hours/week. Workflow audits, custom automations, and AI systems. First result in 7 days, guaranteed.">
   <meta name="keywords" content="AI automation consultant Houston, workflow automation small business, AI consulting Texas, business automation Houston">
@@ -97,9 +97,20 @@
       color: var(--text);
       text-decoration: none;
       letter-spacing: -0.01em;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
     }
 
-    .nav-logo span { color: var(--green); }
+    .nav-logo canvas {
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .nav-logo.bounce canvas {
+      transform: translateX(10px);
+    }
 
     .nav-links {
       display: flex;
@@ -832,7 +843,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Chris Kelley<span>.</span></a>
+  <a href="#" class="nav-logo" id="navLogo">Chris Kelley<canvas id="navNodeCanvas" width="22" height="22"></canvas></a>
   <ul class="nav-links">
     <li class="nav-dropdown">
       <a href="#how-it-works">How It Works</a>
@@ -1312,6 +1323,64 @@
 </footer>
 
 <script>
+// ── NAV NODE LOGO ────────────────────────────────────────
+const navCanvas = document.getElementById('navNodeCanvas');
+const navCtx = navCanvas.getContext('2d');
+const navLogo = document.getElementById('navLogo');
+let navT = 0;
+
+const navColors = [
+  [40, 180, 133],
+  [14, 107, 168],
+  [94, 220, 180],
+  [40, 180, 133],
+];
+
+function navLerp(a, b, f) { return a.map((v, i) => Math.round(v + (b[i] - v) * f)); }
+function navGetColor(t) {
+  const total = navColors.length - 1;
+  const pos = (t % 1) * total;
+  const idx = Math.floor(pos);
+  return navLerp(navColors[idx], navColors[idx + 1], pos - idx);
+}
+
+function drawNavNode() {
+  navCtx.clearRect(0, 0, 22, 22);
+  navT += 0.004;
+
+  const c1 = navGetColor(navT);
+  const c2 = navGetColor(navT + 0.33);
+  const c3 = navGetColor(navT + 0.66);
+  const pulse = 1 + Math.sin(navT * 6) * 0.12;
+
+  // Lines
+  navCtx.beginPath(); navCtx.moveTo(11, 11); navCtx.lineTo(19, 5);
+  navCtx.strokeStyle = `rgba(${c2.join(',')},0.5)`; navCtx.lineWidth = 1; navCtx.stroke();
+  navCtx.beginPath(); navCtx.moveTo(11, 11); navCtx.lineTo(20, 17);
+  navCtx.strokeStyle = `rgba(${c3.join(',')},0.45)`; navCtx.lineWidth = 1; navCtx.stroke();
+
+  // Satellite nodes
+  navCtx.beginPath(); navCtx.arc(19, 5, 2, 0, Math.PI * 2);
+  navCtx.fillStyle = `rgba(${c2.join(',')},0.6)`; navCtx.fill();
+  navCtx.beginPath(); navCtx.arc(20, 17, 1.8, 0, Math.PI * 2);
+  navCtx.fillStyle = `rgba(${c3.join(',')},0.55)`; navCtx.fill();
+
+  // Main node
+  navCtx.beginPath(); navCtx.arc(11, 11, 4 * pulse, 0, Math.PI * 2);
+  navCtx.fillStyle = `rgb(${c1.join(',')})`; navCtx.fill();
+
+  requestAnimationFrame(drawNavNode);
+}
+drawNavNode();
+
+// Bounce on click
+navLogo.addEventListener('click', () => {
+  navLogo.classList.remove('bounce');
+  void navLogo.offsetWidth; // reflow to restart animation
+  navLogo.classList.add('bounce');
+  setTimeout(() => navLogo.classList.remove('bounce'), 500);
+});
+
 // ── HERO CANVAS ──────────────────────────────────────────
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
