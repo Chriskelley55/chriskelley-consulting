@@ -1373,12 +1373,28 @@ function drawNavNode() {
 }
 drawNavNode();
 
-// Bounce on click
-navLogo.addEventListener('click', () => {
+// Bounce on click — each click adds one more bounce
+let bounceCount = 0;
+let bounceTimeout = null;
+
+function doNextBounce() {
+  if (bounceCount <= 0) return;
   navLogo.classList.remove('bounce');
-  void navLogo.offsetWidth; // reflow to restart animation
+  void navLogo.offsetWidth;
   navLogo.classList.add('bounce');
-  setTimeout(() => navLogo.classList.remove('bounce'), 500);
+  bounceCount--;
+  bounceTimeout = setTimeout(() => {
+    navLogo.classList.remove('bounce');
+    void navLogo.offsetWidth;
+    if (bounceCount > 0) doNextBounce();
+  }, 420);
+}
+
+navLogo.addEventListener('click', (e) => {
+  e.preventDefault();
+  bounceCount++;
+  clearTimeout(bounceTimeout);
+  doNextBounce();
 });
 
 // ── HERO CANVAS ──────────────────────────────────────────
