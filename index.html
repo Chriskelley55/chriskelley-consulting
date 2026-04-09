@@ -1306,19 +1306,32 @@ window.addEventListener('load', resize);
 window.addEventListener('resize', resize);
 resize();
 
-const DOTS = 52;
-const dots = Array.from({ length: DOTS }, () => ({
-  x: Math.random(),
-  y: Math.random(),
-  r: Math.random() * 2 + 1,
-  vx: (Math.random() - 0.5) * 0.0003,
-  vy: (Math.random() - 0.5) * 0.0003,
-  opacity: Math.random() * 0.35 + 0.08,
-}));
+const DOTS = 55;
+const dots = Array.from({ length: DOTS }, () => {
+  const baseR = Math.random() * 5 + 2;
+  return {
+    x: Math.random(),
+    y: Math.random(),
+    baseR,
+    r: baseR,
+    vx: (Math.random() - 0.5) * 0.00025,
+    vy: (Math.random() - 0.5) * 0.00025,
+    opacity: Math.random() * 0.3 + 0.07,
+    // pulse params — each dot pulses at its own rate/phase
+    pulseSpeed: Math.random() * 0.012 + 0.006,
+    pulseAmp: Math.random() * 0.55 + 0.25,  // how much it grows/shrinks
+    phase: Math.random() * Math.PI * 2,
+    // depth layer — closer dots are bigger & faster
+    depth: Math.random(),
+  };
+});
+
+let tick = 0;
 
 function draw() {
   const w = canvas.width, h = canvas.height;
   ctx.clearRect(0, 0, w, h);
+  tick++;
 
   // Draw connection lines
   for (let i = 0; i < dots.length; i++) {
@@ -1326,12 +1339,14 @@ function draw() {
       const dx = (dots[i].x - dots[j].x) * w;
       const dy = (dots[i].y - dots[j].y) * h;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 130) {
+      const maxDist = 140;
+      if (dist < maxDist) {
+        const alpha = 0.07 * (1 - dist / maxDist) * ((dots[i].depth + dots[j].depth) / 2);
         ctx.beginPath();
         ctx.moveTo(dots[i].x * w, dots[i].y * h);
         ctx.lineTo(dots[j].x * w, dots[j].y * h);
-        ctx.strokeStyle = `rgba(14,107,168,${0.06 * (1 - dist / 130)})`;
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = `rgba(14,107,168,${alpha})`;
+        ctx.lineWidth = 0.8;
         ctx.stroke();
       }
     }
@@ -1339,13 +1354,35 @@ function draw() {
 
   // Draw dots
   dots.forEach(d => {
+    // Pulse — sine wave makes it breathe in and out
+    d.r = d.baseR * (1 + Math.sin(tick * d.pulseSpeed + d.phase) * d.pulseAmp);
+
+    // Depth-based opacity — "closer" dots are more visible
+    const depthOpacity = d.opacity * (0.5 + d.depth * 0.7);
+
+    // Glow effect
+    const gradient = ctx.createRadialGradient(
+      d.x * w, d.y * h, 0,
+      d.x * w, d.y * h, d.r * 2.5
+    );
+    gradient.addColorStop(0, `rgba(40,180,133,${depthOpacity})`);
+    gradient.addColorStop(1, `rgba(14,107,168,0)`);
+
     ctx.beginPath();
-    ctx.arc(d.x * w, d.y * h, d.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(40,180,133,${d.opacity})`;
+    ctx.arc(d.x * w, d.y * h, d.r * 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = gradient;
     ctx.fill();
 
-    d.x += d.vx;
-    d.y += d.vy;
+    // Solid core
+    ctx.beginPath();
+    ctx.arc(d.x * w, d.y * h, d.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(40,180,133,${depthOpacity * 1.4})`;
+    ctx.fill();
+
+    // Move — deeper dots move slower (parallax feel)
+    const speed = 0.4 + d.depth * 0.8;
+    d.x += d.vx * speed;
+    d.y += d.vy * speed;
     if (d.x < 0 || d.x > 1) d.vx *= -1;
     if (d.y < 0 || d.y > 1) d.vy *= -1;
   });
