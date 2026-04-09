@@ -186,11 +186,28 @@
     .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
 
     /* HERO */
+    .hero-wrapper {
+      position: relative;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .hero-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+    }
+
     .hero {
       padding: 7rem 2rem 6rem;
       max-width: 860px;
       margin: 0 auto;
       text-align: center;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-label {
@@ -204,6 +221,9 @@
       padding: 0.35rem 0.9rem;
       border-radius: 50px;
       margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.6s ease forwards 0.1s;
     }
 
     .hero h1 {
@@ -213,6 +233,9 @@
       color: var(--blue-dark);
       margin-bottom: 1.5rem;
       letter-spacing: -0.01em;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.7s ease forwards 0.25s;
     }
 
     .hero p {
@@ -221,6 +244,9 @@
       max-width: 640px;
       margin: 0 auto 2.5rem;
       line-height: 1.7;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeUp 0.7s ease forwards 0.4s;
     }
 
     .hero-ctas {
@@ -228,6 +254,70 @@
       gap: 1rem;
       justify-content: center;
       flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.7s ease forwards 0.55s;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SCROLL FADE */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* TESTIMONIALS */
+    .testimonials { background: var(--off-white); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .testimonial-card {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '\201C';
+      position: absolute;
+      top: 1rem;
+      left: 1.5rem;
+      font-family: var(--font-serif);
+      font-size: 4rem;
+      color: var(--green);
+      opacity: 0.25;
+      line-height: 1;
+    }
+    .testimonial-card p {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+      padding-top: 1rem;
+    }
+    .testimonial-author {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .testimonial-author span {
+      display: block;
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 0.15rem;
     }
 
     /* STATS BAR */
@@ -741,18 +831,21 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <span class="hero-label">Implementation &amp; AI Automation Consulting</span>
-  <h1>AI tools are better than they've ever been. Let's make sure you're using them.</h1>
-  <p>AI, automation, smarter CRM, connected workflows &mdash; the capability is here right now. Most businesses just need someone to set it up right, connect it to how they actually work, and measure what it's worth. That's what I do.</p>
-  <div class="hero-ctas">
-    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Discovery Call &rarr;</a>
-    <a href="#how-it-works" class="btn btn-outline">See how it works</a>
-  </div>
-</section>
+<div class="hero-wrapper">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <section class="hero">
+    <span class="hero-label">Implementation &amp; AI Automation Consulting</span>
+    <h1>AI tools are better than they've ever been. Let's make sure you're using them.</h1>
+    <p>AI, automation, smarter CRM, connected workflows &mdash; the capability is here right now. Most businesses just need someone to set it up right, connect it to how they actually work, and measure what it's worth. That's what I do.</p>
+    <div class="hero-ctas">
+      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Discovery Call &rarr;</a>
+      <a href="#how-it-works" class="btn btn-outline">See how it works</a>
+    </div>
+  </section>
+</div>
 
 <!-- STATS BAR -->
-<div class="stats-bar">
+<div class="stats-bar fade-in">
   <div class="stats-inner">
     <div class="stat-item"><strong>250+</strong><span>Businesses onboarded</span></div>
     <div class="stat-item"><strong>10+ yrs</strong><span>Implementation experience</span></div>
@@ -763,7 +856,7 @@
 </div>
 
 <!-- THE SHIFT -->
-<section class="shift">
+<section class="shift fade-in">
   <div class="container">
     <div class="shift-grid">
       <div>
@@ -814,7 +907,7 @@
 </section>
 
 <!-- HOW IT WORKS -->
-<section id="how-it-works">
+<section id="how-it-works" class="fade-in">
   <div class="container">
     <p class="section-label">The Process</p>
     <h2 class="section-heading">How it works</h2>
@@ -1039,7 +1132,7 @@
 </section>
 
 <!-- SERVICES -->
-<section id="services" style="background: var(--off-white);">
+<section id="services" class="fade-in" style="background: var(--off-white);">
   <div class="container">
     <p class="section-label">Services</p>
     <h2 class="section-heading">Pick your starting point</h2>
@@ -1084,7 +1177,7 @@
 </section>
 
 <!-- ROI SECTION -->
-<section class="roi-section">
+<section class="roi-section fade-in">
   <div class="container">
     <p class="section-label">The Numbers</p>
     <h2 class="section-heading">What clients actually see</h2>
@@ -1115,7 +1208,7 @@
 </section>
 
 <!-- WHO I HELP -->
-<section id="who" class="who">
+<section id="who" class="who fade-in">
   <div class="container">
     <p class="section-label">Who I Work With</p>
     <h2 class="section-heading">Built for owners who are already busy</h2>
@@ -1162,8 +1255,30 @@
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section class="testimonials fade-in">
+  <div class="container">
+    <p class="section-label">What clients say</p>
+    <h2 class="section-heading">Real results, real businesses.</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <p>"It wasn't until Chris reached out that I saw the possibilities. Since implementing my new model I've finally been able to make money while I sleep instead of re-inventing the wheel every day."</p>
+        <div class="testimonial-author">M.H.<span>Retail business owner</span></div>
+      </div>
+      <div class="testimonial-card">
+        <p>"Chris has completely taken the guesswork and tech difficulties out of the equation. A true bonus is his expertise in SEO, marketing, and best practices — and he is extremely accessible."</p>
+        <div class="testimonial-author">S.C.<span>Healthcare practice owner</span></div>
+      </div>
+      <div class="testimonial-card">
+        <p>"He is incredibly supportive with technical issues and advice on how best to package and market your skills. Couldn't be more stoked to grow my brand."</p>
+        <div class="testimonial-author">D.M.<span>Fitness & coaching business</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
-<section class="cta-section">
+<section class="cta-section fade-in">
   <div class="container">
     <p class="section-label">Get Started</p>
     <h2 class="section-heading">Start with a free discovery call.</h2>
@@ -1177,5 +1292,80 @@
   <p>&copy; 2026 Chris Kelley &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io &middot; Houston, Texas</a></p>
 </footer>
 
+<script>
+// ── HERO CANVAS ──────────────────────────────────────────
+const canvas = document.getElementById('heroCanvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width || canvas.parentElement.offsetWidth;
+  canvas.height = rect.height || canvas.parentElement.offsetHeight;
+}
+window.addEventListener('load', resize);
+window.addEventListener('resize', resize);
+resize();
+
+const DOTS = 52;
+const dots = Array.from({ length: DOTS }, () => ({
+  x: Math.random(),
+  y: Math.random(),
+  r: Math.random() * 2 + 1,
+  vx: (Math.random() - 0.5) * 0.0003,
+  vy: (Math.random() - 0.5) * 0.0003,
+  opacity: Math.random() * 0.35 + 0.08,
+}));
+
+function draw() {
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  // Draw connection lines
+  for (let i = 0; i < dots.length; i++) {
+    for (let j = i + 1; j < dots.length; j++) {
+      const dx = (dots[i].x - dots[j].x) * w;
+      const dy = (dots[i].y - dots[j].y) * h;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 130) {
+        ctx.beginPath();
+        ctx.moveTo(dots[i].x * w, dots[i].y * h);
+        ctx.lineTo(dots[j].x * w, dots[j].y * h);
+        ctx.strokeStyle = `rgba(14,107,168,${0.06 * (1 - dist / 130)})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Draw dots
+  dots.forEach(d => {
+    ctx.beginPath();
+    ctx.arc(d.x * w, d.y * h, d.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(40,180,133,${d.opacity})`;
+    ctx.fill();
+
+    d.x += d.vx;
+    d.y += d.vy;
+    if (d.x < 0 || d.x > 1) d.vx *= -1;
+    if (d.y < 0 || d.y > 1) d.vy *= -1;
+  });
+
+  requestAnimationFrame(draw);
+}
+draw();
+
+// ── SCROLL FADE-IN ───────────────────────────────────────
+const fadeEls = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+fadeEls.forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
