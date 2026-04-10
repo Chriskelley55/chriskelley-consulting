@@ -79,7 +79,7 @@ JSON format:
 Tier thresholds: 0-40 = Invisible, 41-65 = Findable but Leaking, 66-85 = Solid Foundation, 86-100 = Well-Positioned`;
 
     const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-5',
+      model: 'claude-3-haiku-20240307',
       max_tokens: 1500,
       messages: [{ role: 'user', content: auditPrompt }]
     });
