@@ -11,7 +11,9 @@ module.exports = async function handler(req, res) {
   const { url, email, subscribe } = req.body;
   if (!url || !email) return res.status(400).json({ error: 'URL and email are required.' });
 
-  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  console.log('API key prefix:', apiKey ? apiKey.slice(0, 20) + '...' : 'MISSING');
+  const anthropic = new Anthropic({ apiKey });
 
   try {
     // Fetch website content
