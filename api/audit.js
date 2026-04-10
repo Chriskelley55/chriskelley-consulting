@@ -12,7 +12,6 @@ module.exports = async function handler(req, res) {
   if (!url || !email) return res.status(400).json({ error: 'URL and email are required.' });
 
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-  const resend = new Resend(process.env.RESEND_API_KEY);
 
   try {
     // Fetch website content
@@ -90,6 +89,8 @@ Tier thresholds: 0-40 = Invisible, 41-65 = Findable but Leaking, 66-85 = Solid F
 
     // Send results email
     try {
+      if (!process.env.RESEND_API_KEY) throw new Error('No Resend key');
+      const resend = new Resend(process.env.RESEND_API_KEY);
       await resend.emails.send({
         from: 'Chris Kelley <chris@chriskelley.io>',
         to: email,
