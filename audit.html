@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='6' fill='%2328B485'/%3E%3Ccircle cx='27' cy='7' r='3' fill='%230E6BA8' opacity='0.7'/%3E%3Ccircle cx='28' cy='25' r='2.5' fill='%2328B485' opacity='0.6'/%3E%3Ccircle cx='5' cy='10' r='2.5' fill='%231A3C5E' opacity='0.5'/%3E%3Cline x1='16' y1='16' x2='27' y2='7' stroke='%2328B485' stroke-width='1.5' opacity='0.6'/%3E%3Cline x1='16' y1='16' x2='28' y2='25' stroke='%230E6BA8' stroke-width='1.5' opacity='0.5'/%3E%3Cline x1='16' y1='16' x2='5' y2='10' stroke='%231A3C5E' stroke-width='1.5' opacity='0.4'/%3E%3C/svg%3E">
+<title>Free Online Presence Audit — Chris Kelley Consulting</title>
+<meta name="description" content="Get a free online presence audit for your business. We score your website, Google Business Profile, reviews, visibility, and social presence — instantly.">
+<link rel="canonical" href="https://chriskelley.io/audit.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
+    --green: #28B485; --green-dark: #1e9068;
+    --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
+    --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
+    --red: #dc2626; --orange: #ea580c; --score-blue: #2563eb;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-sans); color: var(--text); background: var(--off-white); line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+  .nav-logo canvas { display: block; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .nav-logo.bounce canvas { transform: translateX(10px); }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+
+  /* HERO */
+  .hero { background: var(--blue-deeper); color: #fff; padding: 5rem 2rem 4rem; text-align: center; }
+  .hero-badge { display: inline-block; background: rgba(40,180,133,0.15); border: 1px solid rgba(40,180,133,0.3); border-radius: 8px; padding: 0.35rem 1rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 1.5rem; }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2rem, 4.5vw, 3.2rem); line-height: 1.15; margin-bottom: 1rem; }
+  .hero p { font-size: 1.05rem; color: rgba(255,255,255,0.65); max-width: 520px; margin: 0 auto 0.75rem; line-height: 1.7; }
+  .score-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; }
+  .score-pill { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 99px; padding: 0.3rem 0.9rem; font-size: 0.8rem; color: rgba(255,255,255,0.65); }
+
+  /* FORM CARD */
+  .form-wrap { max-width: 560px; margin: -2rem auto 3rem; padding: 0 1rem; }
+  .form-card { background: #fff; border-radius: 16px; padding: 2.25rem; box-shadow: 0 8px 40px rgba(0,0,0,0.1); border: 1.5px solid var(--border); }
+  .form-card h2 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--blue-dark); margin-bottom: 1.5rem; }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; }
+  .field input { width: 100%; padding: 0.75rem 1rem; border: 1.5px solid var(--border); border-radius: 10px; font-family: var(--font-sans); font-size: 0.95rem; color: var(--text); background: var(--off-white); transition: border-color 0.2s; }
+  .field input:focus { outline: none; border-color: var(--blue); background: #fff; }
+  .field input::placeholder { color: #aab0bc; }
+  .checkbox-row { display: flex; align-items: flex-start; gap: 0.65rem; margin: 1.25rem 0 1.5rem; }
+  .checkbox-row input[type="checkbox"] { width: 17px; height: 17px; margin-top: 2px; accent-color: var(--green); cursor: pointer; flex-shrink: 0; }
+  .checkbox-row label { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; cursor: pointer; }
+  .checkbox-row label strong { color: var(--text); }
+  .submit-btn { width: 100%; padding: 0.9rem; background: var(--green); color: #fff; border: none; border-radius: 10px; font-family: var(--font-sans); font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .submit-btn:hover:not(:disabled) { background: var(--green-dark); transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .form-note { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; }
+
+  /* LOADING */
+  .loading { display: none; text-align: center; padding: 3rem 0; }
+  .loading.active { display: block; }
+  .spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-steps { list-style: none; text-align: left; max-width: 240px; margin: 1rem auto 0; }
+  .loading-steps li { font-size: 0.88rem; color: var(--text-muted); padding: 0.3rem 0; display: flex; align-items: center; gap: 0.5rem; }
+  .loading-steps li .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background 0.3s; }
+  .loading-steps li.done .dot { background: var(--green); }
+  .loading-steps li.active .dot { background: var(--blue); animation: pulse 1s ease infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* RESULTS */
+  .results { display: none; max-width: 640px; margin: 0 auto 4rem; padding: 0 1rem; }
+  .results.active { display: block; }
+
+  .score-hero { background: #fff; border-radius: 16px; padding: 2rem; text-align: center; margin-bottom: 1rem; border: 1.5px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .score-big { font-family: var(--font-serif); font-size: 5rem; line-height: 1; font-weight: 700; }
+  .score-denom { font-size: 0.9rem; color: var(--text-muted); margin: 4px 0 12px; }
+  .tier-badge { display: inline-block; padding: 0.4rem 1.1rem; border-radius: 99px; font-weight: 700; font-size: 0.88rem; color: #fff; margin-bottom: 0.75rem; }
+  .tier-desc { font-size: 0.93rem; color: var(--text-muted); max-width: 380px; margin: 0 auto; line-height: 1.6; }
+
+  .cat-card { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 0.75rem; }
+  .cat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+  .cat-name { font-weight: 700; font-size: 0.95rem; }
+  .cat-score { font-weight: 700; font-size: 1.05rem; }
+  .cat-bar-bg { background: var(--off-white); border-radius: 99px; height: 6px; margin-bottom: 0.75rem; overflow: hidden; }
+  .cat-bar-fill { height: 100%; border-radius: 99px; transition: width 0.8s cubic-bezier(0.34, 1.2, 0.64, 1); }
+  .cat-findings { list-style: none; }
+  .cat-findings li { font-size: 0.88rem; color: var(--text-muted); padding: 0.2rem 0; display: flex; gap: 0.5rem; }
+  .cat-findings li::before { content: '•'; color: var(--border); flex-shrink: 0; }
+
+  .wins-card { background: #f0fdf7; border: 1.5px solid var(--green); border-radius: 14px; padding: 1.5rem; margin-bottom: 1rem; }
+  .wins-card h3 { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--blue-dark); }
+  .wins-card li { font-size: 0.9rem; color: var(--text); padding: 0.3rem 0; display: flex; gap: 0.6rem; list-style: none; }
+  .wins-card li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+  .results-cta { background: var(--blue-deeper); border-radius: 14px; padding: 2rem; text-align: center; color: #fff; }
+  .results-cta h3 { font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .results-cta p { font-size: 0.93rem; color: rgba(255,255,255,0.65); margin-bottom: 1.5rem; line-height: 1.6; }
+  .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
+  .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
+
+  .error-msg { background: #fef2f2; border: 1.5px solid #fca5a5; border-radius: 10px; padding: 1rem 1.25rem; font-size: 0.9rem; color: var(--red); margin-top: 1rem; display: none; }
+  .error-msg.active { display: block; }
+
+  footer { background: var(--blue-deeper); border-top: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.45); text-align: center; padding: 1.75rem; font-size: 0.85rem; }
+  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo" id="navLogo">Chris Kelley<canvas id="navNodeCanvas" width="22" height="22"></canvas></a>
+  <div style="display:flex;gap:0.75rem;align-items:center;">
+    <a href="index.html" class="btn btn-outline" style="font-size:0.85rem;padding:0.5rem 1rem;">&larr; Back home</a>
+    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">Free Tool</div>
+  <h1>How visible is your business<br>online, really?</h1>
+  <p>Enter your website URL and get a free scored audit — no fluff, just a clear picture of where you stand and what to fix first.</p>
+  <div class="score-pills">
+    <span class="score-pill">🌐 Website</span>
+    <span class="score-pill">📍 Google Business Profile</span>
+    <span class="score-pill">⭐ Reviews</span>
+    <span class="score-pill">🔍 Visibility</span>
+    <span class="score-pill">📱 Social</span>
+  </div>
+</section>
+
+<div class="form-wrap">
+  <div class="form-card" id="formCard">
+    <h2>Run your free audit</h2>
+    <form id="auditForm">
+      <div class="field">
+        <label for="urlInput">Business website URL</label>
+        <input type="url" id="urlInput" name="url" placeholder="https://yourbusiness.com" required>
+      </div>
+      <div class="field">
+        <label for="emailInput">Your email — we'll send a copy of the results</label>
+        <input type="email" id="emailInput" name="email" placeholder="you@yourbusiness.com" required>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="subscribeCheck" name="subscribe" checked>
+        <label for="subscribeCheck">Also subscribe me to <strong>The 5-Minute Fix</strong> — weekly automation tips for small businesses (unsubscribe anytime)</label>
+      </div>
+      <button type="submit" class="submit-btn" id="submitBtn">Run My Free Audit &rarr;</button>
+      <p class="form-note">Takes 15–30 seconds. No credit card, no sales call required.</p>
+    </form>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="loading" id="loadingState">
+      <div class="spinner"></div>
+      <p style="font-weight:600;color:var(--blue-dark);margin-bottom:0.5rem;">Auditing your presence...</p>
+      <ul class="loading-steps" id="loadingSteps">
+        <li id="step1" class="active"><span class="dot"></span> Fetching your website</li>
+        <li id="step2"><span class="dot"></span> Analyzing content &amp; structure</li>
+        <li id="step3"><span class="dot"></span> Scoring 5 categories</li>
+        <li id="step4"><span class="dot"></span> Preparing your report</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="results" id="resultsPanel">
+  <div class="score-hero">
+    <div class="score-big" id="scoreBig">—</div>
+    <div class="score-denom">out of 100</div>
+    <div class="tier-badge" id="tierBadge">—</div>
+    <p class="tier-desc" id="tierDesc"></p>
+  </div>
+
+  <div id="categoryCards"></div>
+
+  <div class="wins-card">
+    <h3>⚡ Your Top 3 Quick Wins</h3>
+    <ul id="winsList"></ul>
+  </div>
+
+  <div class="results-cta">
+    <h3>Want help fixing these?</h3>
+    <p>Book a free 30-minute call — I'll walk through your results and tell you exactly what to tackle first.</p>
+    <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 Chris Kelley &middot; <a href="index.html">Home</a> &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> &middot; Houston, TX</p>
+</footer>
+
+<script>
+// NAV LOGO
+(function() {
+  var navCanvas = document.getElementById("navNodeCanvas");
+  var navCtx = navCanvas.getContext("2d");
+  var navLogo = document.getElementById("navLogo");
+  var navT = 0;
+  var navColors = [[40,180,133],[14,107,168],[94,220,180],[40,180,133]];
+  function navLerp(a,b,f){return a.map(function(v,i){return Math.round(v+(b[i]-v)*f);})}
+  function navGetColor(t){var total=navColors.length-1,pos=(t%1)*total,idx=Math.floor(pos);return navLerp(navColors[idx],navColors[idx+1],pos-idx);}
+  function drawNavNode(){
+    navCtx.clearRect(0,0,22,22); navT+=0.004;
+    var c1=navGetColor(navT),c2=navGetColor(navT+0.33),c3=navGetColor(navT+0.66);
+    var pulse=1+Math.sin(navT*6)*0.12;
+    navCtx.beginPath();navCtx.moveTo(11,11);navCtx.lineTo(19,5);navCtx.strokeStyle="rgba("+c2.join(",")+",0.5)";navCtx.lineWidth=1;navCtx.stroke();
+    navCtx.beginPath();navCtx.moveTo(11,11);navCtx.lineTo(20,17);navCtx.strokeStyle="rgba("+c3.join(",")+",0.45)";navCtx.lineWidth=1;navCtx.stroke();
+    navCtx.beginPath();navCtx.arc(19,5,2,0,Math.PI*2);navCtx.fillStyle="rgba("+c2.join(",")+",0.6)";navCtx.fill();
+    navCtx.beginPath();navCtx.arc(20,17,1.8,0,Math.PI*2);navCtx.fillStyle="rgba("+c3.join(",")+",0.55)";navCtx.fill();
+    navCtx.beginPath();navCtx.arc(11,11,4*pulse,0,Math.PI*2);navCtx.fillStyle="rgb("+c1.join(",")+")";navCtx.fill();
+    requestAnimationFrame(drawNavNode);
+  }
+  drawNavNode();
+  var bounceCount=0,bounceTimeout=null;
+  function doNextBounce(){if(bounceCount<=0)return;navLogo.classList.remove("bounce");void navLogo.offsetWidth;navLogo.classList.add("bounce");bounceCount--;bounceTimeout=setTimeout(function(){navLogo.classList.remove("bounce");void navLogo.offsetWidth;if(bounceCount>0)doNextBounce();},420);}
+  navLogo.addEventListener("click",function(e){e.preventDefault();bounceCount++;clearTimeout(bounceTimeout);doNextBounce();});
+})();
+
+// AUDIT FORM
+const form = document.getElementById('auditForm');
+const submitBtn = document.getElementById('submitBtn');
+const loadingState = document.getElementById('loadingState');
+const resultsPanel = document.getElementById('resultsPanel');
+const errorMsg = document.getElementById('errorMsg');
+const steps = ['step1','step2','step3','step4'];
+
+const tierColors = {
+  'Invisible': '#dc2626',
+  'Findable but Leaking': '#ea580c',
+  'Solid Foundation': '#2563eb',
+  'Well-Positioned': '#16a34a'
+};
+
+const catLabels = {
+  website: '🌐 Website',
+  gbp: '📍 Google Business Profile',
+  reviews: '⭐ Reviews & Reputation',
+  visibility: '🔍 Online Visibility',
+  social: '📱 Social Presence'
+};
+
+function advanceSteps() {
+  let i = 0;
+  return setInterval(() => {
+    if (i > 0) {
+      document.getElementById(steps[i-1]).classList.remove('active');
+      document.getElementById(steps[i-1]).classList.add('done');
+    }
+    if (i < steps.length) {
+      document.getElementById(steps[i]).classList.add('active');
+      i++;
+    }
+  }, 4000);
+}
+
+function renderResults(audit) {
+  const color = tierColors[audit.tier] || '#0E6BA8';
+
+  document.getElementById('scoreBig').textContent = audit.total_score;
+  document.getElementById('scoreBig').style.color = color;
+
+  const badge = document.getElementById('tierBadge');
+  badge.textContent = audit.tier;
+  badge.style.background = color;
+
+  document.getElementById('tierDesc').textContent = audit.tier_description;
+
+  const catContainer = document.getElementById('categoryCards');
+  catContainer.innerHTML = '';
+  Object.entries(audit.categories).forEach(([key, cat]) => {
+    const pct = Math.round((cat.score / cat.max) * 100);
+    const card = document.createElement('div');
+    card.className = 'cat-card';
+    card.innerHTML = `
+      <div class="cat-header">
+        <span class="cat-name">${catLabels[key] || key}</span>
+        <span class="cat-score" style="color:${color}">${cat.score}/${cat.max}</span>
+      </div>
+      <div class="cat-bar-bg">
+        <div class="cat-bar-fill" style="width:0%;background:${color}" data-pct="${pct}"></div>
+      </div>
+      <ul class="cat-findings">
+        ${cat.findings.map(f => `<li>${f}</li>`).join('')}
+      </ul>`;
+    catContainer.appendChild(card);
+  });
+
+  // Animate bars
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.cat-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  });
+
+  const winsList = document.getElementById('winsList');
+  winsList.innerHTML = audit.top_wins.map(w => `<li>${w}</li>`).join('');
+
+  resultsPanel.classList.add('active');
+  resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const url = document.getElementById('urlInput').value.trim();
+  const email = document.getElementById('emailInput').value.trim();
+  const subscribe = document.getElementById('subscribeCheck').checked;
+
+  errorMsg.classList.remove('active');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Running audit...';
+  form.style.display = 'none';
+  loadingState.classList.add('active');
+
+  const stepTimer = advanceSteps();
+
+  try {
+    const res = await fetch('/api/audit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, email, subscribe })
+    });
+
+    clearInterval(stepTimer);
+    steps.forEach(s => {
+      document.getElementById(s).classList.remove('active');
+      document.getElementById(s).classList.add('done');
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.audit) {
+      throw new Error(data.error || 'Something went wrong. Please try again.');
+    }
+
+    loadingState.classList.remove('active');
+    renderResults(data.audit);
+
+  } catch (err) {
+    clearInterval(stepTimer);
+    loadingState.classList.remove('active');
+    form.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Run My Free Audit →';
+    errorMsg.textContent = err.message || 'Something went wrong. Please try again.';
+    errorMsg.classList.add('active');
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "chriskelley-consulting",
+  "version": "1.0.0",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "resend": "^4.5.2"
+  }
+}

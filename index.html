@@ -794,6 +794,19 @@
       color: var(--text-muted);
     }
 
+    /* 3-CARD CTA */
+    .three-cta { background: var(--off-white); padding: 5rem 2rem; border-top: 1px solid var(--border); }
+    .three-cta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 3rem; }
+    .three-cta-card { background: #fff; border: 1.5px solid var(--border); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem; transition: box-shadow 0.2s, border-color 0.2s; }
+    .three-cta-card:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.08); border-color: #c8d0dc; }
+    .three-cta-card--featured { background: var(--blue-deeper); border-color: var(--blue-deeper); color: #fff; }
+    .three-cta-card--featured h3 { color: #fff; }
+    .three-cta-card--featured p { color: rgba(255,255,255,0.65); }
+    .three-cta-icon { font-size: 2rem; }
+    .three-cta-card h3 { font-family: var(--font-serif); font-size: 1.2rem; color: var(--blue-dark); margin: 0; }
+    .three-cta-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; flex: 1; }
+    @media (max-width: 720px) { .three-cta-grid { grid-template-columns: 1fr; } }
+
     /* CTA */
     .cta-wrapper {
       position: relative;
@@ -1299,6 +1312,34 @@
       <div class="testimonial-card">
         <p>"He is incredibly supportive with technical issues and advice on how best to package and market your skills. Couldn't be more stoked to grow my brand."</p>
         <div class="testimonial-author">D.M.<span>Fitness & coaching business</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3-CARD CTA -->
+<section class="three-cta fade-in">
+  <div class="container">
+    <p class="section-label">Get Started</p>
+    <h2 class="section-heading">Pick your next move</h2>
+    <div class="three-cta-grid">
+      <div class="three-cta-card">
+        <div class="three-cta-icon">📅</div>
+        <h3>Book a Strategy Call</h3>
+        <p>30 minutes. I'll tell you exactly what I'd fix first — and what I'd expect it to be worth. No pitch deck, no pressure.</p>
+        <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:auto;">Book Now &rarr;</a>
+      </div>
+      <div class="three-cta-card three-cta-card--featured">
+        <div class="three-cta-icon">🔍</div>
+        <h3>Free Presence Audit</h3>
+        <p>Enter your business URL and get a scored report on your website, Google profile, reviews, visibility, and social — in under 30 seconds.</p>
+        <a href="/audit.html" class="btn btn-white" style="width:100%;justify-content:center;margin-top:auto;">Run Free Audit &rarr;</a>
+      </div>
+      <div class="three-cta-card">
+        <div class="three-cta-icon">📬</div>
+        <h3>The 5-Minute Fix</h3>
+        <p>One automation tip per week. Built for busy owners — practical, specific, and actually implementable without a tech team.</p>
+        <a href="/audit.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:auto;">Subscribe &rarr;</a>
       </div>
     </div>
   </div>
