@@ -11,9 +11,7 @@ module.exports = async function handler(req, res) {
   const { url, email, subscribe } = req.body;
   if (!url || !email) return res.status(400).json({ error: 'URL and email are required.' });
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  console.log('API key prefix:', apiKey ? apiKey.slice(0, 20) + '...' : 'MISSING');
-  const anthropic = new Anthropic({ apiKey });
+  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
   try {
     // Fetch website content
@@ -79,7 +77,7 @@ JSON format:
 Tier thresholds: 0-40 = Invisible, 41-65 = Findable but Leaking, 66-85 = Solid Foundation, 86-100 = Well-Positioned`;
 
     const message = await anthropic.messages.create({
-      model: 'claude-haiku-4-5',
+      model: 'claude-sonnet-4-5',
       max_tokens: 1500,
       messages: [{ role: 'user', content: auditPrompt }]
     });
