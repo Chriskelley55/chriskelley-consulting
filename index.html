@@ -641,16 +641,16 @@
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--blue);
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity 0.2s, transform 0.2s;
+      opacity: 0.5;
+      transform: translateY(0);
+      transition: opacity 0.2s, color 0.2s;
     }
 
     a.service-card.featured .service-link-hint { color: var(--green); }
 
     a.service-card:hover .service-link-hint {
       opacity: 1;
-      transform: translateY(0);
+      color: var(--blue);
     }
 
     .service-card.featured {
