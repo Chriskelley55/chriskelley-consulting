@@ -151,6 +151,11 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       z-index: 200;
     }
+    .nav-dropdown-menu.wide {
+      min-width: 240px;
+      left: 0;
+      transform: none;
+    }
     .nav-dropdown-menu::before {
       content: '';
       position: absolute;
@@ -974,7 +979,16 @@
         <a href="glossary.html">📖 Glossary</a>
       </div>
     </li>
-    <li><a href="#services">Services</a></li>
+    <li class="nav-dropdown">
+      <a href="#services">Services</a>
+      <div class="nav-dropdown-menu wide">
+        <a href="/workflow-audit.html">🔍 Workflow Audit <small style="display:block;font-size:0.72rem;color:var(--text-muted);margin-top:1px;">$350 · find what to fix first</small></a>
+        <a href="/quick-win.html">⚡ Quick Win <small style="display:block;font-size:0.72rem;color:var(--text-muted);margin-top:1px;">$500 · one automation in 7 days</small></a>
+        <a href="/systems-buildout.html">⚙️ Systems Buildout <small style="display:block;font-size:0.72rem;color:var(--text-muted);margin-top:1px;">$1,500 · connected workflow layer</small></a>
+        <a href="/lead-engine.html">🎯 AI Lead Engine <small style="display:block;font-size:0.72rem;color:var(--text-muted);margin-top:1px;">$3,000 · CRM + automated follow-up</small></a>
+        <a href="/ai-employee.html">🤖 Your First AI Employee <small style="display:block;font-size:0.72rem;color:var(--text-muted);margin-top:1px;">$750 · agent connected to your tools</small></a>
+      </div>
+    </li>
     <li><a href="#who">Who I Help</a></li>
   </ul>
   <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
@@ -1490,7 +1504,8 @@
         </a>
       </div>
       <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" style="margin-top:0.5rem;">📅 Book a Discovery Call</a>
-      <a href="/audit.html">🔍 Free Presence Audit</a>
+      <a href="/workflow-audit.html">🔍 Workflow Audit — $350</a>
+      <a href="/audit.html">📊 Free Presence Audit</a>
       <a href="mailto:chris@chriskelley.io">📬 The 5-Minute Fix Newsletter</a>
     </div>
   </div>

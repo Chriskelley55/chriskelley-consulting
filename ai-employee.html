@@ -100,12 +100,32 @@
 
   footer { background: var(--blue-deeper); color: rgba(255,255,255,0.5); text-align: center; padding: 2rem; font-size: 0.85rem; }
   footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+
+  .nav-services-toggle { position: relative; display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted,#5a6070); text-decoration: none; font-size: 0.95rem; font-weight: 500; cursor: pointer; background: none; border: none; font-family: inherit; padding: 0; }
+  .nav-services-toggle:hover { color: var(--text,#1a1a2e); }
+  .nav-services-menu { display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #fff; border: 1.5px solid #e4e8ef; border-radius: 10px; padding: 0.5rem; min-width: 240px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); z-index: 200; }
+  .nav-services-toggle:focus-within .nav-services-menu,
+  .nav-services-wrap:hover .nav-services-menu { display: block; }
+  .nav-services-menu a { display: block; padding: 0.55rem 0.75rem; border-radius: 7px; color: #1a1a2e; text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: background 0.15s; }
+  .nav-services-menu a:hover { background: #F7F8FA; }
+  .nav-services-menu small { display: block; font-size: 0.72rem; color: #5a6070; margin-top: 1px; font-weight: 400; }
+
 </style>
 </head>
 <body>
 
 <nav>
   <a href="/" class="nav-logo">Chris Kelley<span>.</span></a>
+    <div class="nav-services-wrap" style="position:relative;">
+    <button class="nav-services-toggle">Services ▾</button>
+    <div class="nav-services-menu">
+      <a href="/workflow-audit.html">🔍 Workflow Audit<small>$350 · find what to fix first</small></a>
+      <a href="/quick-win.html">⚡ Quick Win<small>$500 · one automation in 7 days</small></a>
+      <a href="/systems-buildout.html">⚙️ Systems Buildout<small>$1,500 · connected workflow layer</small></a>
+      <a href="/lead-engine.html">🎯 AI Lead Engine<small>$3,000 · CRM + automated follow-up</small></a>
+      <a href="/ai-employee.html">🤖 Your First AI Employee<small>$750 · agent connected to your tools</small></a>
+    </div>
+  </div>
   <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
 </nav>
 
