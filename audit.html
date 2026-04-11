@@ -363,11 +363,13 @@ form.addEventListener('submit', async (e) => {
     }
 
     loadingState.classList.remove('active');
+    document.getElementById('formCard').style.display = 'none';
     renderResults(data.audit, url);
 
   } catch (err) {
     clearInterval(stepTimer);
     loadingState.classList.remove('active');
+    document.getElementById('formCard').style.display = '';
     form.style.display = 'block';
     submitBtn.disabled = false;
     submitBtn.textContent = 'Run My Free Audit →';

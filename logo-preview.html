@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Options</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #f4f5f7; padding: 3rem 2rem; color: #1a1a2e; }
+  h2 { font-family: 'DM Serif Display', serif; font-size: 1.6rem; margin-bottom: 0.4rem; color: #1A3C5E; }
+  .subtitle { color: #5a6070; font-size: 0.9rem; margin-bottom: 2.5rem; }
+  .section { margin-bottom: 4rem; }
+  .cards { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .card {
+    background: #fff;
+    border: 1.5px solid #e4e8ef;
+    border-radius: 14px;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    min-width: 240px;
+    flex: 1;
+  }
+  .card.dark { background: #0d2c47; border-color: #0d2c47; }
+  .card.mid { background: #1A3C5E; border-color: #1A3C5E; }
+  .label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #5a6070; }
+  .card.dark .label, .card.mid .label { color: rgba(255,255,255,0.45); }
+  hr { border: none; border-top: 1.5px solid #e4e8ef; margin: 1rem 0 2rem; }
+</style>
+</head>
+<body>
+
+<!-- OPTION 1: CK Monogram -->
+<div class="section">
+  <h2>Option 1 — CK Monogram</h2>
+  <p class="subtitle">Node-connected lettermark. Works as standalone icon or paired with wordmark.</p>
+  <hr>
+  <div class="cards">
+
+    <!-- Light bg -->
+    <div class="card">
+      <span class="label">Light</span>
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- C shape -->
+        <path d="M34 10 C20 10 10 18 10 28 C10 38 20 46 34 46" stroke="#1A3C5E" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <!-- K vertical -->
+        <line x1="36" y1="10" x2="36" y2="46" stroke="#28B485" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- K top arm -->
+        <line x1="36" y1="28" x2="48" y2="10" stroke="#28B485" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- K bottom arm -->
+        <line x1="36" y1="28" x2="48" y2="46" stroke="#28B485" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- Node dots -->
+        <circle cx="36" cy="28" r="4" fill="#28B485"/>
+        <circle cx="34" cy="10" r="3" fill="#1A3C5E"/>
+        <circle cx="34" cy="46" r="3" fill="#1A3C5E"/>
+        <circle cx="48" cy="10" r="3" fill="#28B485" opacity="0.6"/>
+        <circle cx="48" cy="46" r="3" fill="#28B485" opacity="0.6"/>
+        <!-- Connection dot at C/K junction -->
+        <circle cx="36" cy="10" r="2.5" fill="#28B485" opacity="0.4"/>
+        <circle cx="36" cy="46" r="2.5" fill="#28B485" opacity="0.4"/>
+      </svg>
+      <svg width="160" height="32" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="24" font-family="DM Serif Display, serif" font-size="22" fill="#1A3C5E">Chris Kelley</text>
+        <circle cx="155" cy="20" r="3.5" fill="#28B485"/>
+      </svg>
+    </div>
+
+    <!-- Dark bg -->
+    <div class="card dark">
+      <span class="label">Dark</span>
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M34 10 C20 10 10 18 10 28 C10 38 20 46 34 46" stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <line x1="36" y1="10" x2="36" y2="46" stroke="#28B485" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="36" y1="28" x2="48" y2="10" stroke="#28B485" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="36" y1="28" x2="48" y2="46" stroke="#28B485" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="36" cy="28" r="4" fill="#28B485"/>
+        <circle cx="34" cy="10" r="3" fill="#fff"/>
+        <circle cx="34" cy="46" r="3" fill="#fff"/>
+        <circle cx="48" cy="10" r="3" fill="#28B485" opacity="0.7"/>
+        <circle cx="48" cy="46" r="3" fill="#28B485" opacity="0.7"/>
+        <circle cx="36" cy="10" r="2.5" fill="#28B485" opacity="0.5"/>
+        <circle cx="36" cy="46" r="2.5" fill="#28B485" opacity="0.5"/>
+      </svg>
+      <svg width="160" height="32" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="24" font-family="DM Serif Display, serif" font-size="22" fill="#fff">Chris Kelley</text>
+        <circle cx="155" cy="20" r="3.5" fill="#28B485"/>
+      </svg>
+    </div>
+
+    <!-- Icon only -->
+    <div class="card">
+      <span class="label">Icon Only</span>
+      <svg width="72" height="72" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M34 10 C20 10 10 18 10 28 C10 38 20 46 34 46" stroke="#1A3C5E" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <line x1="36" y1="10" x2="36" y2="46" stroke="#28B485" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="36" y1="28" x2="48" y2="10" stroke="#28B485" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="36" y1="28" x2="48" y2="46" stroke="#28B485" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="36" cy="28" r="4" fill="#28B485"/>
+        <circle cx="34" cy="10" r="3" fill="#1A3C5E"/>
+        <circle cx="34" cy="46" r="3" fill="#1A3C5E"/>
+        <circle cx="48" cy="10" r="3" fill="#28B485" opacity="0.6"/>
+        <circle cx="48" cy="46" r="3" fill="#28B485" opacity="0.6"/>
+        <circle cx="36" cy="10" r="2.5" fill="#28B485" opacity="0.4"/>
+        <circle cx="36" cy="46" r="2.5" fill="#28B485" opacity="0.4"/>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
+<!-- OPTION 2: Wordmark -->
+<div class="section">
+  <h2>Option 2 — Refined Wordmark</h2>
+  <p class="subtitle">Clean wordmark with a node accent. Minimal, personal, distinctive.</p>
+  <hr>
+  <div class="cards">
+
+    <!-- Version A: node pulse — tight to name, animated color -->
+    <div class="card">
+      <span class="label">Version A — Node Pulse (Animated)</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <svg width="190" height="44" viewBox="0 0 190 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="32" font-family="DM Serif Display, serif" font-size="28" fill="#1A3C5E" letter-spacing="-0.5">Chris Kelley</text>
+        </svg>
+        <canvas id="nodeCanvas" width="28" height="28" style="display:block; margin-bottom:2px;"></canvas>
+      </div>
+    </div>
+
+    <!-- Version B: underline accent -->
+    <div class="card">
+      <span class="label">Version B — Signal Line</span>
+      <svg width="220" height="48" viewBox="0 0 220 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="30" font-family="DM Serif Display, serif" font-size="26" fill="#1A3C5E" letter-spacing="-0.3">Chris Kelley</text>
+        <!-- Animated-style line with nodes -->
+        <line x1="0" y1="40" x2="195" y2="40" stroke="#e4e8ef" stroke-width="1.5"/>
+        <line x1="0" y1="40" x2="120" y2="40" stroke="#28B485" stroke-width="1.5"/>
+        <circle cx="0" cy="40" r="3" fill="#28B485"/>
+        <circle cx="60" cy="40" r="2.5" fill="#0E6BA8" opacity="0.6"/>
+        <circle cx="120" cy="40" r="3.5" fill="#28B485"/>
+        <circle cx="195" cy="40" r="2" fill="#e4e8ef" stroke="#28B485" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <!-- Version C: dark bg wordmark -->
+    <div class="card dark">
+      <span class="label">Version A — Dark</span>
+      <svg width="220" height="44" viewBox="0 0 220 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="32" font-family="DM Serif Display, serif" font-size="28" fill="#fff" letter-spacing="-0.5">Chris Kelley</text>
+        <circle cx="208" cy="28" r="4.5" fill="#28B485"/>
+        <circle cx="215" cy="22" r="2.5" fill="#28B485" opacity="0.55"/>
+        <circle cx="216" cy="33" r="1.8" fill="#5edcb4" opacity="0.5"/>
+        <line x1="208" y1="28" x2="215" y2="22" stroke="#28B485" stroke-width="1" opacity="0.6"/>
+        <line x1="208" y1="28" x2="216" y2="33" stroke="#5edcb4" stroke-width="1" opacity="0.5"/>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── NODE PULSE LOGO ANIMATION ─────────────────────────────
+const nc = document.getElementById('nodeCanvas');
+const nx = nc.getContext('2d');
+let t = 0;
+
+// Color stops to cycle through — green → blue → teal → green
+const colors = [
+  [40, 180, 133],   // green
+  [14, 107, 168],   // blue
+  [94, 220, 180],   // teal
+  [40, 180, 133],   // back to green
+];
+
+function lerpColor(a, b, f) {
+  return a.map((v, i) => Math.round(v + (b[i] - v) * f));
+}
+
+function getColor(t) {
+  const total = colors.length - 1;
+  const pos = (t % 1) * total;
+  const idx = Math.floor(pos);
+  const frac = pos - idx;
+  return lerpColor(colors[idx], colors[idx + 1], frac);
+}
+
+function drawNode() {
+  nx.clearRect(0, 0, 28, 28);
+  t += 0.004;
+
+  const c1 = getColor(t);
+  const c2 = getColor(t + 0.33);
+  const c3 = getColor(t + 0.66);
+
+  const rgb1 = `rgb(${c1.join(',')})`;
+  const rgb2 = `rgb(${c2.join(',')})`;
+  const rgb3 = `rgb(${c3.join(',')})`;
+
+  // Pulse scale on main node
+  const pulse = 1 + Math.sin(t * 6) * 0.12;
+
+  // Lines
+  nx.beginPath();
+  nx.moveTo(14, 14);
+  nx.lineTo(24, 6);
+  nx.strokeStyle = `rgba(${c2.join(',')},0.5)`;
+  nx.lineWidth = 1;
+  nx.stroke();
+
+  nx.beginPath();
+  nx.moveTo(14, 14);
+  nx.lineTo(25, 21);
+  nx.strokeStyle = `rgba(${c3.join(',')},0.45)`;
+  nx.lineWidth = 1;
+  nx.stroke();
+
+  // Satellite nodes
+  nx.beginPath();
+  nx.arc(24, 6, 2.5, 0, Math.PI * 2);
+  nx.fillStyle = `rgba(${c2.join(',')},0.6)`;
+  nx.fill();
+
+  nx.beginPath();
+  nx.arc(25, 21, 2, 0, Math.PI * 2);
+  nx.fillStyle = `rgba(${c3.join(',')},0.55)`;
+  nx.fill();
+
+  // Main node with pulse
+  nx.beginPath();
+  nx.arc(14, 14, 5 * pulse, 0, Math.PI * 2);
+  nx.fillStyle = rgb1;
+  nx.fill();
+
+  requestAnimationFrame(drawNode);
+}
+drawNode();
+</script>
+</body>
+</html>
