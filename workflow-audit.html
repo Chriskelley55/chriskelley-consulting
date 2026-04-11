@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='6' fill='%2328B485'/%3E%3Ccircle cx='27' cy='7' r='3' fill='%230E6BA8' opacity='0.7'/%3E%3Ccircle cx='28' cy='25' r='2.5' fill='%2328B485' opacity='0.6'/%3E%3Ccircle cx='5' cy='10' r='2.5' fill='%231A3C5E' opacity='0.5'/%3E%3Cline x1='16' y1='16' x2='27' y2='7' stroke='%2328B485' stroke-width='1.5' opacity='0.6'/%3E%3Cline x1='16' y1='16' x2='28' y2='25' stroke='%230E6BA8' stroke-width='1.5' opacity='0.5'/%3E%3Cline x1='16' y1='16' x2='5' y2='10' stroke='%231A3C5E' stroke-width='1.5' opacity='0.4'/%3E%3C/svg%3E">
+<title>Workflow Audit — Find Where Your Business Is Leaking Time | Chris Kelley Houston</title>
+<meta name="description" content="A paid workflow audit that maps exactly where your business is losing time and money. 90-minute session, written report, priority action plan. Houston-based consultant — $350 flat.">
+<meta name="keywords" content="workflow audit Houston, business process audit, automation consultant Houston TX, workflow consulting small business">
+<meta name="author" content="Chris Kelley">
+<link rel="canonical" href="https://chriskelley.io/workflow-audit.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chriskelley.io/workflow-audit.html">
+<meta property="og:title" content="Workflow Audit — Find Where Your Business Is Leaking Time">
+<meta property="og:description" content="A paid workflow audit that maps exactly where your business is losing time and money. Written report + priority action plan. $350 flat.">
+<meta property="og:site_name" content="Chris Kelley Consulting">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Workflow Audit — Chris Kelley Consulting">
+<meta name="twitter:description" content="Find where your business is leaking time. 90-min session, written report, priority action plan. $350 flat.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Workflow Audit",
+  "description": "A paid workflow audit that maps where your business is losing time and money. Includes a 90-minute session, written findings report, and prioritized action plan.",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "Chris Kelley Consulting",
+    "url": "https://chriskelley.io",
+    "telephone": "+1-832-807-3093",
+    "email": "chris@chriskelley.io",
+    "address": { "@type": "PostalAddress", "addressLocality": "Houston", "addressRegion": "TX", "addressCountry": "US" }
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "350",
+    "priceCurrency": "USD"
+  },
+  "areaServed": ["Houston, TX", "United States"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
+    --green: #28B485; --green-dark: #1e9068;
+    --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
+    --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
+  }
+  body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; font-family: var(--font-sans); cursor: pointer; border: none; }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+  .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
+  .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    padding: 7rem 2rem 5rem;
+    background: var(--blue-deeper);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '🔎';
+    position: absolute; right: 4%; top: 50%; transform: translateY(-50%);
+    font-size: 20rem; opacity: 0.04; line-height: 1;
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 780px; margin: 0 auto; position: relative; }
+  .breadcrumb { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-bottom: 1.5rem; }
+  .breadcrumb a { color: rgba(255,255,255,0.5); text-decoration: none; }
+  .breadcrumb a:hover { color: rgba(255,255,255,0.8); }
+  .price-badge {
+    display: inline-flex; align-items: baseline; gap: 0.5rem;
+    background: rgba(40,180,133,0.15); border: 1px solid rgba(40,180,133,0.3);
+    border-radius: 8px; padding: 0.5rem 1.1rem; margin-bottom: 2rem;
+  }
+  .price-badge strong { font-family: var(--font-serif); font-size: 1.6rem; color: var(--green); }
+  .price-badge span { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: 1.12; margin-bottom: 1.25rem; }
+  .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.7); line-height: 1.75; max-width: 580px; margin-bottom: 2rem; }
+  .hero-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .hero-meta-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: rgba(255,255,255,0.6); }
+  .hero-meta-item strong { color: #fff; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  /* DELIVERABLES */
+  .deliverables { padding: 5rem 2rem; background: #fff; }
+  .deliverables-inner { max-width: 960px; margin: 0 auto; }
+  .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; display: block; }
+  .section-heading { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--blue-dark); margin-bottom: 0.75rem; line-height: 1.2; }
+  .section-sub { font-size: 1rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin-bottom: 3rem; }
+
+  .deliverables-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+  .deliverable-card {
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.75rem;
+    position: relative;
+  }
+  .deliverable-card.featured {
+    border-color: var(--green);
+    background: linear-gradient(135deg, rgba(40,180,133,0.04) 0%, rgba(14,107,168,0.03) 100%);
+  }
+  .deliverable-icon { font-size: 1.75rem; margin-bottom: 1rem; display: block; }
+  .deliverable-card h3 { font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+  .deliverable-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
+
+  /* PROCESS */
+  .process { background: var(--off-white); padding: 5rem 2rem; }
+  .process-inner { max-width: 960px; margin: 0 auto; }
+  .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; margin-top: 2.5rem; position: relative; }
+  .process-step {
+    padding: 1.75rem 1.5rem 1.75rem 0;
+    position: relative;
+  }
+  .process-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: 0; top: 1.75rem;
+    color: var(--border);
+    font-size: 1.2rem;
+  }
+  .step-num { font-family: var(--font-serif); font-size: 2.5rem; color: var(--green); line-height: 1; margin-bottom: 0.6rem; }
+  .step-time { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.4rem; }
+  .step-title { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.35rem; }
+  .step-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* WHAT WE LOOK AT */
+  .areas { padding: 5rem 2rem; background: #fff; }
+  .areas-inner { max-width: 960px; margin: 0 auto; }
+  .areas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2.5rem; }
+  .area-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1.25rem;
+    background: var(--off-white);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .area-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .area-item h4 { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+  .area-item p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.55; }
+
+  /* EXAMPLE FINDINGS */
+  .findings { background: var(--off-white); padding: 5rem 2rem; }
+  .findings-inner { max-width: 960px; margin: 0 auto; }
+  .findings-list { margin-top: 2.5rem; display: grid; gap: 1rem; }
+  .finding-row {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+  }
+  .finding-industry {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); background: rgba(14,107,168,0.08);
+    padding: 0.3rem 0.7rem; border-radius: 99px; white-space: nowrap;
+  }
+  .finding-text { font-size: 0.92rem; color: var(--text); line-height: 1.5; }
+  .finding-result { font-size: 0.85rem; font-weight: 600; color: var(--green); white-space: nowrap; }
+
+  /* PRICING */
+  .pricing { padding: 5rem 2rem; background: #fff; }
+  .pricing-inner { max-width: 760px; margin: 0 auto; }
+  .pricing-card {
+    border: 2px solid var(--green);
+    border-radius: 16px;
+    padding: 3rem;
+    margin-top: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+  }
+  .pricing-amount { font-family: var(--font-serif); font-size: 4rem; color: var(--blue-dark); line-height: 1; margin-bottom: 0.35rem; }
+  .pricing-amount span { font-size: 1.5rem; vertical-align: top; margin-top: 0.75rem; display: inline-block; color: var(--text-muted); }
+  .pricing-label { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; }
+  .pricing-includes { list-style: none; margin-bottom: 2rem; display: grid; gap: 0.75rem; }
+  .pricing-includes li { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.95rem; color: var(--text); line-height: 1.5; }
+  .pricing-includes li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+  .pricing-credit {
+    background: rgba(40,180,133,0.08);
+    border: 1px solid rgba(40,180,133,0.25);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-size: 0.88rem;
+    color: var(--text);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  .pricing-credit strong { color: var(--green-dark); }
+
+  /* FAQ */
+  .faq { background: var(--off-white); padding: 5rem 2rem; }
+  .faq-inner { max-width: 720px; margin: 0 auto; }
+  .faq-list { margin-top: 2.5rem; display: grid; gap: 1px; border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .faq-item { background: #fff; }
+  .faq-q {
+    width: 100%; text-align: left; padding: 1.25rem 1.5rem;
+    font-size: 0.97rem; font-weight: 600; color: var(--text);
+    background: none; border: none; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    font-family: var(--font-sans);
+    transition: background 0.15s;
+  }
+  .faq-q:hover { background: var(--off-white); }
+  .faq-q .faq-icon { font-size: 1.1rem; color: var(--green); flex-shrink: 0; transition: transform 0.2s; }
+  .faq-q.open .faq-icon { transform: rotate(45deg); }
+  .faq-a { display: none; padding: 0 1.5rem 1.25rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.75; border-top: 1px solid var(--border); }
+  .faq-a.open { display: block; }
+
+  /* FINAL CTA */
+  .cta-bar { background: var(--blue-dark); color: #fff; padding: 5rem 2rem; text-align: center; }
+  .cta-bar h2 { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; line-height: 1.2; }
+  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2.5rem; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+  .cta-bar .btn-primary { font-size: 1.05rem; padding: 0.9rem 2.25rem; }
+
+  /* FOOTER */
+  footer { background: var(--blue-deeper); color: rgba(255,255,255,0.5); text-align: center; padding: 2rem; font-size: 0.85rem; }
+  footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .areas-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr; gap: 1.5rem; }
+    .process-step:not(:last-child)::after { display: none; }
+    .finding-row { grid-template-columns: 1fr; gap: 0.5rem; }
+    .finding-result { justify-self: start; }
+    .pricing-card { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">Chris Kelley<span>.</span></a>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="breadcrumb"><a href="/">Home</a> &rsaquo; Workflow Audit</p>
+    <div class="price-badge"><strong>$350</strong><span>flat &middot; one-time</span></div>
+    <h1>Before we build anything,<br>let's find what's worth building.</h1>
+    <p>Most businesses don't have an automation problem — they have a clarity problem. The Workflow Audit maps exactly where your time and money are leaking, then tells you what to fix first.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>90 min</strong> live session</div>
+      <div class="hero-meta-item"><strong>48 hr</strong> written report</div>
+      <div class="hero-meta-item"><strong>30 min</strong> debrief call</div>
+    </div>
+    <div class="hero-ctas">
+      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book the Audit &rarr;</a>
+      <a href="/" class="btn btn-outline" style="border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);">&larr; Back home</a>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section class="deliverables">
+  <div class="deliverables-inner">
+    <span class="section-label">What you get</span>
+    <h2 class="section-heading">Three things, delivered in 72 hours.</h2>
+    <p class="section-sub">Not a conversation — a real artifact you can act on, with or without me.</p>
+    <div class="deliverables-grid">
+      <div class="deliverable-card featured">
+        <span class="deliverable-icon">📋</span>
+        <h3>Written Findings Report</h3>
+        <p>A plain-English document covering every process we mapped — what's working, what's broken, and what's costing you the most time each week.</p>
+      </div>
+      <div class="deliverable-card">
+        <span class="deliverable-icon">🎯</span>
+        <h3>Priority Action Matrix</h3>
+        <p>Every fix ranked by impact vs. effort. You'll know exactly what to tackle first — whether you hire me or handle it yourself.</p>
+      </div>
+      <div class="deliverable-card">
+        <span class="deliverable-icon">💡</span>
+        <h3>Automation Opportunity List</h3>
+        <p>Specific tools, triggers, and workflows that apply to your business — not generic advice. Includes time and cost estimates for each.</p>
+      </div>
+      <div class="deliverable-card">
+        <span class="deliverable-icon">🎥</span>
+        <h3>Recorded Session</h3>
+        <p>Full recording of the 90-minute session so you can reference it, share it with your team, or revisit it when you're ready to act.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="process-inner">
+    <span class="section-label">How it works</span>
+    <h2 class="section-heading">From booking to report in 3 days.</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">1</div>
+        <div class="step-time">Day 1 — 30 min</div>
+        <div class="step-title">Pre-audit intake</div>
+        <div class="step-desc">You fill out a short form covering your tools, team size, biggest bottlenecks, and what a "win" looks like to you.</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">2</div>
+        <div class="step-time">Day 2 — 90 min</div>
+        <div class="step-title">Live audit session</div>
+        <div class="step-desc">We walk through your actual workflows together — screenshare, draw it out, identify where things fall through the cracks.</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">3</div>
+        <div class="step-time">Day 2–3 — 48 hrs</div>
+        <div class="step-title">Report delivered</div>
+        <div class="step-desc">Written findings, priority matrix, and automation list land in your inbox — ready to act on immediately.</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">4</div>
+        <div class="step-time">Day 4 — 30 min</div>
+        <div class="step-title">Debrief call</div>
+        <div class="step-desc">We walk through the report together, answer questions, and decide on next steps — whether that's a Quick Win, a full buildout, or DIY.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE LOOK AT -->
+<section class="areas">
+  <div class="areas-inner">
+    <span class="section-label">What gets audited</span>
+    <h2 class="section-heading">Every place time disappears.</h2>
+    <p class="section-sub">We look at the full picture — not just your software, but how information moves through your business.</p>
+    <div class="areas-grid">
+      <div class="area-item">
+        <span class="area-icon">📥</span>
+        <div>
+          <h4>Lead & inquiry handling</h4>
+          <p>How new leads come in, who responds, how fast, and how many fall through the cracks.</p>
+        </div>
+      </div>
+      <div class="area-item">
+        <span class="area-icon">🔄</span>
+        <div>
+          <h4>Client onboarding</h4>
+          <p>What happens after someone says yes — forms, contracts, kickoffs, access, and first steps.</p>
+        </div>
+      </div>
+      <div class="area-item">
+        <span class="area-icon">📆</span>
+        <div>
+          <h4>Scheduling & dispatch</h4>
+          <p>How jobs get assigned, confirmed, updated, and followed up — especially for field-based teams.</p>
+        </div>
+      </div>
+      <div class="area-item">
+        <span class="area-icon">💬</span>
+        <div>
+          <h4>Communication patterns</h4>
+          <p>Where communication lives (text, email, Slack, calls), what gets missed, and what repeats.</p>
+        </div>
+      </div>
+      <div class="area-item">
+        <span class="area-icon">🧾</span>
+        <div>
+          <h4>Invoicing & follow-up</h4>
+          <p>How invoices go out, how late payments are handled, and how much time collections actually takes.</p>
+        </div>
+      </div>
+      <div class="area-item">
+        <span class="area-icon">📊</span>
+        <div>
+          <h4>Reporting & visibility</h4>
+          <p>What you actually know about your business week-to-week vs. what requires digging to find out.</p>
+        </div>
+      </div>
+      <div class="area-item">
+        <span class="area-icon">🛠️</span>
+        <div>
+          <h4>Tools & tech stack</h4>
+          <p>What software you're paying for, what's connected, what's duplicated, and what's being underused.</p>
+        </div>
+      </div>
+      <div class="area-item">
+        <span class="area-icon">🔁</span>
+        <div>
+          <h4>Recurring manual tasks</h4>
+          <p>The stuff you do every week that feels like it should already be automatic — but isn't.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAMPLE FINDINGS -->
+<section class="findings">
+  <div class="findings-inner">
+    <span class="section-label">Example findings</span>
+    <h2 class="section-heading">What typically turns up.</h2>
+    <p class="section-sub">Every audit is different, but these are the patterns that show up again and again.</p>
+    <div class="findings-list">
+      <div class="finding-row">
+        <span class="finding-industry">HVAC</span>
+        <span class="finding-text">Dispatch coordinator manually copying job details from email into scheduling software 15–20 times per day</span>
+        <span class="finding-result">~6 hrs/week saved</span>
+      </div>
+      <div class="finding-row">
+        <span class="finding-industry">Roofing</span>
+        <span class="finding-text">New leads from website sitting uncontacted for 4–6 hours while owner is on job sites</span>
+        <span class="finding-result">3× faster response</span>
+      </div>
+      <div class="finding-row">
+        <span class="finding-industry">Healthcare</span>
+        <span class="finding-text">Intake forms being re-entered manually into EHR — data that was already collected digitally</span>
+        <span class="finding-result">~8 hrs/week saved</span>
+      </div>
+      <div class="finding-row">
+        <span class="finding-industry">Plumbing</span>
+        <span class="finding-text">Invoice follow-up happening via individual text messages, no tracking, 30% of invoices going unpaid past 30 days</span>
+        <span class="finding-result">+$4,200/mo recovered</span>
+      </div>
+      <div class="finding-row">
+        <span class="finding-industry">Professional Services</span>
+        <span class="finding-text">Client onboarding taking 3–5 days of back-and-forth for info that could be collected in a single form</span>
+        <span class="finding-result">1 day turnaround</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="pricing-inner">
+    <span class="section-label">Pricing</span>
+    <h2 class="section-heading">One flat rate. No surprises.</h2>
+    <p class="section-sub">The audit pays for itself the moment you stop doing one thing it finds.</p>
+    <div class="pricing-card">
+      <div class="pricing-amount"><span>$</span>350</div>
+      <div class="pricing-label">flat rate &middot; one-time &middot; no retainer</div>
+      <ul class="pricing-includes">
+        <li>Pre-audit intake form + review</li>
+        <li>90-minute live workflow mapping session (screenshare)</li>
+        <li>Full session recording</li>
+        <li>Written findings report (delivered within 48 hours)</li>
+        <li>Priority action matrix — ranked by impact &amp; effort</li>
+        <li>Automation opportunity list with tool + time estimates</li>
+        <li>30-minute debrief call to walk through findings</li>
+      </ul>
+      <div class="pricing-credit">
+        <strong>💡 Applied as a full credit</strong> — the $350 fee is credited toward any Quick Win ($500), Systems Buildout ($1,500), or larger engagement if you choose to move forward.
+      </div>
+      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary" style="font-size: 1rem; padding: 0.85rem 2rem;">Book the Audit &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="faq-inner">
+    <span class="section-label">Questions</span>
+    <h2 class="section-heading">The ones people always ask.</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do I have to commit to anything after the audit?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">No. The audit is a standalone deliverable. You'll walk away with a report and action plan you can use however you want — hire me, DIY it, or hand it to someone else. There's no pressure, and the findings belong to you.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What if I don't have much tech or software set up yet?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">That's actually fine — the audit is useful at any stage. If you're running most things manually, we'll identify which tools would give you the most leverage. Sometimes the highest-value recommendation is a $12/month app, not a custom build.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How is this different from a free discovery call?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">A discovery call is a conversation. The Workflow Audit is a structured process that produces a written deliverable. We spend 90 minutes actually mapping your workflows — not just talking about them — and you get a document you can reference and act on. The depth is completely different.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What kind of businesses does this work best for?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Contractors and trades businesses, healthcare practices, service businesses, small professional services firms — anyone with a team of 1–25 people who's moving fast but suspects they're leaving time and money on the table. If you've ever said "we should automate that," this is where to start.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Can I do this remotely?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes, 100%. The session is via Google Meet or Zoom with screenshare. Houston clients are welcome to meet in person if preferred, but most clients are fully remote and the audit works just as well.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How soon can we start?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Usually within a week of booking. Use the link below to grab a time — I'll send the intake form as soon as it's confirmed and we'll be ready to go on session day.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-bar">
+  <h2>Find out exactly what<br>to fix first.</h2>
+  <p>$350 flat. Written report in 48 hours. Applied as a full credit if you move forward.</p>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book the Workflow Audit &rarr;</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Chris Kelley Consulting &middot; <a href="tel:8328073093">(832) 807-3093</a> &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> &middot; Houston, TX</p>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('open'));
+  // Open clicked if it was closed
+  if (!isOpen) {
+    answer.classList.add('open');
+    btn.classList.add('open');
+  }
+}
+</script>
+
+</body>
+</html>
