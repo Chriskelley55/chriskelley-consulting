@@ -95,11 +95,19 @@
   .wins-card li { font-size: 0.9rem; color: var(--text); padding: 0.3rem 0; display: flex; gap: 0.6rem; list-style: none; }
   .wins-card li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
 
+  .audited-url { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; margin-bottom: 0.5rem; background: var(--off-white); display: inline-block; padding: 0.25rem 0.75rem; border-radius: 99px; border: 1px solid var(--border); }
+
   .results-cta { background: var(--blue-deeper); border-radius: 14px; padding: 2rem; text-align: center; color: #fff; }
   .results-cta h3 { font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.5rem; }
   .results-cta p { font-size: 0.93rem; color: rgba(255,255,255,0.65); margin-bottom: 1.5rem; line-height: 1.6; }
   .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
   .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
+
+  .another-audit { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-top: 0.75rem; }
+  .another-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.85rem; }
+  .another-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .another-row input { flex: 1; min-width: 140px; padding: 0.7rem 1rem; border: 1.5px solid var(--border); border-radius: 10px; font-family: var(--font-sans); font-size: 0.9rem; color: var(--text); background: var(--off-white); }
+  .another-row input:focus { outline: none; border-color: var(--blue); background: #fff; }
 
   .error-msg { background: #fef2f2; border: 1.5px solid #fca5a5; border-radius: 10px; padding: 1rem 1.25rem; font-size: 0.9rem; color: var(--red); margin-top: 1rem; display: none; }
   .error-msg.active { display: block; }
@@ -166,6 +174,7 @@
 
 <div class="results" id="resultsPanel">
   <div class="score-hero">
+    <p class="audited-url" id="auditedUrl"></p>
     <div class="score-big" id="scoreBig">—</div>
     <div class="score-denom">out of 100</div>
     <div class="tier-badge" id="tierBadge">—</div>
@@ -183,6 +192,21 @@
     <h3>Want help fixing these?</h3>
     <p>Book a free 30-minute call — I'll walk through your results and tell you exactly what to tackle first.</p>
     <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
+  </div>
+
+  <div class="another-audit">
+    <p class="another-label">Check another business</p>
+    <form id="anotherForm">
+      <div class="another-row">
+        <input type="text" id="anotherUrl" placeholder="anotherbusiness.com" required>
+        <input type="email" id="anotherEmail" placeholder="email@example.com" required>
+        <button type="submit" class="submit-btn" id="anotherBtn" style="white-space:nowrap;">Run Audit &rarr;</button>
+      </div>
+      <div class="checkbox-row" style="margin:0.75rem 0 0;">
+        <input type="checkbox" id="anotherSubscribe" checked>
+        <label for="anotherSubscribe">Also subscribe to <strong>The 5-Minute Fix</strong></label>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -254,8 +278,12 @@ function advanceSteps() {
   }, 4000);
 }
 
-function renderResults(audit) {
+function renderResults(audit, url) {
   const color = tierColors[audit.tier] || '#0E6BA8';
+
+  // Show the audited URL
+  const urlLabel = document.getElementById('auditedUrl');
+  try { urlLabel.textContent = '🔍 ' + new URL(url).hostname; } catch(e) { urlLabel.textContent = '🔍 ' + url; }
 
   document.getElementById('scoreBig').textContent = audit.total_score;
   document.getElementById('scoreBig').style.color = color;
@@ -335,7 +363,7 @@ form.addEventListener('submit', async (e) => {
     }
 
     loadingState.classList.remove('active');
-    renderResults(data.audit);
+    renderResults(data.audit, url);
 
   } catch (err) {
     clearInterval(stepTimer);
@@ -346,6 +374,37 @@ form.addEventListener('submit', async (e) => {
     errorMsg.textContent = err.message || 'Something went wrong. Please try again.';
     errorMsg.classList.add('active');
   }
+});
+
+// ANOTHER AUDIT FORM
+async function runAudit(url, email, subscribe, btnEl, formEl) {
+  btnEl.disabled = true;
+  btnEl.textContent = 'Running...';
+  try {
+    const res = await fetch('/api/audit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, email, subscribe })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.audit) throw new Error(data.error || 'Something went wrong.');
+    renderResults(data.audit, url);
+    window.scrollTo({ top: document.getElementById('resultsPanel').offsetTop - 20, behavior: 'smooth' });
+  } catch(err) {
+    alert(err.message || 'Something went wrong. Please try again.');
+  } finally {
+    btnEl.disabled = false;
+    btnEl.textContent = 'Run Audit →';
+  }
+}
+
+document.getElementById('anotherForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  let url = document.getElementById('anotherUrl').value.trim();
+  if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
+  const email = document.getElementById('anotherEmail').value.trim();
+  const subscribe = document.getElementById('anotherSubscribe').checked;
+  await runAudit(url, email, subscribe, document.getElementById('anotherBtn'), e.target);
 });
 </script>
 
