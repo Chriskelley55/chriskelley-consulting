@@ -90,6 +90,37 @@
   .cat-findings li { font-size: 0.88rem; color: var(--text-muted); padding: 0.2rem 0; display: flex; gap: 0.5rem; }
   .cat-findings li::before { content: '•'; color: var(--border); flex-shrink: 0; }
 
+  /* GATED */
+  .gated-block {
+    position: relative;
+    margin-top: 0.75rem;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .gated-blur {
+    filter: blur(4px);
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  .gated-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(247,248,250,0.85);
+    backdrop-filter: blur(2px);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    gap: 0.35rem;
+  }
+  .gated-overlay .lock { font-size: 1.25rem; }
+  .gated-overlay p { font-size: 0.8rem; font-weight: 600; color: var(--blue-dark); line-height: 1.4; margin: 0; }
+  .gated-overlay small { font-size: 0.72rem; color: var(--text-muted); }
+
   .wins-card { background: #f0fdf7; border: 1.5px solid var(--green); border-radius: 14px; padding: 1.5rem; margin-bottom: 1rem; }
   .wins-card h3 { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--blue-dark); }
   .wins-card li { font-size: 0.9rem; color: var(--text); padding: 0.3rem 0; display: flex; gap: 0.6rem; list-style: none; }
@@ -298,6 +329,7 @@ function renderResults(audit, url) {
   catContainer.innerHTML = '';
   Object.entries(audit.categories).forEach(([key, cat]) => {
     const pct = Math.round((cat.score / cat.max) * 100);
+    const fakeFindings = ['Detailed finding hidden', 'Another finding hidden', 'Third finding hidden'];
     const card = document.createElement('div');
     card.className = 'cat-card';
     card.innerHTML = `
@@ -308,9 +340,16 @@ function renderResults(audit, url) {
       <div class="cat-bar-bg">
         <div class="cat-bar-fill" style="width:0%;background:${color}" data-pct="${pct}"></div>
       </div>
-      <ul class="cat-findings">
-        ${cat.findings.map(f => `<li>${f}</li>`).join('')}
-      </ul>`;
+      <div class="gated-block">
+        <ul class="cat-findings gated-blur">
+          ${fakeFindings.map(f => `<li>${f}</li>`).join('')}
+        </ul>
+        <div class="gated-overlay">
+          <span class="lock">🔒</span>
+          <p>Full breakdown in your inbox</p>
+          <small>Check the email we sent to see all findings</small>
+        </div>
+      </div>`;
     catContainer.appendChild(card);
   });
 
@@ -321,8 +360,23 @@ function renderResults(audit, url) {
     });
   });
 
+  // Show first 2 wins on-site, gate the 3rd
+  const wins = audit.top_wins || [];
   const winsList = document.getElementById('winsList');
-  winsList.innerHTML = audit.top_wins.map(w => `<li>${w}</li>`).join('');
+  winsList.innerHTML = wins.slice(0, 2).map(w => `<li>${w}</li>`).join('');
+  if (wins[2]) {
+    winsList.insertAdjacentHTML('afterend', `
+      <div class="gated-block" style="margin-top:0.5rem;">
+        <ul class="cat-findings gated-blur" style="list-style:none;padding:0.25rem 0;">
+          <li style="display:flex;gap:0.5rem;font-size:0.88rem;color:var(--text-muted);padding:0.2rem 0;"><span>•</span>${wins[2]}</li>
+        </ul>
+        <div class="gated-overlay">
+          <span class="lock">🔒</span>
+          <p>+1 more win in your inbox</p>
+          <small>Full report sent to your email</small>
+        </div>
+      </div>`);
+  }
 
   resultsPanel.classList.add('active');
   resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
