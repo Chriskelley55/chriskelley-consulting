@@ -329,7 +329,6 @@ function renderResults(audit, url) {
   catContainer.innerHTML = '';
   Object.entries(audit.categories).forEach(([key, cat]) => {
     const pct = Math.round((cat.score / cat.max) * 100);
-    const fakeFindings = ['Detailed finding hidden', 'Another finding hidden', 'Third finding hidden'];
     const card = document.createElement('div');
     card.className = 'cat-card';
     card.innerHTML = `
@@ -340,16 +339,9 @@ function renderResults(audit, url) {
       <div class="cat-bar-bg">
         <div class="cat-bar-fill" style="width:0%;background:${color}" data-pct="${pct}"></div>
       </div>
-      <div class="gated-block">
-        <ul class="cat-findings gated-blur">
-          ${fakeFindings.map(f => `<li>${f}</li>`).join('')}
-        </ul>
-        <div class="gated-overlay">
-          <span class="lock">🔒</span>
-          <p>Full breakdown in your inbox</p>
-          <small>Check the email we sent to see all findings</small>
-        </div>
-      </div>`;
+      <ul class="cat-findings">
+        ${cat.findings.map(f => `<li>${f}</li>`).join('')}
+      </ul>`;
     catContainer.appendChild(card);
   });
 
@@ -360,20 +352,20 @@ function renderResults(audit, url) {
     });
   });
 
-  // Show first 2 wins on-site, gate the 3rd
+  // Show 1st quick win on-site, gate 2nd and 3rd
   const wins = audit.top_wins || [];
   const winsList = document.getElementById('winsList');
-  winsList.innerHTML = wins.slice(0, 2).map(w => `<li>${w}</li>`).join('');
-  if (wins[2]) {
+  winsList.innerHTML = wins.slice(0, 1).map(w => `<li>${w}</li>`).join('');
+  if (wins.length > 1) {
     winsList.insertAdjacentHTML('afterend', `
-      <div class="gated-block" style="margin-top:0.5rem;">
+      <div class="gated-block" style="margin-top:0.75rem;">
         <ul class="cat-findings gated-blur" style="list-style:none;padding:0.25rem 0;">
-          <li style="display:flex;gap:0.5rem;font-size:0.88rem;color:var(--text-muted);padding:0.2rem 0;"><span>•</span>${wins[2]}</li>
+          ${wins.slice(1).map(w => `<li style="display:flex;gap:0.5rem;font-size:0.88rem;color:var(--text-muted);padding:0.2rem 0;"><span>•</span>${w}</li>`).join('')}
         </ul>
         <div class="gated-overlay">
           <span class="lock">🔒</span>
-          <p>+1 more win in your inbox</p>
-          <small>Full report sent to your email</small>
+          <p>+${wins.length - 1} more fixes in your inbox</p>
+          <small>Full action plan sent to your email</small>
         </div>
       </div>`);
   }
