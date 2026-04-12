@@ -959,11 +959,101 @@
     }
 
     /* RESPONSIVE */
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      margin-right: 0.5rem;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.25s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0; right: 0;
+      background: #fff;
+      border-bottom: 1.5px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      z-index: 99;
+      padding: 1rem 1.5rem 1.5rem;
+      max-height: calc(100vh - 64px);
+      overflow-y: auto;
+    }
+    .mobile-drawer.open { display: block; }
+
+    .mobile-nav-link {
+      display: block;
+      padding: 0.85rem 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-nav-link:last-of-type { border-bottom: none; }
+    .mobile-nav-link:hover { color: var(--green); }
+
+    .mobile-services-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0.85rem 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      text-align: left;
+    }
+    .mobile-services-toggle .arrow { transition: transform 0.2s; font-size: 0.8rem; color: var(--text-muted); }
+    .mobile-services-toggle.open .arrow { transform: rotate(180deg); }
+
+    .mobile-services-list { display: none; padding: 0.5rem 0 0.25rem 1rem; }
+    .mobile-services-list.open { display: block; }
+    .mobile-services-list a {
+      display: block;
+      padding: 0.6rem 0;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--off-white);
+    }
+    .mobile-services-list a:hover { color: var(--green); }
+    .mobile-services-list a:last-child { border-bottom: none; }
+
+    .mobile-cta {
+      margin-top: 1.25rem;
+      display: block;
+      text-align: center;
+    }
+
     @media (max-width: 768px) {
       .shift-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .nav-links { display: none; }
+      .hamburger { display: flex; }
       .hero { padding: 5rem 1.25rem 4rem; }
       section { padding: 4rem 1.25rem; }
+      nav .btn-primary { display: none; }
     }
   </style>
 </head>
@@ -992,8 +1082,29 @@
     <li><a href="#who">Who I Help</a></li>
     <li><a href="/about.html">About</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
   <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book a Call &rarr;</a>
 </nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="#how-it-works" class="mobile-nav-link" onclick="closeDrawer()">How It Works</a>
+  <button class="mobile-services-toggle" id="mobileServicesToggle">
+    Services <span class="arrow">▾</span>
+  </button>
+  <div class="mobile-services-list" id="mobileServicesList">
+    <a href="/workflow-audit.html">🔍 Workflow Audit — $350</a>
+    <a href="/quick-win.html">⚡ Quick Win — $500</a>
+    <a href="/systems-buildout.html">⚙️ Systems Buildout — $1,500</a>
+    <a href="/lead-engine.html">🎯 AI Lead Engine — $3,000</a>
+    <a href="/ai-employee.html">🤖 Your First AI Employee — $750</a>
+  </div>
+  <a href="#who" class="mobile-nav-link" onclick="closeDrawer()">Who I Help</a>
+  <a href="/about.html" class="mobile-nav-link">About</a>
+  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary mobile-cta">Book a Call &rarr;</a>
+</div>
 
 <!-- HERO -->
 <div class="hero-wrapper">
@@ -1524,6 +1635,38 @@
 </footer>
 
 <script>
+// ── HAMBURGER ────────────────────────────────────────────
+const hamburger = document.getElementById('hamburger');
+const mobileDrawer = document.getElementById('mobileDrawer');
+const mobileServicesToggle = document.getElementById('mobileServicesToggle');
+const mobileServicesList = document.getElementById('mobileServicesList');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileDrawer.classList.toggle('open');
+  document.body.style.overflow = mobileDrawer.classList.contains('open') ? 'hidden' : '';
+});
+
+mobileServicesToggle.addEventListener('click', () => {
+  mobileServicesToggle.classList.toggle('open');
+  mobileServicesList.classList.toggle('open');
+});
+
+function closeDrawer() {
+  hamburger.classList.remove('open');
+  mobileDrawer.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close drawer on outside tap
+document.addEventListener('click', (e) => {
+  if (mobileDrawer.classList.contains('open') &&
+      !mobileDrawer.contains(e.target) &&
+      !hamburger.contains(e.target)) {
+    closeDrawer();
+  }
+});
+
 // ── NAV NODE LOGO ────────────────────────────────────────
 const navCanvas = document.getElementById('navNodeCanvas');
 const navCtx = navCanvas.getContext('2d');
