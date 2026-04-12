@@ -91,14 +91,15 @@ Tier thresholds: 0-40 = Invisible, 41-65 = Findable but Leaking, 66-85 = Solid F
     try {
       if (!process.env.RESEND_API_KEY) throw new Error('No Resend key');
       const resend = new Resend(process.env.RESEND_API_KEY);
-      await resend.emails.send({
+      const emailResult = await resend.emails.send({
         from: 'Chris Kelley <chris@chriskelley.io>',
         to: email,
         subject: `Your Free Presence Audit — ${audit.business_name || new URL(url).hostname}`,
         html: buildEmailHtml(audit, url)
       });
+      console.log('Email sent:', JSON.stringify(emailResult));
     } catch (emailErr) {
-      console.error('Email error:', emailErr);
+      console.error('Email error:', emailErr.message, JSON.stringify(emailErr));
     }
 
     // Add to Beehiiv newsletter if opted in
