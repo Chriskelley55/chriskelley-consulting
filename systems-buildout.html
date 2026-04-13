@@ -265,6 +265,42 @@
       nav .btn-primary { display: none; }
     }
   </style>
+<style>
+  /* NAV COMPLETE */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+  .nav-logo canvas { display: block; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .nav-logo.bounce canvas { transform: translateX(10px); }
+  .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; padding: 0; margin: 0; }
+  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-menu { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 0.75rem 0.5rem 0.5rem; min-width: 160px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); z-index: 200; }
+  .nav-dropdown-menu.wide { min-width: 240px; left: 0; transform: none; }
+  .nav-dropdown-menu::before { content: ''; position: absolute; top: -10px; left: 0; right: 0; height: 10px; }
+  .nav-dropdown:hover .nav-dropdown-menu { display: block; }
+  .nav-dropdown-menu a { display: block; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.88rem; color: var(--text-muted); text-decoration: none; white-space: nowrap; }
+  .nav-dropdown-menu a:hover { background: var(--off-white); color: var(--text); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; margin-right: 0.5rem; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.25s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-drawer { display: none; position: fixed; top: 64px; left: 0; right: 0; background: #fff; border-bottom: 1.5px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.08); z-index: 99; padding: 1rem 1.5rem 1.5rem; max-height: calc(100vh - 64px); overflow-y: auto; }
+  .mobile-drawer.open { display: block; }
+  .mobile-nav-link { display: block; padding: 0.85rem 0; font-size: 1rem; font-weight: 500; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+  .mobile-nav-link:hover { color: var(--green); }
+  .mobile-services-toggle { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0.85rem 0; font-size: 1rem; font-weight: 500; color: var(--text); background: none; border: none; border-bottom: 1px solid var(--border); cursor: pointer; font-family: var(--font-sans); text-align: left; }
+  .mobile-services-toggle .arrow { transition: transform 0.2s; font-size: 0.8rem; color: var(--text-muted); }
+  .mobile-services-toggle.open .arrow { transform: rotate(180deg); }
+  .mobile-services-list { display: none; padding: 0.5rem 0 0.25rem 1rem; }
+  .mobile-services-list.open { display: block; }
+  .mobile-services-list a { display: block; padding: 0.6rem 0; font-size: 0.92rem; color: var(--text-muted); text-decoration: none; border-bottom: 1px solid var(--off-white); }
+  .mobile-services-list a:hover { color: var(--green); }
+  .mobile-services-list a:last-child { border-bottom: none; }
+  .mobile-cta { margin-top: 1.25rem; display: block; text-align: center; }
+  @media (max-width: 768px) { .nav-links { display: none; } .hamburger { display: flex; } nav .btn-primary { display: none; } }
+</style>
 </head>
 <body>
 
@@ -369,5 +405,86 @@
   <div class="footer-bottom">&copy; 2026 Chris Kelley Consulting &middot; Houston, TX &middot; <a href="mailto:chris@chriskelley.io" style="color:inherit;">chris@chriskelley.io</a></div>
 </footer>
 
+<script>
+// ── HAMBURGER ────────────────────────────────────────────
+const hamburger = document.getElementById('hamburger');
+const mobileDrawer = document.getElementById('mobileDrawer');
+const mobileServicesToggle = document.getElementById('mobileServicesToggle');
+const mobileServicesList = document.getElementById('mobileServicesList');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileDrawer.classList.toggle('open');
+  document.body.style.overflow = mobileDrawer.classList.contains('open') ? 'hidden' : '';
+});
+
+mobileServicesToggle.addEventListener('click', () => {
+  mobileServicesToggle.classList.toggle('open');
+  mobileServicesList.classList.toggle('open');
+});
+
+function closeDrawer() {
+  hamburger.classList.remove('open');
+  mobileDrawer.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('click', (e) => {
+  if (mobileDrawer.classList.contains('open') &&
+      !mobileDrawer.contains(e.target) &&
+      !hamburger.contains(e.target)) {
+    closeDrawer();
+  }
+});
+
+// ── NAV NODE LOGO ────────────────────────────────────────
+const navCanvas = document.getElementById('navNodeCanvas');
+const navCtx = navCanvas.getContext('2d');
+const navLogo = document.getElementById('navLogo');
+let navT = 0;
+
+const navColors = [[40,180,133],[14,107,168],[94,220,180],[40,180,133]];
+function navLerp(a, b, f) { return a.map((v, i) => Math.round(v + (b[i] - v) * f)); }
+function navGetColor(t) {
+  const total = navColors.length - 1;
+  const pos = (t % 1) * total;
+  const idx = Math.floor(pos);
+  return navLerp(navColors[idx], navColors[idx + 1], pos - idx);
+}
+
+function drawNavNode() {
+  navCtx.clearRect(0, 0, 22, 22);
+  navT += 0.004;
+  const c1 = navGetColor(navT), c2 = navGetColor(navT + 0.33), c3 = navGetColor(navT + 0.66);
+  const pulse = 1 + Math.sin(navT * 6) * 0.12;
+  navCtx.beginPath(); navCtx.moveTo(11,11); navCtx.lineTo(19,5);
+  navCtx.strokeStyle = `rgba(${c2.join(',')},0.5)`; navCtx.lineWidth = 1; navCtx.stroke();
+  navCtx.beginPath(); navCtx.moveTo(11,11); navCtx.lineTo(20,17);
+  navCtx.strokeStyle = `rgba(${c3.join(',')},0.45)`; navCtx.lineWidth = 1; navCtx.stroke();
+  navCtx.beginPath(); navCtx.arc(19,5,2,0,Math.PI*2);
+  navCtx.fillStyle = `rgba(${c2.join(',')},0.6)`; navCtx.fill();
+  navCtx.beginPath(); navCtx.arc(20,17,1.8,0,Math.PI*2);
+  navCtx.fillStyle = `rgba(${c3.join(',')},0.55)`; navCtx.fill();
+  navCtx.beginPath(); navCtx.arc(11,11,4*pulse,0,Math.PI*2);
+  navCtx.fillStyle = `rgb(${c1.join(',')})`; navCtx.fill();
+  requestAnimationFrame(drawNavNode);
+}
+drawNavNode();
+
+let bounceCount = 0, bounceTimeout = null;
+function doNextBounce() {
+  if (bounceCount <= 0) return;
+  navLogo.classList.remove('bounce');
+  void navLogo.offsetWidth;
+  navLogo.classList.add('bounce');
+  bounceCount--;
+  bounceTimeout = setTimeout(() => {
+    navLogo.classList.remove('bounce');
+    void navLogo.offsetWidth;
+    if (bounceCount > 0) doNextBounce();
+  }, 420);
+}
+navLogo.addEventListener('click', () => { bounceCount++; clearTimeout(bounceTimeout); doNextBounce(); });
+</script>
 </body>
 </html>
