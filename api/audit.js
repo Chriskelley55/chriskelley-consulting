@@ -106,14 +106,16 @@ Tier thresholds: 0-40 = Invisible, 41-65 = Findable but Leaking, 66-85 = Solid F
     if ((subscribe === true || subscribe === 'true') &&
         process.env.BEEHIIV_API_KEY && process.env.BEEHIIV_PUBLICATION_ID) {
       try {
-        await fetch(`https://api.beehiiv.com/v2/publications/${process.env.BEEHIIV_PUBLICATION_ID}/subscriptions`, {
+        const bRes = await fetch(`https://api.beehiiv.com/v2/publications/${process.env.BEEHIIV_PUBLICATION_ID}/subscriptions`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${process.env.BEEHIIV_API_KEY}`,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ email, reactivate_existing: false, send_welcome_email: true })
+          body: JSON.stringify({ email, reactivate_existing: false, send_welcome_email: false })
         });
+        const bData = await bRes.json();
+        console.log('Beehiiv response:', bRes.status, JSON.stringify(bData));
       } catch (bErr) {
         console.error('Beehiiv error:', bErr);
       }
