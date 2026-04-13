@@ -122,7 +122,104 @@
   footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
 
   @media (max-width: 600px) { .stats-strip-inner { grid-template-columns: 1fr; } .hero-meta { gap: 1.25rem; } }
-</style>
+
+    /* FOOTER */
+    footer {
+      background: var(--blue-dark);
+      color: rgba(255,255,255,0.55);
+      font-size: 0.85rem;
+    }
+    .footer-brand { text-align: left; }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .footer-brand .footer-logo {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #fff;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .footer-brand p {
+      font-size: 0.82rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-contact a {
+      display: block;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.83rem;
+      margin-bottom: 0.35rem;
+      transition: color 0.2s;
+    }
+    .footer-contact a:hover { color: var(--green); }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+    }
+    .footer-links-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 0.25rem;
+    }
+    .footer-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 0.83rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--green); }
+    .footer-social {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+      justify-content: flex-end;
+    }
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      padding: 0.4rem 0.75rem;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .footer-social a:hover {
+      background: rgba(40,180,133,0.15);
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      padding: 1rem 2rem;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+    }
+    @media (max-width: 600px) {
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-links { align-items: flex-start; }
+      .footer-social { justify-content: flex-start; }
+    }
+  </style>
 </head>
 <body>
 
@@ -347,8 +444,37 @@
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <p>&copy; 2025 Chris Kelley &middot; <a href="index.html">Home</a> &middot; <a href="ecommerce.html">E-Commerce</a> &middot; <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> &middot; Houston, TX</p>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">Chris Kelley Consulting</span>
+      <p>AI automation &amp; workflow consulting for small businesses and contractors. Houston, TX &mdash; serving clients nationwide.</p>
+      <div class="footer-contact">
+        <a href="tel:8328073093">&#128222; (832) 807-3093</a>
+        <a href="mailto:chris@chriskelley.io">&#9993;&#65039; chris@chriskelley.io</a>
+        <a href="https://share.google/ZlzBGivXhvA6HVz8k" target="_blank" rel="noopener">&#128205; Houston, Texas &mdash; View on Google Maps</a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <span class="footer-links-label">Connect</span>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/in/chriskelley55/" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://share.google/ZlzBGivXhvA6HVz8k" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Google Profile
+        </a>
+      </div>
+      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" style="margin-top:0.5rem;">&#128197; Book a Discovery Call</a>
+      <a href="/workflow-audit.html">&#128269; Workflow Audit &mdash; $350</a>
+      <a href="/audit.html">&#128202; Free Presence Audit</a>
+      <a href="mailto:chris@chriskelley.io">&#128140; The 5-Minute Fix Newsletter</a>
+    </div>
+  </div>
+  <div class="footer-bottom">&copy; 2026 Chris Kelley Consulting &middot; Houston, TX &middot; <a href="mailto:chris@chriskelley.io" style="color:inherit;">chris@chriskelley.io</a></div>
 </footer>
 </body>
 </html>
