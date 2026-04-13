@@ -8,8 +8,26 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { url, email, subscribe } = req.body;
-  if (!url || !email) return res.status(400).json({ error: 'URL and email are required.' });
+  const { url, email, subscribe, newsletterOnly } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email is required.' });
+
+  // Newsletter-only signup — skip audit, just subscribe to Beehiiv
+  if (newsletterOnly) {
+    if (process.env.BEEHIIV_API_KEY && process.env.BEEHIIV_PUBLICATION_ID) {
+      try {
+        const bRes = await fetch(`https://api.beehiiv.com/v2/publications/${process.env.BEEHIIV_PUBLICATION_ID}/subscriptions`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${process.env.BEEHIIV_API_KEY}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, reactivate_existing: true, send_welcome_email: true })
+        });
+        const bData = await bRes.json();
+        console.log('Beehiiv newsletter-only:', bRes.status, JSON.stringify(bData));
+      } catch (bErr) { console.error('Beehiiv error:', bErr); }
+    }
+    return res.status(200).json({ ok: true });
+  }
+
+  if (!url) return res.status(400).json({ error: 'URL and email are required.' });
 
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 

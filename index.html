@@ -840,13 +840,51 @@
 
     .cta-section {
       text-align: center;
-      padding: 6rem 2rem;
+      padding: 5rem 2rem;
       position: relative;
       z-index: 1;
     }
 
     .cta-section .section-heading { margin-bottom: 1rem; }
     .cta-section .section-sub { margin: 0 auto 2.5rem; }
+
+    .cta-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      max-width: 900px;
+      margin: 2.5rem auto 0;
+      text-align: left;
+    }
+    @media (max-width: 700px) {
+      .cta-cards { grid-template-columns: 1fr; }
+    }
+    .cta-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 1.75rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .cta-card-icon { font-size: 1.5rem; }
+    .cta-card h3 { font-family: var(--font-serif); font-size: 1.15rem; color: #fff; margin: 0; }
+    .cta-card p { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin: 0; flex: 1; }
+    .cta-card .btn { margin-top: auto; align-self: flex-start; font-size: 0.88rem; padding: 0.6rem 1.2rem; }
+    .cta-card-newsletter input[type="email"] {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      margin-top: auto;
+    }
+    .cta-card-newsletter input[type="email"]::placeholder { color: rgba(255,255,255,0.4); }
+    .cta-card-newsletter input[type="email"]:focus { outline: none; border-color: var(--green); background: rgba(255,255,255,0.15); }
 
     /* FOOTER */
     footer {
@@ -1595,9 +1633,39 @@
   <section class="cta-section">
     <div class="container">
       <p class="section-label">Get Started</p>
-      <h2 class="section-heading">Start with a free discovery call.</h2>
-      <p class="section-sub">30 minutes. I'll tell you exactly what I'd fix first &mdash; and what I'd expect it to be worth. No pitch deck, no pressure.</p>
-      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary" style="font-size: 1.05rem; padding: 0.85rem 2rem;">Book a Discovery Call &rarr;</a>
+      <h2 class="section-heading">Pick your next step.</h2>
+      <p class="section-sub">Every path moves you closer to a business that runs smarter.</p>
+      <div class="cta-cards">
+
+        <!-- Card 1: Discovery Call -->
+        <div class="cta-card">
+          <div class="cta-card-icon">📅</div>
+          <h3>Book a Discovery Call</h3>
+          <p>30 minutes. I'll tell you exactly what I'd fix first — and what I'd expect it to be worth. No pitch deck, no pressure.</p>
+          <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book Free Call &rarr;</a>
+        </div>
+
+        <!-- Card 2: Presence Audit -->
+        <div class="cta-card">
+          <div class="cta-card-icon">🔍</div>
+          <h3>Free Presence Audit</h3>
+          <p>See exactly how your business shows up online — scored across website, Google, reviews, and social. Takes 30 seconds.</p>
+          <a href="/audit.html" class="btn btn-primary">Run My Audit &rarr;</a>
+        </div>
+
+        <!-- Card 3: Newsletter -->
+        <div class="cta-card cta-card-newsletter" id="ctaNewsletterCard">
+          <div class="cta-card-icon">⚡</div>
+          <h3>The 5-Minute Fix</h3>
+          <p>One practical AI or automation win, every week. Free.</p>
+          <form id="ctaNewsletterForm" style="display:flex;flex-direction:column;gap:0.5rem;margin-top:auto;">
+            <input type="email" id="ctaNewsletterEmail" placeholder="your@email.com" required>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Subscribe Free &rarr;</button>
+          </form>
+          <p id="ctaNewsletterSuccess" style="display:none;color:var(--green);font-size:0.85rem;font-weight:600;">You're in! First issue coming soon.</p>
+        </div>
+
+      </div>
     </div>
   </section>
 </div>
@@ -1917,6 +1985,28 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 fadeEls.forEach(el => observer.observe(el));
+
+// ── CTA NEWSLETTER FORM ──────────────────────────────────
+document.getElementById('ctaNewsletterForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('ctaNewsletterEmail').value.trim();
+  const btn = e.target.querySelector('button');
+  btn.disabled = true;
+  btn.textContent = 'Subscribing...';
+  try {
+    const res = await fetch('/api/audit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ newsletterOnly: true, email, subscribe: true })
+    });
+    document.getElementById('ctaNewsletterForm').style.display = 'none';
+    document.getElementById('ctaNewsletterSuccess').style.display = 'block';
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Subscribe Free →';
+    alert('Something went wrong. Please try again.');
+  }
+});
 </script>
 </body>
 </html>
