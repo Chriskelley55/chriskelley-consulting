@@ -94,8 +94,8 @@ Tier thresholds: 0-40 = Invisible, 41-65 = Findable but Leaking, 66-85 = Solid F
       const emailResult = await resend.emails.send({
         from: 'Chris Kelley <chris@chriskelley.io>',
         to: email,
-        subject: `Your Free Presence Audit — ${audit.business_name || new URL(url).hostname}`,
-        html: buildEmailHtml(audit, url)
+        subject: `Your Presence Audit — ${audit.business_name || new URL(url).hostname}`,
+        html: buildEmailHtml(audit, url, email)
       });
       console.log('Email sent:', JSON.stringify(emailResult));
     } catch (emailErr) {
@@ -127,7 +127,7 @@ Tier thresholds: 0-40 = Invisible, 41-65 = Findable but Leaking, 66-85 = Solid F
   }
 };
 
-function buildEmailHtml(audit, url) {
+function buildEmailHtml(audit, url, email) {
   const tierColors = {
     'Invisible': '#dc2626',
     'Findable but Leaking': '#ea580c',
@@ -181,6 +181,11 @@ function buildEmailHtml(audit, url) {
   <div style="text-align:center;padding:20px 0 8px;">
     <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" style="background:#28B485;color:#fff;padding:13px 26px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;display:inline-block;">Book a Free Discovery Call →</a>
     <p style="color:#5a6070;font-size:11px;margin-top:14px;">Chris Kelley · AI Automation Consultant · <a href="https://chriskelley.io" style="color:#0E6BA8;">chriskelley.io</a></p>
+  </div>
+  <div style="border-top:1px solid #e4e8ef;margin-top:16px;padding-top:14px;text-align:center;">
+    <p style="color:#9ca3af;font-size:11px;line-height:1.6;margin:0;">You received this because you requested a presence audit at chriskelley.io.<br>
+    Chris Kelley Consulting · Houston, TX · <a href="mailto:chris@chriskelley.io" style="color:#9ca3af;">chris@chriskelley.io</a><br>
+    <a href="mailto:chris@chriskelley.io?subject=Unsubscribe&body=Please remove ${encodeURIComponent(email)} from your list." style="color:#9ca3af;">Unsubscribe</a></p>
   </div>
 </div>
 </body></html>`;
