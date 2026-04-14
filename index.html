@@ -19,19 +19,26 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Chris Kelley | AI Automation Consultant — Houston, TX">
   <meta name="twitter:description" content="Houston-based AI automation consultant helping small businesses save 5–15 hours/week. First result in 7 days, guaranteed.">
-  <!-- Schema: LocalBusiness -->
+  <!-- Schema: LocalBusiness + Person + Offers -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    "@type": ["ProfessionalService", "LocalBusiness"],
     "name": "Chris Kelley Consulting",
-    "description": "AI automation consulting for small and mid-size businesses. Workflow audits, custom automations, lead engines, and AI systems.",
+    "description": "Houston-based AI automation consultant helping small businesses and contractors save 8–15 hours per week through workflow automation, custom AI systems, and connected business tools. First result in 7 days, guaranteed.",
     "url": "https://chriskelley.io",
     "telephone": "+1-832-807-3093",
     "email": "chris@chriskelley.io",
+    "image": "https://avatars.githubusercontent.com/u/89886337?v=4",
+    "priceRange": "$350–$3000",
+    "currenciesAccepted": "USD",
+    "paymentAccepted": "Credit Card, Invoice",
     "founder": {
       "@type": "Person",
-      "name": "Chris Kelley"
+      "name": "Chris Kelley",
+      "jobTitle": "AI Automation Consultant",
+      "url": "https://chriskelley.io/about.html",
+      "sameAs": "https://www.linkedin.com/in/chriskelley55/"
     },
     "address": {
       "@type": "PostalAddress",
@@ -39,9 +46,102 @@
       "addressRegion": "TX",
       "addressCountry": "US"
     },
-    "areaServed": ["Houston, TX", "United States"],
-    "serviceType": ["AI Automation Consulting", "Workflow Automation", "Business Process Automation"],
-    "priceRange": "$$",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 29.7604,
+      "longitude": -95.3698
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Houston", "sameAs": "https://en.wikipedia.org/wiki/Houston" },
+      { "@type": "State", "name": "Texas", "sameAs": "https://en.wikipedia.org/wiki/Texas" },
+      { "@type": "Country", "name": "United States" }
+    ],
+    "knowsAbout": [
+      "AI automation", "workflow automation", "business process automation",
+      "no-code automation", "CRM automation", "lead generation automation",
+      "AI agents", "n8n", "Zapier", "Make.com", "Claude AI",
+      "small business operations", "contractor business systems",
+      "Houston small business consulting"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "AI Automation Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "name": "Workflow Audit",
+          "description": "90-minute deep dive into your business operations. We map exactly where your time is going, score your biggest bottlenecks, and deliver a written report with a prioritized action plan. Includes a 30-minute debrief call.",
+          "price": "350",
+          "priceCurrency": "USD",
+          "url": "https://chriskelley.io/workflow-audit.html"
+        },
+        {
+          "@type": "Offer",
+          "name": "Quick Win Automation",
+          "description": "One high-impact automation built and delivered in 7 days. Starts with a discovery call to identify the single best opportunity, then we build it, test it, and hand it off running.",
+          "price": "500",
+          "priceCurrency": "USD",
+          "url": "https://chriskelley.io/quick-win.html"
+        },
+        {
+          "@type": "Offer",
+          "name": "Systems Buildout",
+          "description": "A connected workflow layer across your core business operations — lead intake, client onboarding, follow-up, reporting. Built over 30 days with weekly check-ins.",
+          "price": "1500",
+          "priceCurrency": "USD",
+          "url": "https://chriskelley.io/systems-buildout.html"
+        },
+        {
+          "@type": "Offer",
+          "name": "AI Lead Engine",
+          "description": "Full CRM setup with automated lead capture, follow-up sequences, and pipeline reporting. Turns cold outreach into a system that runs without you.",
+          "price": "3000",
+          "priceCurrency": "USD",
+          "url": "https://chriskelley.io/lead-engine.html"
+        },
+        {
+          "@type": "Offer",
+          "name": "Your First AI Employee",
+          "description": "A custom AI agent connected to your tools — answers questions, routes requests, handles intake, and escalates what needs a human. Built and deployed in one week.",
+          "price": "750",
+          "priceCurrency": "USD",
+          "url": "https://chriskelley.io/ai-employee.html"
+        }
+      ]
+    },
+    "sameAs": [
+      "https://www.linkedin.com/in/chriskelley55/",
+      "https://share.google/ZlzBGivXhvA6HVz8k"
+    ]
+  }
+  </script>
+  <!-- Schema: Person (for AI knowledge panels) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Chris Kelley",
+    "jobTitle": "AI Automation Consultant",
+    "description": "Houston-based AI automation consultant with 10+ years of operations experience. Founder of Chris Kelley Consulting. Helps contractors and small businesses automate workflows and implement AI tools.",
+    "url": "https://chriskelley.io/about.html",
+    "email": "chris@chriskelley.io",
+    "telephone": "+1-832-807-3093",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Houston",
+      "addressRegion": "TX",
+      "addressCountry": "US"
+    },
+    "knowsAbout": [
+      "AI automation", "workflow automation", "small business operations",
+      "CRM systems", "business process improvement", "AI agents",
+      "contractor business systems", "lead generation"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Chris Kelley Consulting",
+      "url": "https://chriskelley.io"
+    },
     "sameAs": [
       "https://www.linkedin.com/in/chriskelley55/",
       "https://share.google/ZlzBGivXhvA6HVz8k"
