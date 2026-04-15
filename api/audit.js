@@ -120,6 +120,59 @@ Tier thresholds: 0-40 = Invisible, 41-65 = Findable but Leaking, 66-85 = Solid F
       console.error('Email error:', emailErr.message, JSON.stringify(emailErr));
     }
 
+    // Notify Chris when someone runs an audit
+    try {
+      if (process.env.RESEND_API_KEY) {
+        const resend2 = new Resend(process.env.RESEND_API_KEY);
+        await resend2.emails.send({
+          from: 'Audit Alert <chris@chriskelley.io>',
+          to: 'chris@chriskelley.io',
+          subject: `🔔 New Audit — ${audit.business_name || url} (${audit.total_score}/100)`,
+          html: `
+            <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;padding:20px;color:#1a1a2e;">
+              <div style="background:#0d2c47;border-radius:12px;padding:20px;margin-bottom:16px;text-align:center;">
+                <p style="color:#28B485;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 6px;">New Audit Alert</p>
+                <h2 style="color:#fff;margin:0;font-size:20px;">${audit.business_name || 'Unknown Business'}</h2>
+                <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:4px 0 0;">${url}</p>
+              </div>
+              <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+                <tr>
+                  <td style="padding:10px;background:#f7f8fa;border-radius:8px 0 0 8px;font-size:13px;color:#5a6070;">Score</td>
+                  <td style="padding:10px;background:#f7f8fa;font-weight:700;font-size:18px;color:#0E6BA8;">${audit.total_score}/100</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px;font-size:13px;color:#5a6070;">Tier</td>
+                  <td style="padding:10px;font-weight:600;font-size:13px;">${audit.tier}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px;background:#f7f8fa;border-radius:8px 0 0 8px;font-size:13px;color:#5a6070;">Industry</td>
+                  <td style="padding:10px;background:#f7f8fa;font-size:13px;">${audit.industry || '—'}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px;font-size:13px;color:#5a6070;">Location</td>
+                  <td style="padding:10px;font-size:13px;">${audit.location || '—'}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px;background:#f7f8fa;border-radius:8px 0 0 8px;font-size:13px;color:#5a6070;">Their email</td>
+                  <td style="padding:10px;background:#f7f8fa;font-size:13px;"><a href="mailto:${email}" style="color:#0E6BA8;">${email}</a></td>
+                </tr>
+              </table>
+              <div style="background:#f0fdf7;border:1.5px solid #28B485;border-radius:10px;padding:16px;margin-bottom:16px;">
+                <strong style="font-size:13px;display:block;margin-bottom:8px;">⚡ Their Top 3 Quick Wins</strong>
+                ${audit.top_wins.map(w => `<p style="margin:4px 0;font-size:12px;color:#1a1a2e;">• ${w}</p>`).join('')}
+              </div>
+              <div style="text-align:center;">
+                <a href="mailto:${email}?subject=Your%20Presence%20Audit%20Results&body=Hey%2C%20I%20reviewed%20your%20audit%20results%20and%20wanted%20to%20follow%20up..." style="background:#28B485;color:#fff;padding:11px 22px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;display:inline-block;margin-right:8px;">Reply to them →</a>
+                <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" style="background:#1A3C5E;color:#fff;padding:11px 22px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;display:inline-block;">Book a call →</a>
+              </div>
+            </div>
+          `
+        });
+      }
+    } catch (notifyErr) {
+      console.error('Notify error:', notifyErr.message);
+    }
+
     // Add to Beehiiv newsletter if opted in
     if ((subscribe === true || subscribe === 'true') &&
         process.env.BEEHIIV_API_KEY && process.env.BEEHIIV_PUBLICATION_ID) {
