@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CK Consulting — Client Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
+    --green: #28B485; --green-dark: #1e9068;
+    --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070;
+    --border: #e4e8ef; --sidebar-w: 240px;
+    --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
+  }
+  html, body { height: 100%; }
+  body { font-family: var(--font-sans); color: var(--text); background: var(--off-white); -webkit-font-smoothing: antialiased; display: flex; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w); min-height: 100vh; background: var(--blue-deeper);
+    display: flex; flex-direction: column; flex-shrink: 0;
+    position: sticky; top: 0; height: 100vh;
+  }
+  .sidebar-logo {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 9px;
+  }
+  .sidebar-logo-text { font-size: 13.5px; font-weight: 600; color: rgba(255,255,255,0.9); }
+  .sidebar-logo-text span { color: var(--green); }
+  .client-badge {
+    margin: 16px 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 12px 14px;
+  }
+  .client-badge-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 3px; }
+  .client-badge-name { font-size: 13.5px; font-weight: 600; color: #fff; }
+  .client-badge-plan { font-size: 11px; color: var(--green); margin-top: 2px; }
+  nav { flex: 1; padding: 8px 10px; }
+  .nav-section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 14px 10px 6px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border-radius: 8px; cursor: pointer;
+    font-size: 13.5px; font-weight: 500; color: rgba(255,255,255,0.55);
+    transition: all 0.15s; text-decoration: none; margin-bottom: 1px;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.85); }
+  .nav-item.active { background: rgba(40,180,133,0.15); color: #fff; }
+  .nav-item.active .nav-icon { color: var(--green); }
+  .nav-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+  .nav-badge { margin-left: auto; background: var(--green); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+  .nav-item-chevron { margin-left: auto; font-size: 10px; color: rgba(255,255,255,0.25); transition: transform 0.2s; }
+  .nav-item.open .nav-item-chevron { transform: rotate(90deg); color: rgba(255,255,255,0.45); }
+  .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+  .nav-sub.open { max-height: 120px; }
+  .nav-sub-item {
+    display: flex; align-items: center; gap: 9px;
+    padding: 7px 12px 7px 38px; border-radius: 7px; cursor: pointer;
+    font-size: 12.5px; font-weight: 500; color: rgba(255,255,255,0.42);
+    transition: all 0.15s; text-decoration: none; margin-bottom: 1px;
+  }
+  .nav-sub-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.75); }
+  .nav-sub-item.active { color: rgba(255,255,255,0.9); }
+  .nav-sub-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+  .nav-sub-item.active .nav-sub-dot { background: var(--green); }
+  .nav-sub-sub { overflow: hidden; max-height: 0; transition: max-height 0.2s ease; }
+  .nav-sub-sub.open { max-height: 50px; }
+  .nav-sub-sub-item {
+    display: flex; align-items: center; gap: 9px;
+    padding: 6px 12px 6px 54px; border-radius: 7px; cursor: pointer;
+    font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.32);
+    transition: all 0.15s; text-decoration: none;
+  }
+  .nav-sub-sub-item:hover { color: rgba(220,38,38,0.7); }
+  .nav-sub-sub-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.15); flex-shrink: 0; }
+  .sidebar-footer {
+    padding: 16px 14px; border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .avatar-name { font-size: 12.5px; font-weight: 500; color: rgba(255,255,255,0.7); }
+  .avatar-role { font-size: 11px; color: rgba(255,255,255,0.35); }
+
+  /* ── MAIN ── */
+  .main { flex: 1; display: flex; flex-direction: column; min-height: 100vh; overflow: auto; }
+  .topbar {
+    background: #fff; border-bottom: 1px solid var(--border);
+    padding: 0 32px; height: 60px; display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 10;
+  }
+  .topbar-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+  .topbar-date { font-size: 12.5px; color: var(--text-muted); }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-family: var(--font-sans); font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; text-decoration: none; }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); }
+  .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+  .btn-outline:hover { border-color: var(--text-muted); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+  .content { padding: 28px 32px 48px; flex: 1; }
+
+  /* ── STAT CARDS ── */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  .stat-card {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .stat-card-label { font-size: 11.5px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.03em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .stat-card-value { font-family: var(--font-serif); font-size: 28px; color: var(--text); line-height: 1; }
+  .stat-card-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 5px; }
+  .trend-up { color: var(--green); font-weight: 700; }
+  .trend-down { color: #e53e3e; font-weight: 700; }
+  .stat-card.highlight { border-color: rgba(40,180,133,0.3); background: linear-gradient(135deg, rgba(40,180,133,0.04) 0%, #fff 100%); }
+
+  /* ── GRID ── */
+  .portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .portal-grid.thirds { grid-template-columns: 1fr 1fr 1fr; }
+  .portal-grid.wide { grid-template-columns: 2fr 1fr; }
+
+  /* ── CARDS ── */
+  .card {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 14px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 16px 20px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .card-title { font-size: 13.5px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; }
+  .card-title-icon { font-size: 15px; }
+  .card-body { padding: 18px 20px; }
+  .card-footer { padding: 12px 20px; background: var(--off-white); border-top: 1px solid var(--border); }
+
+  /* ── SITE TRAFFIC ── */
+  .chart-area { height: 80px; display: flex; align-items: flex-end; gap: 4px; margin-bottom: 12px; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .bar { width: 100%; border-radius: 4px 4px 0 0; background: var(--border); transition: background 0.2s; }
+  .bar:hover { background: var(--blue); }
+  .bar.current { background: var(--green); opacity: 0.7; }
+  .bar-label { font-size: 9px; color: var(--text-muted); }
+  .traffic-meta { display: flex; gap: 20px; }
+  .traffic-stat { font-size: 12px; color: var(--text-muted); }
+  .traffic-stat strong { color: var(--text); }
+
+  /* ── TOP PAGES ── */
+  .page-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .page-row:last-child { border-bottom: none; }
+  .page-name { font-size: 13px; color: var(--text); flex: 1; font-weight: 500; }
+  .page-bar-wrap { width: 90px; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .page-bar-fill { height: 100%; background: var(--blue); border-radius: 99px; }
+  .page-count { font-size: 12px; color: var(--text-muted); width: 36px; text-align: right; }
+
+  /* ── BILLING ── */
+  .plan-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(14,107,168,0.1); border: 1.5px solid rgba(14,107,168,0.2); border-radius: 8px; padding: 8px 14px; margin-bottom: 16px; }
+  .plan-badge-name { font-size: 13px; font-weight: 700; color: var(--blue); }
+  .plan-badge-price { font-size: 12px; color: var(--text-muted); }
+  .plan-includes { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+  .plan-includes li { font-size: 12.5px; color: var(--text-muted); display: flex; align-items: center; gap: 7px; }
+  .plan-includes li::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 11px; }
+  .invoice-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+  .invoice-row:last-child { border-bottom: none; }
+  .invoice-date { color: var(--text-muted); }
+  .invoice-amount { font-weight: 600; color: var(--text); }
+  .invoice-status { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; }
+  .invoice-status.paid { background: rgba(40,180,133,0.1); color: var(--green-dark); }
+  .invoice-status.upcoming { background: rgba(14,107,168,0.1); color: var(--blue); }
+
+  /* ── CHANGE REQUESTS ── */
+  .request-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .request-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .request-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 4px; }
+  .request-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .status-pill { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; flex-shrink: 0; }
+  .status-done { background: rgba(40,180,133,0.12); color: var(--green-dark); }
+  .status-progress { background: rgba(14,107,168,0.1); color: var(--blue); }
+  .status-submitted { background: rgba(234,179,8,0.12); color: #92400e; }
+  .request-meta { font-size: 11.5px; color: var(--text-muted); }
+
+  /* ── REFERRALS ── */
+  .referral-link-box {
+    background: var(--off-white); border: 1.5px dashed var(--border);
+    border-radius: 10px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+  }
+  .referral-link-url { font-size: 12.5px; color: var(--blue); font-weight: 600; flex: 1; }
+  .referral-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .referral-stat { text-align: center; background: var(--off-white); border-radius: 8px; padding: 12px 8px; }
+  .referral-stat-num { font-family: var(--font-serif); font-size: 22px; color: var(--text); display: block; }
+  .referral-stat-label { font-size: 11px; color: var(--text-muted); }
+  .referral-credit { background: rgba(40,180,133,0.08); border: 1.5px solid rgba(40,180,133,0.2); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; }
+  .referral-credit-label { font-size: 12.5px; color: var(--text); font-weight: 600; }
+  .referral-credit-amount { font-size: 18px; font-weight: 700; color: var(--green); }
+
+  /* ── OFFBOARD ── */
+  .offboard-card { border-color: rgba(220,38,38,0.2); }
+  .offboard-body { padding: 18px 20px; }
+  .offboard-title { font-size: 13px; font-weight: 700; color: #991b1b; margin-bottom: 6px; }
+  .offboard-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
+  .transfer-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+  .transfer-item:last-child { border-bottom: none; }
+  .transfer-icon { font-size: 15px; }
+  .transfer-name { flex: 1; color: var(--text); font-weight: 500; }
+  .transfer-detail { font-size: 11.5px; color: var(--text-muted); }
+
+  /* ── SITE SCORE ── */
+  .score-card { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
+  .score-card-inner { display: grid; grid-template-columns: 200px 1fr 220px; gap: 0; }
+  .score-left { padding: 22px 24px; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, #0d2c47 0%, #1A3C5E 100%); }
+  .score-num { font-family: var(--font-serif); font-size: 64px; font-weight: 800; color: #fff; line-height: 1; }
+  .score-denom { font-size: 14px; color: rgba(255,255,255,0.4); margin: 3px 0 10px; }
+  .score-tier { display: inline-block; background: rgba(14,107,168,0.35); border: 1px solid rgba(14,107,168,0.5); border-radius: 99px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #7ab8d4; letter-spacing: 0.04em; margin-bottom: 10px; }
+  .score-scan { font-size: 10.5px; color: rgba(255,255,255,0.3); }
+  .score-mid { padding: 20px 24px; border-right: 1px solid var(--border); }
+  .score-mid-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+  .score-trend { display: flex; align-items: flex-end; gap: 8px; height: 56px; margin-bottom: 10px; }
+  .score-trend-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+  .score-trend-bar { width: 100%; border-radius: 4px 4px 0 0; background: var(--border); transition: background 0.2s; }
+  .score-trend-bar.now { background: var(--blue); }
+  .score-trend-month { font-size: 9.5px; color: var(--text-muted); }
+  .score-trend-val { font-size: 9px; color: var(--text-muted); margin-bottom: 2px; }
+  .score-delta { font-size: 12.5px; color: var(--text-muted); }
+  .score-delta strong { color: var(--green); }
+  .score-right { padding: 20px 22px; }
+  .score-right-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+  .cat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; }
+  .cat-row:last-child { margin-bottom: 0; }
+  .cat-name { font-size: 11.5px; color: var(--text); width: 70px; flex-shrink: 0; }
+  .cat-bar-wrap { flex: 1; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .cat-bar-fill { height: 100%; border-radius: 99px; background: var(--blue); }
+  .cat-bar-fill.good { background: var(--green); }
+  .cat-bar-fill.mid { background: var(--blue); }
+  .cat-bar-fill.low { background: #e07b39; }
+  .cat-score { font-size: 11px; font-weight: 700; color: var(--text-muted); width: 32px; text-align: right; flex-shrink: 0; }
+  .score-card-header { padding: 14px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+
+  /* ── SUPPORT STRIP ── */
+  .support-strip { background: var(--blue-deeper); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .support-strip-text h3 { font-family: var(--font-serif); font-size: 17px; color: #fff; margin-bottom: 3px; }
+  .support-strip-text p { font-size: 12.5px; color: rgba(255,255,255,0.5); }
+  .support-strip-right { display: flex; gap: 10px; align-items: center; }
+  .btn-ghost { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.14); }
+  .btn-green-outline { background: transparent; border: 1.5px solid var(--green); color: var(--green); }
+  .btn-green-outline:hover { background: rgba(40,180,133,0.1); }
+
+  /* ── ADD-ONS ── */
+  .addon-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .addon-row:last-child { border-bottom: none; }
+  .addon-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .addon-icon.blue { background: rgba(14,107,168,0.1); }
+  .addon-icon.green { background: rgba(40,180,133,0.1); }
+  .addon-icon.orange { background: rgba(224,123,57,0.1); }
+  .addon-text { flex: 1; }
+  .addon-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .addon-desc { font-size: 11.5px; color: var(--text-muted); }
+  .addon-price { font-size: 13px; font-weight: 700; color: var(--text); text-align: right; }
+  .addon-price-sub { font-size: 10.5px; color: var(--text-muted); }
+
+  /* ── SECTION HEADER ── */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .section-header h2 { font-size: 16px; font-weight: 700; color: var(--text); }
+  .section-header-sub { font-size: 12px; color: var(--text-muted); }
+
+  /* tab nav */
+  .tabs { display: flex; gap: 2px; background: var(--off-white); border-radius: 8px; padding: 3px; margin-bottom: 16px; }
+  .tab { padding: 6px 14px; border-radius: 6px; font-size: 12.5px; font-weight: 600; color: var(--text-muted); cursor: pointer; }
+  .tab.active { background: #fff; color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="26" height="26">
+      <line x1="16" y1="16" x2="27" y2="7"  stroke="#28B485" stroke-width="1.5" opacity="0.6"/>
+      <line x1="16" y1="16" x2="28" y2="25" stroke="#0E6BA8" stroke-width="1.5" opacity="0.5"/>
+      <line x1="16" y1="16" x2="5"  y2="10" stroke="#1A3C5E" stroke-width="1.5" opacity="0.4"/>
+      <circle cx="27" cy="7"  r="3"   fill="#0E6BA8" opacity="0.7"/>
+      <circle cx="28" cy="25" r="2.5" fill="#28B485" opacity="0.6"/>
+      <circle cx="5"  cy="10" r="2.5" fill="#1A3C5E" opacity="0.5"/>
+      <circle cx="16" cy="16" r="6"   fill="#28B485"/>
+    </svg>
+    <div class="sidebar-logo-text">CK <span>Consulting</span></div>
+  </div>
+
+  <div class="client-badge">
+    <div class="client-badge-label">Logged in as</div>
+    <div class="client-badge-name">Imperial Water Co.</div>
+    <div class="client-badge-plan">Growth Plan · $300/mo</div>
+  </div>
+
+  <nav>
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item active" href="#">
+      <span class="nav-icon">⊞</span> Dashboard
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🎯</span> Site Score
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">📊</span> Site Stats
+    </a>
+
+    <div class="nav-section-label">Manage</div>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🔧</span> Change Requests
+      <span class="nav-badge">1</span>
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">✦</span> Add-Ons
+    </a>
+    <div class="nav-item open" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open'); document.getElementById('billing-sub').classList.toggle('open');" style="cursor:pointer;">
+      <span class="nav-icon">⚙︎</span> Settings
+      <span class="nav-item-chevron">▶</span>
+    </div>
+    <div class="nav-sub open">
+      <a class="nav-sub-item active" href="#" onclick="document.getElementById('billing-sub').classList.toggle('open'); this.classList.toggle('active');">
+        <span class="nav-sub-dot"></span> Billing
+      </a>
+      <div id="billing-sub" class="nav-sub-sub open">
+        <a class="nav-sub-sub-item" href="#">
+          <span class="nav-sub-sub-dot"></span> Transfer / Cancel
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section-label">More</div>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">🤝</span> Referrals
+    </a>
+    <a class="nav-item" href="#">
+      <span class="nav-icon">↗</span> My Site
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="avatar">KR</div>
+    <div>
+      <div class="avatar-name">Kurt R.</div>
+      <div class="avatar-role">imperialwater.com</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-title">Dashboard</div>
+    <div class="topbar-right">
+      <span class="topbar-date">April 15, 2026</span>
+      <a href="#" class="btn btn-outline btn-sm">↗ View Site</a>
+      <a href="#" class="btn btn-primary btn-sm">+ Request Change</a>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ── STAT CARDS ── -->
+    <div class="stats-row">
+      <div class="stat-card highlight">
+        <div class="stat-card-label">👁 Visitors This Month</div>
+        <div class="stat-card-value">847</div>
+        <div class="stat-card-sub"><span class="trend-up">↑ 12%</span> vs last month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">📞 Phone Taps</div>
+        <div class="stat-card-value">34</div>
+        <div class="stat-card-sub"><span class="trend-up">↑ 6</span> vs last month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">⭐ Google Rating</div>
+        <div class="stat-card-value">4.8</div>
+        <div class="stat-card-sub">62 reviews total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">💳 Next Bill</div>
+        <div class="stat-card-value" style="font-size:22px;padding-top:4px;">$300</div>
+        <div class="stat-card-sub">Due May 1, 2026</div>
+      </div>
+    </div>
+
+    <!-- ── SITE HEALTH SCORE ── -->
+    <div class="score-card">
+      <div class="score-card-header">
+        <div class="card-title"><span class="card-title-icon">🎯</span> Site Health Score</div>
+        <div style="font-size:12px;color:var(--text-muted);">Auto-scanned monthly · <span style="color:var(--green);font-weight:600;">↑ 22 pts since launch</span></div>
+      </div>
+      <div class="score-card-inner">
+
+        <!-- Big number -->
+        <div class="score-left">
+          <div class="score-num">74</div>
+          <div class="score-denom">out of 100</div>
+          <div class="score-tier">Solid Foundation</div>
+          <div class="score-scan">Last scanned Apr 1, 2026</div>
+        </div>
+
+        <!-- Trend chart -->
+        <div class="score-mid">
+          <div class="score-mid-label">Score Over Time</div>
+          <div class="score-trend">
+            <div class="score-trend-bar-wrap">
+              <div class="score-trend-val">52</div>
+              <div class="score-trend-bar" style="height:30px;"></div>
+              <div class="score-trend-month">Jan</div>
+            </div>
+            <div class="score-trend-bar-wrap">
+              <div class="score-trend-val">61</div>
+              <div class="score-trend-bar" style="height:37px;"></div>
+              <div class="score-trend-month">Feb</div>
+            </div>
+            <div class="score-trend-bar-wrap">
+              <div class="score-trend-val">68</div>
+              <div class="score-trend-bar" style="height:44px;"></div>
+              <div class="score-trend-month">Mar</div>
+            </div>
+            <div class="score-trend-bar-wrap">
+              <div class="score-trend-val">74</div>
+              <div class="score-trend-bar now" style="height:52px;"></div>
+              <div class="score-trend-month">Apr</div>
+            </div>
+          </div>
+          <div class="score-delta">Up <strong>+6 pts</strong> from last month · Next scan May 1</div>
+        </div>
+
+        <!-- Category breakdown -->
+        <div class="score-right">
+          <div class="score-right-label">By Category</div>
+          <div class="cat-row">
+            <div class="cat-name">Website</div>
+            <div class="cat-bar-wrap"><div class="cat-bar-fill good" style="width:80%;"></div></div>
+            <div class="cat-score">20/25</div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-name">Google BP</div>
+            <div class="cat-bar-wrap"><div class="cat-bar-fill mid" style="width:72%;"></div></div>
+            <div class="cat-score">18/25</div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-name">Reviews</div>
+            <div class="cat-bar-wrap"><div class="cat-bar-fill mid" style="width:70%;"></div></div>
+            <div class="cat-score">14/20</div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-name">Visibility</div>
+            <div class="cat-bar-wrap"><div class="cat-bar-fill mid" style="width:80%;"></div></div>
+            <div class="cat-score">12/15</div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-name">Social</div>
+            <div class="cat-bar-wrap"><div class="cat-bar-fill low" style="width:67%;"></div></div>
+            <div class="cat-score">10/15</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── ROW 2: TRAFFIC + TOP PAGES ── -->
+    <div class="portal-grid wide" style="margin-bottom:16px;">
+
+      <!-- Traffic chart -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">📈</span> Site Traffic — Last 8 Weeks</div>
+          <div class="tabs" style="margin:0;">
+            <div class="tab active">Visitors</div>
+            <div class="tab">Sessions</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-area">
+            <div class="bar-group"><div class="bar" style="height:38px;"></div><div class="bar-label">Feb 24</div></div>
+            <div class="bar-group"><div class="bar" style="height:52px;"></div><div class="bar-label">Mar 3</div></div>
+            <div class="bar-group"><div class="bar" style="height:44px;"></div><div class="bar-label">Mar 10</div></div>
+            <div class="bar-group"><div class="bar" style="height:60px;"></div><div class="bar-label">Mar 17</div></div>
+            <div class="bar-group"><div class="bar" style="height:55px;"></div><div class="bar-label">Mar 24</div></div>
+            <div class="bar-group"><div class="bar" style="height:68px;"></div><div class="bar-label">Mar 31</div></div>
+            <div class="bar-group"><div class="bar" style="height:74px;"></div><div class="bar-label">Apr 7</div></div>
+            <div class="bar-group"><div class="bar current" style="height:80px;"></div><div class="bar-label">Apr 14</div></div>
+          </div>
+          <div class="traffic-meta">
+            <div class="traffic-stat"><strong>847</strong> this month</div>
+            <div class="traffic-stat"><strong>2m 14s</strong> avg. time on site</div>
+            <div class="traffic-stat"><strong>62%</strong> mobile</div>
+            <div class="traffic-stat"><strong>38%</strong> from Google</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top pages -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">📄</span> Top Pages</div>
+        </div>
+        <div class="card-body" style="padding-top:10px;">
+          <div class="page-row">
+            <div class="page-name">/ Home</div>
+            <div class="page-bar-wrap"><div class="page-bar-fill" style="width:100%;"></div></div>
+            <div class="page-count">412</div>
+          </div>
+          <div class="page-row">
+            <div class="page-name">/services</div>
+            <div class="page-bar-wrap"><div class="page-bar-fill" style="width:65%;"></div></div>
+            <div class="page-count">267</div>
+          </div>
+          <div class="page-row">
+            <div class="page-name">/contact</div>
+            <div class="page-bar-wrap"><div class="page-bar-fill" style="width:42%;"></div></div>
+            <div class="page-count">174</div>
+          </div>
+          <div class="page-row">
+            <div class="page-name">/about</div>
+            <div class="page-bar-wrap"><div class="page-bar-fill" style="width:22%;"></div></div>
+            <div class="page-count">88</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ROW 3: BILLING + CHANGE REQUESTS ── -->
+    <div class="portal-grid" style="margin-bottom:16px;">
+
+      <!-- Billing -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">💳</span> Billing</div>
+          <a href="#" class="btn btn-outline btn-sm">Manage →</a>
+        </div>
+        <div class="card-body">
+          <div class="plan-badge">
+            <div class="plan-badge-name">Growth Plan</div>
+            <div class="plan-badge-price">· $300 / month</div>
+          </div>
+          <ul class="plan-includes">
+            <li>Hosting + SSL + daily backups</li>
+            <li>Up to 4 content changes/mo</li>
+            <li>Monthly SEO report</li>
+            <li>Review request automation</li>
+            <li>Priority support (24hr response)</li>
+          </ul>
+          <div class="section-header" style="margin-bottom:8px;">
+            <div style="font-size:12px;font-weight:700;color:var(--text-muted);">INVOICE HISTORY</div>
+          </div>
+          <div class="invoice-row">
+            <div class="invoice-date">May 1, 2026</div>
+            <div class="invoice-amount">$300.00</div>
+            <div class="invoice-status upcoming">Upcoming</div>
+          </div>
+          <div class="invoice-row">
+            <div class="invoice-date">Apr 1, 2026</div>
+            <div class="invoice-amount">$300.00</div>
+            <div class="invoice-status paid">Paid</div>
+          </div>
+          <div class="invoice-row">
+            <div class="invoice-date">Mar 1, 2026</div>
+            <div class="invoice-amount">$300.00</div>
+            <div class="invoice-status paid">Paid</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="font-size:12px;color:var(--text-muted);">Visa ending in 4242 · <a href="#" style="color:var(--blue);">Update card</a></div>
+        </div>
+      </div>
+
+      <!-- Change Requests -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">🔧</span> Change Requests</div>
+          <a href="#" class="btn btn-primary btn-sm">+ New Request</a>
+        </div>
+        <div class="card-body" style="padding-top:10px;">
+          <div class="request-item">
+            <div class="request-top">
+              <div class="request-title">Update phone number in header</div>
+              <div class="status-pill status-done">Done ✓</div>
+            </div>
+            <div class="request-meta">Text edit · Apr 12 · Chris completed Apr 13</div>
+          </div>
+          <div class="request-item">
+            <div class="request-top">
+              <div class="request-title">Add new service: Commercial filtration</div>
+              <div class="status-pill status-progress">In Progress</div>
+            </div>
+            <div class="request-meta">New section · Apr 14 · Est. done by Apr 16</div>
+          </div>
+          <div class="request-item">
+            <div class="request-top">
+              <div class="request-title">Fix contact form on mobile</div>
+              <div class="status-pill status-done">Done ✓</div>
+            </div>
+            <div class="request-meta">Bug fix · Apr 8 · Chris completed Apr 8</div>
+          </div>
+          <div class="request-item" style="border:none;">
+            <div class="request-top">
+              <div class="request-title">Update team photo on About page</div>
+              <div class="status-pill status-submitted">Submitted</div>
+            </div>
+            <div class="request-meta">Photo swap · Apr 15 · Waiting on Chris</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div style="font-size:12px;color:var(--text-muted);">3 of 4 requests used this month · resets May 1</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ROW 4: REFERRALS + ADD-ONS ── -->
+    <div class="portal-grid" style="margin-bottom:16px;">
+
+      <!-- Referrals -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">🤝</span> Referrals</div>
+        </div>
+        <div class="card-body">
+          <div class="referral-stats">
+            <div class="referral-stat">
+              <span class="referral-stat-num">3</span>
+              <div class="referral-stat-label">Links sent</div>
+            </div>
+            <div class="referral-stat">
+              <span class="referral-stat-num">1</span>
+              <div class="referral-stat-label">Converted</div>
+            </div>
+            <div class="referral-stat">
+              <span class="referral-stat-num" style="color:var(--green);">$100</span>
+              <div class="referral-stat-label">Credit earned</div>
+            </div>
+          </div>
+          <div class="referral-credit" style="margin-bottom:14px;">
+            <div>
+              <div class="referral-credit-label">Available credit</div>
+              <div style="font-size:11.5px;color:var(--text-muted);">Applied to next invoice automatically</div>
+            </div>
+            <div class="referral-credit-amount">$100</div>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;">Your referral link — share with anyone who needs a site or automation:</div>
+          <div class="referral-link-box">
+            <div class="referral-link-url">chriskelley.io/ref/imperialwater</div>
+            <button class="btn btn-outline btn-sm">Copy</button>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline btn-sm" style="flex:1;">Share via Email</button>
+            <button class="btn btn-outline btn-sm" style="flex:1;">Share via Text</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add-Ons -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">✦</span> Add-Ons & Upgrades</div>
+        </div>
+        <div class="card-body" style="padding-top:10px;">
+          <div class="addon-row">
+            <div class="addon-icon blue">🤖</div>
+            <div class="addon-text">
+              <div class="addon-name">Review Request Automation</div>
+              <div class="addon-desc">Auto follow-up after every job</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="addon-price">$97</div>
+              <div class="addon-price-sub">one-time</div>
+            </div>
+          </div>
+          <div class="addon-row">
+            <div class="addon-icon green">📅</div>
+            <div class="addon-text">
+              <div class="addon-name">Booking / Scheduling Page</div>
+              <div class="addon-desc">Let customers book online</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="addon-price">$200</div>
+              <div class="addon-price-sub">one-time</div>
+            </div>
+          </div>
+          <div class="addon-row">
+            <div class="addon-icon orange">📬</div>
+            <div class="addon-text">
+              <div class="addon-name">Monthly Email Newsletter</div>
+              <div class="addon-desc">Stay top-of-mind with past clients</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="addon-price">$75</div>
+              <div class="addon-price-sub">/month</div>
+            </div>
+          </div>
+          <div class="addon-row" style="border:none;">
+            <div class="addon-icon blue">🗺️</div>
+            <div class="addon-text">
+              <div class="addon-name">GBP Management</div>
+              <div class="addon-desc">Weekly posts, photo uploads, Q&A</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="addon-price">$100</div>
+              <div class="addon-price-sub">/month</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">Request an Add-On →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SUPPORT STRIP ── -->
+    <div class="support-strip">
+      <div class="support-strip-text">
+        <h3>Need something? Chris is one message away.</h3>
+        <p>Avg response time: under 4 hours · chris@chriskelley.io · (832) 807-3093</p>
+      </div>
+      <div class="support-strip-right">
+        <a href="#" class="btn btn-ghost btn-sm">Send a Message</a>
+        <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-green-outline btn-sm">Book a Call →</a>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+</body>
+</html>

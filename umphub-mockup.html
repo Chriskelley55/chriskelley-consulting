@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UmpHub — Westbury Little League</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0d1b2a;
+    --blue: #1a56db;
+    --blue-light: #3b82f6;
+    --green: #16a34a;
+    --green-light: #22c55e;
+    --amber: #d97706;
+    --amber-light: #f59e0b;
+    --red: #dc2626;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-400: #9ca3af;
+    --gray-600: #4b5563;
+    --gray-800: #1f2937;
+    --white: #ffffff;
+    --radius: 14px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.10);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.15);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0d1b2a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 40px;
+  }
+
+  /* ── TOP NAV ─────────────────────────────────────── */
+  .top-bar {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .logo .badge {
+    background: var(--blue);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+  .screen-tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 30px;
+    padding: 4px;
+    flex-wrap: wrap;
+  }
+  .screen-tabs button {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .screen-tabs button.active {
+    background: var(--blue);
+    color: white;
+  }
+  .screen-tabs button:hover:not(.active) {
+    color: white;
+    background: rgba(255,255,255,0.12);
+  }
+
+  /* ── DEVICE FRAME ────────────────────────────────── */
+  .device {
+    width: 100%;
+    max-width: 420px;
+    min-height: 820px;
+    background: var(--gray-50);
+    border-radius: 40px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  .status-bar {
+    background: var(--navy);
+    padding: 14px 24px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .status-bar .notch {
+    width: 90px;
+    height: 20px;
+    background: black;
+    border-radius: 10px;
+    margin: 0 auto;
+  }
+  .app-header {
+    background: var(--navy);
+    padding: 4px 20px 18px;
+    color: white;
+    flex-shrink: 0;
+  }
+  .app-header .greeting {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 2px;
+  }
+  .app-header h1 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .app-header .sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+  }
+  .scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .bottom-nav {
+    background: white;
+    border-top: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 20px;
+    flex-shrink: 0;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    color: var(--gray-400);
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 60px;
+  }
+  .nav-item.active { color: var(--blue); }
+  .nav-item .icon { font-size: 20px; }
+
+  /* ── CARDS ───────────────────────────────────────── */
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-title .see-all {
+    font-size: 12px;
+    color: var(--blue);
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+    cursor: pointer;
+  }
+
+  /* ── STAT PILLS ──────────────────────────────────── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .stat-pill {
+    background: var(--gray-50);
+    border-radius: 12px;
+    padding: 12px 10px;
+    text-align: center;
+    border: 1px solid var(--gray-200);
+  }
+  .stat-pill .num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--gray-800);
+    line-height: 1;
+  }
+  .stat-pill .label {
+    font-size: 10px;
+    color: var(--gray-400);
+    font-weight: 600;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .stat-pill.blue .num { color: var(--blue); }
+  .stat-pill.green .num { color: var(--green); }
+  .stat-pill.amber .num { color: var(--amber); }
+
+  /* ── GAME ROW ────────────────────────────────────── */
+  .game-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .game-row:last-child { border-bottom: none; }
+  .game-date-badge {
+    background: var(--navy);
+    color: white;
+    border-radius: 10px;
+    padding: 8px 10px;
+    text-align: center;
+    min-width: 50px;
+    flex-shrink: 0;
+  }
+  .game-date-badge .month { font-size: 9px; font-weight: 700; text-transform: uppercase; opacity: 0.7; }
+  .game-date-badge .day { font-size: 20px; font-weight: 800; line-height: 1; }
+  .game-info { flex: 1 }
+  .game-info .teams { font-size: 14px; font-weight: 700; color: var(--gray-800); }
+  .game-info .meta { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+  .game-info .ump-row { display: flex; align-items: center; gap: 6px; margin-top: 5px; }
+  .ump-avatar {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    flex-shrink: 0;
+  }
+  .game-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .tag-filled { background: #dcfce7; color: var(--green); }
+  .tag-open { background: #fef3c7; color: var(--amber); }
+  .tag-urgent { background: #fee2e2; color: var(--red); }
+  .tag-pending { background: #eff6ff; color: var(--blue); }
+  .tag-complete { background: var(--gray-100); color: var(--gray-600); }
+
+  /* ── OPEN SLOTS BOARD ────────────────────────────── */
+  .slot-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--blue);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .slot-card.urgent { border-left-color: var(--red); }
+  .slot-card.filled { border-left-color: var(--green); opacity: 0.7; }
+  .slot-header { display: flex; justify-content: space-between; align-items: flex-start; }
+  .slot-title { font-size: 15px; font-weight: 800; color: var(--gray-800); }
+  .slot-meta { font-size: 12px; color: var(--gray-600); display: flex; flex-direction: column; gap: 3px; }
+  .slot-meta span { display: flex; align-items: center; gap: 5px; }
+  .slot-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+  .pay-badge {
+    background: #f0fdf4;
+    color: var(--green);
+    font-size: 16px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid #bbf7d0;
+  }
+  .btn {
+    padding: 8px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-primary { background: var(--blue); color: white; }
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-success { background: var(--green); color: white; }
+  .btn-outline { background: transparent; border: 1.5px solid var(--gray-200); color: var(--gray-800); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+  .btn-block { width: 100%; padding: 14px; border-radius: 12px; font-size: 15px; }
+
+  /* ── FILTER CHIPS ────────────────────────────────── */
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .chip {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1.5px solid var(--gray-200);
+    background: white;
+    color: var(--gray-600);
+    transition: all 0.15s;
+  }
+  .chip.active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: white;
+  }
+
+  /* ── UMP DIRECTORY ───────────────────────────────── */
+  .ump-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ump-avatar-lg {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+  }
+  .ump-details { flex: 1 }
+  .ump-name { font-size: 15px; font-weight: 800; color: var(--gray-800); }
+  .ump-level { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+  .ump-tags { display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
+  .level-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: var(--gray-100);
+    color: var(--gray-600);
+  }
+  .level-tag.certified { background: #eff6ff; color: var(--blue); }
+  .level-tag.preferred { background: #f0fdf4; color: var(--green); }
+  .avail-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .avail-dot.green { background: var(--green-light); }
+  .avail-dot.gray { background: var(--gray-400); }
+  .avail-dot.amber { background: var(--amber-light); }
+  .rating { font-size: 12px; color: var(--amber); font-weight: 700; }
+
+  /* ── PAYMENT SCREEN ──────────────────────────────── */
+  .pay-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .pay-card .amount {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--gray-800);
+    letter-spacing: -2px;
+    margin: 12px 0 4px;
+  }
+  .pay-card .for { font-size: 13px; color: var(--gray-400); font-weight: 500; }
+  .pay-methods { display: flex; gap: 10px; margin-top: 16px; }
+  .pay-method {
+    flex: 1;
+    padding: 14px 10px;
+    border-radius: 12px;
+    border: 2px solid var(--gray-200);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .pay-method:hover { border-color: var(--blue); }
+  .pay-method.selected { border-color: var(--blue); background: #eff6ff; }
+  .pay-method .pm-logo { font-size: 22px; font-weight: 900; }
+  .pay-method .pm-name { font-size: 11px; font-weight: 600; color: var(--gray-600); margin-top: 3px; }
+  .venmo-color { color: #3d95ce; }
+  .zelle-color { color: #6d1ed4; }
+  .cash-color { color: var(--green); }
+  .timeline {
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+  .tl-item {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 16px;
+    position: relative;
+  }
+  .tl-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    bottom: 0;
+    width: 2px;
+    background: var(--gray-200);
+  }
+  .tl-dot {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .tl-dot.done { background: #dcfce7; }
+  .tl-dot.active { background: #eff6ff; border: 2px solid var(--blue); }
+  .tl-dot.todo { background: var(--gray-100); }
+  .tl-content .tl-title { font-size: 13px; font-weight: 700; color: var(--gray-800); }
+  .tl-content .tl-sub { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+
+  /* ── NOTIFICATION SCREEN ─────────────────────────── */
+  .notif-item {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .notif-item.unread { border-left: 3px solid var(--blue); }
+  .notif-icon {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .notif-body .notif-title { font-size: 13px; font-weight: 700; color: var(--gray-800); }
+  .notif-body .notif-msg { font-size: 12px; color: var(--gray-600); margin-top: 2px; line-height: 1.4; }
+  .notif-body .notif-time { font-size: 11px; color: var(--gray-400); margin-top: 4px; }
+
+  /* ── SECTION LABEL ───────────────────────────────── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 4px;
+    margin-top: 4px;
+  }
+
+  .divider { height: 1px; background: var(--gray-100); margin: 4px 0; }
+
+  /* ── HERO BANNER ─────────────────────────────────── */
+  .hero-banner {
+    background: linear-gradient(135deg, var(--blue) 0%, #6d28d9 100%);
+    border-radius: var(--radius);
+    padding: 18px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-banner::after {
+    content: '⚾';
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    font-size: 80px;
+    opacity: 0.15;
+  }
+  .hero-banner .hb-label { font-size: 11px; font-weight: 700; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.5px; }
+  .hero-banner .hb-title { font-size: 20px; font-weight: 800; margin-top: 4px; }
+  .hero-banner .hb-sub { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+  .hero-banner .hb-actions { display: flex; gap: 8px; margin-top: 14px; }
+  .btn-white { background: white; color: var(--blue); font-weight: 700; }
+  .btn-ghost { background: rgba(255,255,255,0.2); color: white; border: 1.5px solid rgba(255,255,255,0.4); }
+
+  /* ── ROLE SELECTOR (landing) ─────────────────────── */
+  .role-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 20px;
+    flex: 1;
+    background: var(--navy);
+  }
+  .role-logo { font-size: 56px; }
+  .role-title { color: white; font-size: 28px; font-weight: 900; letter-spacing: -1px; text-align: center; }
+  .role-sub { color: rgba(255,255,255,0.6); font-size: 14px; text-align: center; margin-top: -10px; }
+  .role-cards { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 10px; }
+  .role-card {
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 20px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.2s;
+  }
+  .role-card:hover { background: rgba(255,255,255,0.12); border-color: var(--blue); }
+  .role-card .rc-icon { font-size: 32px; }
+  .role-card .rc-label { font-size: 17px; font-weight: 800; }
+  .role-card .rc-sub { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+  .role-card .rc-arrow { margin-left: auto; font-size: 20px; opacity: 0.5; }
+
+  /* ── HIDDEN SCREENS ──────────────────────────────── */
+  .screen { display: none; flex-direction: column; flex: 1; }
+  .screen.active { display: flex; }
+
+  /* RESPONSIVE for desktop preview */
+  @media (min-width: 500px) {
+    .device { min-height: 860px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="logo">
+    ⚾ UmpHub
+    <span class="badge">WESTBURY LL</span>
+  </div>
+  <div class="screen-tabs">
+    <button class="active" onclick="showScreen('landing')">Home</button>
+    <button onclick="showScreen('coach')">Coach View</button>
+    <button onclick="showScreen('board')">Game Board</button>
+    <button onclick="showScreen('directory')">Umps</button>
+    <button onclick="showScreen('payment')">Payment</button>
+  </div>
+</div>
+
+<div class="device">
+
+  <!-- ════════════════════════════════════
+       SCREEN 1: LANDING / ROLE SELECT
+  ═══════════════════════════════════════ -->
+  <div id="screen-landing" class="screen active">
+    <div class="role-screen">
+      <div class="role-logo">⚾</div>
+      <div class="role-title">UmpHub</div>
+      <div class="role-sub">Westbury Little League · Umpire Scheduling</div>
+
+      <div class="role-cards">
+        <div class="role-card" onclick="showScreen('coach')">
+          <div class="rc-icon">🧢</div>
+          <div>
+            <div class="rc-label">Coach / Parent</div>
+            <div class="rc-sub">Post games, manage payments, find umps</div>
+          </div>
+          <div class="rc-arrow">›</div>
+        </div>
+        <div class="role-card" onclick="showScreen('board')">
+          <div class="rc-icon">👤</div>
+          <div>
+            <div class="rc-label">I'm an Umpire</div>
+            <div class="rc-sub">Browse open slots, grab games, get paid</div>
+          </div>
+          <div class="rc-arrow">›</div>
+        </div>
+        <div class="role-card">
+          <div class="rc-icon">🏟️</div>
+          <div>
+            <div class="rc-label">League Admin</div>
+            <div class="rc-sub">Full schedule, ump roster, financials</div>
+          </div>
+          <div class="rc-arrow">›</div>
+        </div>
+      </div>
+
+      <div style="color:rgba(255,255,255,0.3); font-size:11px; text-align:center; margin-top:10px;">
+        Westbury Little League · Spring 2026
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SCREEN 2: COACH DASHBOARD
+  ═══════════════════════════════════════ -->
+  <div id="screen-coach" class="screen">
+    <div class="app-header">
+      <div class="greeting">Hey, Coach Chris 👋</div>
+      <h1>Gators</h1>
+      <div class="sub">PW8 · Spring 2026 · Final Week</div>
+    </div>
+    <div class="scroll-area">
+
+      <!-- Stats -->
+      <div class="stat-row">
+        <div class="stat-pill blue">
+          <div class="num">2</div>
+          <div class="label">Games Left</div>
+        </div>
+        <div class="stat-pill amber">
+          <div class="num">1</div>
+          <div class="label">Ump Duty</div>
+        </div>
+        <div class="stat-pill green">
+          <div class="num">$40</div>
+          <div class="label">Owed to You</div>
+        </div>
+      </div>
+
+      <!-- Ump Duty Banner -->
+      <div class="hero-banner" style="background:linear-gradient(135deg,#b45309 0%,#dc2626 100%)">
+        <div class="hb-label">🚨 Your Team Has Ump Duty</div>
+        <div class="hb-title">Sat Apr 18 · Field Ump</div>
+        <div class="hb-sub">Tigers vs. Spartans · 1:30pm · Pee Wee Field · $40</div>
+        <div class="hb-actions">
+          <button class="btn btn-white btn-sm" onclick="showScreen('board')">Post to Board</button>
+          <button class="btn btn-ghost btn-sm" onclick="showScreen('directory')">Browse Umps</button>
+        </div>
+      </div>
+
+      <!-- How duty works -->
+      <div style="background:white;border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)">
+        <div style="font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">How Ump Duty Works</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#4b5563;line-height:1.5">
+          <div style="display:flex;gap:8px"><span>1️⃣</span><span>League assigns your team to provide a <strong>plate</strong> or <strong>field</strong> ump for a specific game</span></div>
+          <div style="display:flex;gap:8px"><span>2️⃣</span><span>You can <strong>handle it yourself</strong>, grab a parent volunteer, or hire from the ump roster</span></div>
+          <div style="display:flex;gap:8px"><span>3️⃣</span><span>Hired ump? Collect fee from team families, then <strong>pay ump via Venmo/Zelle</strong> after game</span></div>
+        </div>
+      </div>
+
+      <!-- Full Schedule with duty annotations -->
+      <div class="card">
+        <div class="card-title">
+          Season Schedule
+          <span class="see-all">View all 10</span>
+        </div>
+
+        <!-- Past games (dimmed) -->
+        <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Past</div>
+
+        <div class="game-row" style="opacity:0.45">
+          <div class="game-date-badge" style="background:#6b7280">
+            <div class="month">Apr</div>
+            <div class="day">9</div>
+          </div>
+          <div class="game-info">
+            <div class="teams">Longhorns vs. Spartans</div>
+            <div class="meta">Pee Wee Field · 6:30pm · <strong style="color:#0e7490">Field Duty</strong></div>
+            <div class="ump-row">
+              <span class="game-tag tag-complete">Done · Louis C. · $40</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-row" style="opacity:0.45">
+          <div class="game-date-badge" style="background:#6b7280">
+            <div class="month">Apr</div>
+            <div class="day">8</div>
+          </div>
+          <div class="game-info">
+            <div class="teams">Bruins vs. <strong>Gators</strong></div>
+            <div class="meta">Pee Wee Field · 6:30pm · Away game</div>
+            <div class="ump-row">
+              <span class="game-tag tag-complete">Done · W 7–3</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin:8px 0 6px">Upcoming</div>
+
+        <!-- TODAY -->
+        <div class="game-row" style="background:#fffbeb;border-radius:10px;padding:8px;margin:0 -4px">
+          <div class="game-date-badge" style="background:#d97706">
+            <div class="month">Apr</div>
+            <div class="day">15</div>
+          </div>
+          <div class="game-info">
+            <div class="teams" style="color:#92400e">Bulldogs vs. Longhorns</div>
+            <div class="meta">Pee Wee Field · 6:30pm · No Gators role today</div>
+            <div class="ump-row">
+              <span class="game-tag" style="background:#fef3c7;color:#92400e">Today · Off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final game day: Apr 18 — two rows -->
+        <div style="font-size:10px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:.5px;margin:10px 0 6px">⚠️ Sat Apr 18 — Final Day</div>
+
+        <div class="game-row" style="border-left:3px solid #dc2626;padding-left:8px">
+          <div class="game-date-badge" style="background:#dc2626">
+            <div class="month">Apr</div>
+            <div class="day">18</div>
+          </div>
+          <div class="game-info">
+            <div class="teams">Bulldogs vs. <strong>Gators</strong> 🎽</div>
+            <div class="meta">Pee Wee Field · 11:30am · Visitor · Plate: Longhorns · Field: Bruins</div>
+            <div class="ump-row">
+              <span class="game-tag tag-open">Play · No Duty</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-row" style="border-left:3px solid #dc2626;padding-left:8px">
+          <div class="game-date-badge" style="background:#dc2626">
+            <div class="month">Apr</div>
+            <div class="day">18</div>
+          </div>
+          <div class="game-info">
+            <div class="teams">Tigers vs. Spartans</div>
+            <div class="meta">Pee Wee Field · 1:30pm · <strong style="color:#dc2626">FIELD UMP DUTY</strong></div>
+            <div class="ump-row">
+              <span class="game-tag tag-urgent">Need Field Ump · $40</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Payment -->
+      <div class="card">
+        <div class="card-title">
+          Payment Requests
+          <span class="see-all">See all</span>
+        </div>
+
+        <div class="game-row">
+          <div class="ump-avatar-lg" style="background:#1a56db; width:40px; height:40px; font-size:14px">LC</div>
+          <div class="game-info">
+            <div class="teams">Louis C. · Apr 9 · Field Duty</div>
+            <div class="meta">Longhorns vs. Spartans · Pee Wee Field</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:18px;font-weight:900;color:#1f2937">$40</div>
+            <button class="btn btn-success btn-sm" onclick="showScreen('payment')">Pay</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Season Duty Summary -->
+      <div class="card">
+        <div class="card-title">Gators Ump Duty · Full Season</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;opacity:.5">
+            <span style="color:#6b7280">2/21 · Tigers vs. Bulldogs</span>
+            <span style="color:#6b7280;font-weight:600">Field · ✅ Done</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;opacity:.5">
+            <span style="color:#6b7280">2/26 · Spartans vs. Beavers</span>
+            <span style="color:#6b7280;font-weight:600">Plate · ✅ Done</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;opacity:.5">
+            <span style="color:#6b7280">2/28 · Bulldogs vs. Spartans</span>
+            <span style="color:#6b7280;font-weight:600">Plate · ✅ Done</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;opacity:.5">
+            <span style="color:#6b7280">3/3 · Tigers vs. Beavers</span>
+            <span style="color:#6b7280;font-weight:600">Plate · ✅ Done</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;opacity:.5">
+            <span style="color:#6b7280">3/18 · Bruins vs. Tigers</span>
+            <span style="color:#6b7280;font-weight:600">Field · ✅ Done</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;opacity:.5">
+            <span style="color:#6b7280">3/21 · Spartans vs. Tigers</span>
+            <span style="color:#6b7280;font-weight:600">Plate · ✅ Done</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;opacity:.5">
+            <span style="color:#6b7280">3/28 · Bruins vs. Spartans</span>
+            <span style="color:#6b7280;font-weight:600">Field · ✅ Done</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;opacity:.5">
+            <span style="color:#6b7280">4/1 · Spartans vs. Bulldogs</span>
+            <span style="color:#6b7280;font-weight:600">Plate · ✅ Done</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;opacity:.5">
+            <span style="color:#6b7280">4/9 · Longhorns vs. Spartans</span>
+            <span style="color:#6b7280;font-weight:600">Field · ✅ Done · Louis C.</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;background:#fff7ed;border-radius:8px;padding:8px;margin-top:2px">
+            <span style="color:#92400e;font-weight:700">4/18 · Tigers vs. Spartans</span>
+            <span style="color:#dc2626;font-weight:700">Field · ⚠️ Open</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 8px;"></div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item active"><span class="icon">🏠</span>Home</div>
+      <div class="nav-item" onclick="showScreen('board')"><span class="icon">📋</span>Board</div>
+      <div class="nav-item" onclick="showScreen('directory')"><span class="icon">👥</span>Umps</div>
+      <div class="nav-item" onclick="showScreen('payment')"><span class="icon">💸</span>Pay</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SCREEN 3: OPEN GAME BOARD (UMP VIEW)
+  ═══════════════════════════════════════ -->
+  <div id="screen-board" class="screen">
+    <div class="app-header">
+      <div class="greeting">Open Slots · Ump View</div>
+      <h1>Grab a Game</h1>
+      <div class="sub">5 open slots this week</div>
+    </div>
+    <div class="scroll-area">
+
+      <!-- Filters -->
+      <div class="filter-row">
+        <div class="chip active">All Levels</div>
+        <div class="chip">Peewee</div>
+        <div class="chip">Minors</div>
+        <div class="chip">Majors</div>
+        <div class="chip">Field Only</div>
+        <div class="chip">This Week</div>
+      </div>
+
+      <!-- Ump Earnings Summary -->
+      <div class="card" style="padding:14px 16px">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <div style="font-size:11px;color:#9ca3af;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Your April</div>
+            <div style="font-size:24px;font-weight:900;color:#1f2937;letter-spacing:-1px;">$300 <span style="font-size:13px;font-weight:600;color:#16a34a">earned</span></div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:11px;color:#9ca3af;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Games</div>
+            <div style="font-size:24px;font-weight:900;color:#1f2937">5 <span style="font-size:13px;font-weight:600;color:#9ca3af">this month</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">⚡ Urgent — Last Minute</div>
+
+      <div class="slot-card urgent">
+        <div class="slot-header">
+          <div>
+            <div class="slot-title">Marlins vs. Cubs</div>
+            <div style="font-size:11px;color:#dc2626;font-weight:700;margin-top:2px">🔴 Sat Apr 19 · 10:00am — 2 days away!</div>
+          </div>
+          <span class="game-tag tag-urgent">Urgent</span>
+        </div>
+        <div class="slot-meta">
+          <span>📍 Westbury Park Field 2</span>
+          <span>⚾ Minors (8-10 yr) · ~2 hrs</span>
+          <span>👤 Plate + Field ump needed</span>
+        </div>
+        <div class="slot-footer">
+          <div class="pay-badge">$60</div>
+          <button class="btn btn-primary">Grab This Game</button>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top:6px;">📅 This Week</div>
+
+      <div class="slot-card">
+        <div class="slot-header">
+          <div>
+            <div class="slot-title">Yankees vs. Braves</div>
+            <div style="font-size:11px;color:#6b7280;margin-top:2px">Thu Apr 17 · 6:30pm</div>
+          </div>
+          <span class="game-tag tag-open">Open</span>
+        </div>
+        <div class="slot-meta">
+          <span>📍 Memorial Field 1</span>
+          <span>⚾ Majors (11-12 yr) · 6 innings</span>
+          <span>👤 Plate ump · Certified preferred</span>
+        </div>
+        <div class="slot-footer">
+          <div class="pay-badge">$60</div>
+          <button class="btn btn-primary">Grab This Game</button>
+        </div>
+      </div>
+
+      <div class="slot-card">
+        <div class="slot-header">
+          <div>
+            <div class="slot-title">Red Sox vs. Dodgers</div>
+            <div style="font-size:11px;color:#6b7280;margin-top:2px">Fri Apr 18 · 5:30pm</div>
+          </div>
+          <span class="game-tag tag-open">Open</span>
+        </div>
+        <div class="slot-meta">
+          <span>📍 Westbury Park Field 3</span>
+          <span>⚾ Peewee (6-7 yr) · ~1.5 hrs</span>
+          <span>👤 Field ump okay</span>
+        </div>
+        <div class="slot-footer">
+          <div class="pay-badge">$40</div>
+          <button class="btn btn-primary">Grab This Game</button>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top:6px;">📆 Next Week</div>
+
+      <div class="slot-card">
+        <div class="slot-header">
+          <div>
+            <div class="slot-title">Marlins vs. Braves</div>
+            <div style="font-size:11px;color:#6b7280;margin-top:2px">Sat Apr 26 · 12:00pm</div>
+          </div>
+          <span class="game-tag tag-open">Open</span>
+        </div>
+        <div class="slot-meta">
+          <span>📍 Memorial Field 2</span>
+          <span>⚾ Minors · 1:40 time limit</span>
+          <span>👤 Plate + Field ump needed</span>
+        </div>
+        <div class="slot-footer">
+          <div class="pay-badge">$60</div>
+          <button class="btn btn-primary">Grab This Game</button>
+        </div>
+      </div>
+
+      <div class="slot-card filled">
+        <div class="slot-header">
+          <div>
+            <div class="slot-title">Angels vs. Mets</div>
+            <div style="font-size:11px;color:#6b7280;margin-top:2px">Sat Apr 26 · 10:00am</div>
+          </div>
+          <span class="game-tag tag-complete">Filled</span>
+        </div>
+        <div class="slot-meta">
+          <span>📍 Westbury Park Field 1</span>
+          <span>⚾ Majors · Plate ump — Louis C.</span>
+        </div>
+        <div class="slot-footer">
+          <div class="pay-badge" style="color:#9ca3af;background:#f9fafb;border-color:#e5e7eb">$60</div>
+          <button class="btn btn-outline btn-sm" disabled>Taken</button>
+        </div>
+      </div>
+
+      <div style="height: 8px;"></div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="showScreen('coach')"><span class="icon">🏠</span>Home</div>
+      <div class="nav-item active"><span class="icon">📋</span>Board</div>
+      <div class="nav-item" onclick="showScreen('directory')"><span class="icon">👥</span>Umps</div>
+      <div class="nav-item" onclick="showScreen('payment')"><span class="icon">💸</span>Pay</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SCREEN 4: UMP DIRECTORY
+  ═══════════════════════════════════════ -->
+  <div id="screen-directory" class="screen">
+    <div class="app-header">
+      <div class="greeting">League Roster</div>
+      <h1>Umpire Directory</h1>
+      <div class="sub">75 approved umps · Spring 2026 roster</div>
+    </div>
+    <div class="scroll-area">
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <div style="flex:1;background:white;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 1px 4px rgba(0,0,0,.08)">
+          <span style="font-size:16px">🔍</span>
+          <span style="color:#9ca3af;font-size:13px">Search umps by name…</span>
+        </div>
+        <div style="background:white;border-radius:12px;padding:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);font-size:18px;cursor:pointer">⚙️</div>
+      </div>
+
+      <div class="filter-row">
+        <div class="chip active">All</div>
+        <div class="chip">Adult · Paid</div>
+        <div class="chip">Volunteer</div>
+        <div class="chip">Exp. Teen</div>
+        <div class="chip">Teen</div>
+        <div class="chip">Away</div>
+      </div>
+
+      <!-- RATES BANNER -->
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:10px 14px;display:flex;justify-content:space-around;font-size:12px;">
+        <div style="text-align:center"><div style="font-weight:800;color:#16a34a;font-size:16px">$60</div><div style="color:#6b7280;font-weight:600">Majors</div></div>
+        <div style="width:1px;background:#bbf7d0"></div>
+        <div style="text-align:center"><div style="font-weight:800;color:#16a34a;font-size:16px">$60</div><div style="color:#6b7280;font-weight:600">Minors</div></div>
+        <div style="width:1px;background:#bbf7d0"></div>
+        <div style="text-align:center"><div style="font-weight:800;color:#16a34a;font-size:16px">$40</div><div style="color:#6b7280;font-weight:600">Peewee</div></div>
+        <div style="width:1px;background:#bbf7d0"></div>
+        <div style="text-align:center"><div style="font-weight:800;color:#6b7280;font-size:13px">$50+</div><div style="color:#6b7280;font-weight:600">Pro plates</div></div>
+      </div>
+
+      <div class="section-label">💰 Adult · For Hire</div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#1a56db,#0e7490)">LC</div>
+        <div class="ump-details">
+          <div class="ump-name">Louis Coco</div>
+          <div class="ump-level">For hire · Very experienced</div>
+          <div class="ump-tags">
+            <span class="level-tag preferred">Minors</span>
+            <span class="level-tag preferred">Peewee</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#1a56db,#6d28d9)">JH</div>
+        <div class="ump-details">
+          <div class="ump-name">John Henry</div>
+          <div class="ump-level">For hire · Very experienced</div>
+          <div class="ump-tags">
+            <span class="level-tag certified">Majors</span>
+            <span class="level-tag preferred">Minors</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#7c3aed,#1a56db)">DH</div>
+        <div class="ump-details">
+          <div class="ump-name">Derrick Heyward</div>
+          <div class="ump-level">For hire · Very experienced</div>
+          <div class="ump-tags">
+            <span class="level-tag certified">Majors</span>
+            <span class="level-tag preferred">Minors</span>
+            <span class="level-tag">Peewee</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#16a34a,#0d9488)">RP</div>
+        <div class="ump-details">
+          <div class="ump-name">Ron Perry</div>
+          <div class="ump-level">For hire · Very experienced</div>
+          <div class="ump-tags">
+            <span class="level-tag certified">Majors</span>
+            <span class="level-tag preferred">Minors</span>
+            <span class="level-tag">Peewee</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#d97706,#dc2626)">WW</div>
+        <div class="ump-details">
+          <div class="ump-name">Willie Wolton</div>
+          <div class="ump-level">For hire · Very experienced</div>
+          <div class="ump-tags">
+            <span class="level-tag certified">Majors</span>
+            <span class="level-tag preferred">Minors</span>
+            <span class="level-tag">Peewee</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:#0e7490">JL</div>
+        <div class="ump-details">
+          <div class="ump-name">Jesse Lozano</div>
+          <div class="ump-level">For hire · Experienced</div>
+          <div class="ump-tags">
+            <span class="level-tag certified">Majors</span>
+            <span class="level-tag">Minors ⚠️</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:8px 12px;font-size:11px;color:#92400e;">
+        ⚠️ <strong>Jesse L. note:</strong> Zone is tight for Minors — best used for Majors plate assignments.
+      </div>
+
+      <!-- More paid adults collapsed -->
+      <div style="background:white;border-radius:12px;padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+        <div style="font-size:13px;color:#6b7280;font-weight:600">+ 6 more adult paid umps</div>
+        <div style="font-size:13px;color:#1a56db;font-weight:700">Show ›</div>
+      </div>
+
+      <div class="section-label" style="margin-top:6px;">🤝 Adult · Volunteer (Not for Hire)</div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#16a34a,#15803d)">LC</div>
+        <div class="ump-details">
+          <div class="ump-name">Leo Costello</div>
+          <div class="ump-level">UIC · Volunteer · Not for hire</div>
+          <div class="ump-tags">
+            <span class="level-tag certified">Majors</span>
+            <span class="level-tag preferred">Minors</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-outline btn-sm">Free</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#16a34a,#0d9488)">DT</div>
+        <div class="ump-details">
+          <div class="ump-name">Dave Tollar</div>
+          <div class="ump-level">Volunteer · Not for hire · Experienced</div>
+          <div class="ump-tags">
+            <span class="level-tag certified">Majors</span>
+            <span class="level-tag preferred">Minors</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-outline btn-sm">Free</button>
+        </div>
+      </div>
+
+      <div class="ump-card" style="opacity:0.6">
+        <div class="ump-avatar-lg" style="background:#6b7280">TT</div>
+        <div class="ump-details">
+          <div class="ump-name">Tom Tauer</div>
+          <div class="ump-level">Former district ump · For hire</div>
+          <div class="ump-tags">
+            <span class="level-tag certified">Majors</span>
+            <span class="level-tag preferred">Minors</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot gray"></div>
+          <span class="game-tag tag-complete">Full</span>
+        </div>
+      </div>
+      <div style="background:#f1f5f9;border-radius:8px;padding:6px 10px;font-size:11px;color:#64748b;margin-top:-8px">
+        📵 Tom T. is fully booked for Spring 2026
+      </div>
+
+      <div class="section-label" style="margin-top:6px;">🎓 Experienced Teens / Young Adults (Alum)</div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">JH</div>
+        <div class="ump-details">
+          <div class="ump-name">Jimmy Herce</div>
+          <div class="ump-level">Exp. young adult · Alum</div>
+          <div class="ump-tags">
+            <span class="level-tag preferred">Plate</span>
+            <span class="level-tag preferred">Field</span>
+            <span class="level-tag">Any Level</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#7c3aed,#1a56db)">CA</div>
+        <div class="ump-details">
+          <div class="ump-name">Costa Andreatos</div>
+          <div class="ump-level">Exp. teenager · Alum</div>
+          <div class="ump-tags">
+            <span class="level-tag preferred">Plate</span>
+            <span class="level-tag preferred">Field</span>
+            <span class="level-tag">Any Level</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#0d9488,#0e7490)">BL</div>
+        <div class="ump-details">
+          <div class="ump-name">Brandon Lopez</div>
+          <div class="ump-level">Exp. teenager · Alum</div>
+          <div class="ump-tags">
+            <span class="level-tag preferred">Plate</span>
+            <span class="level-tag preferred">Field</span>
+            <span class="level-tag">Any Level</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#d97706,#b45309)">RA</div>
+        <div class="ump-details">
+          <div class="ump-name">Ryland Anders</div>
+          <div class="ump-level">Exp. teenager · Alum</div>
+          <div class="ump-tags">
+            <span class="level-tag preferred">Plate</span>
+            <span class="level-tag preferred">Field</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#dc2626,#9f1239)">KD</div>
+        <div class="ump-details">
+          <div class="ump-name">Kolton Denning</div>
+          <div class="ump-level">Exp. young adult</div>
+          <div class="ump-tags">
+            <span class="level-tag preferred">Plate</span>
+            <span class="level-tag preferred">Field</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:#6b7280">CC</div>
+        <div class="ump-details">
+          <div class="ump-name">Connor Costello</div>
+          <div class="ump-level">Exp. teenager · Alum</div>
+          <div class="ump-tags">
+            <span class="level-tag">Field Only</span>
+            <span class="level-tag preferred">Any Level</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top:6px;">⚾ Teens · Available</div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:#6b7280">BC</div>
+        <div class="ump-details">
+          <div class="ump-name">Braden Comstock</div>
+          <div class="ump-level">Teenager · Some experience</div>
+          <div class="ump-tags">
+            <span class="level-tag">Field</span>
+            <span class="level-tag preferred">Plate · Minors</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:#9ca3af">CC</div>
+        <div class="ump-details">
+          <div class="ump-name">Carter Comstock</div>
+          <div class="ump-level">Teenager · Some experience</div>
+          <div class="ump-tags">
+            <span class="level-tag">Field Only</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <div class="ump-card">
+        <div class="ump-avatar-lg" style="background:#64748b">SC</div>
+        <div class="ump-details">
+          <div class="ump-name">Simon Clark</div>
+          <div class="ump-level">Teenager · Alum</div>
+          <div class="ump-tags">
+            <span class="level-tag">Field</span>
+            <span class="level-tag preferred">Any Level</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="avail-dot green"></div>
+          <button class="btn btn-primary btn-sm">Invite</button>
+        </div>
+      </div>
+
+      <!-- Collapsed "show more teens" -->
+      <div style="background:white;border-radius:12px;padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+        <div style="font-size:13px;color:#6b7280;font-weight:600">+ 30 more available teens</div>
+        <div style="font-size:13px;color:#1a56db;font-weight:700">Show ›</div>
+      </div>
+
+      <div class="section-label" style="margin-top:6px;">🎓 Away at College</div>
+
+      <div style="background:white;border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);opacity:0.5">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span style="background:#f3f4f6;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:#6b7280">Vincent C.</span>
+          <span style="background:#f3f4f6;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:#6b7280">James C.</span>
+          <span style="background:#f3f4f6;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:#6b7280">Austin G.</span>
+          <span style="background:#f3f4f6;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:#6b7280">Maxwell C.</span>
+          <span style="background:#f3f4f6;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:#6b7280">Chris J.</span>
+          <span style="background:#f3f4f6;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:#6b7280">Ethan V.</span>
+          <span style="background:#f3f4f6;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:#6b7280">Rud S.</span>
+          <span style="background:#f3f4f6;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:#6b7280">Steven D.</span>
+          <span style="background:#f3f4f6;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:#6b7280">Alex L.</span>
+        </div>
+        <div style="font-size:11px;color:#9ca3af;margin-top:8px">9 umps inactive this season · Auto-notified when they return</div>
+      </div>
+
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="showScreen('coach')"><span class="icon">🏠</span>Home</div>
+      <div class="nav-item" onclick="showScreen('board')"><span class="icon">📋</span>Board</div>
+      <div class="nav-item active"><span class="icon">👥</span>Umps</div>
+      <div class="nav-item" onclick="showScreen('payment')"><span class="icon">💸</span>Pay</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SCREEN 5: PAYMENT FLOW
+  ═══════════════════════════════════════ -->
+  <div id="screen-payment" class="screen">
+    <div class="app-header">
+      <div class="greeting">Game Complete — Pay Ump</div>
+      <h1>Send Payment</h1>
+      <div class="sub">Marlins vs. Angels · Apr 13</div>
+    </div>
+    <div class="scroll-area">
+
+      <!-- Ump info -->
+      <div class="card" style="display:flex;align-items:center;gap:14px;">
+        <div class="ump-avatar-lg" style="background:linear-gradient(135deg,#1a56db,#6d28d9);width:52px;height:52px;font-size:18px">DM</div>
+        <div>
+          <div style="font-size:16px;font-weight:800;color:#1f2937">Dave Martinez</div>
+          <div style="font-size:12px;color:#9ca3af;margin-top:2px">Plate Ump · Minors certified</div>
+          <div class="rating" style="margin-top:4px;font-size:12px">⭐ 4.9 · 12 games</div>
+        </div>
+        <div style="margin-left:auto">
+          <div style="font-size:10px;color:#9ca3af;font-weight:700;text-transform:uppercase">Game</div>
+          <div style="font-size:13px;font-weight:700;color:#1f2937">Apr 13</div>
+          <div style="font-size:11px;color:#9ca3af">Field 3 · 6pm</div>
+        </div>
+      </div>
+
+      <!-- Amount -->
+      <div class="pay-card">
+        <div style="font-size:13px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px">Amount Due</div>
+        <div class="amount">$60</div>
+        <div class="for">Plate ump · Minors · 1:40 time limit</div>
+        <div class="pay-methods">
+          <div class="pay-method selected" id="pm-venmo">
+            <div class="pm-logo venmo-color">V</div>
+            <div class="pm-name">Venmo</div>
+          </div>
+          <div class="pay-method" id="pm-zelle" onclick="selectPay('zelle')">
+            <div class="pm-logo zelle-color">Z</div>
+            <div class="pm-name">Zelle</div>
+          </div>
+          <div class="pay-method" id="pm-cash" onclick="selectPay('cash')">
+            <div class="pm-logo cash-color">💵</div>
+            <div class="pm-name">Cash</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;background:#f0fdf4;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;border:1px solid #bbf7d0">
+          <span style="font-size:16px">📲</span>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#16a34a">Venmo: @dave-martinez-ump</div>
+            <div style="font-size:11px;color:#4b5563">Tap to open in Venmo app</div>
+          </div>
+        </div>
+        <button class="btn btn-success btn-block" style="margin-top:14px">Send $40 via Venmo →</button>
+      </div>
+
+      <!-- Payment Timeline -->
+      <div class="timeline">
+        <div class="card-title" style="margin-bottom:14px">Payment Flow</div>
+        <div class="tl-item">
+          <div class="tl-dot done">✅</div>
+          <div class="tl-content">
+            <div class="tl-title">Game Completed</div>
+            <div class="tl-sub">Ump marked game done · Apr 13, 8:02pm</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done">✅</div>
+          <div class="tl-content">
+            <div class="tl-title">Payment Request Sent</div>
+            <div class="tl-sub">Dave M. requested $40 · Push notif sent to you</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot active">💸</div>
+          <div class="tl-content">
+            <div class="tl-title">You Send Payment</div>
+            <div class="tl-sub">Via Venmo, Zelle, or cash — you're here now</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot todo">🔔</div>
+          <div class="tl-content">
+            <div class="tl-title">Ump Confirms Receipt</div>
+            <div class="tl-sub">Dave marks paid · Game closes out</div>
+          </div>
+        </div>
+        <div class="tl-item" style="padding-bottom:0">
+          <div class="tl-dot todo">📊</div>
+          <div class="tl-content">
+            <div class="tl-title">Season Ledger Updated</div>
+            <div class="tl-sub">Auto-logged for league records + your history</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notifications preview -->
+      <div class="card">
+        <div class="card-title">Recent Alerts</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f3f4f6">
+            <div style="font-size:20px">💸</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#1f2937">Payment request from Dave M.</div>
+              <div style="font-size:11px;color:#9ca3af">Apr 13 game · $40 · 2 days ago</div>
+            </div>
+            <span class="game-tag tag-pending" style="margin-left:auto">Due</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f3f4f6">
+            <div style="font-size:20px">⚠️</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#1f2937">No ump for Apr 19 game</div>
+              <div style="font-size:11px;color:#9ca3af">Marlins vs. Cubs · 2 days away</div>
+            </div>
+            <span class="game-tag tag-urgent" style="margin-left:auto">Urgent</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0">
+            <div style="font-size:20px">✅</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#1f2937">Rick P. grabbed Apr 22</div>
+              <div style="font-size:11px;color:#9ca3af">Marlins vs. Yankees · Confirmed</div>
+            </div>
+            <span class="game-tag tag-filled" style="margin-left:auto">Done</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 8px;"></div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="showScreen('coach')"><span class="icon">🏠</span>Home</div>
+      <div class="nav-item" onclick="showScreen('board')"><span class="icon">📋</span>Board</div>
+      <div class="nav-item" onclick="showScreen('directory')"><span class="icon">👥</span>Umps</div>
+      <div class="nav-item active"><span class="icon">💸</span>Pay</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── DESCRIPTION PANEL ─────────────────────── -->
+<div style="max-width:900px;width:100%;margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+
+  <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:20px;color:white">
+    <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Five Screens</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div onclick="showScreen('landing')" style="cursor:pointer;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.06);hover:background:rgba(255,255,255,0.1)">
+        <div style="font-size:13px;font-weight:700">🏠 Landing / Role Select</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">Coach · Ump · League Admin entry points</div>
+      </div>
+      <div onclick="showScreen('coach')" style="cursor:pointer;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.06)">
+        <div style="font-size:13px;font-weight:700">🧢 Coach Dashboard</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">Game schedule, ump status, pending payments</div>
+      </div>
+      <div onclick="showScreen('board')" style="cursor:pointer;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.06)">
+        <div style="font-size:13px;font-weight:700">📋 Open Game Board</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">Ump's view — grab available slots by level/date</div>
+      </div>
+      <div onclick="showScreen('directory')" style="cursor:pointer;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.06)">
+        <div style="font-size:13px;font-weight:700">👥 Umpire Directory</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">Filter by level, availability, ratings</div>
+      </div>
+      <div onclick="showScreen('payment')" style="cursor:pointer;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.06)">
+        <div style="font-size:13px;font-weight:700">💸 Payment Flow</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">Game complete → request → Venmo/Zelle → confirm</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:20px;color:white">
+    <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Buildout Overview</div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:12px;color:rgba(255,255,255,0.75);line-height:1.5">
+      <div><span style="color:#3b82f6;font-weight:700">Slot Assignment:</span> First-grab wins (default). Optional: admin-assign or invite-only per game. Rotisserie for season-long fairness on the back end.</div>
+      <div><span style="color:#22c55e;font-weight:700">Notifications:</span> Push + SMS reminders 48hr before, slot-open alerts by level, payment due pings.</div>
+      <div><span style="color:#f59e0b;font-weight:700">Venmo / Zelle:</span> Deep-link to Venmo/Zelle app (free, no processing fees). Optional: Stripe for card payments if needed.</div>
+      <div><span style="color:#a78bfa;font-weight:700">Ump Profiles:</span> Level certs, availability calendar, ratings per game, season earnings history.</div>
+      <div><span style="color:#f87171;font-weight:700">Admin Panel:</span> Full schedule view, override assignments, ump roster management, season ledger export.</div>
+      <div><span style="color:#34d399;font-weight:700">Stack:</span> React Native (iOS + Android + web), Firebase/Supabase for real-time slots, Twilio for SMS, Expo for fast deploy.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.screen-tabs button').forEach(b => b.classList.remove('active'));
+
+    document.getElementById('screen-' + id).classList.add('active');
+
+    const map = { landing: 0, coach: 1, board: 2, directory: 3, payment: 4 };
+    const btns = document.querySelectorAll('.screen-tabs button');
+    if (map[id] !== undefined) btns[map[id]].classList.add('active');
+  }
+
+  function selectPay(method) {
+    document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
+    document.getElementById('pm-' + method).classList.add('selected');
+  }
+</script>
+</body>
+</html>
