@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imperial Water Co. — Client Dashboard</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0d2c47; --blue: #1a6fa8; --green: #28B485; --green-dark: #1e9068;
+    --cyan: #00C9C8; --off-white: #F7F8FA; --border: #e4e8ef;
+    --text: #1a1a2e; --muted: #5a6070;
+    --font: 'DM Sans', sans-serif; --serif: 'DM Serif Display', serif;
+  }
+  body { font-family: var(--font); background: var(--off-white); color: var(--text); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+
+  /* ── PASSWORD GATE ─────────────────────────────── */
+  .gate {
+    position: fixed; inset: 0; background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000; padding: 2rem;
+  }
+  .gate.hidden { display: none; }
+  .gate-card {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px; padding: 2.5rem 2rem; max-width: 360px; width: 100%; text-align: center;
+  }
+  .gate-logo { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 1.5rem; }
+  .gate-card h2 { font-family: var(--serif); font-size: 1.6rem; color: #fff; margin-bottom: 0.5rem; }
+  .gate-card p { font-size: 0.875rem; color: rgba(255,255,255,0.5); margin-bottom: 1.75rem; }
+  .gate-input {
+    width: 100%; padding: 0.75rem 1rem; border-radius: 8px;
+    border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.08);
+    color: #fff; font-size: 1rem; font-family: var(--font); margin-bottom: 0.75rem;
+    outline: none; text-align: center; letter-spacing: 0.05em;
+    transition: border-color 0.2s;
+  }
+  .gate-input:focus { border-color: var(--green); }
+  .gate-input::placeholder { color: rgba(255,255,255,0.3); }
+  .gate-btn {
+    width: 100%; padding: 0.75rem; border-radius: 8px; border: none;
+    background: var(--green); color: #fff; font-size: 0.95rem; font-weight: 600;
+    font-family: var(--font); cursor: pointer; transition: background 0.2s;
+  }
+  .gate-btn:hover { background: var(--green-dark); }
+  .gate-error { font-size: 0.8rem; color: #ff7b7b; margin-top: 0.5rem; min-height: 1rem; }
+
+  /* ── TOP BAR ───────────────────────────────────── */
+  .topbar {
+    background: var(--navy); padding: 0 2rem; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .topbar-brand { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .topbar-brand span { color: var(--green); }
+  .topbar-contact { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+  .topbar-contact a { color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 500; }
+  .topbar-contact a:hover { color: var(--green); }
+
+  /* ── HERO ──────────────────────────────────────── */
+  .hero { background: var(--navy); padding: 2.5rem 2rem 3rem; }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .hero-meta { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
+  .hero h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: #fff; margin-bottom: 0.5rem; line-height: 1.2; }
+  .hero-sub { font-size: 0.9rem; color: rgba(255,255,255,0.45); }
+  .hero-sub a { color: rgba(255,255,255,0.6); text-decoration: none; }
+  .hero-sub a:hover { color: var(--cyan); }
+  .phase-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(40,180,133,0.15); border: 1px solid rgba(40,180,133,0.3);
+    color: var(--green); font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.75rem;
+    border-radius: 20px; margin-top: 1rem;
+  }
+  .phase-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+  /* ── MAIN LAYOUT ───────────────────────────────── */
+  .main { max-width: 900px; margin: 0 auto; padding: 2rem; display: grid; gap: 1.25rem; }
+  @media (min-width: 700px) {
+    .main { grid-template-columns: 1fr 1fr; }
+    .full { grid-column: 1 / -1; }
+  }
+
+  /* ── CARDS ─────────────────────────────────────── */
+  .card { background: #fff; border-radius: 14px; border: 1px solid var(--border); padding: 1.5rem; }
+  .card-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+  .card h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+
+  /* ── PROGRESS LIST ─────────────────────────────── */
+  .progress-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .progress-item { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.875rem; }
+  .progress-icon { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; margin-top: 1px; }
+  .progress-icon.done { background: rgba(40,180,133,0.12); color: var(--green); }
+  .progress-icon.pending { background: rgba(255,180,0,0.12); color: #f0a500; }
+  .progress-icon.needed { background: rgba(220,38,38,0.08); color: #dc2626; }
+  .progress-text strong { display: block; color: var(--text); font-weight: 500; line-height: 1.3; }
+  .progress-text span { font-size: 0.78rem; color: var(--muted); }
+
+  /* ── ACTION ITEMS ──────────────────────────────── */
+  .action-card { background: #fff; border-radius: 14px; border: 2px solid var(--green); padding: 1.5rem; }
+  .action-count { display: inline-block; background: var(--green); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; margin-bottom: 0.75rem; }
+  .action-list { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+  .action-item { display: flex; gap: 0.75rem; align-items: flex-start; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border); }
+  .action-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .action-emoji { font-size: 1.2rem; flex-shrink: 0; line-height: 1.4; }
+  .action-body strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+  .action-body p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+  .action-link { display: inline-block; margin-top: 0.35rem; font-size: 0.78rem; color: var(--blue); text-decoration: none; font-weight: 500; }
+  .action-link:hover { text-decoration: underline; }
+
+  /* ── PHASES ────────────────────────────────────── */
+  .phase-list { display: flex; flex-direction: column; gap: 0.85rem; }
+  .phase-item { display: flex; gap: 0.75rem; align-items: flex-start; }
+  .phase-num { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; }
+  .phase-num.active { background: var(--green); color: #fff; }
+  .phase-num.next { background: var(--off-white); color: var(--muted); border: 1.5px solid var(--border); }
+  .phase-num.later { background: var(--off-white); color: var(--border); border: 1.5px solid var(--border); }
+  .phase-body strong { display: block; font-size: 0.875rem; font-weight: 600; color: var(--text); }
+  .phase-body p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-top: 0.15rem; }
+  .phase-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.1rem 0.45rem; border-radius: 4px; margin-bottom: 0.2rem; }
+  .phase-tag.active { background: rgba(40,180,133,0.12); color: var(--green); }
+  .phase-tag.next { background: rgba(26,111,168,0.1); color: var(--blue); }
+  .phase-tag.later { background: var(--off-white); color: var(--muted); }
+
+  /* ── METRICS ───────────────────────────────────── */
+  .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .metric { background: var(--off-white); border-radius: 10px; padding: 1rem; text-align: center; }
+  .metric-val { font-family: var(--serif); font-size: 1.8rem; color: var(--navy); line-height: 1; }
+  .metric-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+  .metric-note { font-size: 0.68rem; color: var(--muted); font-style: italic; margin-top: 0.15rem; }
+
+  /* ── FREE WINS ─────────────────────────────────── */
+  .win-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+  .win-item { display: flex; gap: 0.65rem; align-items: flex-start; }
+  .win-icon { font-size: 1rem; flex-shrink: 0; line-height: 1.5; }
+  .win-body strong { display: block; font-size: 0.875rem; font-weight: 600; color: var(--text); }
+  .win-body p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+  .win-cta { display: inline-block; margin-top: 0.3rem; font-size: 0.78rem; background: var(--off-white); border: 1px solid var(--border); color: var(--text); padding: 0.2rem 0.6rem; border-radius: 6px; text-decoration: none; font-weight: 500; transition: all 0.15s; }
+  .win-cta:hover { border-color: var(--green); color: var(--green); }
+
+  /* ── FOOTER ────────────────────────────────────── */
+  .portal-footer { max-width: 900px; margin: 0 auto; padding: 0 2rem 3rem; text-align: center; font-size: 0.78rem; color: var(--muted); }
+  .portal-footer a { color: var(--blue); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-logo">Chris Kelley Consulting · <span>Client Portal</span></div>
+    <h2>Imperial Water Co.</h2>
+    <p>Enter your access code to view your project dashboard.</p>
+    <input type="password" class="gate-input" id="gateInput" placeholder="Access code" autocomplete="off">
+    <button class="gate-btn" id="gateBtn">View Dashboard →</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-brand">Chris Kelley Consulting · <span>Client Portal</span></div>
+  <div class="topbar-contact">Questions? <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> · <a href="tel:8328073093">(832) 807-3093</a></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-meta">Your Dashboard</div>
+    <h1>Imperial Water Co.</h1>
+    <div class="hero-sub">
+      <a href="https://imperialwaterco.com" target="_blank">imperialwaterco.com ↗</a>
+      &nbsp;·&nbsp; Kurt · Sugar Land, TX
+    </div>
+    <div class="phase-badge"><span class="phase-dot"></span> Phase 1 Active — Site Launch</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ACTION ITEMS (full width) -->
+  <div class="action-card full">
+    <div class="action-count">3 items need your attention</div>
+    <div class="card-label">Your To-Dos</div>
+    <ul class="action-list">
+      <li class="action-item">
+        <div class="action-emoji">📸</div>
+        <div class="action-body">
+          <strong>Send job photos</strong>
+          <p>Real photos have the biggest impact of anything we can add right now — system installs, before/after shots, or even just you on a job site. Send whatever you have on your phone.</p>
+          <a href="mailto:chris@chriskelley.io?subject=Imperial Water Photos" class="action-link">Email photos to Chris →</a>
+        </div>
+      </li>
+      <li class="action-item">
+        <div class="action-emoji">📞</div>
+        <div class="action-body">
+          <strong>Set up a free Google Voice number</strong>
+          <p>Gives you a dedicated business number that forwards to your cell. Keeps your personal number private. Free, takes 10 minutes.</p>
+          <a href="https://voice.google.com" target="_blank" class="action-link">Get a number at voice.google.com →</a>
+        </div>
+      </li>
+      <li class="action-item">
+        <div class="action-emoji">📧</div>
+        <div class="action-body">
+          <strong>Set up email warmup (Instantly — free)</strong>
+          <p>Your new kurt@imperialwaterco.com email has no sending history yet. Warmup builds your reputation so quote replies and customer emails land in inbox, not spam. Free account, takes 5 minutes.</p>
+          <a href="https://instantly.ai" target="_blank" class="action-link">Sign up at instantly.ai →</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- SETUP PROGRESS -->
+  <div class="card">
+    <div class="card-label">Setup Progress</div>
+    <ul class="progress-list">
+      <li class="progress-item">
+        <div class="progress-icon done">✓</div>
+        <div class="progress-text"><strong>Site live</strong><span>imperialwaterco.com — 6 pages</span></div>
+      </li>
+      <li class="progress-item">
+        <div class="progress-icon done">✓</div>
+        <div class="progress-text"><strong>Business email</strong><span>kurt@imperialwaterco.com</span></div>
+      </li>
+      <li class="progress-item">
+        <div class="progress-icon done">✓</div>
+        <div class="progress-text"><strong>Contact forms wired</strong><span>Quote + maintenance plan forms → your inbox</span></div>
+      </li>
+      <li class="progress-item">
+        <div class="progress-icon done">✓</div>
+        <div class="progress-text"><strong>Google Search Console</strong><span>Verified + sitemap submitted</span></div>
+      </li>
+      <li class="progress-item">
+        <div class="progress-icon done">✓</div>
+        <div class="progress-text"><strong>Analytics tracking</strong><span>GA4 + Vercel — live on all pages</span></div>
+      </li>
+      <li class="progress-item">
+        <div class="progress-icon pending">⏳</div>
+        <div class="progress-text"><strong>Google Business Profile</strong><span>Verification pending — up to 5 days</span></div>
+      </li>
+      <li class="progress-item">
+        <div class="progress-icon needed">!</div>
+        <div class="progress-text"><strong>Photos</strong><span>Needed from you — see action items above</span></div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- METRICS -->
+  <div class="card">
+    <div class="card-label">Site Activity</div>
+    <div class="metrics-grid">
+      <div class="metric">
+        <div class="metric-val">—</div>
+        <div class="metric-label">Visitors this week</div>
+        <div class="metric-note">Data populates after 48 hrs</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">0</div>
+        <div class="metric-label">Form submissions</div>
+        <div class="metric-note">Test both forms to confirm</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">6</div>
+        <div class="metric-label">Pages indexed</div>
+        <div class="metric-note">Google Search Console</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">100%</div>
+        <div class="metric-label">Uptime</div>
+        <div class="metric-note">Vercel hosting</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASES (full width) -->
+  <div class="card full">
+    <div class="card-label">Your Roadmap</div>
+    <div class="phase-list">
+      <div class="phase-item">
+        <div class="phase-num active">1</div>
+        <div class="phase-body">
+          <span class="phase-tag active">Active now</span>
+          <strong>Site Launch — Marketing site + lead capture</strong>
+          <p>6-page site, contact forms, water report tool, business email, Google Search Console, analytics. Getting you visible online and capturing leads automatically.</p>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-num next">2</div>
+        <div class="phase-body">
+          <span class="phase-tag next">Next up</span>
+          <strong>CRM + SMS Reminders — Automated customer follow-up</strong>
+          <p>Google Sheet to track clients (name, system type, service dates). Apps Script sends you a text when a customer is due for service. No more manual follow-up — the system reminds you automatically.</p>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-num later">3</div>
+        <div class="phase-body">
+          <span class="phase-tag later">Later</span>
+          <strong>iPad Invoicing — Ring up jobs on-site</strong>
+          <p>Review products with the customer, ring up the bill on an iPad. Either Square (simplest) or a custom web app depending on what fits your workflow.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FREE WINS -->
+  <div class="card full">
+    <div class="card-label">Free Tools Worth Setting Up</div>
+    <ul class="win-list">
+      <li class="win-item">
+        <div class="win-icon">📞</div>
+        <div class="win-body">
+          <strong>Google Voice — free business number</strong>
+          <p>Get a 713 or 832 number that forwards calls and texts to your cell. Voicemail gets transcribed and emailed. Your personal number stays private.</p>
+          <a href="https://voice.google.com" target="_blank" class="win-cta">voice.google.com</a>
+        </div>
+      </li>
+      <li class="win-item">
+        <div class="win-icon">📬</div>
+        <div class="win-body">
+          <strong>Instantly — email deliverability warmup</strong>
+          <p>Builds sending reputation for kurt@imperialwaterco.com so your emails land in inbox, not spam. Sign up free, add your email, turn on warmup — runs automatically in the background.</p>
+          <a href="https://instantly.ai" target="_blank" class="win-cta">instantly.ai</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="portal-footer">
+  Built and managed by <a href="https://chriskelley.io">Chris Kelley Consulting</a> · <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> · (832) 807-3093
+</div>
+
+<script>
+  const PASSWORD = 'imperial2026';
+  const gate = document.getElementById('gate');
+  const input = document.getElementById('gateInput');
+  const btn = document.getElementById('gateBtn');
+  const err = document.getElementById('gateError');
+
+  // Check session
+  if (sessionStorage.getItem('ck_portal_auth') === 'true') {
+    gate.classList.add('hidden');
+  }
+
+  function tryUnlock() {
+    if (input.value === PASSWORD) {
+      sessionStorage.setItem('ck_portal_auth', 'true');
+      gate.classList.add('hidden');
+    } else {
+      err.textContent = 'Incorrect code. Try again or contact Chris.';
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  btn.addEventListener('click', tryUnlock);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+</script>
+</body>
+</html>
