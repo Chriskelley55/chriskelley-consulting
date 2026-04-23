@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imperial Water Co. — Case Study · Chris Kelley Consulting</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0d2c47; --blue: #1a6fa8; --green: #28B485;
+    --cyan: #00C9C8; --off-white: #F7F8FA; --border: #e4e8ef;
+    --text: #1a1a2e; --muted: #5a6070;
+    --font: 'DM Sans', sans-serif; --serif: 'DM Serif Display', serif;
+  }
+
+  @page { size: letter; margin: 0; }
+
+  body {
+    font-family: var(--font); color: var(--text);
+    background: #e8eaed; -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── PAGE SHELL ─────────────────────────────────── */
+  .page {
+    width: 8.5in; min-height: 11in;
+    background: #fff;
+    margin: 0 auto 0.5in;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; box-shadow: none; }
+    .no-print { display: none !important; }
+  }
+
+  /* ── PRINT BUTTON ───────────────────────────────── */
+  .print-bar {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: var(--navy); color: rgba(255,255,255,0.8);
+    padding: 0.6rem 2rem; display: flex; align-items: center;
+    justify-content: space-between; font-size: 0.8rem; z-index: 100;
+  }
+  .print-bar button {
+    background: var(--green); color: #fff; border: none;
+    padding: 0.4rem 1.25rem; border-radius: 6px; font-family: var(--font);
+    font-weight: 600; font-size: 0.8rem; cursor: pointer;
+  }
+  .page-wrap { padding-top: 2.5rem; }
+  @media print { .page-wrap { padding-top: 0; } }
+
+  /* ── COVER ──────────────────────────────────────── */
+  .cover {
+    background: var(--navy);
+    min-height: 11in;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 0.7in 0.75in;
+  }
+  .cover-top { }
+  .cover-eyebrow {
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--green); margin-bottom: 0.6in;
+  }
+  .cover-client {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px; padding: 0.5rem 1rem; margin-bottom: 0.35in;
+  }
+  .cover-client-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+  .cover-client span { font-size: 0.8rem; color: rgba(255,255,255,0.7); font-weight: 500; }
+  .cover h1 {
+    font-family: var(--serif); font-size: 3.4rem; color: #fff;
+    line-height: 1.1; margin-bottom: 0.25in;
+  }
+  .cover h1 em { color: var(--green); font-style: normal; }
+  .cover-sub {
+    font-size: 1.05rem; color: rgba(255,255,255,0.55); line-height: 1.7;
+    max-width: 5.5in;
+  }
+  .cover-visual {
+    margin: 0.4in 0;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.15in;
+  }
+  .cover-stat {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 0.25in 0.2in;
+    text-align: center;
+  }
+  .cover-stat-val {
+    font-family: var(--serif); font-size: 2rem;
+    color: var(--green); line-height: 1; display: block;
+  }
+  .cover-stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 0.1rem; }
+  .cover-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.2in;
+  }
+  .cover-brand { font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+  .cover-brand strong { display: block; color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-bottom: 0.1rem; }
+  .cover-url { font-size: 0.78rem; color: var(--green); }
+
+  /* ── SECTION PAGE ───────────────────────────────── */
+  .inner { padding: 0.55in 0.75in; min-height: 11in; display: flex; flex-direction: column; }
+  .section-tag {
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--green); margin-bottom: 0.12in;
+  }
+  .section-tag.blue { color: var(--blue); }
+  .section-tag.muted { color: var(--muted); }
+  .page-heading {
+    font-family: var(--serif); font-size: 2.2rem; color: var(--navy);
+    line-height: 1.15; margin-bottom: 0.12in;
+  }
+  .page-sub {
+    font-size: 0.95rem; color: var(--muted); line-height: 1.7;
+    max-width: 6in; margin-bottom: 0.3in;
+  }
+  .divider { border: none; border-top: 1.5px solid var(--border); margin: 0.25in 0; }
+
+  /* ── BEFORE PAGE ────────────────────────────────── */
+  .before-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25in; margin-bottom: 0.3in; }
+  .before-card {
+    background: var(--off-white); border-radius: 10px; padding: 0.25in;
+    border-left: 3px solid var(--border);
+  }
+  .before-card.problem { border-left-color: #dc2626; }
+  .before-card h4 { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.1in; }
+  .before-card p { font-size: 0.875rem; color: var(--text); line-height: 1.65; }
+  .opportunity-box {
+    background: linear-gradient(135deg, rgba(13,44,71,0.04) 0%, rgba(40,180,133,0.06) 100%);
+    border: 1px solid rgba(40,180,133,0.2); border-radius: 12px;
+    padding: 0.3in; margin-top: auto;
+  }
+  .opportunity-box h4 { font-family: var(--serif); font-size: 1.3rem; color: var(--navy); margin-bottom: 0.1in; }
+  .opportunity-box p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── DELIVERABLE PAGES ──────────────────────────── */
+  .deliverable-body { flex: 1; display: flex; flex-direction: column; gap: 0.2in; }
+  .mockup {
+    border-radius: 10px; overflow: hidden;
+    border: 1.5px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    flex-shrink: 0;
+  }
+  .mockup-bar {
+    background: #f0f0f0; padding: 0.08in 0.15in;
+    display: flex; align-items: center; gap: 0.06in;
+    border-bottom: 1px solid var(--border);
+  }
+  .mockup-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .mockup-url {
+    flex: 1; background: #fff; border-radius: 4px;
+    padding: 0.03in 0.1in; font-size: 0.65rem; color: var(--muted);
+    margin: 0 0.1in; border: 1px solid var(--border);
+  }
+  .mockup-content { background: var(--navy); padding: 0.3in; }
+  .mockup-content.light { background: #fff; padding: 0.25in; }
+  .mockup-content.split { background: var(--off-white); padding: 0.2in; }
+
+  /* site mockup */
+  .site-hero { margin-bottom: 0.15in; }
+  .site-eyebrow { font-size: 0.6rem; color: var(--green); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.06in; }
+  .site-h1 { font-family: var(--serif); font-size: 1.3rem; color: #fff; line-height: 1.2; margin-bottom: 0.08in; }
+  .site-sub { font-size: 0.7rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+  .site-ctas { display: flex; gap: 0.08in; margin-top: 0.1in; }
+  .site-btn { padding: 0.06in 0.15in; border-radius: 5px; font-size: 0.65rem; font-weight: 600; }
+  .site-btn.primary { background: var(--green); color: #fff; }
+  .site-btn.ghost { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+  .site-pages { display: flex; gap: 0.06in; flex-wrap: wrap; margin-top: 0.12in; }
+  .site-page-pill {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px; padding: 0.03in 0.08in; font-size: 0.6rem; color: rgba(255,255,255,0.5);
+  }
+  .site-page-pill.active { background: rgba(40,180,133,0.2); border-color: rgba(40,180,133,0.3); color: var(--green); }
+
+  /* water report mockup */
+  .report-form { display: flex; flex-direction: column; gap: 0.08in; }
+  .report-label { font-size: 0.65rem; font-weight: 600; color: var(--muted); }
+  .report-input {
+    background: var(--off-white); border: 1.5px solid var(--border);
+    border-radius: 5px; padding: 0.08in 0.1in; font-size: 0.72rem; color: var(--text);
+  }
+  .report-input.active { border-color: var(--green); }
+  .report-results { margin-top: 0.1in; }
+  .report-score-row { display: flex; gap: 0.08in; margin-top: 0.06in; }
+  .report-score {
+    flex: 1; border-radius: 6px; padding: 0.08in;
+    text-align: center; border: 1px solid var(--border); background: #fff;
+  }
+  .report-score.warn { border-color: rgba(240,165,0,0.3); background: rgba(240,165,0,0.05); }
+  .report-score.bad { border-color: rgba(220,38,38,0.2); background: rgba(220,38,38,0.04); }
+  .score-val { font-size: 0.9rem; font-weight: 700; color: var(--navy); }
+  .score-val.warn { color: #b45309; }
+  .score-val.bad { color: #dc2626; }
+  .score-label { font-size: 0.55rem; color: var(--muted); margin-top: 0.02in; }
+
+  /* email mockup */
+  .email-header { background: var(--navy); padding: 0.15in 0.2in; border-radius: 6px 6px 0 0; margin: -0.25in -0.25in 0.15in; }
+  .email-from { font-size: 0.58rem; color: rgba(255,255,255,0.4); }
+  .email-subject { font-size: 0.78rem; font-weight: 700; color: #fff; margin-top: 0.03in; }
+  .email-field { display: flex; gap: 0.1in; margin-bottom: 0.08in; padding-bottom: 0.08in; border-bottom: 1px solid var(--border); }
+  .email-field:last-child { border-bottom: none; margin-bottom: 0; }
+  .email-key { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); width: 0.8in; flex-shrink: 0; padding-top: 0.01in; }
+  .email-val { font-size: 0.72rem; color: var(--text); line-height: 1.4; }
+  .email-val a { color: var(--blue); }
+
+  /* google mockup */
+  .gsc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1in; }
+  .gsc-card { background: #fff; border-radius: 8px; border: 1px solid var(--border); padding: 0.15in; }
+  .gsc-card-title { font-size: 0.65rem; font-weight: 600; color: var(--muted); margin-bottom: 0.08in; }
+  .gsc-val { font-family: var(--serif); font-size: 1.4rem; color: var(--navy); line-height: 1; }
+  .gsc-sub { font-size: 0.58rem; color: var(--green); margin-top: 0.04in; }
+  .gsc-bar-row { display: flex; align-items: center; gap: 0.08in; margin-top: 0.06in; }
+  .gsc-bar-bg { flex: 1; height: 5px; background: var(--border); border-radius: 3px; }
+  .gsc-bar-fill { height: 5px; border-radius: 3px; background: var(--green); }
+
+  /* ── CALLOUT BOX ────────────────────────────────── */
+  .callout {
+    background: var(--navy); border-radius: 10px; padding: 0.25in;
+    display: flex; gap: 0.15in; align-items: flex-start;
+  }
+  .callout-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.02in; }
+  .callout-text { }
+  .callout-text strong { display: block; font-size: 0.85rem; color: #fff; font-weight: 600; margin-bottom: 0.06in; }
+  .callout-text p { font-size: 0.78rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+  /* ── DETAIL LIST ────────────────────────────────── */
+  .detail-list { list-style: none; display: flex; flex-direction: column; gap: 0.1in; }
+  .detail-item { display: flex; gap: 0.1in; align-items: flex-start; font-size: 0.85rem; }
+  .detail-item::before { content: '→'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 0.01in; }
+  .detail-item span { color: var(--text); line-height: 1.55; }
+  .detail-item span strong { color: var(--navy); }
+
+  /* ── TWO-COL ────────────────────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3in; }
+  .two-col-wide { display: grid; grid-template-columns: 3fr 2fr; gap: 0.3in; }
+
+  /* ── STAT STRIP ─────────────────────────────────── */
+  .stat-strip { display: flex; gap: 0.15in; margin: 0.2in 0; }
+  .stat-box { flex: 1; background: var(--off-white); border-radius: 8px; padding: 0.15in; text-align: center; border: 1px solid var(--border); }
+  .stat-box-val { font-family: var(--serif); font-size: 1.5rem; color: var(--navy); line-height: 1; }
+  .stat-box-val.green { color: var(--green); }
+  .stat-box-label { font-size: 0.65rem; color: var(--muted); margin-top: 0.05rem; }
+
+  /* ── PHASE ROW ──────────────────────────────────── */
+  .phase-row { display: flex; gap: 0.12in; }
+  .phase-block { flex: 1; border-radius: 8px; padding: 0.18in; border: 1.5px solid var(--border); }
+  .phase-block.active { border-color: var(--green); background: rgba(40,180,133,0.04); }
+  .phase-block.next { border-color: var(--blue); background: rgba(26,111,168,0.04); }
+  .phase-block.later { background: var(--off-white); }
+  .phase-num { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.08in; }
+  .phase-num.active { color: var(--green); }
+  .phase-num.next { color: var(--blue); }
+  .phase-num.later { color: var(--muted); }
+  .phase-block h4 { font-size: 0.82rem; font-weight: 700; color: var(--navy); margin-bottom: 0.06in; line-height: 1.3; }
+  .phase-block p { font-size: 0.72rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── BACK COVER ─────────────────────────────────── */
+  .back-cover {
+    background: var(--navy); min-height: 11in;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 0.7in 0.75in;
+  }
+  .back-cover h2 { font-family: var(--serif); font-size: 2.4rem; color: #fff; line-height: 1.15; margin-bottom: 0.15in; }
+  .back-cover h2 em { color: var(--green); font-style: normal; }
+  .back-cover .intro { font-size: 0.95rem; color: rgba(255,255,255,0.55); line-height: 1.75; max-width: 5.5in; margin-bottom: 0.35in; }
+  .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.15in; margin-bottom: 0.3in; }
+  .service-card {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 0.2in;
+  }
+  .service-card h4 { font-size: 0.82rem; font-weight: 700; color: #fff; margin-bottom: 0.06in; }
+  .service-card p { font-size: 0.72rem; color: rgba(255,255,255,0.45); line-height: 1.55; }
+  .service-price { font-size: 0.75rem; font-weight: 700; color: var(--green); margin-top: 0.08in; }
+  .back-cta { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.25in; }
+  .back-cta p { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 0.12in; }
+  .back-cta-links { display: flex; gap: 0.25in; align-items: center; }
+  .back-cta-url { font-family: var(--serif); font-size: 1.2rem; color: #fff; }
+  .back-cta-divider { color: rgba(255,255,255,0.2); }
+  .back-cta-contact { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+</style>
+</head>
+<body>
+
+<!-- PRINT BAR -->
+<div class="print-bar no-print">
+  <span>Imperial Water Co. — Case Study · Print or save as PDF</span>
+  <button onclick="window.print()">Save as PDF →</button>
+</div>
+
+<div class="page-wrap">
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- COVER                                           -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-top">
+      <div class="cover-eyebrow">Chris Kelley Consulting · Case Study</div>
+      <div class="cover-client">
+        <div class="cover-client-dot"></div>
+        <span>Imperial Water Co. · Sugar Land, TX · April 2026</span>
+      </div>
+      <h1>From Notecards<br>to <em>Online</em><br>in One Week.</h1>
+      <p class="cover-sub">A real look at what a local service business gets when they stop relying on word of mouth and start building a system that works while they're on the job.</p>
+    </div>
+
+    <div class="cover-visual">
+      <div class="cover-stat">
+        <span class="cover-stat-val">6</span>
+        <div class="cover-stat-label">pages live on day one</div>
+      </div>
+      <div class="cover-stat">
+        <span class="cover-stat-val">7</span>
+        <div class="cover-stat-label">days from brief to launch</div>
+      </div>
+      <div class="cover-stat">
+        <span class="cover-stat-val">$0</span>
+        <div class="cover-stat-label">spent on ads to get found</div>
+      </div>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="cover-brand">
+        <strong>Chris Kelley Consulting</strong>
+        AI automation &amp; workflow consulting · Houston, TX
+      </div>
+      <div class="cover-url">chriskelley.io</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PAGE 1 — THE BEFORE                             -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="page">
+  <div class="inner">
+    <div class="section-tag">The Starting Point</div>
+    <h2 class="page-heading">A good business<br>with no digital presence.</h2>
+    <p class="page-sub">Kurt runs Imperial Water Co. — a water treatment, filtration, and softening service out of Sugar Land, TX. He's good at what he does. He was getting work through word of mouth. And he was tracking every single customer on notecards.</p>
+    <hr class="divider">
+
+    <div class="before-grid">
+      <div class="before-card problem">
+        <h4>The problems</h4>
+        <p>No website meant no way to get found online. No business email meant every quote went out from a personal Gmail. No contact form meant leads that came in after hours just... didn't. Competitors with even basic sites were winning jobs Kurt should have had.</p>
+      </div>
+      <div class="before-card problem">
+        <h4>The opportunity</h4>
+        <p>Sugar Land is one of the fastest-growing suburbs in Texas. Hard water is a real problem — most Houston-area homes need treatment. Nobody dominant in the local search results. Kurt had the skills. He just needed the presence to match.</p>
+      </div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-box">
+        <div class="stat-box-val">0</div>
+        <div class="stat-box-label">Web presence before</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-val">0</div>
+        <div class="stat-box-label">Digital lead capture</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-val green">6</div>
+        <div class="stat-box-label">Pages live after week 1</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-val green">3</div>
+        <div class="stat-box-label">Automated systems running</div>
+      </div>
+    </div>
+
+    <div class="opportunity-box">
+      <h4>What we set out to do</h4>
+      <p>Get Imperial Water Co. visible in local search. Build a site that captures leads automatically. Wire up a professional email. Set up Google to start indexing and tracking. And do it fast enough that Kurt could share the link with a customer that same week — not in two months.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PAGE 2 — THE WEBSITE                            -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="page">
+  <div class="inner">
+    <div class="section-tag">Deliverable 01</div>
+    <h2 class="page-heading">A real website.<br>Not a template.</h2>
+    <p class="page-sub">Six pages, built from scratch, live on a custom domain in under a week. Mobile-first, fast-loading, optimized for local search from day one.</p>
+    <hr class="divider">
+
+    <div class="deliverable-body">
+      <div class="two-col-wide">
+        <div>
+          <!-- SITE MOCKUP -->
+          <div class="mockup">
+            <div class="mockup-bar">
+              <div class="mockup-dot" style="background:#ff5f57;"></div>
+              <div class="mockup-dot" style="background:#febc2e;"></div>
+              <div class="mockup-dot" style="background:#28c840;"></div>
+              <div class="mockup-url">imperialwaterco.com</div>
+            </div>
+            <div class="mockup-content">
+              <div class="site-hero">
+                <div class="site-eyebrow">Imperial Water Co. · Sugar Land, TX</div>
+                <div class="site-h1">Pure Water.<br><em style="color:var(--cyan);">The Imperial Standard.</em><br>At Home.</div>
+                <div class="site-sub">Water system installs, filter replacements, and ongoing service from a local team that knows softeners, filtration, and the hard-water reality of Sugar Land homes.</div>
+                <div class="site-ctas">
+                  <div class="site-btn primary">Get a Free Quote →</div>
+                  <div class="site-btn ghost">See Services</div>
+                </div>
+              </div>
+              <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:0.1in;margin-top:0.1in;">
+                <div style="font-size:0.58rem;color:rgba(255,255,255,0.3);margin-bottom:0.06in;">6 PAGES LIVE</div>
+                <div class="site-pages">
+                  <div class="site-page-pill active">Home</div>
+                  <div class="site-page-pill">Services</div>
+                  <div class="site-page-pill">Maintenance Plans</div>
+                  <div class="site-page-pill">Why Water Quality</div>
+                  <div class="site-page-pill">Water Report</div>
+                  <div class="site-page-pill">Gallery</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <ul class="detail-list">
+            <li class="detail-item"><span><strong>Custom domain</strong> — imperialwaterco.com purchased and live, SSL included, zero DNS config</span></li>
+            <li class="detail-item"><span><strong>Mobile-first</strong> — works on any phone, loads fast, no pinching or zooming</span></li>
+            <li class="detail-item"><span><strong>Local SEO built in</strong> — title tags, meta descriptions, and page copy targeting Sugar Land, TX searches from day one</span></li>
+            <li class="detail-item"><span><strong>LocalBusiness schema</strong> — tells Google exactly who Imperial Water Co. is, what they do, and where they serve</span></li>
+            <li class="detail-item"><span><strong>11 service cities</strong> in structured data — Sugar Land, Katy, Pearland, Missouri City, Richmond, and more</span></li>
+            <li class="detail-item"><span><strong>Auto-deploys</strong> — any update goes live in 30 seconds via GitHub + Vercel</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">💡</div>
+        <div class="callout-text">
+          <strong>Why this matters for a local service business</strong>
+          <p>When someone in Sugar Land searches "water softener installation near me," the businesses that show up have a site. Kurt didn't. Now he does — with the right words, the right structure, and the right signals to get Google to take notice.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PAGE 3 — THE WATER REPORT TOOL                  -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="page">
+  <div class="inner">
+    <div class="section-tag">Deliverable 02</div>
+    <h2 class="page-heading">A lead capture tool<br>built into the site.</h2>
+    <p class="page-sub">The Water Quality Report tool lets anyone enter their ZIP code and get a real, branded water quality breakdown emailed to them — pulling live data for their area. It's the most useful free thing Imperial Water Co. can offer a prospective customer.</p>
+    <hr class="divider">
+
+    <div class="deliverable-body">
+      <div class="two-col-wide">
+        <div>
+          <div class="mockup">
+            <div class="mockup-bar">
+              <div class="mockup-dot" style="background:#ff5f57;"></div>
+              <div class="mockup-dot" style="background:#febc2e;"></div>
+              <div class="mockup-dot" style="background:#28c840;"></div>
+              <div class="mockup-url">imperialwaterco.com/water-report.html</div>
+            </div>
+            <div class="mockup-content light">
+              <div style="font-size:0.65rem;font-weight:700;color:var(--navy);margin-bottom:0.08in;">Check Your Water Quality</div>
+              <div class="report-form">
+                <div>
+                  <div class="report-label">ZIP Code</div>
+                  <div class="report-input active">77478 — Sugar Land, TX</div>
+                </div>
+                <div>
+                  <div class="report-label">Your Email</div>
+                  <div class="report-input">customer@email.com</div>
+                </div>
+                <div class="site-btn primary" style="text-align:center;">Get My Water Report →</div>
+              </div>
+              <div class="report-results">
+                <div style="font-size:0.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.06in;border-top:1px solid var(--border);padding-top:0.08in;">Fort Bend County Water Report</div>
+                <div class="report-score-row">
+                  <div class="report-score warn">
+                    <div class="score-val warn">High</div>
+                    <div class="score-label">Hardness</div>
+                  </div>
+                  <div class="report-score warn">
+                    <div class="score-val warn">↑ 12.3</div>
+                    <div class="score-label">Chloramines</div>
+                  </div>
+                  <div class="report-score bad">
+                    <div class="score-val bad">⚠ 2</div>
+                    <div class="score-label">PFAS detected</div>
+                  </div>
+                </div>
+                <div style="margin-top:0.08in;padding:0.08in;background:rgba(40,180,133,0.08);border-radius:6px;border:1px solid rgba(40,180,133,0.2);">
+                  <div style="font-size:0.62rem;color:var(--green);font-weight:600;">Imperial Water Recommendation</div>
+                  <div style="font-size:0.6rem;color:var(--muted);margin-top:0.03in;">Whole-home softener + RO system for drinking water</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <ul class="detail-list">
+            <li class="detail-item"><span><strong>Real data</strong> — pulls live water quality records for any ZIP in Kurt's service area</span></li>
+            <li class="detail-item"><span><strong>Branded email report</strong> sent automatically — Kurt's name and recommendation at the bottom</span></li>
+            <li class="detail-item"><span><strong>Lead capture built in</strong> — every report request is a name + email of someone with a real water problem</span></li>
+            <li class="detail-item"><span><strong>12 water systems</strong> covered across the service area</span></li>
+            <li class="detail-item"><span><strong>Severity scoring</strong> — contaminants ranked and highlighted so the customer understands what they're dealing with</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">📧</div>
+        <div class="callout-text">
+          <strong>This is the lead gen engine</strong>
+          <p>Most service businesses hand out a business card and hope for a call. This tool gives the customer something genuinely useful — a real breakdown of their water — and puts Kurt's recommendation in their inbox. That's a warm lead with context, not a cold call.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PAGE 4 — CONTACT FORMS + EMAIL                  -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="page">
+  <div class="inner">
+    <div class="section-tag">Deliverable 03 + 04</div>
+    <h2 class="page-heading">Every lead captured.<br>Every notification delivered.</h2>
+    <p class="page-sub">Two contact forms — a quote request and a maintenance plan signup — both wired to send Kurt a formatted notification the moment someone submits. No checking a dashboard. No missed leads.</p>
+    <hr class="divider">
+
+    <div class="deliverable-body">
+      <div class="two-col">
+        <div>
+          <!-- EMAIL MOCKUP -->
+          <div class="mockup">
+            <div class="mockup-bar">
+              <div class="mockup-dot" style="background:#ff5f57;"></div>
+              <div class="mockup-dot" style="background:#febc2e;"></div>
+              <div class="mockup-dot" style="background:#28c840;"></div>
+              <div class="mockup-url">kurt@imperialwaterco.com</div>
+            </div>
+            <div class="mockup-content light" style="font-size:0.78rem;">
+              <div class="email-header">
+                <div class="email-from">From: Imperial Water Co. &lt;reports@chriskelley.io&gt;</div>
+                <div class="email-subject">New Quote Request — John Smith · Sugar Land</div>
+              </div>
+              <div class="email-field">
+                <div class="email-key">Name</div>
+                <div class="email-val">John Smith</div>
+              </div>
+              <div class="email-field">
+                <div class="email-key">Phone</div>
+                <div class="email-val"><a>(713) 555-1234</a></div>
+              </div>
+              <div class="email-field">
+                <div class="email-key">Email</div>
+                <div class="email-val"><a>john@email.com</a></div>
+              </div>
+              <div class="email-field">
+                <div class="email-key">Service</div>
+                <div class="email-val">Whole-home water softener</div>
+              </div>
+              <div class="email-field">
+                <div class="email-key">City</div>
+                <div class="email-val">Sugar Land, TX</div>
+              </div>
+              <div style="margin-top:0.1in;display:flex;gap:0.08in;">
+                <div class="site-btn primary" style="font-size:0.6rem;">📞 Call John</div>
+                <div class="site-btn ghost" style="font-size:0.6rem;border:1px solid var(--border);">✉️ Reply by Email</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <ul class="detail-list" style="margin-bottom:0.2in;">
+            <li class="detail-item"><span><strong>Two forms</strong> — quote request (homepage) and maintenance plan signup (maintenance page)</span></li>
+            <li class="detail-item"><span><strong>Instant notification</strong> — Kurt gets an email the moment anyone submits, with all their details formatted cleanly</span></li>
+            <li class="detail-item"><span><strong>One-click reply</strong> — reply-to is set to the customer's email, so Kurt just hits reply</span></li>
+            <li class="detail-item"><span><strong>Call button in the email</strong> — tap to call directly from the notification</span></li>
+            <li class="detail-item"><span><strong>Maintenance form captures plan preference</strong> — annual vs. semi-annual, plus current system notes</span></li>
+          </ul>
+
+          <div style="background:var(--off-white);border-radius:8px;padding:0.15in;border:1px solid var(--border);">
+            <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.08in;">Business email included</div>
+            <div style="font-size:0.82rem;font-weight:600;color:var(--navy);margin-bottom:0.06in;">kurt@imperialwaterco.com</div>
+            <div style="font-size:0.72rem;color:var(--muted);line-height:1.55;">Google Workspace business email — looks professional, works with Gmail, accessible on any device. Every customer interaction from a real business address.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">⚡</div>
+        <div class="callout-text">
+          <strong>No lead falls through after hours</strong>
+          <p>Before this, someone who found Kurt's number and texted at 9pm either got a response the next day or didn't hear back at all. Now, anyone who fills out the form at any hour gets logged and Kurt gets notified. The follow-up is still human — but the capture is automatic.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PAGE 5 — GOOGLE PRESENCE                        -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="page">
+  <div class="inner">
+    <div class="section-tag">Deliverable 05</div>
+    <h2 class="page-heading">Indexed. Tracked.<br>On the map.</h2>
+    <p class="page-sub">Getting a site live is step one. Getting Google to actually find it, track it, and start serving it in local results is a different job — and it's one most web developers skip.</p>
+    <hr class="divider">
+
+    <div class="deliverable-body">
+      <div class="two-col">
+        <div>
+          <!-- GSC MOCKUP -->
+          <div class="mockup">
+            <div class="mockup-bar">
+              <div class="mockup-dot" style="background:#ff5f57;"></div>
+              <div class="mockup-dot" style="background:#febc2e;"></div>
+              <div class="mockup-dot" style="background:#28c840;"></div>
+              <div class="mockup-url">search.google.com/search-console</div>
+            </div>
+            <div class="mockup-content split">
+              <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.08in;">imperialwaterco.com — Overview</div>
+              <div class="gsc-grid">
+                <div class="gsc-card">
+                  <div class="gsc-card-title">Pages Indexed</div>
+                  <div class="gsc-val">6</div>
+                  <div class="gsc-sub">✓ All pages submitted</div>
+                </div>
+                <div class="gsc-card">
+                  <div class="gsc-card-title">Sitemap Status</div>
+                  <div class="gsc-val" style="font-size:1rem;margin-top:0.05in;">✓ Submitted</div>
+                  <div class="gsc-sub">sitemap.xml · 6 URLs</div>
+                </div>
+              </div>
+              <div style="margin-top:0.1in;background:#fff;border-radius:6px;padding:0.1in;border:1px solid var(--border);">
+                <div style="font-size:0.6rem;color:var(--muted);margin-bottom:0.06in;">Analytics connected — tracking active</div>
+                <div class="gsc-bar-row">
+                  <div style="font-size:0.58rem;color:var(--muted);width:0.7in;">GA4</div>
+                  <div class="gsc-bar-bg"><div class="gsc-bar-fill" style="width:100%;"></div></div>
+                  <div style="font-size:0.6rem;color:var(--green);font-weight:600;">✓</div>
+                </div>
+                <div class="gsc-bar-row">
+                  <div style="font-size:0.58rem;color:var(--muted);width:0.7in;">Vercel Analytics</div>
+                  <div class="gsc-bar-bg"><div class="gsc-bar-fill" style="width:100%;"></div></div>
+                  <div style="font-size:0.6rem;color:var(--green);font-weight:600;">✓</div>
+                </div>
+                <div class="gsc-bar-row">
+                  <div style="font-size:0.58rem;color:var(--muted);width:0.7in;">GBP</div>
+                  <div class="gsc-bar-bg"><div class="gsc-bar-fill" style="width:60%;background:#f0a500;"></div></div>
+                  <div style="font-size:0.6rem;color:#b45309;font-weight:600;">⏳ Verifying</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <ul class="detail-list">
+            <li class="detail-item"><span><strong>Google Search Console</strong> verified under Kurt's account — all 6 pages indexed and submitted</span></li>
+            <li class="detail-item"><span><strong>GA4 (Google Analytics 4)</strong> tracking live on all pages — visitors, traffic sources, page views</span></li>
+            <li class="detail-item"><span><strong>Vercel Analytics</strong> — lightweight real-time dashboard showing active visitors</span></li>
+            <li class="detail-item"><span><strong>Google Business Profile</strong> created — category, hours, service areas, phone, website all filled in. Verification pending (up to 5 days)</span></li>
+            <li class="detail-item"><span><strong>LocalBusiness JSON-LD schema</strong> — tells Google (and AI search tools) exactly what Imperial Water Co. is</span></li>
+            <li class="detail-item"><span><strong>robots.txt + sitemap.xml</strong> — proper crawl signals for all search engines</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">📍</div>
+        <div class="callout-text">
+          <strong>The Google Business Profile is the most important piece for a local service business</strong>
+          <p>When someone searches "water softener Sugar Land" on Google Maps, the results that show up are GBP listings — not websites. Getting Kurt's profile verified and filled out is what starts feeding him into that local pack. It's free, and most competitors haven't done it right.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- PAGE 6 — ROADMAP                                -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="page">
+  <div class="inner">
+    <div class="section-tag">What's Next</div>
+    <h2 class="page-heading">The site is the foundation.<br>The system is what scales it.</h2>
+    <p class="page-sub">Week one gets Imperial Water Co. visible and capturing leads. The next phases turn that presence into an operation that runs itself — customer reminders, automated follow-up, and on-site invoicing.</p>
+    <hr class="divider">
+
+    <div class="phase-row" style="margin-bottom:0.25in;">
+      <div class="phase-block active">
+        <div class="phase-num active">Phase 1 — Active</div>
+        <h4>Site Launch + Lead Capture</h4>
+        <p>6-page site. Lead capture tool. Contact forms. Business email. Google Search Console. GA4. Google Business Profile. Client dashboard. Everything live, indexed, and tracked.</p>
+      </div>
+      <div class="phase-block next">
+        <div class="phase-num next">Phase 2 — Next</div>
+        <h4>CRM + SMS Reminders</h4>
+        <p>Google Sheet to track clients — name, system type, last/next service date. Apps Script sends Kurt a text automatically when a customer is due for service. Set it and forget it.</p>
+      </div>
+      <div class="phase-block later">
+        <div class="phase-num later">Phase 3 — Later</div>
+        <h4>iPad Invoicing</h4>
+        <p>Review products with the customer on-site, ring up the bill on an iPad. Either Square (simplest) or a custom web app depending on workflow. No more invoicing from memory.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div style="margin-bottom:0.2in;">
+      <div class="section-tag blue">Free tools we recommended</div>
+      <div class="two-col" style="margin-top:0.12in;">
+        <div style="background:var(--off-white);border-radius:8px;padding:0.18in;border:1px solid var(--border);">
+          <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:0.06in;">📞 Google Voice</div>
+          <div style="font-size:0.75rem;color:var(--muted);line-height:1.6;">A free Houston-area business number that forwards calls and texts to Kurt's cell. Voicemail gets transcribed and emailed. His personal number stays private. Free, takes 10 minutes.</div>
+        </div>
+        <div style="background:var(--off-white);border-radius:8px;padding:0.18in;border:1px solid var(--border);">
+          <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:0.06in;">📧 Instantly — Email Warmup</div>
+          <div style="font-size:0.75rem;color:var(--muted);line-height:1.6;">New business domains have no sending reputation. Warmup builds it so Kurt's quote replies and follow-ups land in inbox, not spam. Free account at instantly.ai — runs automatically in the background.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">🗂️</div>
+      <div class="callout-text">
+        <strong>Client dashboard included</strong>
+        <p>Kurt has a password-protected dashboard at chriskelley.io/clients/imperial-water/ showing his setup progress, action items, site metrics, and the full phase roadmap. He can always see exactly where things stand without needing to ask.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────────────── -->
+<!-- BACK COVER                                      -->
+<!-- ─────────────────────────────────────────────── -->
+<div class="page">
+  <div class="back-cover">
+    <div>
+      <div class="cover-eyebrow">Chris Kelley Consulting · Services</div>
+      <h2>It's never been easier<br>to get your business <em>found online.</em></h2>
+      <p class="intro">Imperial Water Co. is one example. The same system works for any local service business — contractors, HVAC, plumbing, pool service, pest control, healthcare, coaching. If you're good at what you do and invisible online, this is how we fix that.</p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <h4>🔍 Workflow Audit</h4>
+          <p>90-minute session. We map every manual task that's costing you time and tell you exactly what to fix first.</p>
+          <div class="service-price">$350</div>
+        </div>
+        <div class="service-card">
+          <h4>⚡ Quick Win</h4>
+          <p>One automation built and live in 7 days. Includes the "Get Found Online" package — site, GBP, Google setup, analytics.</p>
+          <div class="service-price">$500</div>
+        </div>
+        <div class="service-card">
+          <h4>⚙️ Systems Buildout</h4>
+          <p>A connected workflow layer for your whole business. Forms, CRM, automations, notifications — all talking to each other.</p>
+          <div class="service-price">$1,500</div>
+        </div>
+        <div class="service-card">
+          <h4>🎯 AI Lead Engine</h4>
+          <p>Full done-for-you outreach system. Lead scraping, inbox warmup, email sequences, CRM. Built to run while you're on the job.</p>
+          <div class="service-price">$3,000</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="back-cta">
+      <p>Ready to see what your business looks like with a real digital presence?</p>
+      <div class="back-cta-links">
+        <div class="back-cta-url">chriskelley.io</div>
+        <div class="back-cta-divider">·</div>
+        <div class="back-cta-contact">chris@chriskelley.io &nbsp;·&nbsp; (832) 807-3093 &nbsp;·&nbsp; Houston, TX</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /page-wrap -->
+</body>
+</html>
