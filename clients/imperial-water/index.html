@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -140,6 +140,49 @@
   .win-body p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
   .win-cta { display: inline-block; margin-top: 0.3rem; font-size: 0.78rem; background: var(--off-white); border: 1px solid var(--border); color: var(--text); padding: 0.2rem 0.6rem; border-radius: 6px; text-decoration: none; font-weight: 500; transition: all 0.15s; }
   .win-cta:hover { border-color: var(--green); color: var(--green); }
+
+  /* ── BRAND ASSETS ─────────────────────────────── */
+  .brand-section { display: flex; flex-direction: column; gap: 1.5rem; }
+  .brand-sub-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+
+  .color-palette { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .color-swatch {
+    cursor: pointer; border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border); transition: transform 0.15s, box-shadow 0.15s;
+    min-width: 110px; flex: 1;
+  }
+  .color-swatch:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .swatch-color { height: 64px; }
+  .swatch-info { padding: 0.6rem 0.75rem; background: #fff; }
+  .swatch-name { font-size: 0.78rem; font-weight: 600; color: var(--text); display: block; }
+  .swatch-hex { font-size: 0.72rem; color: var(--muted); font-family: 'Courier New', monospace; }
+  .swatch-copied { font-size: 0.68rem; color: var(--green); display: none; font-weight: 600; }
+
+  .type-rows { display: flex; flex-direction: column; gap: 0.75rem; }
+  .type-row { background: var(--off-white); border-radius: 10px; padding: 1rem 1.25rem; }
+  .type-specimen { font-size: 1.5rem; color: var(--navy); line-height: 1.25; margin-bottom: 0.35rem; }
+  .type-specimen.oswald { font-family: 'Oswald', sans-serif; font-weight: 700; }
+  .type-specimen.dm-sans { font-family: 'DM Sans', sans-serif; font-weight: 400; }
+  .type-meta { font-size: 0.72rem; color: var(--muted); }
+  .type-meta a { color: var(--blue); text-decoration: none; }
+  .type-meta a:hover { text-decoration: underline; }
+
+  .logo-assets { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .logo-asset {
+    flex: 1; min-width: 140px; background: var(--off-white); border-radius: 10px;
+    border: 1px solid var(--border); padding: 1.25rem 1rem; text-align: center;
+    text-decoration: none; color: var(--text); transition: all 0.15s;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .logo-asset:hover { border-color: var(--blue); background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+  .logo-preview { width: 56px; height: 56px; object-fit: contain; display: block; }
+  .logo-asset-name { font-size: 0.82rem; font-weight: 600; }
+  .logo-asset-desc { font-size: 0.72rem; color: var(--muted); }
+  .logo-asset-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: #fff; border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 4px; color: var(--muted); }
+
+  .brand-tagline { background: var(--navy); border-radius: 10px; padding: 1.25rem 1.5rem; text-align: center; }
+  .brand-tagline-text { font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 600; color: #fff; letter-spacing: 0.06em; text-transform: uppercase; }
+  .brand-tagline-text em { color: #7dd4f0; font-style: normal; }
 
   /* ── FOOTER ────────────────────────────────────── */
   .portal-footer { max-width: 900px; margin: 0 auto; padding: 0 2rem 3rem; text-align: center; font-size: 0.78rem; color: var(--muted); }
@@ -330,6 +373,101 @@
     </ul>
   </div>
 
+
+  <!-- BRAND ASSETS (full width) -->
+  <div class="card full">
+    <div class="card-label">Brand Assets</div>
+    <div class="brand-section">
+
+      <!-- COLOR PALETTE -->
+      <div>
+        <div class="brand-sub-label">Color Palette — click any swatch to copy hex</div>
+        <div class="color-palette">
+          <div class="color-swatch" onclick="copyHex(this, '#0d2c47')">
+            <div class="swatch-color" style="background:#0d2c47;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Navy</span>
+              <span class="swatch-hex">#0d2c47</span>
+              <span class="swatch-copied">✓ Copied!</span>
+            </div>
+          </div>
+          <div class="color-swatch" onclick="copyHex(this, '#1a6fa8')">
+            <div class="swatch-color" style="background:#1a6fa8;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Blue</span>
+              <span class="swatch-hex">#1a6fa8</span>
+              <span class="swatch-copied">✓ Copied!</span>
+            </div>
+          </div>
+          <div class="color-swatch" onclick="copyHex(this, '#00a8cc')">
+            <div class="swatch-color" style="background:#00a8cc;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Cyan</span>
+              <span class="swatch-hex">#00a8cc</span>
+              <span class="swatch-copied">✓ Copied!</span>
+            </div>
+          </div>
+          <div class="color-swatch" onclick="copyHex(this, '#28B485')">
+            <div class="swatch-color" style="background:#28B485;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Green</span>
+              <span class="swatch-hex">#28B485</span>
+              <span class="swatch-copied">✓ Copied!</span>
+            </div>
+          </div>
+          <div class="color-swatch" onclick="copyHex(this, '#ffffff')">
+            <div class="swatch-color" style="background:#ffffff; border-bottom:1px solid #e4e8ef;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">White</span>
+              <span class="swatch-hex">#ffffff</span>
+              <span class="swatch-copied">✓ Copied!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TYPOGRAPHY -->
+      <div>
+        <div class="brand-sub-label">Typography</div>
+        <div class="type-rows">
+          <div class="type-row">
+            <div class="type-specimen oswald">The Imperial Standard.</div>
+            <div class="type-meta">Oswald Bold — headlines, display, navigation &nbsp;·&nbsp; <a href="https://fonts.google.com/specimen/Oswald" target="_blank">Google Fonts ↗</a></div>
+          </div>
+          <div class="type-row">
+            <div class="type-specimen dm-sans">Pure water. Expert service.</div>
+            <div class="type-meta">DM Sans Regular — body text, buttons, UI copy &nbsp;·&nbsp; <a href="https://fonts.google.com/specimen/DM+Sans" target="_blank">Google Fonts ↗</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOGO DOWNLOADS -->
+      <div>
+        <div class="brand-sub-label">Logo Files — click to download</div>
+        <div class="logo-assets">
+          <a href="https://imperialwaterco.com/logo-mark.svg" download="imperial-water-logo.svg" class="logo-asset">
+            <img src="https://imperialwaterco.com/logo-mark.svg" alt="Imperial Water logo mark" class="logo-preview">
+            <div class="logo-asset-name">Logo Mark</div>
+            <div class="logo-asset-desc">Water drop icon</div>
+            <div class="logo-asset-badge">SVG · Scalable</div>
+          </a>
+          <a href="https://imperialwaterco.com/logo-mark.png" download="imperial-water-logo.png" class="logo-asset">
+            <img src="https://imperialwaterco.com/logo-mark.png" alt="Imperial Water logo mark" class="logo-preview">
+            <div class="logo-asset-name">Logo Mark</div>
+            <div class="logo-asset-desc">Water drop icon</div>
+            <div class="logo-asset-badge">PNG · Raster</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- TAGLINE -->
+      <div class="brand-tagline">
+        <div class="brand-tagline-text">Pure Water. <em>The Imperial Standard.</em> At Home.</div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <!-- FOOTER -->
@@ -362,6 +500,19 @@
 
   btn.addEventListener('click', tryUnlock);
   input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+  function copyHex(el, hex) {
+    navigator.clipboard.writeText(hex).then(() => {
+      const hexEl = el.querySelector('.swatch-hex');
+      const copiedEl = el.querySelector('.swatch-copied');
+      hexEl.style.display = 'none';
+      copiedEl.style.display = 'inline';
+      setTimeout(() => {
+        hexEl.style.display = '';
+        copiedEl.style.display = 'none';
+      }, 1600);
+    });
+  }
 </script>
 </body>
 </html>
