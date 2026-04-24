@@ -176,9 +176,12 @@
   }
   .logo-asset:hover { border-color: var(--blue); background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
   .logo-preview { width: 56px; height: 56px; object-fit: contain; display: block; }
+  .logo-preview-wide { width: 100%; height: auto; max-height: 72px; object-fit: contain; display: block; }
+  .logo-preview-wrap { width: 100%; border-radius: 6px; padding: 0.75rem; display: flex; align-items: center; justify-content: center; }
   .logo-asset-name { font-size: 0.82rem; font-weight: 600; }
   .logo-asset-desc { font-size: 0.72rem; color: var(--muted); }
   .logo-asset-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: #fff; border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 4px; color: var(--muted); }
+  .logo-asset-row { display: flex; flex-direction: column; gap: 0.6rem; }
 
   .brand-tagline { background: var(--navy); border-radius: 10px; padding: 1.25rem 1.5rem; text-align: center; }
   .brand-tagline-text { font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 600; color: #fff; letter-spacing: 0.06em; text-transform: uppercase; }
@@ -444,19 +447,41 @@
       <!-- LOGO DOWNLOADS -->
       <div>
         <div class="brand-sub-label">Logo Files — click to download</div>
-        <div class="logo-assets">
-          <a href="https://imperialwaterco.com/logo-mark.svg" download="imperial-water-logo.svg" class="logo-asset">
-            <img src="https://imperialwaterco.com/logo-mark.svg" alt="Imperial Water logo mark" class="logo-preview">
-            <div class="logo-asset-name">Logo Mark</div>
-            <div class="logo-asset-desc">Water drop icon</div>
-            <div class="logo-asset-badge">SVG · Scalable</div>
-          </a>
-          <a href="https://imperialwaterco.com/logo-mark.png" download="imperial-water-logo.png" class="logo-asset">
-            <img src="https://imperialwaterco.com/logo-mark.png" alt="Imperial Water logo mark" class="logo-preview">
-            <div class="logo-asset-name">Logo Mark</div>
-            <div class="logo-asset-desc">Water drop icon</div>
-            <div class="logo-asset-badge">PNG · Raster</div>
-          </a>
+        <div class="logo-asset-row">
+          <!-- Full wordmark -->
+          <div class="logo-assets">
+            <a href="logo-full-white.png" download="imperial-water-logo-white.png" class="logo-asset">
+              <div class="logo-preview-wrap" style="background:#f5f9fc;">
+                <img src="logo-full-white.png" alt="Imperial Water full logo, white background" class="logo-preview-wide">
+              </div>
+              <div class="logo-asset-name">Full Logo</div>
+              <div class="logo-asset-desc">White background</div>
+              <div class="logo-asset-badge">PNG · 1626×658</div>
+            </a>
+            <a href="logo-full-transparent.png" download="imperial-water-logo-transparent.png" class="logo-asset">
+              <div class="logo-preview-wrap" style="background:#0d2c47;">
+                <img src="logo-full-transparent.png" alt="Imperial Water full logo, transparent background" class="logo-preview-wide">
+              </div>
+              <div class="logo-asset-name">Full Logo</div>
+              <div class="logo-asset-desc">Transparent background</div>
+              <div class="logo-asset-badge">PNG · 1626×658</div>
+            </a>
+          </div>
+          <!-- Icon mark -->
+          <div class="logo-assets">
+            <a href="logo-icon.svg" download="imperial-water-icon.svg" class="logo-asset">
+              <img src="logo-icon.svg" alt="Imperial Water icon mark" class="logo-preview">
+              <div class="logo-asset-name">Icon Mark</div>
+              <div class="logo-asset-desc">Water drop · vector</div>
+              <div class="logo-asset-badge">SVG · Scalable</div>
+            </a>
+            <a href="logo-mark-hires.png" download="imperial-water-icon.png" class="logo-asset">
+              <img src="logo-mark-hires.png" alt="Imperial Water icon mark hi-res" class="logo-preview">
+              <div class="logo-asset-name">Icon Mark</div>
+              <div class="logo-asset-desc">Water drop · raster</div>
+              <div class="logo-asset-badge">PNG · 748×1068</div>
+            </a>
+          </div>
         </div>
       </div>
 
