@@ -190,6 +190,19 @@
   .progress-icon.needed { background: rgba(220,38,38,0.1); color: #dc2626; }
   .progress-text strong { display: block; color: var(--text); font-weight: 600; line-height: 1.3; font-size: 12.5px; }
   .progress-text span { font-size: 11.5px; color: var(--muted); }
+  a.progress-item {
+    text-decoration: none; color: inherit;
+    padding: 6px 8px; margin: -6px -8px; border-radius: 6px;
+    transition: background 0.12s;
+    position: relative;
+  }
+  a.progress-item:hover { background: rgba(14,107,168,0.06); }
+  a.progress-item:hover .progress-text strong { color: var(--blue); }
+  a.progress-item .progress-link-arrow {
+    margin-left: auto; font-size: 11px; color: var(--muted); opacity: 0; transition: opacity 0.12s;
+    align-self: center; padding-left: 6px;
+  }
+  a.progress-item:hover .progress-link-arrow { opacity: 1; }
 
   /* ── PHASES / ROADMAP ─────────────────────────── */
   .phase-list { display: flex; flex-direction: column; gap: 14px; }
@@ -222,6 +235,43 @@
   .page-bar-wrap { width: 80px; height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
   .page-bar-fill { height: 100%; background: var(--blue); border-radius: 99px; }
   .page-count { font-size: 11.5px; color: var(--muted); width: 32px; text-align: right; }
+
+  /* ── KEYWORDS / SEARCH QUERIES ────────────────── */
+  .query-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .query-row:last-child { border-bottom: none; }
+  .query-text { flex: 1; font-size: 12.5px; color: var(--text); font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .query-stat { font-size: 11px; color: var(--muted); display: flex; flex-direction: column; align-items: flex-end; gap: 1px; min-width: 60px; }
+  .query-stat strong { color: var(--text); font-size: 12.5px; font-weight: 600; }
+  .query-position { font-size: 10.5px; color: var(--muted); background: var(--off-white); border-radius: 4px; padding: 2px 6px; font-weight: 600; }
+  .query-position.top { color: var(--green-dark); background: rgba(40,180,133,0.12); }
+
+  /* ── REFRESH / META BAR ───────────────────────── */
+  .stats-meta-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 14px; padding: 9px 14px;
+    background: var(--off-white); border: 1px solid var(--border); border-radius: 9px;
+    font-size: 12px; color: var(--muted);
+  }
+  .stats-meta-bar-left { display: flex; align-items: center; gap: 10px; }
+  .stats-meta-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; box-shadow: 0 0 0 3px rgba(40,180,133,0.18); }
+  .stats-meta-dot.demo { background: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.18); }
+  .stats-meta-dot.error { background: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.18); }
+  .stats-refresh-btn {
+    background: #fff; border: 1px solid var(--border); color: var(--text);
+    padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 600;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    transition: all 0.12s; font-family: var(--font);
+  }
+  .stats-refresh-btn:hover:not(:disabled) { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .stats-refresh-btn:disabled { opacity: 0.6; cursor: wait; }
+  .stats-refresh-icon { display: inline-block; transition: transform 0.4s; }
+  .stats-refresh-btn.spinning .stats-refresh-icon { transform: rotate(360deg); }
+  .stats-demo-banner {
+    background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.2);
+    border-radius: 8px; padding: 11px 14px; margin-bottom: 14px;
+    font-size: 12px; color: #92400e; line-height: 1.5;
+  }
+  .stats-demo-banner strong { color: #78350f; }
 
   /* ── EMPTY STATE ──────────────────────────────── */
   .empty-state { text-align: center; padding: 28px 16px; color: var(--muted); }
@@ -380,7 +430,7 @@
 <!-- ═══ SIDEBAR ═══ -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <img src="logo-icon.svg" alt="Imperial Water">
+    <img src="logo-icon-white.svg" alt="Imperial Water">
     <div class="sidebar-logo-text">
       Imperial Water
       <small>CK Consulting · Portal</small>
@@ -504,15 +554,43 @@
             <div class="card-title"><span class="card-title-icon">✓</span> Setup Progress</div>
           </div>
           <div class="card-body">
-            <ul class="progress-list">
-              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Site live</strong><span>imperialwaterco.com — 6 pages</span></div></li>
-              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Business email</strong><span>kurt@imperialwaterco.com</span></div></li>
-              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Contact forms wired</strong><span>Quote + maintenance plan → your inbox</span></div></li>
-              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Google Search Console</strong><span>Verified + sitemap submitted</span></div></li>
-              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Analytics tracking</strong><span>GA4 + Vercel — live on all pages</span></div></li>
-              <li class="progress-item"><div class="progress-icon pending">⏳</div><div class="progress-text"><strong>Google Business Profile</strong><span>Verification pending — up to 5 days</span></div></li>
-              <li class="progress-item"><div class="progress-icon needed">!</div><div class="progress-text"><strong>Photos</strong><span>Needed from you — see action items</span></div></li>
-            </ul>
+            <div class="progress-list">
+              <a class="progress-item" href="https://imperialwaterco.com" target="_blank" rel="noopener">
+                <div class="progress-icon done">✓</div>
+                <div class="progress-text"><strong>Site live</strong><span>imperialwaterco.com — 6 pages</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="https://mail.google.com/a/imperialwaterco.com" target="_blank" rel="noopener">
+                <div class="progress-icon done">✓</div>
+                <div class="progress-text"><strong>Business email</strong><span>kurt@imperialwaterco.com — sign in to Gmail</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="https://imperialwaterco.com/#contact" target="_blank" rel="noopener">
+                <div class="progress-icon done">✓</div>
+                <div class="progress-text"><strong>Contact forms wired</strong><span>Quote + maintenance plan → your inbox</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="https://search.google.com/search-console?resource_id=sc-domain%3Aimperialwaterco.com" target="_blank" rel="noopener">
+                <div class="progress-icon done">✓</div>
+                <div class="progress-text"><strong>Google Search Console</strong><span>Verified + sitemap submitted — open dashboard</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="https://analytics.google.com" target="_blank" rel="noopener">
+                <div class="progress-icon done">✓</div>
+                <div class="progress-text"><strong>Analytics tracking</strong><span>GA4 + Vercel — live on all pages</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="https://business.google.com/dashboard" target="_blank" rel="noopener">
+                <div class="progress-icon pending">⏳</div>
+                <div class="progress-text"><strong>Google Business Profile</strong><span>Verification pending — check status</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="mailto:chris@chriskelley.io?subject=Imperial%20Water%20—%20photos%20for%20site&amp;body=Hey%20Chris%2C%20attaching%20photos%20for%20the%20site." rel="noopener">
+                <div class="progress-icon needed">!</div>
+                <div class="progress-text"><strong>Photos</strong><span>Needed from you — email Chris to send</span></div>
+                <span class="progress-link-arrow">→</span>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -570,31 +648,62 @@
     <!-- ═══════════════════════════════════════ -->
     <section class="section" data-section="site-stats" hidden>
 
+      <!-- Refresh / status bar -->
+      <div class="stats-meta-bar">
+        <div class="stats-meta-bar-left">
+          <span class="stats-meta-dot" id="statsStatusDot"></span>
+          <span id="statsStatusText">Loading from Google Search Console…</span>
+        </div>
+        <button class="stats-refresh-btn" id="statsRefreshBtn" type="button">
+          <span class="stats-refresh-icon">↻</span>
+          <span>Refresh now</span>
+        </button>
+      </div>
+
+      <div class="stats-demo-banner" id="statsDemoBanner" hidden></div>
+
+      <!-- Top-line stats -->
+      <div class="portal-grid thirds" style="margin-bottom:14px;">
+        <div class="stat-card">
+          <div class="stat-card-label">🔍 Search Impressions</div>
+          <div class="stat-card-value" id="statImpressions">—</div>
+          <div class="stat-card-sub">Last 28 days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">🖱 Search Clicks</div>
+          <div class="stat-card-value" id="statClicks">—</div>
+          <div class="stat-card-sub" id="statClicksSub">Last 28 days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">📍 Avg. Position</div>
+          <div class="stat-card-value" id="statPosition">—</div>
+          <div class="stat-card-sub">Across all queries</div>
+        </div>
+      </div>
+
       <div class="portal-grid wide" style="margin-bottom:14px;">
         <!-- Traffic chart -->
         <div class="card">
           <div class="card-header">
-            <div class="card-title"><span class="card-title-icon">📈</span> Site Traffic — Last 8 Weeks</div>
+            <div class="card-title"><span class="card-title-icon">📈</span> Search Traffic — Last 8 Weeks</div>
           </div>
           <div class="card-body">
-            <div class="chart-area">
-              <div class="bar-group"><div class="bar" style="height:6px;"></div><div class="bar-label">8w ago</div></div>
-              <div class="bar-group"><div class="bar" style="height:8px;"></div><div class="bar-label">7w</div></div>
-              <div class="bar-group"><div class="bar" style="height:6px;"></div><div class="bar-label">6w</div></div>
-              <div class="bar-group"><div class="bar" style="height:10px;"></div><div class="bar-label">5w</div></div>
-              <div class="bar-group"><div class="bar" style="height:14px;"></div><div class="bar-label">4w</div></div>
-              <div class="bar-group"><div class="bar" style="height:12px;"></div><div class="bar-label">3w</div></div>
-              <div class="bar-group"><div class="bar" style="height:18px;"></div><div class="bar-label">2w</div></div>
-              <div class="bar-group"><div class="bar current" style="height:24px;"></div><div class="bar-label">This wk</div></div>
+            <div class="chart-area" id="trafficChart">
+              <!-- Bars rendered by JS -->
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar current" style="height:2px;"></div><div class="bar-label">…</div></div>
             </div>
-            <div class="traffic-meta">
-              <div class="traffic-stat"><strong>—</strong> visitors this month</div>
-              <div class="traffic-stat"><strong>—</strong> avg. time on site</div>
-              <div class="traffic-stat"><strong>—</strong> mobile</div>
-              <div class="traffic-stat"><strong>—</strong> from Google</div>
-            </div>
-            <div style="margin-top:12px;padding:10px 12px;background:rgba(40,180,133,0.06);border-radius:8px;font-size:11.5px;color:var(--muted);">
-              📊 Traffic data populates after the first 48 hours of analytics collection. Chart shows preview state.
+            <div class="traffic-meta" id="trafficMeta">
+              <div class="traffic-stat"><strong id="metaTotalClicks">—</strong> total clicks</div>
+              <div class="traffic-stat"><strong id="metaTotalImpressions">—</strong> total impressions</div>
+              <div class="traffic-stat"><strong id="metaCtr">—</strong> CTR</div>
+              <div class="traffic-stat"><strong id="metaPagesIndexed">6</strong> pages indexed</div>
             </div>
           </div>
         </div>
@@ -604,31 +713,22 @@
           <div class="card-header">
             <div class="card-title"><span class="card-title-icon">📄</span> Top Pages</div>
           </div>
-          <div class="card-body" style="padding-top:8px;">
-            <div class="page-row"><div class="page-name">/ Home</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:0%;"></div></div><div class="page-count">—</div></div>
-            <div class="page-row"><div class="page-name">/services</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:0%;"></div></div><div class="page-count">—</div></div>
-            <div class="page-row"><div class="page-name">/water-report</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:0%;"></div></div><div class="page-count">—</div></div>
-            <div class="page-row"><div class="page-name">/why-water</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:0%;"></div></div><div class="page-count">—</div></div>
-            <div class="page-row"><div class="page-name">/maintenance</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:0%;"></div></div><div class="page-count">—</div></div>
+          <div class="card-body" style="padding-top:8px;" id="topPagesBody">
+            <div class="page-row"><div class="page-name" style="color:var(--muted);font-style:italic;">Loading…</div></div>
           </div>
         </div>
       </div>
 
-      <div class="portal-grid thirds">
-        <div class="stat-card">
-          <div class="stat-card-label">🔍 Search Impressions</div>
-          <div class="stat-card-value">—</div>
-          <div class="stat-card-sub">Google Search Console</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">🖱 Search Clicks</div>
-          <div class="stat-card-value">—</div>
-          <div class="stat-card-sub">Last 28 days</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">📊 Pages Indexed</div>
-          <div class="stat-card-value">6</div>
-          <div class="stat-card-sub">All pages submitted</div>
+      <!-- Top queries -->
+      <div class="portal-grid wide" style="grid-template-columns: 1fr; margin-bottom: 14px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">🔑</span> Top Search Queries</div>
+            <span class="card-meta">Keywords bringing traffic from Google</span>
+          </div>
+          <div class="card-body" id="topQueriesBody">
+            <div class="page-row"><div class="page-name" style="color:var(--muted);font-style:italic;">Loading…</div></div>
+          </div>
         </div>
       </div>
 
@@ -820,36 +920,66 @@
             <div>
               <div class="brand-sub-label">Logo Files — click to download</div>
               <div class="logo-asset-row">
+                <!-- Full wordmark — dark and light variants -->
                 <div class="logo-assets">
-                  <a href="logo-full-white.png" download="imperial-water-logo-white.png" class="logo-asset">
-                    <div class="logo-preview-wrap" style="background:#f5f9fc;">
-                      <img src="logo-full-white.png" alt="Imperial Water full logo, white background" class="logo-preview-wide">
+                  <a href="logo-full-white.png" download="imperial-water-logo-white-bg.png" class="logo-asset">
+                    <div class="logo-preview-wrap" style="background:#ffffff; border:1px solid var(--border);">
+                      <img src="logo-full-white.png" alt="Imperial Water wordmark on white" class="logo-preview-wide">
                     </div>
-                    <div class="logo-asset-name">Full Logo</div>
-                    <div class="logo-asset-desc">White background</div>
+                    <div class="logo-asset-name">Wordmark · Dark</div>
+                    <div class="logo-asset-desc">For light backgrounds</div>
                     <div class="logo-asset-badge">PNG · 1626×658</div>
                   </a>
-                  <a href="logo-full-transparent.png" download="imperial-water-logo-transparent.png" class="logo-asset">
-                    <div class="logo-preview-wrap" style="background:#0d2c47;">
-                      <img src="logo-full-transparent.png" alt="Imperial Water full logo, transparent background" class="logo-preview-wide">
+                  <a href="logo-full-transparent.png" download="imperial-water-logo-dark-transparent.png" class="logo-asset">
+                    <div class="logo-preview-wrap" style="background:#f5f9fc;">
+                      <img src="logo-full-transparent.png" alt="Imperial Water wordmark, dark on transparent" class="logo-preview-wide">
                     </div>
-                    <div class="logo-asset-name">Full Logo</div>
+                    <div class="logo-asset-name">Wordmark · Dark</div>
                     <div class="logo-asset-desc">Transparent background</div>
                     <div class="logo-asset-badge">PNG · 1626×658</div>
                   </a>
-                </div>
-                <div class="logo-assets">
-                  <a href="logo-icon.svg" download="imperial-water-icon.svg" class="logo-asset">
-                    <img src="logo-icon.svg" alt="Imperial Water icon mark" class="logo-preview">
-                    <div class="logo-asset-name">Icon Mark</div>
-                    <div class="logo-asset-desc">Water drop · vector</div>
-                    <div class="logo-asset-badge">SVG · Scalable</div>
+                  <a href="logo-full-white-ink.png" download="imperial-water-logo-white-transparent.png" class="logo-asset">
+                    <div class="logo-preview-wrap" style="background:#0d2c47;">
+                      <img src="logo-full-white-ink.png" alt="Imperial Water wordmark, white on transparent" class="logo-preview-wide">
+                    </div>
+                    <div class="logo-asset-name">Wordmark · White</div>
+                    <div class="logo-asset-desc">For dark backgrounds</div>
+                    <div class="logo-asset-badge">PNG · 1626×658</div>
                   </a>
-                  <a href="logo-mark-hires.png" download="imperial-water-icon.png" class="logo-asset">
-                    <img src="logo-mark-hires.png" alt="Imperial Water icon mark hi-res" class="logo-preview">
-                    <div class="logo-asset-name">Icon Mark</div>
-                    <div class="logo-asset-desc">Water drop · raster</div>
-                    <div class="logo-asset-badge">PNG · 748×1068</div>
+                </div>
+                <!-- Icon mark variants -->
+                <div class="logo-assets">
+                  <a href="logo-icon.svg" download="imperial-water-icon-dark.svg" class="logo-asset">
+                    <div class="logo-preview-wrap" style="background:#f5f9fc; padding:6px;">
+                      <img src="logo-icon.svg" alt="Imperial Water icon mark, dark" class="logo-preview">
+                    </div>
+                    <div class="logo-asset-name">Icon · Dark</div>
+                    <div class="logo-asset-desc">Vector · scalable</div>
+                    <div class="logo-asset-badge">SVG</div>
+                  </a>
+                  <a href="logo-icon-white.svg" download="imperial-water-icon-white.svg" class="logo-asset">
+                    <div class="logo-preview-wrap" style="background:#0d2c47; padding:6px;">
+                      <img src="logo-icon-white.svg" alt="Imperial Water icon mark, white" class="logo-preview">
+                    </div>
+                    <div class="logo-asset-name">Icon · White</div>
+                    <div class="logo-asset-desc">Vector · scalable</div>
+                    <div class="logo-asset-badge">SVG</div>
+                  </a>
+                  <a href="logo-mark-hires.png" download="imperial-water-icon-dark.png" class="logo-asset">
+                    <div class="logo-preview-wrap" style="background:#f5f9fc; padding:6px;">
+                      <img src="logo-mark-hires.png" alt="Imperial Water icon mark, dark, raster" class="logo-preview">
+                    </div>
+                    <div class="logo-asset-name">Icon · Dark</div>
+                    <div class="logo-asset-desc">Raster · 748×1068</div>
+                    <div class="logo-asset-badge">PNG</div>
+                  </a>
+                  <a href="logo-mark-white.png" download="imperial-water-icon-white.png" class="logo-asset">
+                    <div class="logo-preview-wrap" style="background:#0d2c47; padding:6px;">
+                      <img src="logo-mark-white.png" alt="Imperial Water icon mark, white, raster" class="logo-preview">
+                    </div>
+                    <div class="logo-asset-name">Icon · White</div>
+                    <div class="logo-asset-desc">Raster · 748×1068</div>
+                    <div class="logo-asset-badge">PNG</div>
                   </a>
                 </div>
               </div>
@@ -1185,6 +1315,151 @@
       setTimeout(() => { btnEl.textContent = orig; }, 1500);
     });
   }
+
+  // ── SITE STATS (Google Search Console) ────
+  const STATS_ENDPOINT = '/api/imperial-stats';
+  let statsLoaded = false;
+
+  function fmtNum(n) {
+    if (n == null) return '—';
+    if (n >= 10000) return (n / 1000).toFixed(1) + 'k';
+    return Math.round(n).toLocaleString();
+  }
+  function fmtPct(n) {
+    if (n == null) return '—';
+    return (n * 100).toFixed(1) + '%';
+  }
+  function relativeTime(iso) {
+    if (!iso) return 'never';
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.round(diff / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return `${mins} min ago`;
+    const hrs = Math.round(mins / 60);
+    if (hrs < 24) return `${hrs} hr${hrs > 1 ? 's' : ''} ago`;
+    const days = Math.round(hrs / 24);
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  }
+
+  function renderStats(data) {
+    // Status bar
+    const dot = document.getElementById('statsStatusDot');
+    const txt = document.getElementById('statsStatusText');
+    const banner = document.getElementById('statsDemoBanner');
+
+    dot.classList.remove('demo', 'error');
+    if (data.is_demo) {
+      dot.classList.add('demo');
+      txt.textContent = `Showing preview data — ${relativeTime(data.last_refreshed)}`;
+      banner.hidden = false;
+      banner.innerHTML = `<strong>Preview mode.</strong> ${data.demo_reason || 'Live Search Console data will populate once configured. Search Console also has a ~48 hour data lag for new sites.'}`;
+    } else {
+      const cacheNote = data.from_cache ? ' (cached)' : '';
+      txt.textContent = `Updated ${relativeTime(data.last_refreshed)}${cacheNote} · Google Search Console`;
+      banner.hidden = true;
+    }
+
+    // Top-line stats
+    const s = data.summary || {};
+    document.getElementById('statImpressions').textContent = fmtNum(s.impressions);
+    document.getElementById('statClicks').textContent = fmtNum(s.clicks);
+    document.getElementById('statClicksSub').textContent = `Last 28 days · CTR ${fmtPct(s.ctr)}`;
+    document.getElementById('statPosition').textContent = s.position != null ? s.position.toFixed(1) : '—';
+
+    document.getElementById('metaTotalClicks').textContent = fmtNum(s.clicks);
+    document.getElementById('metaTotalImpressions').textContent = fmtNum(s.impressions);
+    document.getElementById('metaCtr').textContent = fmtPct(s.ctr);
+    document.getElementById('metaPagesIndexed').textContent = s.pages_indexed || 6;
+
+    // Chart
+    const chart = document.getElementById('trafficChart');
+    const weekly = data.weekly || [];
+    const maxClicks = Math.max(1, ...weekly.map(w => w.clicks || 0));
+    const chartHeightPx = 100; // matches .chart-area height
+    chart.innerHTML = weekly.map((w, i) => {
+      const isLast = i === weekly.length - 1;
+      const heightPx = Math.max(2, Math.round((w.clicks / maxClicks) * (chartHeightPx - 8)));
+      return `<div class="bar-group" title="${w.label}: ${w.clicks} clicks · ${w.impressions} impressions">
+        <div class="bar${isLast ? ' current' : ''}" style="height:${heightPx}px;"></div>
+        <div class="bar-label">${w.week}</div>
+      </div>`;
+    }).join('');
+
+    // Top pages
+    const pagesEl = document.getElementById('topPagesBody');
+    const pages = data.top_pages || [];
+    if (pages.length === 0) {
+      pagesEl.innerHTML = `<div class="page-row"><div class="page-name" style="color:var(--muted);font-style:italic;">No page data yet</div></div>`;
+    } else {
+      pagesEl.innerHTML = pages.map(p => {
+        const label = p.path === '/' ? '/ Home' : p.path;
+        return `<div class="page-row">
+          <div class="page-name">${label}</div>
+          <div class="page-bar-wrap"><div class="page-bar-fill" style="width:${p.pct}%;"></div></div>
+          <div class="page-count">${p.clicks}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // Top queries
+    const queriesEl = document.getElementById('topQueriesBody');
+    const queries = data.top_queries || [];
+    if (queries.length === 0) {
+      queriesEl.innerHTML = `
+        <div style="padding:14px 4px;color:var(--muted);font-size:12.5px;line-height:1.6;">
+          No query data yet. Google Search Console takes 2–7 days to start surfacing the keywords people search to find your site. Check back soon — once data lands you'll see what's bringing traffic.
+        </div>`;
+    } else {
+      queriesEl.innerHTML = queries.map(q => {
+        const posClass = q.position && q.position <= 10 ? 'top' : '';
+        const posLabel = q.position ? `#${q.position}` : '—';
+        return `<div class="query-row">
+          <div class="query-text" title="${q.query}">${q.query}</div>
+          <div class="query-stat"><strong>${q.clicks}</strong><span>clicks</span></div>
+          <div class="query-stat"><strong>${fmtNum(q.impressions)}</strong><span>impr.</span></div>
+          <div class="query-position ${posClass}" title="Average position in search results">${posLabel}</div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  async function loadStats(forceRefresh = false) {
+    const refreshBtn = document.getElementById('statsRefreshBtn');
+    refreshBtn.disabled = true;
+    refreshBtn.classList.add('spinning');
+    document.getElementById('statsStatusText').textContent = forceRefresh
+      ? 'Pulling fresh data…'
+      : 'Loading from Google Search Console…';
+    try {
+      const url = STATS_ENDPOINT + (forceRefresh ? '?refresh=true' : '');
+      const r = await fetch(url, { cache: 'no-store' });
+      const data = await r.json();
+      renderStats(data);
+      statsLoaded = true;
+    } catch (err) {
+      const dot = document.getElementById('statsStatusDot');
+      dot.classList.add('error');
+      document.getElementById('statsStatusText').textContent = 'Could not reach stats service. Try refresh.';
+      console.error('stats load failed:', err);
+    } finally {
+      refreshBtn.disabled = false;
+      setTimeout(() => refreshBtn.classList.remove('spinning'), 400);
+    }
+  }
+
+  document.getElementById('statsRefreshBtn').addEventListener('click', () => loadStats(true));
+
+  // Lazy-load: only fetch when user actually opens Site Stats.
+  // Hooks into the hashchange event + initial load instead of monkey-patching showSection.
+  function maybeLoadStats() {
+    const hash = (window.location.hash || '').slice(1);
+    if (hash === 'site-stats' && !statsLoaded) loadStats(false);
+  }
+  window.addEventListener('hashchange', maybeLoadStats);
+  document.querySelectorAll('.nav-item[data-target="site-stats"]').forEach(b => {
+    b.addEventListener('click', () => { if (!statsLoaded) loadStats(false); });
+  });
+  maybeLoadStats(); // covers the case where user lands directly on #site-stats
 </script>
 </body>
 </html>
