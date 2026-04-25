@@ -11,12 +11,17 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --navy: #0d2c47; --blue: #1a6fa8; --green: #28B485; --green-dark: #1e9068;
-    --cyan: #00C9C8; --off-white: #F7F8FA; --border: #e4e8ef;
+    --navy: #0d2c47; --navy-mid: #1a3d5c; --blue: #1a6fa8; --cyan: #00a8cc;
+    --green: #28B485; --green-dark: #1e9068;
+    --off-white: #F7F8FA; --border: #e4e8ef;
     --text: #1a1a2e; --muted: #5a6070;
-    --font: 'DM Sans', sans-serif; --serif: 'DM Serif Display', serif;
+    --font: 'DM Sans', sans-serif;
+    --serif: 'DM Serif Display', serif;
+    --display: 'Oswald', sans-serif;
+    --sidebar-w: 240px;
   }
-  body { font-family: var(--font); background: var(--off-white); color: var(--text); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+  html, body { height: 100%; }
+  body { font-family: var(--font); background: var(--off-white); color: var(--text); -webkit-font-smoothing: antialiased; display: flex; min-height: 100vh; }
 
   /* ── PASSWORD GATE ─────────────────────────────── */
   .gate {
@@ -30,7 +35,7 @@
     border-radius: 16px; padding: 2.5rem 2rem; max-width: 360px; width: 100%; text-align: center;
   }
   .gate-logo { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 1.5rem; }
-  .gate-card h2 { font-family: var(--serif); font-size: 1.6rem; color: #fff; margin-bottom: 0.5rem; }
+  .gate-card h2 { font-family: var(--display); font-size: 1.6rem; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.02em; }
   .gate-card p { font-size: 0.875rem; color: rgba(255,255,255,0.5); margin-bottom: 1.75rem; }
   .gate-input {
     width: 100%; padding: 0.75rem 1rem; border-radius: 8px;
@@ -49,465 +54,1044 @@
   .gate-btn:hover { background: var(--green-dark); }
   .gate-error { font-size: 0.8rem; color: #ff7b7b; margin-top: 0.5rem; min-height: 1rem; }
 
-  /* ── TOP BAR ───────────────────────────────────── */
+  /* ── SIDEBAR ───────────────────────────────────── */
+  .sidebar {
+    width: var(--sidebar-w); min-width: var(--sidebar-w);
+    background: var(--navy);
+    display: flex; flex-direction: column;
+    position: sticky; top: 0; height: 100vh;
+  }
+  .sidebar-logo {
+    padding: 18px 18px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sidebar-logo img { width: 32px; height: 32px; }
+  .sidebar-logo-text {
+    font-family: var(--display); font-size: 14px; font-weight: 700;
+    color: #fff; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.1;
+  }
+  .sidebar-logo-text small { display:block; font-family: var(--font); font-size: 9.5px; font-weight: 500; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; margin-top: 2px; }
+
+  .client-badge {
+    margin: 14px; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+    padding: 11px 13px;
+  }
+  .client-badge-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 3px; }
+  .client-badge-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .client-badge-plan { font-size: 11px; color: var(--green); margin-top: 2px; font-weight: 500; }
+
+  nav { flex: 1; padding: 4px 10px 10px; overflow-y: auto; }
+  .nav-section-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 14px 10px 6px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: 7px; cursor: pointer;
+    font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.55);
+    transition: all 0.15s; text-decoration: none; margin-bottom: 1px;
+    background: none; border: none; width: 100%; text-align: left;
+    font-family: var(--font);
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+  .nav-item.active { background: rgba(40,180,133,0.15); color: #fff; }
+  .nav-item.active .nav-icon { color: var(--green); }
+  .nav-icon { font-size: 14px; width: 16px; text-align: center; flex-shrink: 0; line-height: 1; }
+  .nav-badge { margin-left: auto; background: var(--green); color: #fff; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+
+  .sidebar-footer {
+    padding: 14px; border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .avatar-name { font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,0.85); }
+  .avatar-role { font-size: 10.5px; color: rgba(255,255,255,0.35); }
+
+  /* ── MAIN ─────────────────────────────────────── */
+  .main { flex: 1; display: flex; flex-direction: column; min-height: 100vh; min-width: 0; }
   .topbar {
-    background: var(--navy); padding: 0 2rem; height: 56px;
-    display: flex; align-items: center; justify-content: space-between;
+    background: #fff; border-bottom: 1px solid var(--border);
+    padding: 0 28px; height: 60px; display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 10;
   }
-  .topbar-brand { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
-  .topbar-brand span { color: var(--green); }
-  .topbar-contact { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
-  .topbar-contact a { color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 500; }
-  .topbar-contact a:hover { color: var(--green); }
+  .topbar-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+  .topbar-date { font-size: 12px; color: var(--muted); margin-right: 4px; }
+  .menu-toggle { display: none; background: none; border: none; cursor: pointer; font-size: 22px; color: var(--text); padding: 4px 8px; }
 
-  /* ── HERO ──────────────────────────────────────── */
-  .hero { background: var(--navy); padding: 2.5rem 2rem 3rem; }
-  .hero-inner { max-width: 900px; margin: 0 auto; }
-  .hero-meta { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
-  .hero h1 { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: #fff; margin-bottom: 0.5rem; line-height: 1.2; }
-  .hero-sub { font-size: 0.9rem; color: rgba(255,255,255,0.45); }
-  .hero-sub a { color: rgba(255,255,255,0.6); text-decoration: none; }
-  .hero-sub a:hover { color: var(--cyan); }
-  .phase-badge {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    background: rgba(40,180,133,0.15); border: 1px solid rgba(40,180,133,0.3);
-    color: var(--green); font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.75rem;
-    border-radius: 20px; margin-top: 1rem;
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-family: var(--font); font-size: 12.5px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; text-decoration: none; white-space: nowrap; }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); }
+  .btn-outline { background: #fff; border: 1.5px solid var(--border); color: var(--text); }
+  .btn-outline:hover { border-color: var(--muted); }
+  .btn-ghost { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.14); }
+  .btn-green-outline { background: transparent; border: 1.5px solid var(--green); color: var(--green); }
+  .btn-green-outline:hover { background: rgba(40,180,133,0.1); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+  .content { padding: 24px 28px 40px; flex: 1; max-width: 1200px; width: 100%; }
+
+  /* ── SECTION TRANSITIONS ──────────────────────── */
+  .section { animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ── STAT CARDS ───────────────────────────────── */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .stat-card {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 12px;
+    padding: 16px 18px;
   }
-  .phase-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+  .stat-card-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+  .stat-card-value { font-family: var(--serif); font-size: 26px; color: var(--text); line-height: 1; }
+  .stat-card-value.small { font-size: 20px; padding-top: 4px; }
+  .stat-card-sub { font-size: 11px; color: var(--muted); margin-top: 5px; }
+  .stat-card.highlight { border-color: rgba(40,180,133,0.3); background: linear-gradient(135deg, rgba(40,180,133,0.04) 0%, #fff 100%); }
+  .trend-up { color: var(--green); font-weight: 700; }
+  .trend-flat { color: var(--muted); font-weight: 600; }
 
-  /* ── MAIN LAYOUT ───────────────────────────────── */
-  .main { max-width: 900px; margin: 0 auto; padding: 2rem; display: grid; gap: 1.25rem; }
-  @media (min-width: 700px) {
-    .main { grid-template-columns: 1fr 1fr; }
-    .full { grid-column: 1 / -1; }
+  /* ── GRID ─────────────────────────────────────── */
+  .portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .portal-grid.wide { grid-template-columns: 2fr 1fr; }
+  .portal-grid.thirds { grid-template-columns: repeat(3, 1fr); }
+
+  /* ── CARDS ────────────────────────────────────── */
+  .card {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 12px;
+    overflow: hidden;
   }
+  .card-header {
+    padding: 14px 18px 12px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; }
+  .card-title-icon { font-size: 14px; }
+  .card-body { padding: 16px 18px; }
+  .card-footer { padding: 11px 18px; background: var(--off-white); border-top: 1px solid var(--border); font-size: 11.5px; color: var(--muted); }
 
-  /* ── CARDS ─────────────────────────────────────── */
-  .card { background: #fff; border-radius: 14px; border: 1px solid var(--border); padding: 1.5rem; }
-  .card-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
-  .card h3 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
-
-  /* ── PROGRESS LIST ─────────────────────────────── */
-  .progress-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-  .progress-item { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.875rem; }
-  .progress-icon { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; margin-top: 1px; }
-  .progress-icon.done { background: rgba(40,180,133,0.12); color: var(--green); }
-  .progress-icon.pending { background: rgba(255,180,0,0.12); color: #f0a500; }
-  .progress-icon.needed { background: rgba(220,38,38,0.08); color: #dc2626; }
-  .progress-text strong { display: block; color: var(--text); font-weight: 500; line-height: 1.3; }
-  .progress-text span { font-size: 0.78rem; color: var(--muted); }
-
-  /* ── ACTION ITEMS ──────────────────────────────── */
-  .action-card { background: #fff; border-radius: 14px; border: 2px solid var(--green); padding: 1.5rem; }
-  .action-count { display: inline-block; background: var(--green); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 20px; margin-bottom: 0.75rem; }
-  .action-list { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
-  .action-item { display: flex; gap: 0.75rem; align-items: flex-start; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border); }
+  /* ── ACTION ITEMS ─────────────────────────────── */
+  .action-card { background: #fff; border-radius: 12px; border: 2px solid var(--green); padding: 18px; }
+  .action-count { display: inline-block; background: var(--green); color: #fff; font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; margin-bottom: 10px; letter-spacing: 0.03em; }
+  .card-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .action-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .action-item { display: flex; gap: 11px; align-items: flex-start; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
   .action-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .action-emoji { font-size: 1.2rem; flex-shrink: 0; line-height: 1.4; }
-  .action-body strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
-  .action-body p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
-  .action-link { display: inline-block; margin-top: 0.35rem; font-size: 0.78rem; color: var(--blue); text-decoration: none; font-weight: 500; }
+  .action-emoji { font-size: 1.15rem; flex-shrink: 0; line-height: 1.4; }
+  .action-body strong { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .action-body p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .action-link { display: inline-block; margin-top: 5px; font-size: 11.5px; color: var(--blue); text-decoration: none; font-weight: 600; }
   .action-link:hover { text-decoration: underline; }
 
-  /* ── PHASES ────────────────────────────────────── */
-  .phase-list { display: flex; flex-direction: column; gap: 0.85rem; }
-  .phase-item { display: flex; gap: 0.75rem; align-items: flex-start; }
-  .phase-num { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; }
+  /* ── PROGRESS LIST ────────────────────────────── */
+  .progress-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .progress-item { display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; }
+  .progress-icon { flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 700; margin-top: 1px; }
+  .progress-icon.done { background: rgba(40,180,133,0.15); color: var(--green-dark); }
+  .progress-icon.pending { background: rgba(255,180,0,0.15); color: #b45309; }
+  .progress-icon.needed { background: rgba(220,38,38,0.1); color: #dc2626; }
+  .progress-text strong { display: block; color: var(--text); font-weight: 600; line-height: 1.3; font-size: 12.5px; }
+  .progress-text span { font-size: 11.5px; color: var(--muted); }
+
+  /* ── PHASES / ROADMAP ─────────────────────────── */
+  .phase-list { display: flex; flex-direction: column; gap: 14px; }
+  .phase-item { display: flex; gap: 12px; align-items: flex-start; }
+  .phase-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
   .phase-num.active { background: var(--green); color: #fff; }
   .phase-num.next { background: var(--off-white); color: var(--muted); border: 1.5px solid var(--border); }
   .phase-num.later { background: var(--off-white); color: var(--border); border: 1.5px solid var(--border); }
-  .phase-body strong { display: block; font-size: 0.875rem; font-weight: 600; color: var(--text); }
-  .phase-body p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-top: 0.15rem; }
-  .phase-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.1rem 0.45rem; border-radius: 4px; margin-bottom: 0.2rem; }
-  .phase-tag.active { background: rgba(40,180,133,0.12); color: var(--green); }
+  .phase-body strong { display: block; font-size: 13px; font-weight: 700; color: var(--text); }
+  .phase-body p { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 3px; }
+  .phase-tag { display: inline-block; font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; margin-bottom: 3px; }
+  .phase-tag.active { background: rgba(40,180,133,0.15); color: var(--green-dark); }
   .phase-tag.next { background: rgba(26,111,168,0.1); color: var(--blue); }
   .phase-tag.later { background: var(--off-white); color: var(--muted); }
 
-  /* ── METRICS ───────────────────────────────────── */
-  .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-  .metric { background: var(--off-white); border-radius: 10px; padding: 1rem; text-align: center; }
-  .metric-val { font-family: var(--serif); font-size: 1.8rem; color: var(--navy); line-height: 1; }
-  .metric-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
-  .metric-note { font-size: 0.68rem; color: var(--muted); font-style: italic; margin-top: 0.15rem; }
+  /* ── TRAFFIC CHART ────────────────────────────── */
+  .chart-area { height: 100px; display: flex; align-items: flex-end; gap: 5px; margin-bottom: 14px; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .bar { width: 100%; border-radius: 4px 4px 0 0; background: var(--border); transition: background 0.2s; min-height: 2px; }
+  .bar.current { background: var(--green); opacity: 0.85; }
+  .bar-label { font-size: 9.5px; color: var(--muted); }
+  .traffic-meta { display: flex; gap: 18px; flex-wrap: wrap; }
+  .traffic-stat { font-size: 12px; color: var(--muted); }
+  .traffic-stat strong { color: var(--text); font-weight: 600; }
 
-  /* ── FREE WINS ─────────────────────────────────── */
-  .win-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
-  .win-item { display: flex; gap: 0.65rem; align-items: flex-start; }
-  .win-icon { font-size: 1rem; flex-shrink: 0; line-height: 1.5; }
-  .win-body strong { display: block; font-size: 0.875rem; font-weight: 600; color: var(--text); }
-  .win-body p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
-  .win-cta { display: inline-block; margin-top: 0.3rem; font-size: 0.78rem; background: var(--off-white); border: 1px solid var(--border); color: var(--text); padding: 0.2rem 0.6rem; border-radius: 6px; text-decoration: none; font-weight: 500; transition: all 0.15s; }
-  .win-cta:hover { border-color: var(--green); color: var(--green); }
+  /* ── PAGE LIST ────────────────────────────────── */
+  .page-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .page-row:last-child { border-bottom: none; }
+  .page-name { font-size: 12.5px; color: var(--text); flex: 1; font-weight: 500; }
+  .page-bar-wrap { width: 80px; height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .page-bar-fill { height: 100%; background: var(--blue); border-radius: 99px; }
+  .page-count { font-size: 11.5px; color: var(--muted); width: 32px; text-align: right; }
+
+  /* ── EMPTY STATE ──────────────────────────────── */
+  .empty-state { text-align: center; padding: 28px 16px; color: var(--muted); }
+  .empty-state-icon { font-size: 32px; margin-bottom: 10px; opacity: 0.5; }
+  .empty-state-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+  .empty-state-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; max-width: 320px; margin: 0 auto; }
+
+  /* ── BILLING ──────────────────────────────────── */
+  .plan-badge { display: inline-flex; align-items: baseline; gap: 8px; background: rgba(26,111,168,0.08); border: 1.5px solid rgba(26,111,168,0.2); border-radius: 8px; padding: 8px 14px; margin-bottom: 14px; }
+  .plan-badge-name { font-family: var(--display); font-size: 13px; font-weight: 700; color: var(--blue); letter-spacing: 0.04em; text-transform: uppercase; }
+  .plan-badge-price { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .billing-line { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+  .billing-line:last-child { border-bottom: none; }
+  .billing-line-name { color: var(--text); }
+  .billing-line-name small { display: block; font-size: 11px; color: var(--muted); margin-top: 1px; font-weight: 400; }
+  .billing-line-amount { font-weight: 600; color: var(--text); white-space: nowrap; }
+  .billing-line-amount.muted { color: var(--muted); font-weight: 500; }
+  .billing-total { display: flex; justify-content: space-between; padding: 12px 0 4px; margin-top: 4px; border-top: 2px solid var(--border); font-weight: 700; font-size: 14px; }
+  .billing-total-amount { font-family: var(--serif); font-weight: 400; font-size: 18px; }
+
+  /* ── REFERRALS ────────────────────────────────── */
+  .referral-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .referral-stat { text-align: center; background: var(--off-white); border-radius: 8px; padding: 14px 8px; }
+  .referral-stat-num { font-family: var(--serif); font-size: 26px; color: var(--text); display: block; line-height: 1; }
+  .referral-stat-num.green { color: var(--green); }
+  .referral-stat-label { font-size: 11px; color: var(--muted); margin-top: 5px; }
+
+  .referral-link-box {
+    background: var(--off-white); border: 1.5px dashed var(--border);
+    border-radius: 10px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .referral-link-url { font-size: 12.5px; color: var(--blue); font-weight: 600; flex: 1; word-break: break-all; }
+
+  .testimonial-points { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+  .testimonial-point { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: var(--off-white); border-radius: 8px; border-left: 3px solid var(--cyan); }
+  .testimonial-point-icon { font-size: 14px; flex-shrink: 0; }
+  .testimonial-point-text { font-size: 12.5px; color: var(--text); line-height: 1.5; }
+  .testimonial-point-text em { font-style: italic; color: var(--muted); display: block; margin-top: 3px; font-size: 11.5px; }
+
+  .copy-block {
+    background: var(--off-white); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; font-size: 12.5px; color: var(--text); line-height: 1.6;
+    position: relative; white-space: pre-wrap; font-family: var(--font);
+  }
+  .copy-block-actions { display: flex; justify-content: flex-end; margin-top: 8px; gap: 6px; }
+
+  /* ── ADD-ONS ──────────────────────────────────── */
+  .addon-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .addon-row:last-child { border-bottom: none; }
+  .addon-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .addon-icon.blue { background: rgba(26,111,168,0.1); }
+  .addon-icon.green { background: rgba(40,180,133,0.1); }
+  .addon-icon.cyan { background: rgba(0,168,204,0.1); }
+  .addon-icon.orange { background: rgba(224,123,57,0.12); }
+  .addon-text { flex: 1; min-width: 0; }
+  .addon-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .addon-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .addon-rec { display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 600; color: var(--green-dark); background: rgba(40,180,133,0.1); padding: 2px 7px; border-radius: 4px; }
+  .addon-price-block { text-align: right; flex-shrink: 0; min-width: 80px; }
+  .addon-price { font-size: 13px; font-weight: 700; color: var(--text); }
+  .addon-price-sub { font-size: 10.5px; color: var(--muted); }
 
   /* ── BRAND ASSETS ─────────────────────────────── */
   .brand-section { display: flex; flex-direction: column; gap: 1.5rem; }
-  .brand-sub-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
-
-  .color-palette { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .brand-sub-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .color-palette { display: flex; flex-wrap: wrap; gap: 10px; }
   .color-swatch {
     cursor: pointer; border-radius: 10px; overflow: hidden;
     border: 1px solid var(--border); transition: transform 0.15s, box-shadow 0.15s;
-    min-width: 110px; flex: 1;
+    min-width: 105px; flex: 1;
   }
   .color-swatch:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-  .swatch-color { height: 64px; }
-  .swatch-info { padding: 0.6rem 0.75rem; background: #fff; }
-  .swatch-name { font-size: 0.78rem; font-weight: 600; color: var(--text); display: block; }
-  .swatch-hex { font-size: 0.72rem; color: var(--muted); font-family: 'Courier New', monospace; }
-  .swatch-copied { font-size: 0.68rem; color: var(--green); display: none; font-weight: 600; }
+  .swatch-color { height: 60px; }
+  .swatch-info { padding: 9px 11px; background: #fff; }
+  .swatch-name { font-size: 12.5px; font-weight: 600; color: var(--text); display: block; }
+  .swatch-hex { font-size: 11.5px; color: var(--muted); font-family: 'Courier New', monospace; }
+  .swatch-copied { font-size: 11px; color: var(--green); display: none; font-weight: 600; }
 
-  .type-rows { display: flex; flex-direction: column; gap: 0.75rem; }
-  .type-row { background: var(--off-white); border-radius: 10px; padding: 1rem 1.25rem; }
-  .type-specimen { font-size: 1.5rem; color: var(--navy); line-height: 1.25; margin-bottom: 0.35rem; }
-  .type-specimen.oswald { font-family: 'Oswald', sans-serif; font-weight: 700; }
-  .type-specimen.dm-sans { font-family: 'DM Sans', sans-serif; font-weight: 400; }
-  .type-meta { font-size: 0.72rem; color: var(--muted); }
+  .type-rows { display: flex; flex-direction: column; gap: 10px; }
+  .type-row { background: var(--off-white); border-radius: 10px; padding: 14px 18px; }
+  .type-specimen { font-size: 1.5rem; color: var(--navy); line-height: 1.25; margin-bottom: 5px; }
+  .type-specimen.oswald { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; }
+  .type-specimen.dm-sans { font-family: var(--font); font-weight: 400; }
+  .type-meta { font-size: 11.5px; color: var(--muted); }
   .type-meta a { color: var(--blue); text-decoration: none; }
   .type-meta a:hover { text-decoration: underline; }
 
-  .logo-assets { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .logo-asset-row { display: flex; flex-direction: column; gap: 10px; }
+  .logo-assets { display: flex; gap: 10px; flex-wrap: wrap; }
   .logo-asset {
     flex: 1; min-width: 140px; background: var(--off-white); border-radius: 10px;
-    border: 1px solid var(--border); padding: 1.25rem 1rem; text-align: center;
+    border: 1px solid var(--border); padding: 14px 12px; text-align: center;
     text-decoration: none; color: var(--text); transition: all 0.15s;
-    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    display: flex; flex-direction: column; align-items: center; gap: 7px;
   }
   .logo-asset:hover { border-color: var(--blue); background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
   .logo-preview { width: 56px; height: 56px; object-fit: contain; display: block; }
-  .logo-preview-wide { width: 100%; height: auto; max-height: 72px; object-fit: contain; display: block; }
-  .logo-preview-wrap { width: 100%; border-radius: 6px; padding: 0.75rem; display: flex; align-items: center; justify-content: center; }
-  .logo-asset-name { font-size: 0.82rem; font-weight: 600; }
-  .logo-asset-desc { font-size: 0.72rem; color: var(--muted); }
-  .logo-asset-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: #fff; border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 4px; color: var(--muted); }
-  .logo-asset-row { display: flex; flex-direction: column; gap: 0.6rem; }
+  .logo-preview-wide { width: 100%; height: auto; max-height: 64px; object-fit: contain; display: block; }
+  .logo-preview-wrap { width: 100%; border-radius: 6px; padding: 10px; display: flex; align-items: center; justify-content: center; }
+  .logo-asset-name { font-size: 12.5px; font-weight: 700; }
+  .logo-asset-desc { font-size: 11.5px; color: var(--muted); }
+  .logo-asset-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; background: #fff; border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px; color: var(--muted); }
 
-  .brand-tagline { background: var(--navy); border-radius: 10px; padding: 1.25rem 1.5rem; text-align: center; }
-  .brand-tagline-text { font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 600; color: #fff; letter-spacing: 0.06em; text-transform: uppercase; }
+  .brand-tagline { background: var(--navy); border-radius: 10px; padding: 18px 22px; text-align: center; }
+  .brand-tagline-text { font-family: var(--display); font-size: 1.1rem; font-weight: 600; color: #fff; letter-spacing: 0.06em; text-transform: uppercase; }
   .brand-tagline-text em { color: #7dd4f0; font-style: normal; }
 
-  /* ── FOOTER ────────────────────────────────────── */
-  .portal-footer { max-width: 900px; margin: 0 auto; padding: 0 2rem 3rem; text-align: center; font-size: 0.78rem; color: var(--muted); }
-  .portal-footer a { color: var(--blue); text-decoration: none; }
+  /* ── SUPPORT STRIP ────────────────────────────── */
+  .support-strip { background: var(--navy); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; }
+  .support-strip-text h3 { font-family: var(--display); font-size: 16px; color: #fff; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .support-strip-text p { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+  .support-strip-right { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+
+  /* ── MOBILE ───────────────────────────────────── */
+  @media (max-width: 760px) {
+    body { display: block; }
+    .menu-toggle { display: inline-flex; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      transform: translateX(-100%); transition: transform 0.25s ease;
+      z-index: 100; box-shadow: 4px 0 24px rgba(0,0,0,0.2);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+    .sidebar-backdrop.show { opacity: 1; pointer-events: auto; }
+    .topbar { padding: 0 16px; }
+    .content { padding: 18px 16px 32px; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .portal-grid, .portal-grid.wide, .portal-grid.thirds { grid-template-columns: 1fr; }
+    .topbar-date { display: none; }
+    .support-strip { flex-direction: column; align-items: flex-start; text-align: left; }
+  }
+  @media (max-width: 460px) {
+    .topbar-right .btn:not(.btn-primary) { display: none; }
+  }
 </style>
 </head>
 <body>
 
-<!-- PASSWORD GATE -->
+<!-- ═══ PASSWORD GATE ═══ -->
 <div class="gate" id="gate">
   <div class="gate-card">
-    <div class="gate-logo">Chris Kelley Consulting · <span>Client Portal</span></div>
+    <div class="gate-logo">Chris Kelley Consulting · <span style="color:#fff;">Client Portal</span></div>
     <h2>Imperial Water Co.</h2>
-    <p>Enter your access code to view your project dashboard.</p>
+    <p>Enter your access code to view your dashboard.</p>
     <input type="password" class="gate-input" id="gateInput" placeholder="Access code" autocomplete="off">
     <button class="gate-btn" id="gateBtn">View Dashboard →</button>
     <div class="gate-error" id="gateError"></div>
   </div>
 </div>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="topbar-brand">Chris Kelley Consulting · <span>Client Portal</span></div>
-  <div class="topbar-contact">Questions? <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> · <a href="tel:8328073093">(832) 807-3093</a></div>
-</div>
+<!-- Mobile sidebar backdrop -->
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-meta">Your Dashboard</div>
-    <h1>Imperial Water Co.</h1>
-    <div class="hero-sub">
-      <a href="https://imperialwaterco.com" target="_blank">imperialwaterco.com ↗</a>
-      &nbsp;·&nbsp; Kurt · Sugar Land, TX
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img src="logo-icon.svg" alt="Imperial Water">
+    <div class="sidebar-logo-text">
+      Imperial Water
+      <small>CK Consulting · Portal</small>
     </div>
-    <div class="phase-badge"><span class="phase-dot"></span> Phase 1 Active — Site Launch</div>
   </div>
-</div>
 
-<!-- MAIN -->
+  <div class="client-badge">
+    <div class="client-badge-label">Logged in as</div>
+    <div class="client-badge-name">Imperial Water Co.</div>
+    <div class="client-badge-plan">Imperial Care · $35/mo</div>
+  </div>
+
+  <nav>
+    <div class="nav-section-label">Overview</div>
+    <button class="nav-item" data-target="dashboard"><span class="nav-icon">⊞</span> Dashboard</button>
+    <button class="nav-item" data-target="site-stats"><span class="nav-icon">📊</span> Site Stats</button>
+
+    <div class="nav-section-label">Manage</div>
+    <button class="nav-item" data-target="change-requests"><span class="nav-icon">🔧</span> Change Requests</button>
+    <button class="nav-item" data-target="add-ons"><span class="nav-icon">✦</span> Add-Ons</button>
+    <button class="nav-item" data-target="brand-assets"><span class="nav-icon">🎨</span> Brand Assets</button>
+    <button class="nav-item" data-target="billing"><span class="nav-icon">💳</span> Billing</button>
+
+    <div class="nav-section-label">Grow</div>
+    <button class="nav-item" data-target="referrals"><span class="nav-icon">🤝</span> Referrals &amp; Reviews</button>
+    <a class="nav-item" href="https://imperialwaterco.com" target="_blank"><span class="nav-icon">↗</span> View My Site</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="avatar">KR</div>
+    <div>
+      <div class="avatar-name">Kurt R.</div>
+      <div class="avatar-role">imperialwaterco.com</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
 <div class="main">
 
-  <!-- ACTION ITEMS (full width) -->
-  <div class="action-card full">
-    <div class="action-count">3 items need your attention</div>
-    <div class="card-label">Your To-Dos</div>
-    <ul class="action-list">
-      <li class="action-item">
-        <div class="action-emoji">📸</div>
-        <div class="action-body">
-          <strong>Send job photos</strong>
-          <p>Real photos have the biggest impact of anything we can add right now — system installs, before/after shots, or even just you on a job site. Send whatever you have on your phone.</p>
-          <a href="mailto:chris@chriskelley.io?subject=Imperial Water Photos" class="action-link">Email photos to Chris →</a>
-        </div>
-      </li>
-      <li class="action-item">
-        <div class="action-emoji">📞</div>
-        <div class="action-body">
-          <strong>Set up a free Google Voice number</strong>
-          <p>Gives you a dedicated business number that forwards to your cell. Keeps your personal number private. Free, takes 10 minutes.</p>
-          <a href="https://voice.google.com" target="_blank" class="action-link">Get a number at voice.google.com →</a>
-        </div>
-      </li>
-      <li class="action-item">
-        <div class="action-emoji">📧</div>
-        <div class="action-body">
-          <strong>Set up email warmup (Instantly — free)</strong>
-          <p>Your new kurt@imperialwaterco.com email has no sending history yet. Warmup builds your reputation so quote replies and customer emails land in inbox, not spam. Free account, takes 5 minutes.</p>
-          <a href="https://instantly.ai" target="_blank" class="action-link">Sign up at instantly.ai →</a>
-        </div>
-      </li>
-    </ul>
-  </div>
-
-  <!-- SETUP PROGRESS -->
-  <div class="card">
-    <div class="card-label">Setup Progress</div>
-    <ul class="progress-list">
-      <li class="progress-item">
-        <div class="progress-icon done">✓</div>
-        <div class="progress-text"><strong>Site live</strong><span>imperialwaterco.com — 6 pages</span></div>
-      </li>
-      <li class="progress-item">
-        <div class="progress-icon done">✓</div>
-        <div class="progress-text"><strong>Business email</strong><span>kurt@imperialwaterco.com</span></div>
-      </li>
-      <li class="progress-item">
-        <div class="progress-icon done">✓</div>
-        <div class="progress-text"><strong>Contact forms wired</strong><span>Quote + maintenance plan forms → your inbox</span></div>
-      </li>
-      <li class="progress-item">
-        <div class="progress-icon done">✓</div>
-        <div class="progress-text"><strong>Google Search Console</strong><span>Verified + sitemap submitted</span></div>
-      </li>
-      <li class="progress-item">
-        <div class="progress-icon done">✓</div>
-        <div class="progress-text"><strong>Analytics tracking</strong><span>GA4 + Vercel — live on all pages</span></div>
-      </li>
-      <li class="progress-item">
-        <div class="progress-icon pending">⏳</div>
-        <div class="progress-text"><strong>Google Business Profile</strong><span>Verification pending — up to 5 days</span></div>
-      </li>
-      <li class="progress-item">
-        <div class="progress-icon needed">!</div>
-        <div class="progress-text"><strong>Photos</strong><span>Needed from you — see action items above</span></div>
-      </li>
-    </ul>
-  </div>
-
-  <!-- METRICS -->
-  <div class="card">
-    <div class="card-label">Site Activity</div>
-    <div class="metrics-grid">
-      <div class="metric">
-        <div class="metric-val">—</div>
-        <div class="metric-label">Visitors this week</div>
-        <div class="metric-note">Data populates after 48 hrs</div>
-      </div>
-      <div class="metric">
-        <div class="metric-val">0</div>
-        <div class="metric-label">Form submissions</div>
-        <div class="metric-note">Test both forms to confirm</div>
-      </div>
-      <div class="metric">
-        <div class="metric-val">6</div>
-        <div class="metric-label">Pages indexed</div>
-        <div class="metric-note">Google Search Console</div>
-      </div>
-      <div class="metric">
-        <div class="metric-val">100%</div>
-        <div class="metric-label">Uptime</div>
-        <div class="metric-note">Vercel hosting</div>
-      </div>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
     </div>
-  </div>
-
-  <!-- PHASES (full width) -->
-  <div class="card full">
-    <div class="card-label">Your Roadmap</div>
-    <div class="phase-list">
-      <div class="phase-item">
-        <div class="phase-num active">1</div>
-        <div class="phase-body">
-          <span class="phase-tag active">Active now</span>
-          <strong>Site Launch — Marketing site + lead capture</strong>
-          <p>6-page site, contact forms, water report tool, business email, Google Search Console, analytics. Getting you visible online and capturing leads automatically.</p>
-        </div>
-      </div>
-      <div class="phase-item">
-        <div class="phase-num next">2</div>
-        <div class="phase-body">
-          <span class="phase-tag next">Next up</span>
-          <strong>CRM + SMS Reminders — Automated customer follow-up</strong>
-          <p>Google Sheet to track clients (name, system type, service dates). Apps Script sends you a text when a customer is due for service. No more manual follow-up — the system reminds you automatically.</p>
-        </div>
-      </div>
-      <div class="phase-item">
-        <div class="phase-num later">3</div>
-        <div class="phase-body">
-          <span class="phase-tag later">Later</span>
-          <strong>iPad Invoicing — Ring up jobs on-site</strong>
-          <p>Review products with the customer, ring up the bill on an iPad. Either Square (simplest) or a custom web app depending on what fits your workflow.</p>
-        </div>
-      </div>
+    <div class="topbar-right">
+      <span class="topbar-date" id="topbarDate"></span>
+      <a href="https://imperialwaterco.com" target="_blank" class="btn btn-outline btn-sm">↗ View Site</a>
+      <a href="mailto:chris@chriskelley.io?subject=Imperial%20Water%20-%20Change%20Request" class="btn btn-primary btn-sm">+ Request Change</a>
     </div>
-  </div>
+  </header>
 
-  <!-- FREE WINS -->
-  <div class="card full">
-    <div class="card-label">Free Tools Worth Setting Up</div>
-    <ul class="win-list">
-      <li class="win-item">
-        <div class="win-icon">📞</div>
-        <div class="win-body">
-          <strong>Google Voice — free business number</strong>
-          <p>Get a 713 or 832 number that forwards calls and texts to your cell. Voicemail gets transcribed and emailed. Your personal number stays private.</p>
-          <a href="https://voice.google.com" target="_blank" class="win-cta">voice.google.com</a>
+  <div class="content">
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- DASHBOARD                               -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="dashboard">
+
+      <!-- Stat cards -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card-label">👁 Visitors / mo</div>
+          <div class="stat-card-value">—</div>
+          <div class="stat-card-sub">Data populates after 48 hrs</div>
         </div>
-      </li>
-      <li class="win-item">
-        <div class="win-icon">📬</div>
-        <div class="win-body">
-          <strong>Instantly — email deliverability warmup</strong>
-          <p>Builds sending reputation for kurt@imperialwaterco.com so your emails land in inbox, not spam. Sign up free, add your email, turn on warmup — runs automatically in the background.</p>
-          <a href="https://instantly.ai" target="_blank" class="win-cta">instantly.ai</a>
+        <div class="stat-card">
+          <div class="stat-card-label">📞 Phone Taps</div>
+          <div class="stat-card-value">—</div>
+          <div class="stat-card-sub">From mobile site visitors</div>
         </div>
-      </li>
-    </ul>
-  </div>
-
-
-  <!-- BRAND ASSETS (full width) -->
-  <div class="card full">
-    <div class="card-label">Brand Assets</div>
-    <div class="brand-section">
-
-      <!-- COLOR PALETTE -->
-      <div>
-        <div class="brand-sub-label">Color Palette — click any swatch to copy hex</div>
-        <div class="color-palette">
-          <div class="color-swatch" onclick="copyHex(this, '#0d2c47')">
-            <div class="swatch-color" style="background:#0d2c47;"></div>
-            <div class="swatch-info">
-              <span class="swatch-name">Navy</span>
-              <span class="swatch-hex">#0d2c47</span>
-              <span class="swatch-copied">✓ Copied!</span>
-            </div>
-          </div>
-          <div class="color-swatch" onclick="copyHex(this, '#1a6fa8')">
-            <div class="swatch-color" style="background:#1a6fa8;"></div>
-            <div class="swatch-info">
-              <span class="swatch-name">Blue</span>
-              <span class="swatch-hex">#1a6fa8</span>
-              <span class="swatch-copied">✓ Copied!</span>
-            </div>
-          </div>
-          <div class="color-swatch" onclick="copyHex(this, '#00a8cc')">
-            <div class="swatch-color" style="background:#00a8cc;"></div>
-            <div class="swatch-info">
-              <span class="swatch-name">Cyan</span>
-              <span class="swatch-hex">#00a8cc</span>
-              <span class="swatch-copied">✓ Copied!</span>
-            </div>
-          </div>
-          <div class="color-swatch" onclick="copyHex(this, '#28B485')">
-            <div class="swatch-color" style="background:#28B485;"></div>
-            <div class="swatch-info">
-              <span class="swatch-name">Green</span>
-              <span class="swatch-hex">#28B485</span>
-              <span class="swatch-copied">✓ Copied!</span>
-            </div>
-          </div>
-          <div class="color-swatch" onclick="copyHex(this, '#ffffff')">
-            <div class="swatch-color" style="background:#ffffff; border-bottom:1px solid #e4e8ef;"></div>
-            <div class="swatch-info">
-              <span class="swatch-name">White</span>
-              <span class="swatch-hex">#ffffff</span>
-              <span class="swatch-copied">✓ Copied!</span>
-            </div>
-          </div>
+        <div class="stat-card">
+          <div class="stat-card-label">⭐ Google Rating</div>
+          <div class="stat-card-value">—</div>
+          <div class="stat-card-sub">Pending GBP verification</div>
+        </div>
+        <div class="stat-card highlight">
+          <div class="stat-card-label">💳 Next Bill</div>
+          <div class="stat-card-value small">$35.00</div>
+          <div class="stat-card-sub">When billing starts</div>
         </div>
       </div>
 
-      <!-- TYPOGRAPHY -->
-      <div>
-        <div class="brand-sub-label">Typography</div>
-        <div class="type-rows">
-          <div class="type-row">
-            <div class="type-specimen oswald">The Imperial Standard.</div>
-            <div class="type-meta">Oswald Bold — headlines, display, navigation &nbsp;·&nbsp; <a href="https://fonts.google.com/specimen/Oswald" target="_blank">Google Fonts ↗</a></div>
-          </div>
-          <div class="type-row">
-            <div class="type-specimen dm-sans">Pure water. Expert service.</div>
-            <div class="type-meta">DM Sans Regular — body text, buttons, UI copy &nbsp;·&nbsp; <a href="https://fonts.google.com/specimen/DM+Sans" target="_blank">Google Fonts ↗</a></div>
-          </div>
-        </div>
+      <!-- Action items -->
+      <div class="action-card" style="margin-bottom:14px;">
+        <div class="action-count">3 ITEMS NEED YOUR ATTENTION</div>
+        <div class="card-label">Your To-Dos</div>
+        <ul class="action-list">
+          <li class="action-item">
+            <div class="action-emoji">📸</div>
+            <div class="action-body">
+              <strong>Send job photos</strong>
+              <p>Real photos move the needle more than anything else right now — system installs, before/after shots, you on the job. Send what you have on your phone.</p>
+              <a href="mailto:chris@chriskelley.io?subject=Imperial%20Water%20Photos" class="action-link">Email photos to Chris →</a>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-emoji">📞</div>
+            <div class="action-body">
+              <strong>Set up a free Google Voice number</strong>
+              <p>Dedicated business number that forwards to your cell. Keeps your personal number private. Free, takes 10 minutes.</p>
+              <a href="https://voice.google.com" target="_blank" class="action-link">Get a number at voice.google.com →</a>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-emoji">📧</div>
+            <div class="action-body">
+              <strong>Set up email warmup (Instantly — free)</strong>
+              <p>Builds sending reputation for kurt@imperialwaterco.com so quote replies land in inbox, not spam. Free account, 5 minutes.</p>
+              <a href="https://instantly.ai" target="_blank" class="action-link">Sign up at instantly.ai →</a>
+            </div>
+          </li>
+        </ul>
       </div>
 
-      <!-- LOGO DOWNLOADS -->
-      <div>
-        <div class="brand-sub-label">Logo Files — click to download</div>
-        <div class="logo-asset-row">
-          <!-- Full wordmark -->
-          <div class="logo-assets">
-            <a href="logo-full-white.png" download="imperial-water-logo-white.png" class="logo-asset">
-              <div class="logo-preview-wrap" style="background:#f5f9fc;">
-                <img src="logo-full-white.png" alt="Imperial Water full logo, white background" class="logo-preview-wide">
+      <!-- Setup progress + Roadmap side by side -->
+      <div class="portal-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">✓</span> Setup Progress</div>
+          </div>
+          <div class="card-body">
+            <ul class="progress-list">
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Site live</strong><span>imperialwaterco.com — 6 pages</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Business email</strong><span>kurt@imperialwaterco.com</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Contact forms wired</strong><span>Quote + maintenance plan → your inbox</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Google Search Console</strong><span>Verified + sitemap submitted</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Analytics tracking</strong><span>GA4 + Vercel — live on all pages</span></div></li>
+              <li class="progress-item"><div class="progress-icon pending">⏳</div><div class="progress-text"><strong>Google Business Profile</strong><span>Verification pending — up to 5 days</span></div></li>
+              <li class="progress-item"><div class="progress-icon needed">!</div><div class="progress-text"><strong>Photos</strong><span>Needed from you — see action items</span></div></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">🗺</span> Roadmap</div>
+          </div>
+          <div class="card-body">
+            <div class="phase-list">
+              <div class="phase-item">
+                <div class="phase-num active">1</div>
+                <div class="phase-body">
+                  <span class="phase-tag active">Active</span>
+                  <strong>Site Launch</strong>
+                  <p>Marketing site, lead capture forms, business email, search visibility, analytics. Live and capturing leads.</p>
+                </div>
               </div>
-              <div class="logo-asset-name">Full Logo</div>
-              <div class="logo-asset-desc">White background</div>
-              <div class="logo-asset-badge">PNG · 1626×658</div>
-            </a>
-            <a href="logo-full-transparent.png" download="imperial-water-logo-transparent.png" class="logo-asset">
-              <div class="logo-preview-wrap" style="background:#0d2c47;">
-                <img src="logo-full-transparent.png" alt="Imperial Water full logo, transparent background" class="logo-preview-wide">
+              <div class="phase-item">
+                <div class="phase-num next">2</div>
+                <div class="phase-body">
+                  <span class="phase-tag next">Next up</span>
+                  <strong>CRM + SMS Reminders</strong>
+                  <p>Notecards → Google Sheet. Apps Script texts you when a customer is due for service. No more manual follow-up.</p>
+                </div>
               </div>
-              <div class="logo-asset-name">Full Logo</div>
-              <div class="logo-asset-desc">Transparent background</div>
-              <div class="logo-asset-badge">PNG · 1626×658</div>
-            </a>
-          </div>
-          <!-- Icon mark -->
-          <div class="logo-assets">
-            <a href="logo-icon.svg" download="imperial-water-icon.svg" class="logo-asset">
-              <img src="logo-icon.svg" alt="Imperial Water icon mark" class="logo-preview">
-              <div class="logo-asset-name">Icon Mark</div>
-              <div class="logo-asset-desc">Water drop · vector</div>
-              <div class="logo-asset-badge">SVG · Scalable</div>
-            </a>
-            <a href="logo-mark-hires.png" download="imperial-water-icon.png" class="logo-asset">
-              <img src="logo-mark-hires.png" alt="Imperial Water icon mark hi-res" class="logo-preview">
-              <div class="logo-asset-name">Icon Mark</div>
-              <div class="logo-asset-desc">Water drop · raster</div>
-              <div class="logo-asset-badge">PNG · 748×1068</div>
-            </a>
+              <div class="phase-item">
+                <div class="phase-num later">3</div>
+                <div class="phase-body">
+                  <span class="phase-tag later">Later</span>
+                  <strong>iPad Quoting + Invoicing</strong>
+                  <p>Walk the house with the customer, build the quote, send the invoice — all from one screen. (See Add-Ons for options.)</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- TAGLINE -->
-      <div class="brand-tagline">
-        <div class="brand-tagline-text">Pure Water. <em>The Imperial Standard.</em> At Home.</div>
+      <!-- Support strip -->
+      <div class="support-strip">
+        <div class="support-strip-text">
+          <h3>Need something? Chris is one message away.</h3>
+          <p>Avg response: under 4 hours · chris@chriskelley.io · (832) 807-3093</p>
+        </div>
+        <div class="support-strip-right">
+          <a href="mailto:chris@chriskelley.io" class="btn btn-ghost btn-sm">Send a Message</a>
+          <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" target="_blank" class="btn btn-green-outline btn-sm">Book a Call →</a>
+        </div>
       </div>
 
-    </div>
-  </div>
+    </section>
 
-</div>
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SITE STATS                              -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="site-stats" hidden>
 
-<!-- FOOTER -->
-<div class="portal-footer">
-  Built and managed by <a href="https://chriskelley.io">Chris Kelley Consulting</a> · <a href="mailto:chris@chriskelley.io">chris@chriskelley.io</a> · (832) 807-3093
-</div>
+      <div class="portal-grid wide" style="margin-bottom:14px;">
+        <!-- Traffic chart -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">📈</span> Site Traffic — Last 8 Weeks</div>
+          </div>
+          <div class="card-body">
+            <div class="chart-area">
+              <div class="bar-group"><div class="bar" style="height:6px;"></div><div class="bar-label">8w ago</div></div>
+              <div class="bar-group"><div class="bar" style="height:8px;"></div><div class="bar-label">7w</div></div>
+              <div class="bar-group"><div class="bar" style="height:6px;"></div><div class="bar-label">6w</div></div>
+              <div class="bar-group"><div class="bar" style="height:10px;"></div><div class="bar-label">5w</div></div>
+              <div class="bar-group"><div class="bar" style="height:14px;"></div><div class="bar-label">4w</div></div>
+              <div class="bar-group"><div class="bar" style="height:12px;"></div><div class="bar-label">3w</div></div>
+              <div class="bar-group"><div class="bar" style="height:18px;"></div><div class="bar-label">2w</div></div>
+              <div class="bar-group"><div class="bar current" style="height:24px;"></div><div class="bar-label">This wk</div></div>
+            </div>
+            <div class="traffic-meta">
+              <div class="traffic-stat"><strong>—</strong> visitors this month</div>
+              <div class="traffic-stat"><strong>—</strong> avg. time on site</div>
+              <div class="traffic-stat"><strong>—</strong> mobile</div>
+              <div class="traffic-stat"><strong>—</strong> from Google</div>
+            </div>
+            <div style="margin-top:12px;padding:10px 12px;background:rgba(40,180,133,0.06);border-radius:8px;font-size:11.5px;color:var(--muted);">
+              📊 Traffic data populates after the first 48 hours of analytics collection. Chart shows preview state.
+            </div>
+          </div>
+        </div>
+
+        <!-- Top pages -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">📄</span> Top Pages</div>
+          </div>
+          <div class="card-body" style="padding-top:8px;">
+            <div class="page-row"><div class="page-name">/ Home</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:0%;"></div></div><div class="page-count">—</div></div>
+            <div class="page-row"><div class="page-name">/services</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:0%;"></div></div><div class="page-count">—</div></div>
+            <div class="page-row"><div class="page-name">/water-report</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:0%;"></div></div><div class="page-count">—</div></div>
+            <div class="page-row"><div class="page-name">/why-water</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:0%;"></div></div><div class="page-count">—</div></div>
+            <div class="page-row"><div class="page-name">/maintenance</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:0%;"></div></div><div class="page-count">—</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="portal-grid thirds">
+        <div class="stat-card">
+          <div class="stat-card-label">🔍 Search Impressions</div>
+          <div class="stat-card-value">—</div>
+          <div class="stat-card-sub">Google Search Console</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">🖱 Search Clicks</div>
+          <div class="stat-card-value">—</div>
+          <div class="stat-card-sub">Last 28 days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">📊 Pages Indexed</div>
+          <div class="stat-card-value">6</div>
+          <div class="stat-card-sub">All pages submitted</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- CHANGE REQUESTS                         -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="change-requests" hidden>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">🔧</span> Change Requests</div>
+          <a href="mailto:chris@chriskelley.io?subject=Imperial%20Water%20-%20Change%20Request" class="btn btn-primary btn-sm">+ New Request</a>
+        </div>
+        <div class="card-body">
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <div class="empty-state-title">No active requests</div>
+            <div class="empty-state-desc">
+              Need something updated on the site? Email Chris directly or click "+ New Request" above.
+              Things like swapping photos, updating phone numbers, adding services, or fixing copy.
+            </div>
+            <div style="margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+              <a href="mailto:chris@chriskelley.io?subject=Imperial%20Water%20-%20Change%20Request" class="btn btn-primary btn-sm">+ New Request</a>
+              <a href="sms:8328073093" class="btn btn-outline btn-sm">📱 Text Chris</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          Imperial Care plan includes ~1 small change per month. Larger changes quoted as add-ons.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADD-ONS                                 -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="add-ons" hidden>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">✦</span> Add-Ons &amp; Upgrades</div>
+        </div>
+        <div class="card-body" style="padding-top:6px;">
+
+          <div class="addon-row">
+            <div class="addon-icon green">📋</div>
+            <div class="addon-text">
+              <div class="addon-name">CRM + SMS Reminders</div>
+              <div class="addon-desc">Move your notecards into a Google Sheet. Apps Script texts you when a customer is due for service. No more flipping through stacks of cards.</div>
+              <span class="addon-rec">✓ Greenlit — Phase 2</span>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$450</div>
+              <div class="addon-price-sub">one-time build</div>
+              <div class="addon-price-sub" style="margin-top:3px;">+ Twilio at cost</div>
+            </div>
+          </div>
+
+          <div class="addon-row">
+            <div class="addon-icon blue">📱</div>
+            <div class="addon-text">
+              <div class="addon-name">iPad Quoting + Invoicing</div>
+              <div class="addon-desc">Walk the house, build the quote, capture customer signature, send the invoice — all from your iPad. Recommended path: <strong>Jobber</strong> ($39/mo, contractor-focused, in-field quote builder, Stripe-integrated). Way better fit than ServiceTitan ($400+/mo enterprise) or a custom build for a 2-person op.</div>
+              <span class="addon-rec">⚙️ Setup help included — Chris configures it for you</span>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$39+</div>
+              <div class="addon-price-sub">/mo (Jobber)</div>
+              <div class="addon-price-sub" style="margin-top:3px;">$200 setup</div>
+            </div>
+          </div>
+
+          <div class="addon-row">
+            <div class="addon-icon cyan">⭐</div>
+            <div class="addon-text">
+              <div class="addon-name">Review Request Automation</div>
+              <div class="addon-desc">After every job, customer gets a text with a review link. Smart routing: 4–5 stars go to Google, 1–3 stars go to your private inbox so you can fix it before it's public. Customers get nudged to mention what made you stand out — pricing, responsiveness, custom work.</div>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$200</div>
+              <div class="addon-price-sub">one-time</div>
+              <div class="addon-price-sub" style="margin-top:3px;">+ Twilio at cost</div>
+            </div>
+          </div>
+
+          <div class="addon-row">
+            <div class="addon-icon orange">🎬</div>
+            <div class="addon-text">
+              <div class="addon-name">Install Video / Reel Production</div>
+              <div class="addon-desc">Body cam or Meta glasses on jobs → I cut the footage into TikTok / Reels / YouTube Shorts. Captures the actual work, builds trust online without you spending nights editing.</div>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$250</div>
+              <div class="addon-price-sub">/edited video</div>
+            </div>
+          </div>
+
+          <div class="addon-row">
+            <div class="addon-icon blue">🗺</div>
+            <div class="addon-text">
+              <div class="addon-name">Google Business Profile Management</div>
+              <div class="addon-desc">Weekly posts, photo uploads, Q&amp;A responses, monthly insights. Once GBP is verified, this keeps it active so you rank in Maps for "water softener Sugar Land" type searches.</div>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$100</div>
+              <div class="addon-price-sub">/month</div>
+            </div>
+          </div>
+
+          <div class="addon-row">
+            <div class="addon-icon green">💳</div>
+            <div class="addon-text">
+              <div class="addon-name">Stripe Subscriptions for Maintenance Plans</div>
+              <div class="addon-desc">Yearly billing for your maintenance customers — they sign up online, Stripe handles renewals automatically. Built for the 5-year customer relationships you mentioned.</div>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$350</div>
+              <div class="addon-price-sub">one-time setup</div>
+              <div class="addon-price-sub" style="margin-top:3px;">+ Stripe fees</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="card-footer">
+          Want to discuss any of these? <a href="mailto:chris@chriskelley.io?subject=Imperial%20Water%20-%20Add-On%20Question" style="color:var(--blue);font-weight:600;text-decoration:none;">Email Chris</a> or <a href="sms:8328073093" style="color:var(--blue);font-weight:600;text-decoration:none;">text 832-807-3093</a>.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- BRAND ASSETS                            -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="brand-assets" hidden>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">🎨</span> Brand Assets</div>
+        </div>
+        <div class="card-body">
+          <div class="brand-section">
+
+            <!-- Color palette -->
+            <div>
+              <div class="brand-sub-label">Color Palette — click any swatch to copy hex</div>
+              <div class="color-palette">
+                <div class="color-swatch" onclick="copyHex(this, '#0d2c47')">
+                  <div class="swatch-color" style="background:#0d2c47;"></div>
+                  <div class="swatch-info"><span class="swatch-name">Navy</span><span class="swatch-hex">#0d2c47</span><span class="swatch-copied">✓ Copied!</span></div>
+                </div>
+                <div class="color-swatch" onclick="copyHex(this, '#1a6fa8')">
+                  <div class="swatch-color" style="background:#1a6fa8;"></div>
+                  <div class="swatch-info"><span class="swatch-name">Blue</span><span class="swatch-hex">#1a6fa8</span><span class="swatch-copied">✓ Copied!</span></div>
+                </div>
+                <div class="color-swatch" onclick="copyHex(this, '#00a8cc')">
+                  <div class="swatch-color" style="background:#00a8cc;"></div>
+                  <div class="swatch-info"><span class="swatch-name">Cyan</span><span class="swatch-hex">#00a8cc</span><span class="swatch-copied">✓ Copied!</span></div>
+                </div>
+                <div class="color-swatch" onclick="copyHex(this, '#28B485')">
+                  <div class="swatch-color" style="background:#28B485;"></div>
+                  <div class="swatch-info"><span class="swatch-name">Green</span><span class="swatch-hex">#28B485</span><span class="swatch-copied">✓ Copied!</span></div>
+                </div>
+                <div class="color-swatch" onclick="copyHex(this, '#ffffff')">
+                  <div class="swatch-color" style="background:#ffffff; border-bottom:1px solid #e4e8ef;"></div>
+                  <div class="swatch-info"><span class="swatch-name">White</span><span class="swatch-hex">#ffffff</span><span class="swatch-copied">✓ Copied!</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Typography -->
+            <div>
+              <div class="brand-sub-label">Typography</div>
+              <div class="type-rows">
+                <div class="type-row">
+                  <div class="type-specimen oswald">The Imperial Standard.</div>
+                  <div class="type-meta">Oswald Bold — headlines, display, navigation &nbsp;·&nbsp; <a href="https://fonts.google.com/specimen/Oswald" target="_blank">Google Fonts ↗</a></div>
+                </div>
+                <div class="type-row">
+                  <div class="type-specimen dm-sans">Pure water. Expert service.</div>
+                  <div class="type-meta">DM Sans Regular — body text, buttons, UI copy &nbsp;·&nbsp; <a href="https://fonts.google.com/specimen/DM+Sans" target="_blank">Google Fonts ↗</a></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Logo files -->
+            <div>
+              <div class="brand-sub-label">Logo Files — click to download</div>
+              <div class="logo-asset-row">
+                <div class="logo-assets">
+                  <a href="logo-full-white.png" download="imperial-water-logo-white.png" class="logo-asset">
+                    <div class="logo-preview-wrap" style="background:#f5f9fc;">
+                      <img src="logo-full-white.png" alt="Imperial Water full logo, white background" class="logo-preview-wide">
+                    </div>
+                    <div class="logo-asset-name">Full Logo</div>
+                    <div class="logo-asset-desc">White background</div>
+                    <div class="logo-asset-badge">PNG · 1626×658</div>
+                  </a>
+                  <a href="logo-full-transparent.png" download="imperial-water-logo-transparent.png" class="logo-asset">
+                    <div class="logo-preview-wrap" style="background:#0d2c47;">
+                      <img src="logo-full-transparent.png" alt="Imperial Water full logo, transparent background" class="logo-preview-wide">
+                    </div>
+                    <div class="logo-asset-name">Full Logo</div>
+                    <div class="logo-asset-desc">Transparent background</div>
+                    <div class="logo-asset-badge">PNG · 1626×658</div>
+                  </a>
+                </div>
+                <div class="logo-assets">
+                  <a href="logo-icon.svg" download="imperial-water-icon.svg" class="logo-asset">
+                    <img src="logo-icon.svg" alt="Imperial Water icon mark" class="logo-preview">
+                    <div class="logo-asset-name">Icon Mark</div>
+                    <div class="logo-asset-desc">Water drop · vector</div>
+                    <div class="logo-asset-badge">SVG · Scalable</div>
+                  </a>
+                  <a href="logo-mark-hires.png" download="imperial-water-icon.png" class="logo-asset">
+                    <img src="logo-mark-hires.png" alt="Imperial Water icon mark hi-res" class="logo-preview">
+                    <div class="logo-asset-name">Icon Mark</div>
+                    <div class="logo-asset-desc">Water drop · raster</div>
+                    <div class="logo-asset-badge">PNG · 748×1068</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tagline -->
+            <div class="brand-tagline">
+              <div class="brand-tagline-text">Pure Water. <em>The Imperial Standard.</em> At Home.</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- BILLING                                 -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="billing" hidden>
+
+      <div class="portal-grid wide">
+
+        <!-- Plan + breakdown -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">💳</span> Imperial Care Plan</div>
+            <span style="font-size:11px;font-weight:700;color:var(--green);background:rgba(40,180,133,0.1);padding:3px 9px;border-radius:99px;letter-spacing:0.04em;">PAY AS YOU GO</span>
+          </div>
+          <div class="card-body">
+
+            <div class="plan-badge">
+              <div class="plan-badge-name">Imperial Care</div>
+              <div class="plan-badge-price">· $35 / month + pass-through</div>
+            </div>
+
+            <div class="brand-sub-label" style="margin-top:4px;">What $35/mo covers</div>
+            <ul class="progress-list" style="margin-bottom:18px;">
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Hosting + SSL + daily backups</strong><span>Vercel — handled, monitored</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Domain &amp; DNS management</strong><span>I keep things pointed where they should be</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>~1 small content change / month</strong><span>Phone, hours, photo swap, copy tweak — included</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Monthly site health check</strong><span>Uptime, speed, search index — I review and report</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Priority text/email support</strong><span>Under 4 hours during business hours</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Bug fixes &amp; security patches</strong><span>I push fixes when they're needed</span></div></li>
+            </ul>
+
+            <div class="brand-sub-label">Pass-through costs (you pay at cost — no markup)</div>
+            <div class="billing-line">
+              <div class="billing-line-name">Google Workspace
+                <small>kurt@imperialwaterco.com — billed by Google directly</small>
+              </div>
+              <div class="billing-line-amount muted">~$6 / mo</div>
+            </div>
+            <div class="billing-line">
+              <div class="billing-line-name">Domain renewal
+                <small>imperialwaterco.com — yearly, amortized</small>
+              </div>
+              <div class="billing-line-amount muted">~$1.25 / mo</div>
+            </div>
+            <div class="billing-line">
+              <div class="billing-line-name">Twilio (when SMS reminders go live)
+                <small>$1/mo number rental + ~$0.01 per text sent</small>
+              </div>
+              <div class="billing-line-amount muted">~$1–5 / mo</div>
+            </div>
+            <div class="billing-line">
+              <div class="billing-line-name">Vercel hosting
+                <small>Free tier covers your traffic for the foreseeable future</small>
+              </div>
+              <div class="billing-line-amount muted">$0</div>
+            </div>
+
+            <div class="billing-total">
+              <div>Estimated all-in monthly</div>
+              <div class="billing-total-amount">~$43 / mo</div>
+            </div>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5;">
+              Pass-through means you pay what these vendors charge — I don't mark them up.
+              Twilio is usage-based, so it scales with how many reminders you actually send.
+            </div>
+          </div>
+          <div class="card-footer">
+            Add-ons (CRM build, iPad invoicing, video, etc.) are quoted separately. See the <a href="#add-ons" style="color:var(--blue);font-weight:600;text-decoration:none;">Add-Ons</a> tab.
+          </div>
+        </div>
+
+        <!-- Invoice history + payment -->
+        <div>
+          <div class="card" style="margin-bottom:14px;">
+            <div class="card-header">
+              <div class="card-title"><span class="card-title-icon">📅</span> Billing Status</div>
+            </div>
+            <div class="card-body">
+              <div class="empty-state" style="padding:14px 8px;">
+                <div class="empty-state-icon" style="font-size:28px;">⏸</div>
+                <div class="empty-state-title">Billing not started yet</div>
+                <div class="empty-state-desc">
+                  We're still in the launch grace period. Once you greenlight Imperial Care,
+                  Stripe will send your first invoice and auto-renew monthly.
+                </div>
+                <div style="margin-top:14px;">
+                  <a href="mailto:chris@chriskelley.io?subject=Imperial%20Water%20-%20Start%20Imperial%20Care%20billing" class="btn btn-primary btn-sm">Greenlight Imperial Care →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><span class="card-title-icon">📜</span> Invoice History</div>
+            </div>
+            <div class="card-body">
+              <div class="empty-state" style="padding:18px 8px;">
+                <div class="empty-state-desc">No invoices yet — they'll show up here once billing starts.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- REFERRALS & REVIEWS                     -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="referrals" hidden>
+
+      <!-- How it works -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">🤝</span> Referral Program</div>
+        </div>
+        <div class="card-body">
+
+          <div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">
+            Send another contractor or small business owner my way. When they sign up for any project
+            ($1K+ build or recurring service), <strong>you get $50 credit on your next invoice</strong>
+            — or cash via Venmo if you'd rather. They get 10% off their first project.
+          </div>
+
+          <div class="referral-stats">
+            <div class="referral-stat"><span class="referral-stat-num">0</span><div class="referral-stat-label">Links shared</div></div>
+            <div class="referral-stat"><span class="referral-stat-num">0</span><div class="referral-stat-label">Converted</div></div>
+            <div class="referral-stat"><span class="referral-stat-num green">$0</span><div class="referral-stat-label">Credit earned</div></div>
+          </div>
+
+          <div class="brand-sub-label">Your referral link</div>
+          <div class="referral-link-box">
+            <div class="referral-link-url" id="refLink">chriskelley.io/?ref=imperial-water</div>
+            <button class="btn btn-outline btn-sm" onclick="copyText('chriskelley.io/?ref=imperial-water', this)">Copy</button>
+          </div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="mailto:?subject=You%20should%20talk%20to%20this%20guy&body=Hey%20-%20wanted%20to%20put%20you%20on%20to%20Chris%20Kelley.%20He%20built%20our%20site%20at%20Imperial%20Water%20and%20is%20setting%20up%20our%20customer%20texting%20stuff%20too.%20Local%20Houston%20guy%2C%20picks%20up%20the%20phone%2C%20does%20a%20great%20job%20without%20charging%20agency%20prices.%0A%0Achriskelley.io%2F%3Fref%3Dimperial-water" class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">📧 Share via Email</a>
+            <a href="sms:?&body=Hey%20-%20you%20should%20talk%20to%20Chris%20Kelley%20about%20a%20website%2Fautomation.%20Local%20Houston%20guy%2C%20did%20great%20work%20for%20us.%20chriskelley.io%2F%3Fref%3Dimperial-water" class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">📱 Share via Text</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial / review guidance -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">⭐</span> Leaving a Review or Testimonial</div>
+        </div>
+        <div class="card-body">
+
+          <div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:14px;">
+            If you're up for leaving a review or testimonial, the most useful things to mention are
+            the things that make Chris different from a typical agency. Pick whichever ring true:
+          </div>
+
+          <div class="testimonial-points">
+            <div class="testimonial-point">
+              <div class="testimonial-point-icon">📞</div>
+              <div class="testimonial-point-text">
+                <strong>He picks up the phone.</strong>
+                <em>"Local Houston guy. Texts back same day. No account managers, no support tickets."</em>
+              </div>
+            </div>
+            <div class="testimonial-point">
+              <div class="testimonial-point-icon">⚡</div>
+              <div class="testimonial-point-text">
+                <strong>Fast turnaround.</strong>
+                <em>"Site went from zero web presence to live in about a week."</em>
+              </div>
+            </div>
+            <div class="testimonial-point">
+              <div class="testimonial-point-icon">💸</div>
+              <div class="testimonial-point-text">
+                <strong>Honest pricing — no agency markup.</strong>
+                <em>"Transparent, pay-as-you-go. He breaks down what's his work vs. what's pass-through. Way below what big shops would quote."</em>
+              </div>
+            </div>
+            <div class="testimonial-point">
+              <div class="testimonial-point-icon">🔧</div>
+              <div class="testimonial-point-text">
+                <strong>Handles all the boring stuff.</strong>
+                <em>"Set up business email, Search Console, analytics, contact forms — the back-end nobody else wants to touch."</em>
+              </div>
+            </div>
+            <div class="testimonial-point">
+              <div class="testimonial-point-icon">🤖</div>
+              <div class="testimonial-point-text">
+                <strong>Builds automation around how you already work.</strong>
+                <em>"Didn't try to sell me on enterprise software. Started with my notecards and is moving them into a system that fits my actual workflow."</em>
+              </div>
+            </div>
+          </div>
+
+          <div class="brand-sub-label" style="margin-top:18px;">A short review you can copy &amp; paste</div>
+          <div class="copy-block" id="reviewTemplate">Worked with Chris on getting Imperial Water online. Local Houston guy, picks up the phone, and gets things done fast — site was live in about a week. He set up everything: business email, contact forms, analytics, Search Console. No agency runaround, no markup on the tools, just honest pay-as-you-go pricing. Now we're moving my customer cards into a real system. Would recommend to any small business owner who's tired of getting quoted enterprise prices for stuff that should be simple.</div>
+          <div class="copy-block-actions">
+            <button class="btn btn-outline btn-sm" onclick="copyText(document.getElementById('reviewTemplate').textContent, this)">Copy review</button>
+            <a href="https://g.page/r/" target="_blank" class="btn btn-primary btn-sm">Leave on Google →</a>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:8px;font-style:italic;">
+            (Google review link will go live once Chris Kelley Consulting's GBP is verified — until then, any LinkedIn recommendation, text, or email I can quote on the site works great.)
+          </div>
+
+          <div class="brand-sub-label" style="margin-top:20px;">Talking about Chris to a contractor friend</div>
+          <div class="copy-block" id="referTemplate">Hey — you should talk to Chris Kelley. He built our site at Imperial Water and is setting up the customer texting stuff for us too. Local Houston guy, picks up the phone, doesn't charge agency prices. Pay-as-you-go, no contract. Worth a 15-min call: chriskelley.io/?ref=imperial-water</div>
+          <div class="copy-block-actions">
+            <button class="btn btn-outline btn-sm" onclick="copyText(document.getElementById('referTemplate').textContent, this)">Copy intro text</button>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div><!-- /content -->
+</div><!-- /main -->
 
 <script>
+  // ── PASSWORD GATE ─────────────────────────
   const PASSWORD = 'imperial2026';
   const gate = document.getElementById('gate');
   const input = document.getElementById('gateInput');
   const btn = document.getElementById('gateBtn');
   const err = document.getElementById('gateError');
 
-  // Check session
   if (sessionStorage.getItem('ck_portal_auth') === 'true') {
     gate.classList.add('hidden');
   }
@@ -522,10 +1106,65 @@
       input.focus();
     }
   }
-
   btn.addEventListener('click', tryUnlock);
   input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
 
+  // ── SECTION ROUTING ───────────────────────
+  const sectionTitles = {
+    'dashboard': 'Dashboard',
+    'site-stats': 'Site Stats',
+    'change-requests': 'Change Requests',
+    'add-ons': 'Add-Ons & Upgrades',
+    'brand-assets': 'Brand Assets',
+    'billing': 'Billing',
+    'referrals': 'Referrals & Reviews'
+  };
+
+  function showSection(name) {
+    if (!sectionTitles[name]) name = 'dashboard';
+    document.querySelectorAll('section[data-section]').forEach(s => {
+      s.hidden = s.dataset.section !== name;
+    });
+    document.querySelectorAll('.nav-item[data-target]').forEach(n => {
+      n.classList.toggle('active', n.dataset.target === name);
+    });
+    document.getElementById('topbarTitle').textContent = sectionTitles[name];
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarBackdrop').classList.remove('show');
+    window.scrollTo(0, 0);
+  }
+
+  document.querySelectorAll('.nav-item[data-target]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      history.replaceState(null, '', '#' + target);
+      showSection(target);
+    });
+  });
+
+  function handleHash() {
+    const hash = (window.location.hash || '').slice(1) || 'dashboard';
+    showSection(hash);
+  }
+  window.addEventListener('hashchange', handleHash);
+  window.addEventListener('load', handleHash);
+  handleHash();
+
+  // ── MOBILE MENU ───────────────────────────
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarBackdrop').classList.toggle('show');
+  });
+  document.getElementById('sidebarBackdrop').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarBackdrop').classList.remove('show');
+  });
+
+  // ── DATE ──────────────────────────────────
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  document.getElementById('topbarDate').textContent = today;
+
+  // ── COPY HELPERS ──────────────────────────
   function copyHex(el, hex) {
     navigator.clipboard.writeText(hex).then(() => {
       const hexEl = el.querySelector('.swatch-hex');
@@ -536,6 +1175,14 @@
         hexEl.style.display = '';
         copiedEl.style.display = 'none';
       }, 1600);
+    });
+  }
+
+  function copyText(text, btnEl) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btnEl.textContent;
+      btnEl.textContent = '✓ Copied';
+      setTimeout(() => { btnEl.textContent = orig; }, 1500);
     });
   }
 </script>
