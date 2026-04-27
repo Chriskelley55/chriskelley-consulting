@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CK Consulting — Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0d1f35; --navy-mid: #152840;
+    --blue: #1a6fa8; --blue-dark: #135585; --cyan: #00a8cc;
+    --green: #28B485; --green-dark: #1e9068;
+    --amber: #d97706; --red: #dc2626;
+    --off-white: #F7F8FA; --border: #e4e8ef;
+    --text: #1a1a2e; --muted: #5a6070;
+    --font: 'DM Sans', sans-serif;
+    --serif: 'DM Serif Display', serif;
+    --display: 'Oswald', sans-serif;
+    --sidebar-w: 230px;
+  }
+  html, body { height: 100%; }
+  body { font-family: var(--font); background: var(--off-white); color: var(--text); -webkit-font-smoothing: antialiased; display: flex; min-height: 100vh; }
+
+  /* ── GATE ── */
+  .gate { position: fixed; inset: 0; background: var(--navy); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 2rem; }
+  .gate.hidden { display: none; }
+  .gate-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 2.5rem 2rem; max-width: 340px; width: 100%; text-align: center; }
+  .gate-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 1.25rem; }
+  .gate-card h2 { font-family: var(--display); font-size: 1.5rem; color: #fff; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .gate-card p { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-bottom: 1.5rem; }
+  .gate-input { width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.08); color: #fff; font-size: 1rem; font-family: var(--font); margin-bottom: 0.75rem; outline: none; text-align: center; letter-spacing: 0.08em; transition: border-color 0.2s; }
+  .gate-input:focus { border-color: var(--blue); }
+  .gate-input::placeholder { color: rgba(255,255,255,0.3); letter-spacing: 0; }
+  .gate-btn { width: 100%; padding: 0.75rem; border-radius: 8px; border: none; background: var(--blue); color: #fff; font-size: 0.95rem; font-weight: 600; font-family: var(--font); cursor: pointer; transition: background 0.2s; }
+  .gate-btn:hover { background: var(--blue-dark); }
+  .gate-error { font-size: 0.8rem; color: #ff7b7b; margin-top: 0.5rem; min-height: 1rem; }
+
+  /* ── SIDEBAR ── */
+  .sidebar { width: var(--sidebar-w); min-width: var(--sidebar-w); background: var(--navy); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+  .sidebar-logo { padding: 18px 16px 15px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .sidebar-logo-eyebrow { font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 3px; }
+  .sidebar-logo-name { font-family: var(--display); font-size: 15px; font-weight: 700; color: #fff; letter-spacing: 0.05em; text-transform: uppercase; }
+  nav { flex: 1; padding: 6px 10px; overflow-y: auto; }
+  .nav-section { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.22); padding: 14px 10px 5px; }
+  .nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 12px; border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.55); transition: all 0.15s; text-decoration: none; margin-bottom: 1px; background: none; border: none; width: 100%; text-align: left; font-family: var(--font); }
+  .nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+  .nav-item.active { background: rgba(26,111,168,0.2); color: #fff; }
+  .nav-item.active .nav-icon { color: var(--blue); }
+  .nav-icon { font-size: 14px; width: 16px; text-align: center; flex-shrink: 0; }
+  .nav-badge { margin-left: auto; background: var(--amber); color: #fff; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+  .nav-badge.green { background: var(--green); }
+  .sidebar-footer { padding: 14px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .footer-name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7); }
+  .footer-role { font-size: 10.5px; color: rgba(255,255,255,0.3); margin-top: 1px; }
+
+  /* ── MAIN ── */
+  .main { flex: 1; display: flex; flex-direction: column; min-height: 100vh; min-width: 0; }
+  .topbar { background: #fff; border-bottom: 1px solid var(--border); padding: 0 28px; height: 58px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+  .topbar-title { font-size: 14.5px; font-weight: 700; color: var(--text); }
+  .topbar-date { font-size: 12px; color: var(--muted); }
+  .content { padding: 22px 28px 48px; flex: 1; max-width: 1100px; width: 100%; }
+
+  /* ── BUTTONS ── */
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 7px; font-family: var(--font); font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; text-decoration: none; white-space: nowrap; }
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-primary:hover { background: var(--blue-dark); }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn-green:hover { background: var(--green-dark); }
+  .btn-outline { background: #fff; border: 1.5px solid var(--border); color: var(--text); }
+  .btn-outline:hover { border-color: var(--muted); }
+  .btn-danger { background: rgba(220,38,38,0.1); color: var(--red); border: 1.5px solid rgba(220,38,38,0.2); }
+  .btn-danger:hover { background: rgba(220,38,38,0.18); }
+  .btn-xs { padding: 4px 9px; font-size: 11px; border-radius: 5px; }
+  .btn:disabled { opacity: 0.5; cursor: default; pointer-events: none; }
+
+  /* ── CARDS ── */
+  .card { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .card-header { padding: 14px 18px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; }
+  .card-body { padding: 16px 18px; }
+  .card-footer { padding: 10px 18px; background: var(--off-white); border-top: 1px solid var(--border); font-size: 11.5px; color: var(--muted); }
+
+  /* ── SECTION ── */
+  .section { animation: fadeIn 0.18s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ── ATTENTION BANNER ── */
+  .attention-banner { border: 2px solid var(--amber); border-radius: 12px; background: rgba(217,119,6,0.04); overflow: hidden; margin-bottom: 18px; }
+  .attention-header { padding: 13px 18px 11px; border-bottom: 1px solid rgba(217,119,6,0.15); display: flex; align-items: center; justify-content: space-between; }
+  .attention-title { font-size: 12.5px; font-weight: 700; color: #92400e; display: flex; align-items: center; gap: 8px; }
+  .attention-count { background: var(--amber); color: #fff; font-size: 9.5px; font-weight: 700; padding: 2px 8px; border-radius: 99px; }
+  .attention-body { padding: 4px 0; }
+  .attention-row { display: flex; align-items: flex-start; gap: 12px; padding: 11px 18px; border-bottom: 1px solid rgba(217,119,6,0.1); }
+  .attention-row:last-child { border-bottom: none; }
+  .attention-client { font-size: 10.5px; font-weight: 700; color: var(--amber); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; min-width: 90px; margin-top: 1px; }
+  .attention-desc { font-size: 12.5px; color: var(--text); flex: 1; line-height: 1.4; }
+  .attention-date { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .attention-actions { display: flex; gap: 5px; flex-shrink: 0; }
+  .attention-empty { padding: 20px 18px; font-size: 12.5px; color: var(--muted); text-align: center; }
+
+  /* ── QUICK STAT CARDS ── */
+  .quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+  .quick-card { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .quick-label { font-size: 10.5px; font-weight: 700; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .quick-value { font-family: var(--serif); font-size: 28px; color: var(--text); line-height: 1; }
+  .quick-value.muted { color: var(--muted); font-size: 20px; padding-top: 4px; }
+  .quick-sub { font-size: 11.5px; color: var(--muted); margin-top: 6px; }
+  .quick-link { display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; font-size: 11.5px; color: var(--blue); font-weight: 600; text-decoration: none; }
+  .quick-link:hover { text-decoration: underline; }
+
+  /* ── STATUS BADGES ── */
+  .status-badge { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+  .status-pending { color: var(--amber); background: rgba(217,119,6,0.1); }
+  .status-in_progress { color: var(--blue); background: rgba(26,111,168,0.1); }
+  .status-complete { color: var(--green-dark); background: rgba(40,180,133,0.12); }
+  .status-denied { color: var(--red); background: rgba(220,38,38,0.08); }
+
+  /* ── REQUESTS TABLE ── */
+  .filter-tabs { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-tab { padding: 5px 12px; border-radius: 6px; border: 1.5px solid var(--border); background: #fff; font-family: var(--font); font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.12s; }
+  .filter-tab.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .filter-tab:hover:not(.active) { border-color: var(--muted); color: var(--text); }
+  .req-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .req-table th { text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0 12px 9px 0; border-bottom: 2px solid var(--border); white-space: nowrap; }
+  .req-table td { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .req-table tr:last-child td { border-bottom: none; }
+  .req-table tr:hover td { background: rgba(247,248,250,0.6); }
+  .req-date-col { color: var(--muted); white-space: nowrap; width: 70px; }
+  .req-client-col { white-space: nowrap; width: 110px; }
+  .req-client-tag { font-size: 10.5px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.04em; background: rgba(26,111,168,0.08); padding: 2px 7px; border-radius: 4px; }
+  .req-desc-col { color: var(--text); line-height: 1.45; }
+  .req-status-col { width: 90px; }
+  .req-actions-col { width: 150px; white-space: nowrap; }
+  .action-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+  .empty-state { text-align: center; padding: 32px 20px; color: var(--muted); }
+  .empty-state-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.45; }
+  .empty-state-title { font-size: 13.5px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .empty-state-desc { font-size: 12px; line-height: 1.5; }
+
+  /* ── GRID LAYOUT ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 700px) { .quick-grid, .two-col { grid-template-columns: 1fr; } .sidebar { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-eyebrow">Chris Kelley Consulting</div>
+    <h2>Admin Panel</h2>
+    <p>Enter your admin password to continue.</p>
+    <input type="password" class="gate-input" id="gateInput" placeholder="Password" autocomplete="off">
+    <button class="gate-btn" id="gateBtn">Sign In →</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-eyebrow">Chris Kelley Consulting</div>
+    <div class="sidebar-logo-name">Admin Panel</div>
+  </div>
+  <nav>
+    <div class="nav-section">Overview</div>
+    <button class="nav-item active" data-target="dashboard">
+      <span class="nav-icon">📊</span> Dashboard
+    </button>
+    <button class="nav-item" data-target="requests" id="requestsNavBtn">
+      <span class="nav-icon">📥</span> All Requests
+      <span class="nav-badge" id="pendingBadge" style="display:none"></span>
+    </button>
+
+    <div class="nav-section" style="margin-top:6px;">Your Business</div>
+    <button class="nav-item" data-target="ck-stats">
+      <span class="nav-icon">📈</span> CK Site Stats
+    </button>
+    <button class="nav-item" data-target="gbp">
+      <span class="nav-icon">🏢</span> Business Profile
+    </button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="footer-name">chris@chriskelley.io</div>
+    <div class="footer-role">Super Admin</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbarTitle">Dashboard</div>
+    <div class="topbar-date" id="topbarDate"></div>
+  </div>
+  <div class="content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <section class="section" data-section="dashboard">
+
+      <!-- Attention banner -->
+      <div class="attention-banner" id="attentionBanner">
+        <div class="attention-header">
+          <div class="attention-title">
+            🔥 Needs Your Attention
+            <span class="attention-count" id="attentionCount">–</span>
+          </div>
+          <button class="btn btn-outline btn-xs" onclick="showSection('requests')">View all →</button>
+        </div>
+        <div class="attention-body" id="attentionBody">
+          <div class="attention-empty">Loading...</div>
+        </div>
+      </div>
+
+      <!-- CK.io quick stats -->
+      <div class="quick-grid">
+        <div class="quick-card" id="gscCard">
+          <div class="quick-label">📈 chriskelley.io — GSC</div>
+          <div class="quick-value muted" id="gscClicks">–</div>
+          <div class="quick-sub" id="gscSub">Clicks · last 28 days</div>
+          <a href="https://search.google.com/search-console" target="_blank" class="quick-link">Open Search Console ↗</a>
+        </div>
+        <div class="quick-card">
+          <div class="quick-label">🏢 Google Business Profile</div>
+          <div class="quick-value muted">GBP</div>
+          <div class="quick-sub">Manage your business listing</div>
+          <a href="https://business.google.com" target="_blank" class="quick-link">Open GBP Dashboard ↗</a>
+        </div>
+        <div class="quick-card">
+          <div class="quick-label">📋 Active Clients</div>
+          <div class="quick-value" id="activeClientsCount">1</div>
+          <div class="quick-sub">Imperial Water Co.</div>
+          <a href="/clients/imperial-water" target="_blank" class="quick-link">View portal ↗</a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══ ALL REQUESTS ═══ -->
+    <section class="section" data-section="requests" hidden>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📥 All Client Requests</div>
+          <button class="btn btn-outline btn-xs" onclick="loadAllRequests()">↻ Refresh</button>
+        </div>
+        <div class="card-body" style="padding-top:14px;">
+          <div class="filter-tabs" id="filterTabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="pending">Pending</button>
+            <button class="filter-tab" data-filter="in_progress">In Progress</button>
+            <button class="filter-tab" data-filter="complete">Complete</button>
+            <button class="filter-tab" data-filter="denied">Denied</button>
+          </div>
+          <div id="requestsTableWrap">
+            <div class="empty-state"><div class="empty-state-icon">⏳</div><div class="empty-state-title">Loading...</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CK STATS ═══ -->
+    <section class="section" data-section="ck-stats" hidden>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📈 chriskelley.io — Site Stats</div>
+        </div>
+        <div class="card-body">
+          <div class="empty-state">
+            <div class="empty-state-icon">🔗</div>
+            <div class="empty-state-title">GSC not yet wired for chriskelley.io</div>
+            <div class="empty-state-desc">Run the GSC client setup skill using chris@chriskelley.io to connect live Search Console data here. Until then, open the dashboard directly.</div>
+            <div style="margin-top:16px;">
+              <a href="https://search.google.com/search-console/performance/search-analytics?resource_id=sc-domain%3Achriskelley.io" target="_blank" class="btn btn-primary">Open GSC Dashboard ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ BUSINESS PROFILE ═══ -->
+    <section class="section" data-section="gbp" hidden>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🏢 Google Business Profile</div>
+        </div>
+        <div class="card-body">
+          <div class="empty-state">
+            <div class="empty-state-icon">🏢</div>
+            <div class="empty-state-title">Manage your GBP listing</div>
+            <div class="empty-state-desc">View profile views, calls, direction requests, and manage reviews directly in Google Business Profile.</div>
+            <div style="margin-top:16px;">
+              <a href="https://business.google.com" target="_blank" class="btn btn-primary">Open GBP Dashboard ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// ── STATE ─────────────────────────────────────────────
+let ADMIN_TOKEN = '';
+let allRequests = [];
+let activeFilter = 'all';
+
+// ── GATE ──────────────────────────────────────────────
+const gate = document.getElementById('gate');
+const gateInput = document.getElementById('gateInput');
+const gateBtn = document.getElementById('gateBtn');
+const gateError = document.getElementById('gateError');
+
+const savedToken = sessionStorage.getItem('ck_admin_token');
+if (savedToken) {
+  ADMIN_TOKEN = savedToken;
+  gate.classList.add('hidden');
+  init();
+}
+
+async function trySignIn() {
+  const pw = gateInput.value.trim();
+  if (!pw) return;
+  gateBtn.textContent = 'Signing in...';
+  gateBtn.disabled = true;
+
+  try {
+    const res = await fetch('/api/requests?view=all', {
+      headers: { 'X-Admin-Token': pw }
+    });
+    if (res.ok) {
+      ADMIN_TOKEN = pw;
+      sessionStorage.setItem('ck_admin_token', pw);
+      gate.classList.add('hidden');
+      init();
+    } else {
+      gateError.textContent = 'Wrong password. Try again.';
+      gateInput.value = '';
+      gateInput.focus();
+      gateBtn.textContent = 'Sign In →';
+      gateBtn.disabled = false;
+    }
+  } catch {
+    gateError.textContent = 'Connection error. Try again.';
+    gateBtn.textContent = 'Sign In →';
+    gateBtn.disabled = false;
+  }
+}
+
+gateBtn.addEventListener('click', trySignIn);
+gateInput.addEventListener('keydown', e => { if (e.key === 'Enter') trySignIn(); });
+
+// ── INIT ──────────────────────────────────────────────
+function init() {
+  document.getElementById('topbarDate').textContent =
+    new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  loadAllRequests();
+}
+
+// ── NAVIGATION ─────────────────────────────────────────
+const TITLES = {
+  'dashboard': 'Dashboard',
+  'requests': 'All Requests',
+  'ck-stats': 'CK Site Stats',
+  'gbp': 'Business Profile',
+};
+
+function showSection(name) {
+  if (!TITLES[name]) name = 'dashboard';
+  document.querySelectorAll('section[data-section]').forEach(s => {
+    s.hidden = s.dataset.section !== name;
+  });
+  document.querySelectorAll('.nav-item[data-target]').forEach(n => {
+    n.classList.toggle('active', n.dataset.target === name);
+  });
+  document.getElementById('topbarTitle').textContent = TITLES[name];
+  if (name === 'requests') renderRequestsTable();
+}
+
+document.querySelectorAll('.nav-item[data-target]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const t = btn.dataset.target;
+    history.replaceState(null, '', '#' + t);
+    showSection(t);
+  });
+});
+
+window.addEventListener('hashchange', () => showSection((location.hash || '').slice(1)));
+
+// ── LOAD ALL REQUESTS ────────────────────────────────
+async function loadAllRequests() {
+  try {
+    const res = await fetch('/api/requests?view=all', {
+      headers: { 'X-Admin-Token': ADMIN_TOKEN }
+    });
+    if (res.status === 401) {
+      sessionStorage.removeItem('ck_admin_token');
+      location.reload();
+      return;
+    }
+    const data = await res.json();
+    allRequests = data.requests || [];
+    updateDashboard();
+    renderRequestsTable();
+  } catch (err) {
+    console.error('Failed to load requests:', err);
+  }
+}
+
+// ── DASHBOARD ────────────────────────────────────────
+function updateDashboard() {
+  const pending = allRequests.filter(r => r.status === 'pending');
+  const inProg  = allRequests.filter(r => r.status === 'in_progress');
+  const attention = [...pending, ...inProg];
+
+  const countEl = document.getElementById('attentionCount');
+  const bodyEl  = document.getElementById('attentionBody');
+  const badge   = document.getElementById('pendingBadge');
+
+  countEl.textContent = attention.length;
+
+  if (attention.length === 0) {
+    bodyEl.innerHTML = '<div class="attention-empty">🎉 No items need attention right now.</div>';
+    badge.style.display = 'none';
+  } else {
+    badge.textContent = attention.length;
+    badge.style.display = '';
+    bodyEl.innerHTML = attention.slice(0, 5).map(r => {
+      const date = new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const clientLabel = clientDisplayName(r.clientId);
+      return `
+        <div class="attention-row">
+          <div class="attention-client">${clientLabel}</div>
+          <div class="attention-desc">${escHtml(truncate(r.description, 100))}</div>
+          <div class="attention-date">${date}</div>
+          <div class="attention-actions">
+            ${r.status === 'pending' ? `<button class="btn btn-primary btn-xs" onclick="updateStatus('${r.id}','${r.clientId}','in_progress')">Engage</button>` : ''}
+            <button class="btn btn-green btn-xs" onclick="updateStatus('${r.id}','${r.clientId}','complete')">✓ Done</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+    if (attention.length > 5) {
+      bodyEl.innerHTML += `<div class="attention-empty" style="padding:10px 18px;text-align:left;font-size:12px;color:var(--muted);">+ ${attention.length - 5} more — <button style="background:none;border:none;color:var(--blue);font-weight:600;cursor:pointer;font-size:12px;" onclick="showSection('requests')">View all →</button></div>`;
+    }
+  }
+}
+
+// ── REQUESTS TABLE ────────────────────────────────────
+function renderRequestsTable() {
+  const wrap = document.getElementById('requestsTableWrap');
+  const filtered = activeFilter === 'all'
+    ? allRequests
+    : allRequests.filter(r => r.status === activeFilter);
+
+  if (filtered.length === 0) {
+    const msg = activeFilter === 'all' ? 'No requests yet.' : `No ${activeFilter.replace('_', ' ')} requests.`;
+    wrap.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📭</div><div class="empty-state-title">${msg}</div></div>`;
+    return;
+  }
+
+  wrap.innerHTML = `
+    <table class="req-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Client</th>
+          <th>Request</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${filtered.map(r => {
+          const date = new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+          return `
+            <tr>
+              <td class="req-date-col">${date}</td>
+              <td class="req-client-col"><span class="req-client-tag">${clientDisplayName(r.clientId)}</span></td>
+              <td class="req-desc-col">${escHtml(r.description)}</td>
+              <td class="req-status-col"><span class="status-badge status-${r.status}">${statusLabel(r.status)}</span></td>
+              <td class="req-actions-col">${actionButtons(r)}</td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function actionButtons(r) {
+  const btns = [];
+  if (r.status === 'pending') {
+    btns.push(`<button class="btn btn-primary btn-xs" onclick="updateStatus('${r.id}','${r.clientId}','in_progress')">Engage</button>`);
+    btns.push(`<button class="btn btn-danger btn-xs" onclick="updateStatus('${r.id}','${r.clientId}','denied')">Deny</button>`);
+  } else if (r.status === 'in_progress') {
+    btns.push(`<button class="btn btn-green btn-xs" onclick="updateStatus('${r.id}','${r.clientId}','complete')">✓ Complete</button>`);
+    btns.push(`<button class="btn btn-danger btn-xs" onclick="updateStatus('${r.id}','${r.clientId}','denied')">Deny</button>`);
+  } else if (r.status === 'denied' || r.status === 'complete') {
+    btns.push(`<button class="btn btn-outline btn-xs" onclick="updateStatus('${r.id}','${r.clientId}','pending')">Reopen</button>`);
+  }
+  return `<div class="action-btns">${btns.join('')}</div>`;
+}
+
+// ── UPDATE STATUS ─────────────────────────────────────
+async function updateStatus(id, clientId, status) {
+  try {
+    const res = await fetch('/api/requests', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Admin-Token': ADMIN_TOKEN,
+      },
+      body: JSON.stringify({ id, clientId, status }),
+    });
+    if (!res.ok) throw new Error('Failed');
+    const { request } = await res.json();
+    // Update in-memory list
+    const idx = allRequests.findIndex(r => r.id === id);
+    if (idx !== -1) allRequests[idx] = request;
+    updateDashboard();
+    renderRequestsTable();
+  } catch (err) {
+    alert('Failed to update — please try again.');
+  }
+}
+
+// ── FILTER TABS ──────────────────────────────────────
+document.querySelectorAll('.filter-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeFilter = tab.dataset.filter;
+    renderRequestsTable();
+  });
+});
+
+// ── HELPERS ───────────────────────────────────────────
+function clientDisplayName(id) {
+  const map = { 'imperial-water': 'Imperial Water' };
+  return map[id] || id;
+}
+function statusLabel(s) {
+  return { pending: 'Pending', in_progress: 'In Progress', complete: 'Complete', denied: 'Denied' }[s] || s;
+}
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function truncate(str, n) {
+  return str.length > n ? str.slice(0, n) + '…' : str;
+}
+</script>
+</body>
+</html>

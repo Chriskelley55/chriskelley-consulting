@@ -279,6 +279,32 @@
   .empty-state-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
   .empty-state-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; max-width: 320px; margin: 0 auto; }
 
+  /* ── REQUEST MODAL ─────────────────────────────── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 500; padding: 1rem; }
+  .modal-card { background: #fff; border-radius: 14px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.18); overflow: hidden; animation: fadeIn 0.15s ease; }
+  .modal-header { padding: 16px 20px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .modal-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .modal-close { background: none; border: none; font-size: 22px; color: var(--muted); cursor: pointer; line-height: 1; padding: 0 2px; }
+  .modal-close:hover { color: var(--text); }
+  .modal-body { padding: 18px 20px; }
+  .modal-desc { font-size: 12.5px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+  .req-textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 12px; font-family: var(--font); font-size: 13px; color: var(--text); resize: vertical; outline: none; transition: border-color 0.15s; line-height: 1.5; min-height: 100px; }
+  .req-textarea:focus { border-color: var(--green); }
+  .modal-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; background: var(--off-white); }
+
+  /* ── REQUESTS TABLE ─────────────────────────────── */
+  .requests-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .requests-table th { text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0 10px 9px 0; border-bottom: 2px solid var(--border); }
+  .requests-table td { padding: 11px 10px 11px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .requests-table tr:last-child td { border-bottom: none; }
+  .req-desc-cell { color: var(--text); line-height: 1.45; }
+  .req-date-cell { color: var(--muted); white-space: nowrap; font-size: 11.5px; width: 70px; }
+  .req-status-pill { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+  .req-status-pending   { color: #92400e; background: rgba(217,119,6,0.1); }
+  .req-status-in_progress { color: var(--blue); background: rgba(26,111,168,0.1); }
+  .req-status-complete  { color: var(--green-dark); background: rgba(40,180,133,0.12); }
+  .req-status-denied    { color: #dc2626; background: rgba(220,38,38,0.08); }
+
   /* ── BILLING ──────────────────────────────────── */
   .plan-badge { display: inline-flex; align-items: baseline; gap: 8px; background: rgba(26,111,168,0.08); border: 1.5px solid rgba(26,111,168,0.2); border-radius: 8px; padding: 8px 14px; margin-bottom: 14px; }
   .plan-badge-name { font-family: var(--display); font-size: 13px; font-weight: 700; color: var(--blue); letter-spacing: 0.04em; text-transform: uppercase; }
@@ -742,20 +768,12 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title"><span class="card-title-icon">🔧</span> Change Requests</div>
-          <a href="mailto:chris@chriskelley.io?subject=Imperial%20Water%20-%20Change%20Request" class="btn btn-primary btn-sm">+ New Request</a>
+          <button class="btn btn-primary btn-sm" onclick="openRequestModal()">+ New Request</button>
         </div>
-        <div class="card-body">
-          <div class="empty-state">
-            <div class="empty-state-icon">📭</div>
-            <div class="empty-state-title">No active requests</div>
-            <div class="empty-state-desc">
-              Need something updated on the site? Email Chris directly or click "+ New Request" above.
-              Things like swapping photos, updating phone numbers, adding services, or fixing copy.
-            </div>
-            <div style="margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-              <a href="mailto:chris@chriskelley.io?subject=Imperial%20Water%20-%20Change%20Request" class="btn btn-primary btn-sm">+ New Request</a>
-              <a href="sms:8328073093" class="btn btn-outline btn-sm">📱 Text Chris</a>
-            </div>
+        <div class="card-body" id="requestsBody" style="padding:0;">
+          <div class="empty-state" style="padding:28px 16px;">
+            <div class="empty-state-icon">⏳</div>
+            <div class="empty-state-title">Loading…</div>
           </div>
         </div>
         <div class="card-footer">
@@ -764,6 +782,25 @@
       </div>
 
     </section>
+
+    <!-- REQUEST MODAL -->
+    <div id="requestModal" class="modal-overlay" style="display:none;" onclick="closeModalOnBackdrop(event)">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">🔧 New Change Request</div>
+          <button class="modal-close" onclick="closeRequestModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-desc">Describe what you'd like updated. Be specific — which page, what text to change, what photo to swap, etc.</p>
+          <textarea id="requestText" class="req-textarea" placeholder="e.g. Update the phone number on the contact page from (832) 555-0100 to (832) 555-0200…"></textarea>
+          <div id="requestModalError" style="font-size:12px;color:#dc2626;margin-top:6px;min-height:1rem;"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline btn-sm" onclick="closeRequestModal()">Cancel</button>
+          <button class="btn btn-primary btn-sm" id="submitReqBtn" onclick="submitRequest()">Submit Request</button>
+        </div>
+      </div>
+    </div>
 
     <!-- ═══════════════════════════════════════ -->
     <!-- ADD-ONS                                 -->
@@ -1460,6 +1497,119 @@
     b.addEventListener('click', () => { if (!statsLoaded) loadStats(false); });
   });
   maybeLoadStats(); // covers the case where user lands directly on #site-stats
+
+  // ── CHANGE REQUESTS ─────────────────────────────
+  const STATUS_LABELS = {
+    pending:     { text: 'Submitted',   cls: 'req-status-pending' },
+    in_progress: { text: 'In Progress', cls: 'req-status-in_progress' },
+    complete:    { text: 'Complete',    cls: 'req-status-complete' },
+    denied:      { text: 'Declined',    cls: 'req-status-denied' },
+  };
+
+  async function loadRequests() {
+    const body = document.getElementById('requestsBody');
+    try {
+      const res = await fetch('/api/requests?client=imperial-water');
+      const { requests } = await res.json();
+      renderRequests(requests || [], body);
+    } catch {
+      body.innerHTML = '<div class="empty-state" style="padding:28px 16px;"><div class="empty-state-title">Couldn\'t load requests</div></div>';
+    }
+  }
+
+  function renderRequests(requests, body) {
+    if (requests.length === 0) {
+      body.innerHTML = `
+        <div class="empty-state" style="padding:28px 16px;">
+          <div class="empty-state-icon">📭</div>
+          <div class="empty-state-title">No active requests</div>
+          <div class="empty-state-desc">Need something updated on the site? Click "+ New Request" to describe what you'd like changed — photos, text, phone numbers, new sections, anything.</div>
+        </div>`;
+      return;
+    }
+    body.innerHTML = `
+      <table class="requests-table" style="margin:0;">
+        <thead><tr>
+          <th style="padding-left:18px;">Request</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr></thead>
+        <tbody>
+          ${requests.map(r => {
+            const s = STATUS_LABELS[r.status] || STATUS_LABELS.pending;
+            const date = new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            return `<tr>
+              <td class="req-desc-cell" style="padding-left:18px;">${escHtml(r.description)}</td>
+              <td class="req-date-cell">${date}</td>
+              <td><span class="req-status-pill ${s.cls}">${s.text}</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function openRequestModal() {
+    document.getElementById('requestModal').style.display = 'flex';
+    setTimeout(() => document.getElementById('requestText').focus(), 50);
+  }
+
+  function closeRequestModal() {
+    document.getElementById('requestModal').style.display = 'none';
+    document.getElementById('requestText').value = '';
+    document.getElementById('requestModalError').textContent = '';
+    const btn = document.getElementById('submitReqBtn');
+    btn.textContent = 'Submit Request';
+    btn.disabled = false;
+  }
+
+  function closeModalOnBackdrop(e) {
+    if (e.target === document.getElementById('requestModal')) closeRequestModal();
+  }
+
+  async function submitRequest() {
+    const description = document.getElementById('requestText').value.trim();
+    const errEl = document.getElementById('requestModalError');
+    if (!description) {
+      errEl.textContent = 'Please describe your request before submitting.';
+      document.getElementById('requestText').focus();
+      return;
+    }
+    errEl.textContent = '';
+    const btn = document.getElementById('submitReqBtn');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId: 'imperial-water', clientName: 'Imperial Water Co.', description }),
+      });
+      if (!res.ok) throw new Error('Server error');
+      closeRequestModal();
+      await loadRequests();
+    } catch {
+      errEl.textContent = 'Something went wrong — please try again.';
+      btn.textContent = 'Submit Request';
+      btn.disabled = false;
+    }
+  }
+
+  // Keyboard shortcut: Escape closes modal
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('requestModal').style.display === 'flex') {
+      closeRequestModal();
+    }
+  });
+
+  // Load requests when section is opened or page starts on it
+  document.querySelectorAll('.nav-item[data-target="change-requests"]').forEach(b => {
+    b.addEventListener('click', loadRequests);
+  });
+  if ((window.location.hash || '').slice(1) === 'change-requests') loadRequests();
 </script>
 </body>
 </html>
