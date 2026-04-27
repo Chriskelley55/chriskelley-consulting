@@ -3,14 +3,16 @@
 // portal-friendly JSON. Caches in-memory for 24h per Vercel instance.
 //
 // Required env vars (set in Vercel project settings):
-//   GSC_SERVICE_ACCOUNT_JSON  — full service account JSON (stringified)
-//   GSC_SITE_URL              — e.g. "sc-domain:imperialwaterco.com"
-//                                 OR "https://imperialwaterco.com/"
+//   GSC_OAUTH_CLIENT_ID      — OAuth 2.0 client ID
+//   GSC_OAUTH_CLIENT_SECRET  — OAuth 2.0 client secret
+//   GSC_OAUTH_REFRESH_TOKEN  — refresh token for kurt@imperialwaterco.com
+//   GSC_SITE_URL             — e.g. "sc-domain:imperialwaterco.com"
+//                                OR "https://imperialwaterco.com/"
 //
 // If env vars are missing, returns demo data with `is_demo: true` so the
 // portal still renders something instead of erroring.
 
-const { JWT } = require('google-auth-library');
+const { OAuth2Client } = require('google-auth-library');
 
 // Module-level cache (per serverless instance — survives warm invocations)
 const cache = new Map();
@@ -66,7 +68,7 @@ function demoPayload(siteUrl) {
     last_refreshed: new Date().toISOString(),
     from_cache: false,
     is_demo: true,
-    demo_reason: 'GSC env vars not configured yet — see /clients/imperial-water/SETUP-stats.md',
+    demo_reason: 'GSC OAuth env vars not configured yet — see /clients/imperial-water/SETUP-stats.md',
     summary: {
       clicks: 0,
       impressions: 0,
@@ -87,21 +89,15 @@ function demoPayload(siteUrl) {
 }
 
 async function fetchLive(siteUrl) {
-  const credsRaw = process.env.GSC_SERVICE_ACCOUNT_JSON;
-  if (!credsRaw) throw new Error('Missing GSC_SERVICE_ACCOUNT_JSON env var');
-
-  let creds;
-  try {
-    creds = JSON.parse(credsRaw);
-  } catch (e) {
-    throw new Error('GSC_SERVICE_ACCOUNT_JSON is not valid JSON');
+  const clientId = process.env.GSC_OAUTH_CLIENT_ID;
+  const clientSecret = process.env.GSC_OAUTH_CLIENT_SECRET;
+  const refreshToken = process.env.GSC_OAUTH_REFRESH_TOKEN;
+  if (!clientId || !clientSecret || !refreshToken) {
+    throw new Error('Missing GSC OAuth env vars (GSC_OAUTH_CLIENT_ID / GSC_OAUTH_CLIENT_SECRET / GSC_OAUTH_REFRESH_TOKEN)');
   }
 
-  const auth = new JWT({
-    email: creds.client_email,
-    key: creds.private_key,
-    scopes: ['https://www.googleapis.com/auth/webmasters.readonly'],
-  });
+  const auth = new OAuth2Client(clientId, clientSecret);
+  auth.setCredentials({ refresh_token: refreshToken });
   const tokenObj = await auth.getAccessToken();
   const token = tokenObj?.token || tokenObj;
   if (!token) throw new Error('GSC auth: no access token returned');
@@ -227,7 +223,7 @@ module.exports = async function handler(req, res) {
   }
 
   // No env vars → return demo payload, don't crash
-  if (!process.env.GSC_SERVICE_ACCOUNT_JSON) {
+  if (!process.env.GSC_OAUTH_REFRESH_TOKEN) {
     return res.status(200).json(demoPayload(siteUrl));
   }
 
