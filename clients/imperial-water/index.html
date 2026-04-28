@@ -59,7 +59,8 @@
     width: var(--sidebar-w); min-width: var(--sidebar-w);
     background: var(--navy);
     display: flex; flex-direction: column;
-    position: sticky; top: 0; height: 100vh;
+    position: fixed; top: 0; left: 0; height: 100vh;
+    z-index: 100; overflow-y: auto;
   }
   .sidebar-logo {
     padding: 18px 18px 16px;
@@ -107,7 +108,7 @@
   .avatar-role { font-size: 10.5px; color: rgba(255,255,255,0.35); }
 
   /* ── MAIN ─────────────────────────────────────── */
-  .main { flex: 1; display: flex; flex-direction: column; min-height: 100vh; min-width: 0; }
+  .main { flex: 1; display: flex; flex-direction: column; min-height: 100vh; min-width: 0; margin-left: var(--sidebar-w); }
   .topbar {
     background: #fff; border-bottom: 1px solid var(--border);
     padding: 0 28px; height: 60px; display: flex; align-items: center;
@@ -486,9 +487,9 @@
   </nav>
 
   <div class="sidebar-footer">
-    <div class="avatar">KR</div>
-    <div>
-      <div class="avatar-name">Kurt R.</div>
+    <div class="avatar" id="sidebarAvatar" style="cursor:pointer;" onclick="showSection('account')" title="Account settings">KS</div>
+    <div style="cursor:pointer;" onclick="showSection('account')">
+      <div class="avatar-name">Kurt S.</div>
       <div class="avatar-role">imperialwaterco.com</div>
     </div>
   </div>
@@ -1231,10 +1232,10 @@
           <div class="copy-block" id="reviewTemplate">Worked with Chris on getting Imperial Water online. Local Houston guy, picks up the phone, and gets things done fast — site was live in about a week. He set up everything: business email, contact forms, analytics, Search Console. No agency runaround, no markup on the tools, just honest pay-as-you-go pricing. Now we're moving my customer cards into a real system. Would recommend to any small business owner who's tired of getting quoted enterprise prices for stuff that should be simple.</div>
           <div class="copy-block-actions">
             <button class="btn btn-outline btn-sm" onclick="copyText(document.getElementById('reviewTemplate').textContent, this)">Copy review</button>
-            <a href="https://g.page/r/" target="_blank" class="btn btn-primary btn-sm">Leave on Google →</a>
+            <a href="https://share.google/ZEh6s5HJqbwhqoDCp" target="_blank" class="btn btn-primary btn-sm">Leave on Google →</a>
           </div>
           <div style="font-size:11px;color:var(--muted);margin-top:8px;font-style:italic;">
-            (Google review link will go live once Chris Kelley Consulting's GBP is verified — until then, any LinkedIn recommendation, text, or email I can quote on the site works great.)
+            Any LinkedIn recommendation, text, or email you send I can also quote on the site — works great too.
           </div>
 
           <div class="brand-sub-label" style="margin-top:20px;">Talking about Chris to a contractor friend</div>
@@ -1246,6 +1247,80 @@
         </div>
       </div>
 
+    </section>
+
+    <!-- ═══ ACCOUNT ═══ -->
+    <section class="section" data-section="account" hidden>
+      <div style="max-width:580px;">
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">👤</span> Account Info</div>
+          </div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--border);">
+              <div style="width:56px;height:56px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0;">KS</div>
+              <div>
+                <div style="font-size:15px;font-weight:700;color:var(--text);">Kurt S.</div>
+                <div style="font-size:12.5px;color:var(--muted);margin-top:2px;">Imperial Water Co.</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:1px;">kurt@imperialwaterco.com</div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div>
+                <div style="font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Name</div>
+                <div style="font-size:13.5px;font-weight:500;color:var(--text);">Kurt S.</div>
+              </div>
+              <div>
+                <div style="font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Company</div>
+                <div style="font-size:13.5px;font-weight:500;color:var(--text);">Imperial Water Co.</div>
+              </div>
+              <div>
+                <div style="font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Email</div>
+                <div style="font-size:13.5px;font-weight:500;color:var(--text);">kurt@imperialwaterco.com</div>
+              </div>
+              <div>
+                <div style="font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Website</div>
+                <div style="font-size:13.5px;font-weight:500;color:var(--text);">imperialwaterco.com</div>
+              </div>
+            </div>
+
+            <div style="padding-top:4px;">
+              <a href="mailto:chris@chriskelley.io?subject=Account%20Update%20-%20Imperial%20Water&body=Hi%20Chris%2C%20I%27d%20like%20to%20update%20my%20account%20info%3A%0A%0A" class="btn btn-outline btn-sm">✏️ Request Info Update</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">💳</span> Subscription</div>
+          </div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:13.5px;font-weight:600;color:var(--text);">Monthly Retainer + Site Buildout</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:2px;">$35 / month · Renews automatically</div>
+              </div>
+              <span style="background:rgba(40,180,133,0.12);color:var(--green-dark);font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;letter-spacing:0.04em;">ACTIVE</span>
+            </div>
+            <div style="padding-top:4px;border-top:1px solid var(--border);">
+              <a href="mailto:chris@chriskelley.io?subject=Billing%20Question%20-%20Imperial%20Water" class="btn btn-outline btn-sm">💬 Billing Question</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">🔐</span> Portal Access</div>
+          </div>
+          <div class="card-body">
+            <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;">Your portal password is managed by Chris. If you need it reset or want to add another team member, just send a message.</p>
+            <a href="mailto:chris@chriskelley.io?subject=Portal%20Access%20-%20Imperial%20Water" class="btn btn-outline btn-sm">🔑 Request Password Reset</a>
+          </div>
+        </div>
+
+      </div>
     </section>
 
   </div><!-- /content -->
@@ -1284,7 +1359,8 @@
     'add-ons': 'Add-Ons & Upgrades',
     'brand-assets': 'Brand Assets',
     'billing': 'Billing',
-    'referrals': 'Referrals & Reviews'
+    'referrals': 'Referrals & Reviews',
+    'account': 'Account'
   };
 
   function showSection(name) {
