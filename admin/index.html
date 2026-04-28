@@ -144,6 +144,28 @@
   /* ── GRID LAYOUT ── */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 700px) { .quick-grid, .two-col { grid-template-columns: 1fr; } .sidebar { display: none; } }
+
+  /* ── GSC STATS ── */
+  .stats-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  .stat-card { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .stat-value { font-family: var(--serif); font-size: 26px; color: var(--text); line-height: 1; }
+  .stat-value.muted { color: var(--muted); font-size: 18px; }
+  .stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 80px; padding: 4px 0; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 0; }
+  .bar-fill { width: 100%; border-radius: 3px 3px 0 0; background: var(--blue); opacity: 0.75; min-height: 2px; transition: height 0.3s; }
+  .bar-fill.this-week { opacity: 1; background: var(--cyan); }
+  .bar-lbl { font-size: 9px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; text-align: center; }
+  .gsc-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .gsc-table th { text-align: left; font-size: 9.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); padding-bottom: 7px; border-bottom: 2px solid var(--border); }
+  .gsc-table th:not(:first-child) { text-align: right; }
+  .gsc-table td { padding: 8px 0; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--text); }
+  .gsc-table tr:last-child td { border-bottom: none; }
+  .gsc-table td:not(:first-child) { text-align: right; color: var(--muted); }
+  .gsc-pos-badge { display: inline-block; background: rgba(26,111,168,0.1); color: var(--blue); font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; }
+  .demo-banner { background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.2); border-radius: 8px; padding: 8px 12px; font-size: 11.5px; color: #92400e; margin-bottom: 14px; }
+  .chart-status { font-size: 11px; color: var(--muted); text-align: right; margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -263,18 +285,40 @@
 
     <!-- ═══ CK STATS ═══ -->
     <section class="section" data-section="ck-stats" hidden>
-      <div class="card">
+      <div id="ckDemoBanner" class="demo-banner" style="display:none;"></div>
+
+      <!-- Summary stat cards -->
+      <div class="stats-grid-4" id="ckSummary">
+        <div class="stat-card"><div class="stat-label">Clicks</div><div class="stat-value muted" id="ckClicks">–</div><div class="stat-sub">Last 28 days</div></div>
+        <div class="stat-card"><div class="stat-label">Impressions</div><div class="stat-value muted" id="ckImpressions">–</div><div class="stat-sub">Last 28 days</div></div>
+        <div class="stat-card"><div class="stat-label">Avg CTR</div><div class="stat-value muted" id="ckCtr">–</div><div class="stat-sub">Last 28 days</div></div>
+        <div class="stat-card"><div class="stat-label">Avg Position</div><div class="stat-value muted" id="ckPosition">–</div><div class="stat-sub">Last 28 days</div></div>
+      </div>
+
+      <!-- Weekly chart -->
+      <div class="card" style="margin-bottom:14px;">
         <div class="card-header">
-          <div class="card-title">📈 chriskelley.io — Site Stats</div>
+          <div class="card-title">📊 Weekly Clicks — chriskelley.io</div>
+          <button class="btn btn-outline btn-xs" onclick="loadCkStats(true)">↻ Refresh</button>
         </div>
         <div class="card-body">
-          <div class="empty-state">
-            <div class="empty-state-icon">🔗</div>
-            <div class="empty-state-title">GSC not yet wired for chriskelley.io</div>
-            <div class="empty-state-desc">Run the GSC client setup skill using chris@chriskelley.io to connect live Search Console data here. Until then, open the dashboard directly.</div>
-            <div style="margin-top:16px;">
-              <a href="https://search.google.com/search-console/performance/search-analytics?resource_id=sc-domain%3Achriskelley.io" target="_blank" class="btn btn-primary">Open GSC Dashboard ↗</a>
-            </div>
+          <div class="bar-chart" id="ckChart"><div style="color:var(--muted);font-size:12px;">Loading…</div></div>
+          <div class="chart-status" id="ckChartStatus"></div>
+        </div>
+      </div>
+
+      <!-- Top queries + top pages -->
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🔍 Top Queries</div></div>
+          <div class="card-body" style="padding:0;">
+            <div id="ckQueryTable" style="padding:14px 16px;color:var(--muted);font-size:12px;">Loading…</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📄 Top Pages</div></div>
+          <div class="card-body" style="padding:0;">
+            <div id="ckPagesTable" style="padding:14px 16px;color:var(--muted);font-size:12px;">Loading…</div>
           </div>
         </div>
       </div>
@@ -354,10 +398,13 @@ gateBtn.addEventListener('click', trySignIn);
 gateInput.addEventListener('keydown', e => { if (e.key === 'Enter') trySignIn(); });
 
 // ── INIT ──────────────────────────────────────────────
+let ckStatsLoaded = false;
+
 function init() {
   document.getElementById('topbarDate').textContent =
     new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   loadAllRequests();
+  loadCkStats(); // pre-load to populate dashboard GSC card
 }
 
 // ── NAVIGATION ─────────────────────────────────────────
@@ -378,6 +425,7 @@ function showSection(name) {
   });
   document.getElementById('topbarTitle').textContent = TITLES[name];
   if (name === 'requests') renderRequestsTable();
+  if (name === 'ck-stats') loadCkStats();
 }
 
 document.querySelectorAll('.nav-item[data-target]').forEach(btn => {
@@ -537,6 +585,113 @@ document.querySelectorAll('.filter-tab').forEach(tab => {
     renderRequestsTable();
   });
 });
+
+// ── CK STATS ─────────────────────────────────────────
+async function loadCkStats(forceRefresh = false) {
+  if (ckStatsLoaded && !forceRefresh) return;
+  try {
+    const url = '/api/ck-stats' + (forceRefresh ? '?refresh=true' : '');
+    const res = await fetch(url, { headers: { 'X-Admin-Token': ADMIN_TOKEN } });
+    if (!res.ok) return;
+    const data = await res.json();
+    ckStatsLoaded = true;
+    renderCkStats(data);
+    // Update dashboard GSC card
+    const clicksEl = document.getElementById('gscClicks');
+    const subEl    = document.getElementById('gscSub');
+    if (clicksEl && data.summary) {
+      clicksEl.textContent = data.summary.clicks.toLocaleString();
+      clicksEl.classList.remove('muted');
+      if (subEl) subEl.textContent = 'Clicks · last 28 days';
+    }
+  } catch (err) {
+    console.error('CK stats error:', err);
+  }
+}
+
+function renderCkStats(data) {
+  const s = data.summary || {};
+
+  // Demo banner
+  const demoBanner = document.getElementById('ckDemoBanner');
+  if (data.is_demo) {
+    demoBanner.textContent = '⚠️ Demo data — ' + (data.demo_reason || 'GSC_CK_REFRESH_TOKEN not set');
+    demoBanner.style.display = '';
+  } else {
+    demoBanner.style.display = 'none';
+  }
+
+  // Summary cards
+  const set = (id, val) => { const el = document.getElementById(id); if (el) { el.textContent = val; el.classList.remove('muted'); } };
+  set('ckClicks',      (s.clicks || 0).toLocaleString());
+  set('ckImpressions', (s.impressions || 0).toLocaleString());
+  set('ckCtr',         s.ctr != null ? (s.ctr * 100).toFixed(1) + '%' : '–');
+  set('ckPosition',    s.position != null ? '#' + s.position : '–');
+
+  // Weekly bar chart
+  const chartEl = document.getElementById('ckChart');
+  const weekly = data.weekly || [];
+  const maxClicks = Math.max(1, ...weekly.map(w => w.clicks));
+  chartEl.innerHTML = weekly.map(w => {
+    const pct = Math.round((w.clicks / maxClicks) * 100);
+    const isThisWeek = w.week === 'This wk';
+    return `
+      <div class="bar-col">
+        <div class="bar-fill${isThisWeek ? ' this-week' : ''}" style="height:${Math.max(pct, 2)}%;" title="${w.clicks} clicks"></div>
+        <div class="bar-lbl">${w.label}</div>
+      </div>`;
+  }).join('');
+
+  const statusEl = document.getElementById('ckChartStatus');
+  if (statusEl) {
+    const ts = data.last_refreshed ? new Date(data.last_refreshed).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '';
+    statusEl.textContent = data.from_cache ? `Cached · refreshed ${ts}` : `Live · ${ts}`;
+  }
+
+  // Top queries table
+  const queryEl = document.getElementById('ckQueryTable');
+  if (queryEl) {
+    const rows = data.top_queries || [];
+    if (rows.length === 0) {
+      queryEl.innerHTML = '<div style="padding:14px 16px;color:var(--muted);font-size:12px;">No query data yet.</div>';
+    } else {
+      queryEl.innerHTML = `
+        <table class="gsc-table" style="padding:0 16px;">
+          <thead><tr><th style="padding-left:16px;">Query</th><th style="padding-right:16px;">Clicks</th><th style="padding-right:16px;">Pos</th></tr></thead>
+          <tbody>
+            ${rows.map(q => `
+              <tr>
+                <td style="padding-left:16px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(q.query)}</td>
+                <td style="padding-right:16px;">${q.clicks}</td>
+                <td style="padding-right:16px;"><span class="gsc-pos-badge">${q.position ?? '–'}</span></td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`;
+    }
+  }
+
+  // Top pages table
+  const pagesEl = document.getElementById('ckPagesTable');
+  if (pagesEl) {
+    const rows = data.top_pages || [];
+    if (rows.length === 0) {
+      pagesEl.innerHTML = '<div style="padding:14px 16px;color:var(--muted);font-size:12px;">No page data yet.</div>';
+    } else {
+      pagesEl.innerHTML = `
+        <table class="gsc-table">
+          <thead><tr><th style="padding-left:16px;">Page</th><th style="padding-right:16px;">Clicks</th><th style="padding-right:16px;">Impr.</th></tr></thead>
+          <tbody>
+            ${rows.map(p => `
+              <tr>
+                <td style="padding-left:16px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escHtml(p.path)}">${escHtml(p.path)}</td>
+                <td style="padding-right:16px;">${p.clicks}</td>
+                <td style="padding-right:16px;">${p.impressions}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`;
+    }
+  }
+}
 
 // ── HELPERS ───────────────────────────────────────────
 function clientDisplayName(id) {
