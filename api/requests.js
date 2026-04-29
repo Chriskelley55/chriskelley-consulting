@@ -20,7 +20,7 @@
 const { kv } = require('@vercel/kv');
 
 // Keep this list updated as clients are onboarded
-const CLIENT_IDS = ['imperial-water'];
+const CLIENT_IDS = ['imperial-water', 'blue-marlin'];
 
 function makeId() {
   return `req_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;

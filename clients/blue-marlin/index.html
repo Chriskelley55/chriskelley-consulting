@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue Marlin Pool Care — Client Dashboard</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1a3a6b; --navy-mid: #2a4d8a;
+    --blue: #3bb5d4; --cyan: #3bb5d4;
+    --green: #e8821c; --green-dark: #c9691f;
+    --off-white: #F7F8FA; --border: #e4e8ef;
+    --text: #1a1a2e; --muted: #5a6070;
+    --font: 'DM Sans', sans-serif;
+    --serif: 'DM Serif Display', serif;
+    --display: 'Oswald', sans-serif;
+    --sidebar-w: 240px;
+  }
+  html, body { height: 100%; }
+  body { font-family: var(--font); background: var(--off-white); color: var(--text); -webkit-font-smoothing: antialiased; display: flex; min-height: 100vh; }
+
+  /* ── PASSWORD GATE ─────────────────────────────── */
+  .gate {
+    position: fixed; inset: 0; background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000; padding: 2rem;
+  }
+  .gate.hidden { display: none; }
+  .gate-card {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px; padding: 2.5rem 2rem; max-width: 360px; width: 100%; text-align: center;
+  }
+  .gate-logo { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 1.5rem; }
+  .gate-card h2 { font-family: var(--display); font-size: 1.6rem; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  .gate-card p { font-size: 0.875rem; color: rgba(255,255,255,0.5); margin-bottom: 1.75rem; }
+  .gate-input {
+    width: 100%; padding: 0.75rem 1rem; border-radius: 8px;
+    border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.08);
+    color: #fff; font-size: 1rem; font-family: var(--font); margin-bottom: 0.75rem;
+    outline: none; text-align: center; letter-spacing: 0.05em;
+    transition: border-color 0.2s;
+  }
+  .gate-input:focus { border-color: var(--green); }
+  .gate-input::placeholder { color: rgba(255,255,255,0.3); }
+  .gate-btn {
+    width: 100%; padding: 0.75rem; border-radius: 8px; border: none;
+    background: var(--green); color: #fff; font-size: 0.95rem; font-weight: 600;
+    font-family: var(--font); cursor: pointer; transition: background 0.2s;
+  }
+  .gate-btn:hover { background: var(--green-dark); }
+  .gate-error { font-size: 0.8rem; color: #ff7b7b; margin-top: 0.5rem; min-height: 1rem; }
+
+  /* ── SIDEBAR ───────────────────────────────────── */
+  .sidebar {
+    width: var(--sidebar-w); min-width: var(--sidebar-w);
+    background: var(--navy);
+    display: flex; flex-direction: column;
+    position: fixed; top: 0; left: 0; height: 100vh;
+    z-index: 100; overflow-y: auto;
+  }
+  .sidebar-logo {
+    padding: 18px 18px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sidebar-logo-text {
+    font-family: var(--display); font-size: 14px; font-weight: 700;
+    color: #fff; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.1;
+  }
+  .sidebar-logo-text small { display:block; font-family: var(--font); font-size: 9.5px; font-weight: 500; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; margin-top: 2px; }
+
+  .client-badge {
+    margin: 14px; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+    padding: 11px 13px;
+  }
+  .client-badge-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 3px; }
+  .client-badge-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .client-badge-plan { font-size: 11px; color: var(--green); margin-top: 2px; font-weight: 500; }
+
+  nav { flex: 1; padding: 4px 10px 10px; overflow-y: auto; }
+  .nav-section-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 14px 10px 6px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: 7px; cursor: pointer;
+    font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.55);
+    transition: all 0.15s; text-decoration: none; margin-bottom: 1px;
+    background: none; border: none; width: 100%; text-align: left;
+    font-family: var(--font);
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+  .nav-item.active { background: rgba(232,130,28,0.15); color: #fff; }
+  .nav-item.active .nav-icon { color: var(--green); }
+  .nav-icon { font-size: 14px; width: 16px; text-align: center; flex-shrink: 0; line-height: 1; }
+  .nav-badge { margin-left: auto; background: var(--green); color: #fff; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+
+  .sidebar-footer {
+    padding: 14px; border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .avatar-name { font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,0.85); }
+  .avatar-role { font-size: 10.5px; color: rgba(255,255,255,0.35); }
+
+  /* ── MAIN ─────────────────────────────────────── */
+  .main { flex: 1; display: flex; flex-direction: column; min-height: 100vh; min-width: 0; margin-left: var(--sidebar-w); }
+  .topbar {
+    background: #fff; border-bottom: 1px solid var(--border);
+    padding: 0 28px; height: 60px; display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 10;
+  }
+  .topbar-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+  .topbar-date { font-size: 12px; color: var(--muted); margin-right: 4px; }
+  .menu-toggle { display: none; background: none; border: none; cursor: pointer; font-size: 22px; color: var(--text); padding: 4px 8px; }
+
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-family: var(--font); font-size: 12.5px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; text-decoration: none; white-space: nowrap; }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); }
+  .btn-outline { background: #fff; border: 1.5px solid var(--border); color: var(--text); }
+  .btn-outline:hover { border-color: var(--muted); }
+  .btn-ghost { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.14); }
+  .btn-green-outline { background: transparent; border: 1.5px solid var(--green); color: var(--green); }
+  .btn-green-outline:hover { background: rgba(232,130,28,0.1); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+  .content { padding: 24px 28px 40px; flex: 1; max-width: 1200px; width: 100%; }
+
+  /* ── SECTION TRANSITIONS ──────────────────────── */
+  .section { animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ── STAT CARDS ───────────────────────────────── */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .stat-card {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .stat-card-label { font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+  .stat-card-value { font-family: var(--serif); font-size: 26px; color: var(--text); line-height: 1; }
+  .stat-card-value.small { font-size: 20px; padding-top: 4px; }
+  .stat-card-sub { font-size: 11px; color: var(--muted); margin-top: 5px; }
+  .stat-card.highlight { border-color: rgba(232,130,28,0.3); background: linear-gradient(135deg, rgba(232,130,28,0.04) 0%, #fff 100%); }
+  .trend-up { color: var(--green); font-weight: 700; }
+  .trend-flat { color: var(--muted); font-weight: 600; }
+
+  /* ── GRID ─────────────────────────────────────── */
+  .portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .portal-grid.wide { grid-template-columns: 2fr 1fr; }
+  .portal-grid.thirds { grid-template-columns: repeat(3, 1fr); }
+
+  /* ── CARDS ────────────────────────────────────── */
+  .card {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 12px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 18px 12px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; }
+  .card-title-icon { font-size: 14px; }
+  .card-body { padding: 16px 18px; }
+  .card-footer { padding: 11px 18px; background: var(--off-white); border-top: 1px solid var(--border); font-size: 11.5px; color: var(--muted); }
+
+  /* ── ACTION ITEMS ─────────────────────────────── */
+  .action-card { background: #fff; border-radius: 12px; border: 2px solid var(--green); padding: 18px; }
+  .action-count { display: inline-block; background: var(--green); color: #fff; font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; margin-bottom: 10px; letter-spacing: 0.03em; }
+  .card-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .action-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .action-item { display: flex; gap: 11px; align-items: flex-start; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .action-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .action-emoji { font-size: 1.15rem; flex-shrink: 0; line-height: 1.4; }
+  .action-body strong { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .action-body p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .action-link { display: inline-block; margin-top: 5px; font-size: 11.5px; color: var(--blue); text-decoration: none; font-weight: 600; }
+  .action-link:hover { text-decoration: underline; }
+
+  /* ── PROGRESS LIST ────────────────────────────── */
+  .progress-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .progress-item { display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; }
+  .progress-icon { flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 700; margin-top: 1px; }
+  .progress-icon.done { background: rgba(232,130,28,0.15); color: var(--green-dark); }
+  .progress-icon.pending { background: rgba(255,180,0,0.15); color: #b45309; }
+  .progress-icon.needed { background: rgba(220,38,38,0.1); color: #dc2626; }
+  .progress-text strong { display: block; color: var(--text); font-weight: 600; line-height: 1.3; font-size: 12.5px; }
+  .progress-text span { font-size: 11.5px; color: var(--muted); }
+  a.progress-item {
+    text-decoration: none; color: inherit;
+    padding: 6px 8px; margin: -6px -8px; border-radius: 6px;
+    transition: background 0.12s;
+    position: relative;
+  }
+  a.progress-item:hover { background: rgba(59,181,212,0.06); }
+  a.progress-item:hover .progress-text strong { color: var(--blue); }
+  a.progress-item .progress-link-arrow {
+    margin-left: auto; font-size: 11px; color: var(--muted); opacity: 0; transition: opacity 0.12s;
+    align-self: center; padding-left: 6px;
+  }
+  a.progress-item:hover .progress-link-arrow { opacity: 1; }
+
+  /* ── PHASES / ROADMAP ─────────────────────────── */
+  .phase-list { display: flex; flex-direction: column; gap: 14px; }
+  .phase-item { display: flex; gap: 12px; align-items: flex-start; }
+  .phase-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+  .phase-num.active { background: var(--green); color: #fff; }
+  .phase-num.next { background: var(--off-white); color: var(--muted); border: 1.5px solid var(--border); }
+  .phase-num.later { background: var(--off-white); color: var(--border); border: 1.5px solid var(--border); }
+  .phase-body strong { display: block; font-size: 13px; font-weight: 700; color: var(--text); }
+  .phase-body p { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 3px; }
+  .phase-tag { display: inline-block; font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; margin-bottom: 3px; }
+  .phase-tag.active { background: rgba(232,130,28,0.15); color: var(--green-dark); }
+  .phase-tag.next { background: rgba(59,181,212,0.1); color: var(--blue); }
+  .phase-tag.later { background: var(--off-white); color: var(--muted); }
+
+  /* ── TRAFFIC CHART ────────────────────────────── */
+  .chart-area { height: 100px; display: flex; align-items: flex-end; gap: 5px; margin-bottom: 14px; }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .bar { width: 100%; border-radius: 4px 4px 0 0; background: var(--border); transition: background 0.2s; min-height: 2px; }
+  .bar.current { background: var(--green); opacity: 0.85; }
+  .bar-label { font-size: 9.5px; color: var(--muted); }
+  .traffic-meta { display: flex; gap: 18px; flex-wrap: wrap; }
+  .traffic-stat { font-size: 12px; color: var(--muted); }
+  .traffic-stat strong { color: var(--text); font-weight: 600; }
+
+  /* ── PAGE LIST ────────────────────────────────── */
+  .page-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .page-row:last-child { border-bottom: none; }
+  .page-name { font-size: 12.5px; color: var(--text); flex: 1; font-weight: 500; }
+  .page-bar-wrap { width: 80px; height: 5px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .page-bar-fill { height: 100%; background: var(--blue); border-radius: 99px; }
+  .page-count { font-size: 11.5px; color: var(--muted); width: 32px; text-align: right; }
+
+  /* ── KEYWORDS / SEARCH QUERIES ────────────────── */
+  .query-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .query-row:last-child { border-bottom: none; }
+  .query-text { flex: 1; font-size: 12.5px; color: var(--text); font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .query-stat { font-size: 11px; color: var(--muted); display: flex; flex-direction: column; align-items: flex-end; gap: 1px; min-width: 60px; }
+  .query-stat strong { color: var(--text); font-size: 12.5px; font-weight: 600; }
+  .query-position { font-size: 10.5px; color: var(--muted); background: var(--off-white); border-radius: 4px; padding: 2px 6px; font-weight: 600; }
+  .query-position.top { color: var(--green-dark); background: rgba(232,130,28,0.12); }
+
+  /* ── REFRESH / META BAR ───────────────────────── */
+  .stats-meta-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 14px; padding: 9px 14px;
+    background: var(--off-white); border: 1px solid var(--border); border-radius: 9px;
+    font-size: 12px; color: var(--muted);
+  }
+  .stats-meta-bar-left { display: flex; align-items: center; gap: 10px; }
+  .stats-meta-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; box-shadow: 0 0 0 3px rgba(232,130,28,0.18); }
+  .stats-meta-dot.demo { background: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.18); }
+  .stats-meta-dot.error { background: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.18); }
+  .stats-refresh-btn {
+    background: #fff; border: 1px solid var(--border); color: var(--text);
+    padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 600;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    transition: all 0.12s; font-family: var(--font);
+  }
+  .stats-refresh-btn:hover:not(:disabled) { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .stats-refresh-btn:disabled { opacity: 0.6; cursor: wait; }
+  .stats-refresh-icon { display: inline-block; transition: transform 0.4s; }
+  .stats-refresh-btn.spinning .stats-refresh-icon { transform: rotate(360deg); }
+  .stats-demo-banner {
+    background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.2);
+    border-radius: 8px; padding: 11px 14px; margin-bottom: 14px;
+    font-size: 12px; color: #92400e; line-height: 1.5;
+  }
+  .stats-demo-banner strong { color: #78350f; }
+
+  /* ── EMPTY STATE ──────────────────────────────── */
+  .empty-state { text-align: center; padding: 28px 16px; color: var(--muted); }
+  .empty-state-icon { font-size: 32px; margin-bottom: 10px; opacity: 0.5; }
+  .empty-state-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+  .empty-state-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; max-width: 320px; margin: 0 auto; }
+
+  /* ── REQUEST MODAL ─────────────────────────────── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 500; padding: 1rem; }
+  .modal-card { background: #fff; border-radius: 14px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.18); overflow: hidden; animation: fadeIn 0.15s ease; }
+  .modal-header { padding: 16px 20px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .modal-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .modal-close { background: none; border: none; font-size: 22px; color: var(--muted); cursor: pointer; line-height: 1; padding: 0 2px; }
+  .modal-close:hover { color: var(--text); }
+  .modal-body { padding: 18px 20px; }
+  .modal-desc { font-size: 12.5px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+  .req-textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 12px; font-family: var(--font); font-size: 13px; color: var(--text); resize: vertical; outline: none; transition: border-color 0.15s; line-height: 1.5; min-height: 100px; }
+  .req-textarea:focus { border-color: var(--green); }
+  .modal-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; background: var(--off-white); }
+
+  /* ── REQUESTS TABLE ─────────────────────────────── */
+  .requests-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .requests-table th { text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0 10px 9px 0; border-bottom: 2px solid var(--border); }
+  .requests-table td { padding: 11px 10px 11px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .requests-table tr:last-child td { border-bottom: none; }
+  .req-desc-cell { color: var(--text); line-height: 1.45; }
+  .req-date-cell { color: var(--muted); white-space: nowrap; font-size: 11.5px; width: 70px; }
+  .req-status-pill { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+  .req-status-pending   { color: #92400e; background: rgba(217,119,6,0.1); }
+  .req-status-in_progress { color: var(--blue); background: rgba(59,181,212,0.1); }
+  .req-status-complete  { color: var(--green-dark); background: rgba(232,130,28,0.12); }
+  .req-status-denied    { color: #dc2626; background: rgba(220,38,38,0.08); }
+
+  /* ── BILLING ──────────────────────────────────── */
+  .plan-badge { display: inline-flex; align-items: baseline; gap: 8px; background: rgba(59,181,212,0.08); border: 1.5px solid rgba(59,181,212,0.2); border-radius: 8px; padding: 8px 14px; margin-bottom: 14px; }
+  .plan-badge-name { font-family: var(--display); font-size: 13px; font-weight: 700; color: var(--blue); letter-spacing: 0.04em; text-transform: uppercase; }
+  .plan-badge-price { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .billing-line { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+  .billing-line:last-child { border-bottom: none; }
+  .billing-line-name { color: var(--text); }
+  .billing-line-name small { display: block; font-size: 11px; color: var(--muted); margin-top: 1px; font-weight: 400; }
+  .billing-line-amount { font-weight: 600; color: var(--text); white-space: nowrap; }
+  .billing-line-amount.muted { color: var(--muted); font-weight: 500; }
+  .billing-total { display: flex; justify-content: space-between; padding: 12px 0 4px; margin-top: 4px; border-top: 2px solid var(--border); font-weight: 700; font-size: 14px; }
+  .billing-total-amount { font-family: var(--serif); font-weight: 400; font-size: 18px; }
+
+  /* ── REFERRALS ────────────────────────────────── */
+  .referral-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .referral-stat { text-align: center; background: var(--off-white); border-radius: 8px; padding: 14px 8px; }
+  .referral-stat-num { font-family: var(--serif); font-size: 26px; color: var(--text); display: block; line-height: 1; }
+  .referral-stat-num.green { color: var(--green); }
+  .referral-stat-label { font-size: 11px; color: var(--muted); margin-top: 5px; }
+
+  .referral-link-box {
+    background: var(--off-white); border: 1.5px dashed var(--border);
+    border-radius: 10px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .referral-link-url { font-size: 12.5px; color: var(--blue); font-weight: 600; flex: 1; word-break: break-all; }
+
+  .testimonial-points { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+  .testimonial-point { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: var(--off-white); border-radius: 8px; border-left: 3px solid var(--cyan); }
+  .testimonial-point-icon { font-size: 14px; flex-shrink: 0; }
+  .testimonial-point-text { font-size: 12.5px; color: var(--text); line-height: 1.5; }
+  .testimonial-point-text em { font-style: italic; color: var(--muted); display: block; margin-top: 3px; font-size: 11.5px; }
+
+  .copy-block {
+    background: var(--off-white); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; font-size: 12.5px; color: var(--text); line-height: 1.6;
+    position: relative; white-space: pre-wrap; font-family: var(--font);
+  }
+  .copy-block-actions { display: flex; justify-content: flex-end; margin-top: 8px; gap: 6px; }
+
+  /* ── ADD-ONS ──────────────────────────────────── */
+  .addon-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .addon-row:last-child { border-bottom: none; }
+  .addon-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .addon-icon.blue { background: rgba(59,181,212,0.1); }
+  .addon-icon.green { background: rgba(232,130,28,0.1); }
+  .addon-icon.cyan { background: rgba(59,181,212,0.1); }
+  .addon-icon.orange { background: rgba(232,130,28,0.12); }
+  .addon-text { flex: 1; min-width: 0; }
+  .addon-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .addon-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .addon-rec { display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 600; color: var(--green-dark); background: rgba(232,130,28,0.1); padding: 2px 7px; border-radius: 4px; }
+  .addon-price-block { text-align: right; flex-shrink: 0; min-width: 80px; }
+  .addon-price { font-size: 13px; font-weight: 700; color: var(--text); }
+  .addon-price-sub { font-size: 10.5px; color: var(--muted); }
+
+  /* ── BRAND ASSETS ─────────────────────────────── */
+  .brand-section { display: flex; flex-direction: column; gap: 1.5rem; }
+  .brand-sub-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .color-palette { display: flex; flex-wrap: wrap; gap: 10px; }
+  .color-swatch {
+    cursor: pointer; border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border); transition: transform 0.15s, box-shadow 0.15s;
+    min-width: 105px; flex: 1;
+  }
+  .color-swatch:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .swatch-color { height: 60px; }
+  .swatch-info { padding: 9px 11px; background: #fff; }
+  .swatch-name { font-size: 12.5px; font-weight: 600; color: var(--text); display: block; }
+  .swatch-hex { font-size: 11.5px; color: var(--muted); font-family: 'Courier New', monospace; }
+  .swatch-copied { font-size: 11px; color: var(--green); display: none; font-weight: 600; }
+
+  .type-rows { display: flex; flex-direction: column; gap: 10px; }
+  .type-row { background: var(--off-white); border-radius: 10px; padding: 14px 18px; }
+  .type-specimen { font-size: 1.5rem; color: var(--navy); line-height: 1.25; margin-bottom: 5px; }
+  .type-specimen.oswald { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; }
+  .type-specimen.dm-sans { font-family: var(--font); font-weight: 400; }
+  .type-meta { font-size: 11.5px; color: var(--muted); }
+  .type-meta a { color: var(--blue); text-decoration: none; }
+  .type-meta a:hover { text-decoration: underline; }
+
+  .logo-asset-row { display: flex; flex-direction: column; gap: 10px; }
+  .logo-assets { display: flex; gap: 10px; flex-wrap: wrap; }
+  .logo-asset {
+    flex: 1; min-width: 140px; background: var(--off-white); border-radius: 10px;
+    border: 1px solid var(--border); padding: 14px 12px; text-align: center;
+    text-decoration: none; color: var(--text); transition: all 0.15s;
+    display: flex; flex-direction: column; align-items: center; gap: 7px;
+  }
+  .logo-asset:hover { border-color: var(--blue); background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+  .logo-preview { width: 56px; height: 56px; object-fit: contain; display: block; }
+  .logo-preview-wide { width: 100%; height: auto; max-height: 64px; object-fit: contain; display: block; }
+  .logo-preview-wrap { width: 100%; border-radius: 6px; padding: 10px; display: flex; align-items: center; justify-content: center; }
+  .logo-asset-name { font-size: 12.5px; font-weight: 700; }
+  .logo-asset-desc { font-size: 11.5px; color: var(--muted); }
+  .logo-asset-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; background: #fff; border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px; color: var(--muted); }
+
+  .brand-tagline { background: var(--navy); border-radius: 10px; padding: 18px 22px; text-align: center; }
+  .brand-tagline-text { font-family: var(--display); font-size: 1.1rem; font-weight: 600; color: #fff; letter-spacing: 0.06em; text-transform: uppercase; }
+  .brand-tagline-text em { color: #f5a94e; font-style: normal; }
+
+  /* ── SUPPORT STRIP ────────────────────────────── */
+  .support-strip { background: var(--navy); border-radius: 12px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; }
+  .support-strip-text h3 { font-family: var(--display); font-size: 16px; color: #fff; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .support-strip-text p { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+  .support-strip-right { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+
+  /* ── MOBILE ───────────────────────────────────── */
+  @media (max-width: 760px) {
+    body { display: block; }
+    .menu-toggle { display: inline-flex; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      transform: translateX(-100%); transition: transform 0.25s ease;
+      z-index: 100; box-shadow: 4px 0 24px rgba(0,0,0,0.2);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+    .sidebar-backdrop.show { opacity: 1; pointer-events: auto; }
+    .topbar { padding: 0 16px; }
+    .content { padding: 18px 16px 32px; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .portal-grid, .portal-grid.wide, .portal-grid.thirds { grid-template-columns: 1fr; }
+    .topbar-date { display: none; }
+    .support-strip { flex-direction: column; align-items: flex-start; text-align: left; }
+  }
+  @media (max-width: 460px) {
+    .topbar-right .btn:not(.btn-primary) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ PASSWORD GATE ═══ -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-logo">Chris Kelley Consulting · <span style="color:#fff;">Client Portal</span></div>
+    <h2>Blue Marlin Pool Care</h2>
+    <p>Enter your access code to view your dashboard.</p>
+    <input type="password" class="gate-input" id="gateInput" placeholder="Access code" autocomplete="off">
+    <button class="gate-btn" id="gateBtn">View Dashboard →</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- Mobile sidebar backdrop -->
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 100" width="32" height="29" style="flex-shrink:0;">
+      <path d="M 63 22 A 32 32 0 1 0 63 78" fill="none" stroke="#e8821c" stroke-width="5" stroke-linecap="round"/>
+      <path d="M 14 74 L 6 60 L 20 66 Z" fill="white" opacity="0.8"/>
+      <path d="M 14 74 L 8 88 L 22 80 Z" fill="white" opacity="0.8"/>
+      <path d="M 18 72 C 22 65, 28 58, 35 52 C 42 46, 50 42, 58 38 C 63 35, 68 33, 72 32 L 74 30 C 70 28, 65 27, 60 30 C 52 34, 44 38, 36 44 C 28 50, 22 56, 17 64 Z" fill="white" opacity="0.9"/>
+      <path d="M 38 46 C 40 34, 44 20, 46 14 C 50 18, 54 26, 54 36 L 50 38 Z" fill="white" opacity="0.9"/>
+      <path d="M 50 44 C 52 52, 54 60, 50 66 L 44 60 C 46 54, 48 50, 50 44 Z" fill="white" opacity="0.7"/>
+      <path d="M 22 68 C 30 60, 40 52, 52 45 C 58 41, 64 37, 70 34" fill="none" stroke="#3bb5d4" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 72 32 L 104 28 L 74 34 Z" fill="white" opacity="0.9"/>
+      <circle cx="68" cy="31" r="2.2" fill="#3bb5d4"/>
+    </svg>
+    <div class="sidebar-logo-text">
+      Blue Marlin
+      <small>CK Consulting · Portal</small>
+    </div>
+  </div>
+
+  <div class="client-badge">
+    <div class="client-badge-label">Logged in as</div>
+    <div class="client-badge-name">Blue Marlin Pool Care LLC</div>
+    <div class="client-badge-plan">Gold Plan · Weekly Service</div>
+  </div>
+
+  <nav>
+    <div class="nav-section-label">Overview</div>
+    <button class="nav-item" data-target="dashboard"><span class="nav-icon">⊞</span> Dashboard</button>
+    <button class="nav-item" data-target="site-stats"><span class="nav-icon">📊</span> Site Stats</button>
+
+    <div class="nav-section-label">Manage</div>
+    <button class="nav-item" data-target="change-requests"><span class="nav-icon">🔧</span> Change Requests</button>
+    <button class="nav-item" data-target="add-ons"><span class="nav-icon">✦</span> Add-Ons</button>
+    <button class="nav-item" data-target="brand-assets"><span class="nav-icon">🎨</span> Brand Assets</button>
+    <button class="nav-item" data-target="billing"><span class="nav-icon">💳</span> Billing</button>
+
+    <div class="nav-section-label">Grow</div>
+    <button class="nav-item" data-target="referrals"><span class="nav-icon">🤝</span> Referrals &amp; Reviews</button>
+    <a class="nav-item" href="https://bluemarlinpoolcare.com" target="_blank"><span class="nav-icon">↗</span> View My Site</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="avatar" id="sidebarAvatar" style="cursor:pointer;" onclick="showSection('account')" title="Account settings">AV</div>
+    <div style="cursor:pointer;" onclick="showSection('account')">
+      <div class="avatar-name">Alberto V.</div>
+      <div class="avatar-role">bluemarlinpoolcare.com</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-date" id="topbarDate"></span>
+      <a href="https://bluemarlinpoolcare.com" target="_blank" class="btn btn-outline btn-sm">↗ View Site</a>
+      <a href="mailto:chris@chriskelley.io?subject=Blue%20Marlin%20-%20Change%20Request" class="btn btn-primary btn-sm">+ Request Change</a>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- DASHBOARD                               -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="dashboard">
+
+      <!-- Stat cards -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-card-label">👁 Visitors / mo</div>
+          <div class="stat-card-value">—</div>
+          <div class="stat-card-sub">Data populates after 48 hrs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">📞 Phone Taps</div>
+          <div class="stat-card-value">—</div>
+          <div class="stat-card-sub">From mobile site visitors</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">⭐ Google Rating</div>
+          <div class="stat-card-value">—</div>
+          <div class="stat-card-sub">Pending GBP verification</div>
+        </div>
+        <div class="stat-card highlight">
+          <div class="stat-card-label">💳 Next Bill</div>
+          <div class="stat-card-value small">$35.00</div>
+          <div class="stat-card-sub">When billing starts</div>
+        </div>
+      </div>
+
+      <!-- Action items -->
+      <div class="action-card" style="margin-bottom:14px;">
+        <div class="action-count">3 ITEMS NEED YOUR ATTENTION</div>
+        <div class="card-label">Your To-Dos</div>
+        <ul class="action-list">
+          <li class="action-item">
+            <div class="action-emoji">📸</div>
+            <div class="action-body">
+              <strong>Send job photos — before &amp; after shots</strong>
+              <p>Real before/after pool photos are the single biggest conversion driver for a pool service site. Green pool → crystal clear. Send what you have from your phone and I'll update the gallery immediately.</p>
+              <a href="mailto:chris@chriskelley.io?subject=Blue%20Marlin%20Pool%20Photos" class="action-link">Email photos to Chris →</a>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-emoji">📍</div>
+            <div class="action-body">
+              <strong>Verify your Google Business Profile</strong>
+              <p>GBP is how most Houston homeowners find pool service. You'll need to verify the listing (Google sends a postcard or calls). Once verified, you'll show up on Maps searches for "pool cleaning Meyerland."</p>
+              <a href="https://business.google.com/dashboard" target="_blank" class="action-link">Check GBP verification status →</a>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="action-emoji">📧</div>
+            <div class="action-body">
+              <strong>Set up your business email</strong>
+              <p>alberto@bluemarlinpoolcare.com builds trust — customers who call you after seeing the site want to reply to a real address. Google Workspace is $6/mo, takes 15 minutes, I'll help you configure it.</p>
+              <a href="mailto:chris@chriskelley.io?subject=Blue%20Marlin%20-%20Set%20up%20business%20email" class="action-link">Message Chris to set this up →</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Setup progress + Roadmap side by side -->
+      <div class="portal-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">✓</span> Setup Progress</div>
+          </div>
+          <div class="card-body">
+            <div class="progress-list">
+              <a class="progress-item" href="https://bluemarlinpoolcare.com" target="_blank" rel="noopener">
+                <div class="progress-icon done">✓</div>
+                <div class="progress-text"><strong>Site live</strong><span>bluemarlinpoolcare.com — 6 pages</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="https://bluemarlinpoolcare.com/#contact" target="_blank" rel="noopener">
+                <div class="progress-icon done">✓</div>
+                <div class="progress-text"><strong>Contact forms wired</strong><span>Quote + maintenance plan → your inbox</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="https://bluemarlinpoolcare.com/pool-report.html" target="_blank" rel="noopener">
+                <div class="progress-icon done">✓</div>
+                <div class="progress-text"><strong>Pool health tool live</strong><span>ZIP → score + email capture for leads</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="https://search.google.com/search-console?resource_id=sc-domain%3Abluemarlinpoolcare.com" target="_blank" rel="noopener">
+                <div class="progress-icon pending">⏳</div>
+                <div class="progress-text"><strong>Google Search Console</strong><span>Pending — verify domain, submit sitemap</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="https://business.google.com/dashboard" target="_blank" rel="noopener">
+                <div class="progress-icon pending">⏳</div>
+                <div class="progress-text"><strong>Google Business Profile</strong><span>Verification pending — check status</span></div>
+                <span class="progress-link-arrow">↗</span>
+              </a>
+              <a class="progress-item" href="mailto:chris@chriskelley.io?subject=Blue%20Marlin%20-%20Business%20Email%20Setup" rel="noopener">
+                <div class="progress-icon needed">!</div>
+                <div class="progress-text"><strong>Business email</strong><span>alberto@bluemarlinpoolcare.com — not set up yet</span></div>
+                <span class="progress-link-arrow">→</span>
+              </a>
+              <a class="progress-item" href="mailto:chris@chriskelley.io?subject=Blue%20Marlin%20Pool%20Photos&amp;body=Hey%20Chris%2C%20attaching%20pool%20photos%20for%20the%20gallery." rel="noopener">
+                <div class="progress-icon needed">!</div>
+                <div class="progress-text"><strong>Pool photos (before/after)</strong><span>Needed from you — email Chris to send</span></div>
+                <span class="progress-link-arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">🗺</span> Roadmap</div>
+          </div>
+          <div class="card-body">
+            <div class="phase-list">
+              <div class="phase-item">
+                <div class="phase-num active">1</div>
+                <div class="phase-body">
+                  <span class="phase-tag active">Active</span>
+                  <strong>Site Launch</strong>
+                  <p>Marketing site, lead magnet, contact forms, Google visibility. Live and capturing leads.</p>
+                </div>
+              </div>
+              <div class="phase-item">
+                <div class="phase-num next">2</div>
+                <div class="phase-body">
+                  <span class="phase-tag next">Next up</span>
+                  <strong>GBP + Reviews</strong>
+                  <p>Google Business Profile verified, review automation so happy customers land you 5-star reviews automatically after service visits.</p>
+                </div>
+              </div>
+              <div class="phase-item">
+                <div class="phase-num later">3</div>
+                <div class="phase-body">
+                  <span class="phase-tag later">Later</span>
+                  <strong>Route Sheet + Customer Reminders</strong>
+                  <p>Google Sheet CRM with Apps Script reminders — no more tracking who's due for service by memory or notecards.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support strip -->
+      <div class="support-strip">
+        <div class="support-strip-text">
+          <h3>Need something? Chris is one message away.</h3>
+          <p>Avg response: under 4 hours · chris@chriskelley.io · (832) 807-3093</p>
+        </div>
+        <div class="support-strip-right">
+          <a href="mailto:chris@chriskelley.io" class="btn btn-ghost btn-sm">Send a Message</a>
+          <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" target="_blank" class="btn btn-green-outline btn-sm">Book a Call →</a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SITE STATS                              -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="site-stats" hidden>
+
+      <div class="stats-meta-bar">
+        <div class="stats-meta-bar-left">
+          <span class="stats-meta-dot" id="statsStatusDot"></span>
+          <span id="statsStatusText">Loading from Google Search Console…</span>
+        </div>
+        <button class="stats-refresh-btn" id="statsRefreshBtn" type="button">
+          <span class="stats-refresh-icon">↻</span>
+          <span>Refresh now</span>
+        </button>
+      </div>
+
+      <div class="stats-demo-banner" id="statsDemoBanner" hidden></div>
+
+      <div class="portal-grid thirds" style="margin-bottom:14px;">
+        <div class="stat-card">
+          <div class="stat-card-label">🔍 Search Impressions</div>
+          <div class="stat-card-value" id="statImpressions">—</div>
+          <div class="stat-card-sub">Last 28 days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">🖱 Search Clicks</div>
+          <div class="stat-card-value" id="statClicks">—</div>
+          <div class="stat-card-sub" id="statClicksSub">Last 28 days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">📍 Avg. Position</div>
+          <div class="stat-card-value" id="statPosition">—</div>
+          <div class="stat-card-sub">Across all queries</div>
+        </div>
+      </div>
+
+      <div class="portal-grid wide" style="margin-bottom:14px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">📈</span> Search Traffic — Last 8 Weeks</div>
+          </div>
+          <div class="card-body">
+            <div class="chart-area" id="trafficChart">
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar" style="height:2px;"></div><div class="bar-label">…</div></div>
+              <div class="bar-group"><div class="bar current" style="height:2px;"></div><div class="bar-label">…</div></div>
+            </div>
+            <div class="traffic-meta" id="trafficMeta">
+              <div class="traffic-stat"><strong id="metaTotalClicks">—</strong> total clicks</div>
+              <div class="traffic-stat"><strong id="metaTotalImpressions">—</strong> total impressions</div>
+              <div class="traffic-stat"><strong id="metaCtr">—</strong> CTR</div>
+              <div class="traffic-stat"><strong id="metaPagesIndexed">6</strong> pages indexed</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">📄</span> Top Pages</div>
+          </div>
+          <div class="card-body" style="padding-top:8px;" id="topPagesBody">
+            <div class="page-row"><div class="page-name" style="color:var(--muted);font-style:italic;">Loading…</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="portal-grid wide" style="grid-template-columns: 1fr; margin-bottom: 14px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">🔑</span> Top Search Queries</div>
+          </div>
+          <div class="card-body" id="topQueriesBody">
+            <div class="page-row"><div class="page-name" style="color:var(--muted);font-style:italic;">Loading…</div></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- CHANGE REQUESTS                         -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="change-requests" hidden>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">🔧</span> Change Requests</div>
+          <button class="btn btn-primary btn-sm" onclick="openRequestModal()">+ New Request</button>
+        </div>
+        <div class="card-body" id="requestsBody" style="padding:0;">
+          <div class="empty-state" style="padding:28px 16px;">
+            <div class="empty-state-icon">⏳</div>
+            <div class="empty-state-title">Loading…</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          Blue Marlin care plan includes ~1 small change per month. Photo swaps, text updates, new service area — all fair game.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- REQUEST MODAL -->
+    <div id="requestModal" class="modal-overlay" style="display:none;" onclick="closeModalOnBackdrop(event)">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">🔧 New Change Request</div>
+          <button class="modal-close" onclick="closeRequestModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-desc">Describe what you'd like updated. The more specific the better — which page, what to change, what photo to swap, etc.</p>
+          <textarea id="requestText" class="req-textarea" placeholder="e.g. Add Stafford to the list of service areas on the homepage. Or: swap the 4th gallery photo with the attached before/after shot."></textarea>
+          <div id="requestModalError" style="font-size:12px;color:#dc2626;margin-top:6px;min-height:1rem;"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline btn-sm" onclick="closeRequestModal()">Cancel</button>
+          <button class="btn btn-primary btn-sm" id="submitReqBtn" onclick="submitRequest()">Submit Request</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADD-ONS                                 -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="add-ons" hidden>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">✦</span> Add-Ons &amp; Upgrades</div>
+        </div>
+        <div class="card-body" style="padding-top:6px;">
+
+          <div class="addon-row">
+            <div class="addon-icon green">⭐</div>
+            <div class="addon-text">
+              <div class="addon-name">Review Request Automation</div>
+              <div class="addon-desc">After every service visit, your customer gets a text with a review link. Smart routing: 4–5 stars go to Google, 1–3 stars go to your private inbox so you can handle it before it's public. High-volume pool routes can generate dozens of Google reviews per month with this running.</div>
+              <span class="addon-rec">✓ Recommended — Phase 2</span>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$200</div>
+              <div class="addon-price-sub">one-time</div>
+              <div class="addon-price-sub" style="margin-top:3px;">+ Twilio at cost</div>
+            </div>
+          </div>
+
+          <div class="addon-row">
+            <div class="addon-icon blue">📋</div>
+            <div class="addon-text">
+              <div class="addon-name">Route Sheet + SMS Reminders</div>
+              <div class="addon-desc">Google Sheet CRM built for your pool routes. Apps Script texts you when a customer hasn't been serviced in over a week (or bi-weekly for bronze customers). Great when you scale past 40 accounts and can't track it all mentally.</div>
+              <span class="addon-rec">⚙️ Phase 3 — greenlit when you're ready</span>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$450</div>
+              <div class="addon-price-sub">one-time build</div>
+              <div class="addon-price-sub" style="margin-top:3px;">+ Twilio at cost</div>
+            </div>
+          </div>
+
+          <div class="addon-row">
+            <div class="addon-icon cyan">🗺</div>
+            <div class="addon-text">
+              <div class="addon-name">Google Business Profile Management</div>
+              <div class="addon-desc">Weekly posts, job photo uploads, Q&amp;A responses, monthly insights report. Keeps your GBP active so you rank in Maps for "pool cleaning Meyerland" and nearby Houston searches.</div>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$100</div>
+              <div class="addon-price-sub">/month</div>
+            </div>
+          </div>
+
+          <div class="addon-row">
+            <div class="addon-icon orange">🎬</div>
+            <div class="addon-text">
+              <div class="addon-name">Pool Job Video / Reels</div>
+              <div class="addon-desc">Clip from a GoPro or phone while you work → I cut it into TikTok / Reels / YouTube Shorts. Before-and-after transformations go massively viral in pool care. One decent reel can bring in 10 new customers.</div>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$250</div>
+              <div class="addon-price-sub">/edited video</div>
+            </div>
+          </div>
+
+          <div class="addon-row">
+            <div class="addon-icon green">💳</div>
+            <div class="addon-text">
+              <div class="addon-name">Online Booking + Stripe Payments</div>
+              <div class="addon-desc">Customers book and pay for recurring service online. Stripe auto-charges your monthly customers — no more collecting checks. Built for your maintenance plan tiers (Bronze/Silver/Gold).</div>
+            </div>
+            <div class="addon-price-block">
+              <div class="addon-price">$400</div>
+              <div class="addon-price-sub">one-time setup</div>
+              <div class="addon-price-sub" style="margin-top:3px;">+ Stripe fees</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="card-footer">
+          Want to discuss any of these? <a href="mailto:chris@chriskelley.io?subject=Blue%20Marlin%20-%20Add-On%20Question" style="color:var(--blue);font-weight:600;text-decoration:none;">Email Chris</a> or <a href="sms:8328073093" style="color:var(--blue);font-weight:600;text-decoration:none;">text 832-807-3093</a>.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- BRAND ASSETS                            -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="brand-assets" hidden>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">🎨</span> Brand Assets</div>
+        </div>
+        <div class="card-body">
+          <div class="brand-section">
+
+            <!-- Color palette -->
+            <div>
+              <div class="brand-sub-label">Color Palette — click any swatch to copy hex</div>
+              <div class="color-palette">
+                <div class="color-swatch" onclick="copyHex(this, '#1a3a6b')">
+                  <div class="swatch-color" style="background:#1a3a6b;"></div>
+                  <div class="swatch-info"><span class="swatch-name">Navy</span><span class="swatch-hex">#1a3a6b</span><span class="swatch-copied">✓ Copied!</span></div>
+                </div>
+                <div class="color-swatch" onclick="copyHex(this, '#e8821c')">
+                  <div class="swatch-color" style="background:#e8821c;"></div>
+                  <div class="swatch-info"><span class="swatch-name">Orange</span><span class="swatch-hex">#e8821c</span><span class="swatch-copied">✓ Copied!</span></div>
+                </div>
+                <div class="color-swatch" onclick="copyHex(this, '#3bb5d4')">
+                  <div class="swatch-color" style="background:#3bb5d4;"></div>
+                  <div class="swatch-info"><span class="swatch-name">Cyan</span><span class="swatch-hex">#3bb5d4</span><span class="swatch-copied">✓ Copied!</span></div>
+                </div>
+                <div class="color-swatch" onclick="copyHex(this, '#0f2347')">
+                  <div class="swatch-color" style="background:#0f2347;"></div>
+                  <div class="swatch-info"><span class="swatch-name">Navy Dark</span><span class="swatch-hex">#0f2347</span><span class="swatch-copied">✓ Copied!</span></div>
+                </div>
+                <div class="color-swatch" onclick="copyHex(this, '#ffffff')">
+                  <div class="swatch-color" style="background:#ffffff; border-bottom:1px solid #e4e8ef;"></div>
+                  <div class="swatch-info"><span class="swatch-name">White</span><span class="swatch-hex">#ffffff</span><span class="swatch-copied">✓ Copied!</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Typography -->
+            <div>
+              <div class="brand-sub-label">Typography</div>
+              <div class="type-rows">
+                <div class="type-row">
+                  <div class="type-specimen oswald">Clean Pool. Every Week.</div>
+                  <div class="type-meta">Oswald Bold — headlines, display, navigation &nbsp;·&nbsp; <a href="https://fonts.google.com/specimen/Oswald" target="_blank">Google Fonts ↗</a></div>
+                </div>
+                <div class="type-row">
+                  <div class="type-specimen dm-sans">Houston's trusted pool care expert.</div>
+                  <div class="type-meta">DM Sans Regular — body text, buttons, UI copy &nbsp;·&nbsp; <a href="https://fonts.google.com/specimen/DM+Sans" target="_blank">Google Fonts ↗</a></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Logo files -->
+            <div>
+              <div class="brand-sub-label">Logo Files</div>
+              <div class="logo-asset-row">
+                <div class="logo-assets">
+                  <div class="logo-asset" style="cursor:default;">
+                    <div class="logo-preview-wrap" style="background:#1a3a6b; padding:14px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 100" width="64" height="58">
+                        <path d="M 63 22 A 32 32 0 1 0 63 78" fill="none" stroke="#e8821c" stroke-width="5" stroke-linecap="round"/>
+                        <path d="M 14 74 L 6 60 L 20 66 Z" fill="#1a3a6b"/><path d="M 14 74 L 8 88 L 22 80 Z" fill="#1a3a6b"/>
+                        <path d="M 18 72 C 22 65, 28 58, 35 52 C 42 46, 50 42, 58 38 C 63 35, 68 33, 72 32 L 74 30 C 70 28, 65 27, 60 30 C 52 34, 44 38, 36 44 C 28 50, 22 56, 17 64 Z" fill="white"/>
+                        <path d="M 38 46 C 40 34, 44 20, 46 14 C 50 18, 54 26, 54 36 L 50 38 Z" fill="white"/>
+                        <path d="M 22 68 C 30 60, 40 52, 52 45 C 58 41, 64 37, 70 34" fill="none" stroke="#3bb5d4" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M 72 32 L 104 28 L 74 34 Z" fill="white"/>
+                        <circle cx="68" cy="31" r="2.2" fill="#3bb5d4"/>
+                      </svg>
+                    </div>
+                    <div class="logo-asset-name">Icon Mark</div>
+                    <div class="logo-asset-desc">Inline SVG — site header</div>
+                    <div class="logo-asset-badge">SVG</div>
+                  </div>
+                  <div class="logo-asset" style="cursor:default;">
+                    <div class="logo-preview-wrap" style="background:#f6f9fc; padding:14px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 100" width="64" height="58">
+                        <path d="M 63 22 A 32 32 0 1 0 63 78" fill="none" stroke="#e8821c" stroke-width="5" stroke-linecap="round"/>
+                        <path d="M 14 74 L 6 60 L 20 66 Z" fill="#1a3a6b"/><path d="M 14 74 L 8 88 L 22 80 Z" fill="#1a3a6b"/>
+                        <path d="M 18 72 C 22 65, 28 58, 35 52 C 42 46, 50 42, 58 38 C 63 35, 68 33, 72 32 L 74 30 C 70 28, 65 27, 60 30 C 52 34, 44 38, 36 44 C 28 50, 22 56, 17 64 Z" fill="#1a3a6b"/>
+                        <path d="M 38 46 C 40 34, 44 20, 46 14 C 50 18, 54 26, 54 36 L 50 38 Z" fill="#1a3a6b"/>
+                        <path d="M 22 68 C 30 60, 40 52, 52 45 C 58 41, 64 37, 70 34" fill="none" stroke="#3bb5d4" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M 72 32 L 104 28 L 74 34 Z" fill="#1a3a6b"/>
+                        <circle cx="68" cy="31" r="2.2" fill="#3bb5d4"/>
+                      </svg>
+                    </div>
+                    <div class="logo-asset-name">Icon Mark · Dark</div>
+                    <div class="logo-asset-desc">For light backgrounds</div>
+                    <div class="logo-asset-badge">SVG</div>
+                  </div>
+                </div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-top:6px;">
+                  📌 <strong>Note:</strong> Logo placeholder SVG is live on the site. When Alberto provides the actual business card/logo file, Chris will replace it with the extracted PNG/SVG.
+                </div>
+              </div>
+            </div>
+
+            <!-- Tagline -->
+            <div class="brand-tagline">
+              <div class="brand-tagline-text">Clean Pool. <em>Every Week.</em> Guaranteed.</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- BILLING                                 -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="billing" hidden>
+
+      <div class="portal-grid wide">
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span class="card-title-icon">💳</span> Blue Marlin Care Plan</div>
+            <span style="font-size:11px;font-weight:700;color:var(--green);background:rgba(232,130,28,0.1);padding:3px 9px;border-radius:99px;letter-spacing:0.04em;">PAY AS YOU GO</span>
+          </div>
+          <div class="card-body">
+
+            <div class="plan-badge">
+              <div class="plan-badge-name">Blue Marlin Care</div>
+              <div class="plan-badge-price">· $35 / month + pass-through</div>
+            </div>
+
+            <div class="brand-sub-label" style="margin-top:4px;">What $35/mo covers</div>
+            <ul class="progress-list" style="margin-bottom:18px;">
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Hosting + SSL + daily backups</strong><span>Vercel — handled, monitored</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Domain &amp; DNS management</strong><span>I keep things pointed where they should be</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>~1 small content change / month</strong><span>Phone, hours, photo swap, new service area — included</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Monthly site health check</strong><span>Uptime, speed, search index — I review and report</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Priority text/email support</strong><span>Under 4 hours during business hours</span></div></li>
+              <li class="progress-item"><div class="progress-icon done">✓</div><div class="progress-text"><strong>Bug fixes &amp; security patches</strong><span>I push fixes when they're needed</span></div></li>
+            </ul>
+
+            <div class="brand-sub-label">Pass-through costs (you pay at cost — no markup)</div>
+            <div class="billing-line">
+              <div class="billing-line-name">Google Workspace
+                <small>alberto@bluemarlinpoolcare.com — billed by Google directly</small>
+              </div>
+              <div class="billing-line-amount muted">~$6 / mo</div>
+            </div>
+            <div class="billing-line">
+              <div class="billing-line-name">Domain renewal
+                <small>bluemarlinpoolcare.com — yearly, amortized</small>
+              </div>
+              <div class="billing-line-amount muted">~$1.25 / mo</div>
+            </div>
+            <div class="billing-line">
+              <div class="billing-line-name">Vercel hosting
+                <small>Free tier covers your traffic for the foreseeable future</small>
+              </div>
+              <div class="billing-line-amount muted">$0</div>
+            </div>
+
+            <div class="billing-total">
+              <div>Estimated all-in monthly</div>
+              <div class="billing-total-amount">~$42 / mo</div>
+            </div>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5;">
+              Pass-through means you pay what these vendors charge — I don't mark them up.
+            </div>
+          </div>
+          <div class="card-footer">
+            Add-ons (review automation, route sheet, video, etc.) are quoted separately. See the <button onclick="showSection('add-ons')" style="background:none;border:none;color:var(--blue);font-weight:600;font-size:11.5px;cursor:pointer;padding:0;font-family:var(--font);">Add-Ons</button> tab.
+          </div>
+        </div>
+
+        <div>
+          <div class="card" style="margin-bottom:14px;">
+            <div class="card-header">
+              <div class="card-title"><span class="card-title-icon">📅</span> Billing Status</div>
+            </div>
+            <div class="card-body">
+              <div class="empty-state" style="padding:14px 8px;">
+                <div class="empty-state-icon" style="font-size:28px;">⏸</div>
+                <div class="empty-state-title">Billing not started yet</div>
+                <div class="empty-state-desc">
+                  We're still in the launch grace period. Once you greenlight the Blue Marlin Care plan,
+                  Stripe will send your first invoice and auto-renew monthly.
+                </div>
+                <div style="margin-top:14px;">
+                  <a href="mailto:chris@chriskelley.io?subject=Blue%20Marlin%20-%20Start%20Care%20Plan%20billing" class="btn btn-primary btn-sm">Greenlight Care Plan →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><span class="card-title-icon">📜</span> Invoice History</div>
+            </div>
+            <div class="card-body">
+              <div class="empty-state" style="padding:18px 8px;">
+                <div class="empty-state-desc">No invoices yet — they'll show up here once billing starts.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- REFERRALS & REVIEWS                     -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" data-section="referrals" hidden>
+
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">🤝</span> Referral Program</div>
+        </div>
+        <div class="card-body">
+
+          <div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:16px;">
+            Send another contractor or small business owner my way. When they sign up for any project
+            ($1K+ build or recurring service), <strong>you get $50 credit on your next invoice</strong>
+            — or cash via Venmo if you'd rather. They get 10% off their first project.
+          </div>
+
+          <div class="referral-stats">
+            <div class="referral-stat"><span class="referral-stat-num">0</span><div class="referral-stat-label">Links shared</div></div>
+            <div class="referral-stat"><span class="referral-stat-num">0</span><div class="referral-stat-label">Converted</div></div>
+            <div class="referral-stat"><span class="referral-stat-num green">$0</span><div class="referral-stat-label">Credit earned</div></div>
+          </div>
+
+          <div class="brand-sub-label">Your referral link</div>
+          <div class="referral-link-box">
+            <div class="referral-link-url" id="refLink">chriskelley.io/?ref=blue-marlin</div>
+            <button class="btn btn-outline btn-sm" onclick="copyText('chriskelley.io/?ref=blue-marlin', this)">Copy</button>
+          </div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="mailto:?subject=You%20should%20talk%20to%20this%20guy&body=Hey%20-%20wanted%20to%20put%20you%20on%20to%20Chris%20Kelley.%20He%20built%20our%20site%20at%20Blue%20Marlin%20Pool%20Care%20and%20set%20up%20our%20whole%20online%20presence.%20Local%20Houston%20guy%2C%20picks%20up%20the%20phone%2C%20does%20great%20work%20without%20agency%20prices.%0A%0Achriskelley.io%2F%3Fref%3Dblue-marlin" class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">📧 Share via Email</a>
+            <a href="sms:?&body=Hey%20-%20you%20should%20talk%20to%20Chris%20Kelley%20about%20a%20website.%20He%20built%20ours%20at%20Blue%20Marlin%20Pool%20Care%2C%20great%20job.%20chriskelley.io%2F%3Fref%3Dblue-marlin" class="btn btn-outline btn-sm" style="flex:1;justify-content:center;">📱 Share via Text</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span class="card-title-icon">⭐</span> Leaving a Review or Testimonial</div>
+        </div>
+        <div class="card-body">
+
+          <div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:14px;">
+            If you're up for leaving a review or testimonial for Chris, the most useful things to mention are what makes this different from hiring a typical agency:
+          </div>
+
+          <div class="testimonial-points">
+            <div class="testimonial-point">
+              <div class="testimonial-point-icon">📞</div>
+              <div class="testimonial-point-text">
+                <strong>He picks up the phone.</strong>
+                <em>"Texted on a Saturday, got a response in 20 minutes."</em>
+              </div>
+            </div>
+            <div class="testimonial-point">
+              <div class="testimonial-point-icon">💰</div>
+              <div class="testimonial-point-text">
+                <strong>Agency results without agency prices.</strong>
+                <em>"This would have cost 5× more at any marketing firm."</em>
+              </div>
+            </div>
+            <div class="testimonial-point">
+              <div class="testimonial-point-icon">🏗</div>
+              <div class="testimonial-point-text">
+                <strong>He understands the trades.</strong>
+                <em>"Didn't have to explain what pool service is — he got it immediately."</em>
+              </div>
+            </div>
+          </div>
+
+          <div class="copy-block">Where to leave a review: chriskelley.io · Google Business Profile (search "Chris Kelley Consulting Houston")</div>
+          <div class="copy-block-actions">
+            <button class="btn btn-outline btn-sm" onclick="copyText('chriskelley.io', this)">Copy Link</button>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+  // ── Password gate ──────────────────────────────────────────────────────────
+  const GATE_KEY  = 'bm_portal_auth';
+  const PASSWORD  = 'marlin2026';
+
+  function checkGate() {
+    if (localStorage.getItem(GATE_KEY) === '1') {
+      document.getElementById('gate').classList.add('hidden');
+      initPortal();
+    }
+  }
+  function unlock() {
+    const val = document.getElementById('gateInput').value.trim();
+    if (val === PASSWORD) {
+      localStorage.setItem(GATE_KEY, '1');
+      document.getElementById('gate').classList.add('hidden');
+      initPortal();
+    } else {
+      document.getElementById('gateError').textContent = 'Incorrect access code.';
+    }
+  }
+  document.getElementById('gateBtn').addEventListener('click', unlock);
+  document.getElementById('gateInput').addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+  checkGate();
+
+  // ── Topbar date ──────────────────────────────────────────────────────────
+  document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+  // ── Section navigation ──────────────────────────────────────────────────
+  const SECTION_TITLES = {
+    dashboard: 'Dashboard', 'site-stats': 'Site Stats',
+    'change-requests': 'Change Requests', 'add-ons': 'Add-Ons & Upgrades',
+    'brand-assets': 'Brand Assets', billing: 'Billing',
+    referrals: 'Referrals & Reviews', account: 'Account',
+  };
+
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => { s.hidden = s.dataset.section !== id; });
+    document.querySelectorAll('.nav-item').forEach(n => { n.classList.toggle('active', n.dataset.target === id); });
+    document.getElementById('topbarTitle').textContent = SECTION_TITLES[id] || id;
+    closeSidebar();
+    window.scrollTo(0, 0);
+    if (id === 'site-stats' && !window._statsFetched) loadStats();
+    if (id === 'change-requests' && !window._requestsFetched) loadRequests();
+  }
+
+  document.querySelectorAll('.nav-item[data-target]').forEach(btn => {
+    btn.addEventListener('click', () => showSection(btn.dataset.target));
+  });
+
+  // Activate dashboard by default
+  function initPortal() { showSection('dashboard'); }
+
+  // ── Mobile sidebar ───────────────────────────────────────────────────────
+  const sidebar   = document.getElementById('sidebar');
+  const backdrop  = document.getElementById('sidebarBackdrop');
+  const menuToggle = document.getElementById('menuToggle');
+  function openSidebar()  { sidebar.classList.add('open'); backdrop.classList.add('show'); }
+  function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('show'); }
+  menuToggle?.addEventListener('click', openSidebar);
+  backdrop?.addEventListener('click', closeSidebar);
+
+  // ── Site Stats ──────────────────────────────────────────────────────────
+  window._statsFetched = false;
+  async function loadStats(forceRefresh) {
+    window._statsFetched = true;
+    const dot   = document.getElementById('statsStatusDot');
+    const txt   = document.getElementById('statsStatusText');
+    const btn   = document.getElementById('statsRefreshBtn');
+    const demo  = document.getElementById('statsDemoBanner');
+    dot.className = 'stats-meta-dot demo';
+    txt.textContent = 'Loading from Google Search Console…';
+    btn.disabled = true; btn.classList.add('spinning');
+
+    try {
+      const url = forceRefresh ? '/api/blue-marlin-stats?refresh=1' : '/api/blue-marlin-stats';
+      const res = await fetch(url);
+      const d   = await res.json();
+
+      // Status dot
+      if (d.is_demo) {
+        dot.className = 'stats-meta-dot demo';
+        txt.textContent = 'Showing demo data — GSC not yet connected';
+        demo.hidden = false;
+        demo.innerHTML = `<strong>Demo data</strong> — ${d.demo_reason || 'GSC not configured yet'}. Stats will populate automatically once Search Console is verified and the domain has search traffic.`;
+      } else {
+        dot.className = 'stats-meta-dot';
+        const ts = d.last_refreshed ? new Date(d.last_refreshed).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '';
+        txt.textContent = `Live GSC data${ts ? ' · refreshed ' + ts : ''}${d.from_cache ? ' (cached)' : ''}`;
+        demo.hidden = true;
+      }
+
+      // Summary cards
+      const s = d.summary || {};
+      document.getElementById('statImpressions').textContent = (s.impressions || 0).toLocaleString();
+      document.getElementById('statClicks').textContent      = (s.clicks || 0).toLocaleString();
+      document.getElementById('statClicksSub').textContent   = `CTR: ${s.ctr ? (s.ctr * 100).toFixed(1) + '%' : '—'}`;
+      document.getElementById('statPosition').textContent    = s.position ? '#' + s.position : '—';
+
+      // Traffic chart
+      const weekly = d.weekly || [];
+      const maxClicks = Math.max(1, ...weekly.map(w => w.clicks));
+      const chartEl  = document.getElementById('trafficChart');
+      chartEl.innerHTML = weekly.map((w, i) => {
+        const h    = Math.max(2, Math.round((w.clicks / maxClicks) * 96));
+        const last = i === weekly.length - 1;
+        return `<div class="bar-group"><div class="bar${last ? ' current' : ''}" style="height:${h}px;"></div><div class="bar-label">${w.label || w.week}</div></div>`;
+      }).join('');
+
+      document.getElementById('metaTotalClicks').textContent      = (s.clicks || 0).toLocaleString();
+      document.getElementById('metaTotalImpressions').textContent = (s.impressions || 0).toLocaleString();
+      document.getElementById('metaCtr').textContent              = s.ctr ? (s.ctr * 100).toFixed(1) + '%' : '—';
+      document.getElementById('metaPagesIndexed').textContent     = s.pages_indexed || 6;
+
+      // Top pages
+      const pages = d.top_pages || [];
+      document.getElementById('topPagesBody').innerHTML = pages.length
+        ? pages.map(p => `<div class="page-row"><div class="page-name">${p.path}</div><div class="page-bar-wrap"><div class="page-bar-fill" style="width:${p.pct || 0}%;"></div></div><div class="page-count">${p.clicks}</div></div>`).join('')
+        : '<div class="empty-state" style="padding:12px 8px;"><div class="empty-state-desc">No page data yet.</div></div>';
+
+      // Top queries
+      const queries = d.top_queries || [];
+      document.getElementById('topQueriesBody').innerHTML = queries.length
+        ? queries.map(q => {
+            const posClass = q.position && q.position <= 10 ? ' top' : '';
+            return `<div class="query-row"><div class="query-text">${q.query}</div><div class="query-stat"><strong>${q.clicks}</strong><span class="query-position${posClass}">#${q.position || '—'}</span></div></div>`;
+          }).join('')
+        : '<div class="empty-state" style="padding:12px 8px;"><div class="empty-state-desc">No search query data yet — populates after the site gets search impressions.</div></div>';
+
+    } catch (err) {
+      dot.className = 'stats-meta-dot error';
+      txt.textContent = 'Could not load stats — ' + err.message;
+    } finally {
+      btn.disabled = false; btn.classList.remove('spinning');
+    }
+  }
+  document.getElementById('statsRefreshBtn').addEventListener('click', () => loadStats(true));
+
+  // ── Change Requests ─────────────────────────────────────────────────────
+  window._requestsFetched = false;
+  async function loadRequests() {
+    window._requestsFetched = true;
+    try {
+      const res  = await fetch('/api/requests?client=blue-marlin');
+      const data = await res.json();
+      renderRequests(data.requests || []);
+    } catch (e) {
+      document.getElementById('requestsBody').innerHTML = `<div class="empty-state"><div class="empty-state-desc">Could not load requests: ${e.message}</div></div>`;
+    }
+  }
+
+  function renderRequests(requests) {
+    if (!requests.length) {
+      document.getElementById('requestsBody').innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">✅</div>
+          <div class="empty-state-title">No open requests</div>
+          <div class="empty-state-desc">Use the "+ New Request" button to submit a change. Avg turnaround: 1–2 business days.</div>
+        </div>`;
+      return;
+    }
+    const rows = requests.map(r => {
+      const date  = new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const cls   = `req-status-${r.status}`;
+      const label = { pending: 'Pending', in_progress: 'In Progress', complete: 'Complete', denied: 'Declined' }[r.status] || r.status;
+      return `<tr><td class="req-date-cell">${date}</td><td class="req-desc-cell">${r.description}</td><td style="white-space:nowrap;"><span class="req-status-pill ${cls}">${label}</span></td></tr>`;
+    }).join('');
+    document.getElementById('requestsBody').innerHTML = `<table class="requests-table" style="margin:0;"><thead><tr><th>Date</th><th>Request</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>`;
+  }
+
+  function openRequestModal()  { document.getElementById('requestModal').style.display = 'flex'; document.getElementById('requestText').focus(); }
+  function closeRequestModal() { document.getElementById('requestModal').style.display = 'none'; document.getElementById('requestModalError').textContent = ''; }
+  function closeModalOnBackdrop(e) { if (e.target === document.getElementById('requestModal')) closeRequestModal(); }
+
+  async function submitRequest() {
+    const desc = document.getElementById('requestText').value.trim();
+    const errEl = document.getElementById('requestModalError');
+    if (!desc) { errEl.textContent = 'Please describe what you need.'; return; }
+
+    const btn = document.getElementById('submitReqBtn');
+    btn.disabled = true; btn.textContent = 'Submitting…';
+    errEl.textContent = '';
+
+    try {
+      const res = await fetch('/api/requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId: 'blue-marlin', clientName: 'Blue Marlin Pool Care', description: desc }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Submission failed');
+      document.getElementById('requestText').value = '';
+      closeRequestModal();
+      window._requestsFetched = false;
+      loadRequests();
+    } catch (e) {
+      errEl.textContent = e.message;
+    } finally {
+      btn.disabled = false; btn.textContent = 'Submit Request';
+    }
+  }
+
+  // ── Utilities ───────────────────────────────────────────────────────────
+  function copyHex(el, hex) {
+    navigator.clipboard.writeText(hex).catch(() => {});
+    const copied = el.querySelector('.swatch-copied');
+    const hexEl  = el.querySelector('.swatch-hex');
+    if (copied && hexEl) { hexEl.style.display = 'none'; copied.style.display = 'block'; setTimeout(() => { hexEl.style.display = ''; copied.style.display = ''; }, 1800); }
+  }
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).catch(() => {});
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = orig; }, 1800);
+  }
+</script>
+</body>
+</html>
