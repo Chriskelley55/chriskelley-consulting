@@ -1276,13 +1276,20 @@
       text-align: center;
     }
 
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
     @media (max-width: 768px) {
       .shift-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .nav-links { display: none; }
       .hamburger { display: flex; }
       .hero { padding: 5rem 1.25rem 4rem; }
       section { padding: 4rem 1.25rem; }
-      nav .btn-primary { display: none; }
+      .nav-actions .btn-primary { display: none; }
+      .nav-actions .btn-outline { display: none; }
     }
   </style>
 <!-- Google Analytics -->
@@ -1316,11 +1323,13 @@
     <li><a href="/about.html">About</a></li>
     <li><a href="https://blog.chriskelley.io">Blog</a></li>
   </ul>
-  <button class="hamburger" id="hamburger" aria-label="Open menu">
-    <span></span><span></span><span></span>
-  </button>
-  <a href="/audit.html" class="btn btn-outline">Check My Presence</a>
-  <a href="tel:+18328073093" class="btn btn-primary">&#128222; 832-807-3093</a>
+  <div class="nav-actions">
+    <a href="/audit.html" class="btn btn-outline">Check My Presence</a>
+    <a href="tel:+18328073093" class="btn btn-primary">&#128222; 832-807-3093</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- MOBILE DRAWER -->
