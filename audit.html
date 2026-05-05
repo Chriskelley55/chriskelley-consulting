@@ -560,6 +560,13 @@
   navLogo.addEventListener("click",function(e){e.preventDefault();bounceCount++;clearTimeout(bounceTimeout);doNextBounce();});
 })();
 
+// PRE-FILL FROM URL PARAM (from homepage hero bar)
+const urlParams = new URLSearchParams(window.location.search);
+const prefillUrl = urlParams.get('url');
+if (prefillUrl) {
+  document.getElementById('urlInput').value = prefillUrl;
+}
+
 // AUDIT FORM
 const form = document.getElementById('auditForm');
 const submitBtn = document.getElementById('submitBtn');
