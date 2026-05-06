@@ -391,22 +391,57 @@
     /* Stats audit strip */
     .stats-audit-strip {
       border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 2rem;
-      margin-top: 2rem;
+      padding-top: 2.75rem;
+      margin-top: 2.5rem;
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
       align-items: center;
-      justify-content: center;
-      gap: 1.25rem;
-      flex-wrap: wrap;
     }
 
-    .stats-audit-label {
-      color: rgba(255,255,255,0.65);
+    .stats-audit-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin: 0 0 0.65rem;
+    }
+
+    .stats-audit-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+      color: #fff;
+      line-height: 1.25;
+      margin: 0 0 0.75rem;
+      font-weight: 700;
+    }
+
+    .stats-audit-sub {
       font-size: 0.88rem;
-      white-space: nowrap;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      margin: 0 0 1.1rem;
+    }
+
+    .stats-audit-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.75rem;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .stats-audit-proof span { white-space: nowrap; }
+    .stats-audit-proof .dot { color: rgba(255,255,255,0.2); }
+
+    .stats-audit-action {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
     }
 
     .stats-audit-form {
@@ -424,30 +459,38 @@
     }
 
     .stats-audit-form input {
-      padding: 0.7rem 1rem;
+      flex: 1;
+      padding: 0.85rem 1rem;
       border: none;
       background: rgba(255,255,255,0.08);
       color: #fff;
       font-family: var(--font-sans);
-      font-size: 0.88rem;
+      font-size: 0.95rem;
       outline: none;
-      min-width: 200px;
+      min-width: 0;
     }
 
-    .stats-audit-form input::placeholder { color: rgba(255,255,255,0.35); }
+    .stats-audit-form input::placeholder { color: rgba(255,255,255,0.3); }
 
     .stats-audit-form .btn {
       border-radius: 0;
-      padding: 0.7rem 1.1rem;
-      font-size: 0.86rem;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.9rem;
       white-space: nowrap;
     }
 
-    @media (max-width: 600px) {
-      .stats-audit-strip { gap: 0.75rem; }
-      .stats-audit-label { white-space: normal; text-align: center; }
-      .stats-audit-form { width: 100%; }
-      .stats-audit-form input { flex: 1; min-width: 0; }
+    .stats-audit-fine {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      margin: 0;
+      text-align: center;
+    }
+
+    @media (max-width: 680px) {
+      .stats-audit-strip {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+      }
     }
 
     @keyframes fadeUp {
@@ -1369,11 +1412,25 @@
     <div class="stat-item"><strong>90%+</strong><span>Client renewal rate</span></div>
   </div>
   <div class="stats-audit-strip">
-    <span class="stats-audit-label">🔍 See how your business looks online &mdash; free &amp; instant:</span>
-    <form class="stats-audit-form" onsubmit="goAudit(event)">
-      <input type="text" id="heroAuditUrl" placeholder="yourbusiness.com" required>
-      <button type="submit" class="btn btn-primary">Check My Presence &#8594;</button>
-    </form>
+    <div class="stats-audit-copy">
+      <p class="stats-audit-eyebrow">Free Presence Score</p>
+      <h3 class="stats-audit-headline">Most local businesses score below 50 out of 100.</h3>
+      <p class="stats-audit-sub">We grade your website, Google listing, reviews, and social presence &mdash; then show you exactly what to fix. Takes 30 seconds. No email required.</p>
+      <div class="stats-audit-proof">
+        <span>2,400+ businesses checked</span>
+        <span class="dot">&middot;</span>
+        <span>Average score: 42 / 100</span>
+        <span class="dot">&middot;</span>
+        <span>4 categories scored</span>
+      </div>
+    </div>
+    <div class="stats-audit-action">
+      <form class="stats-audit-form" onsubmit="goAudit(event)">
+        <input type="text" id="heroAuditUrl" placeholder="yourbusiness.com" required>
+        <button type="submit" class="btn btn-primary">Check My Presence &#8594;</button>
+      </form>
+      <p class="stats-audit-fine">Instant results &nbsp;&middot;&nbsp; No signup &nbsp;&middot;&nbsp; Free</p>
+    </div>
   </div>
 </div>
 
