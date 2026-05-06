@@ -382,78 +382,72 @@
       animation: fadeUp 0.7s ease forwards 0.4s;
     }
 
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
+    .hero-cta-wrap {
       opacity: 0;
       transform: translateY(12px);
       animation: fadeUp 0.7s ease forwards 0.55s;
     }
 
-    .hero-audit-bar {
-      margin-top: 1.75rem;
-      opacity: 0;
-      transform: translateY(12px);
-      animation: fadeUp 0.7s ease forwards 0.7s;
+    /* Stats audit strip */
+    .stats-audit-strip {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 2rem;
+      margin-top: 2rem;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
     }
 
-    .hero-audit-label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 0.6rem;
-      text-align: center;
+    .stats-audit-label {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.88rem;
+      white-space: nowrap;
     }
 
-    .hero-audit-form {
+    .stats-audit-form {
       display: flex;
       gap: 0;
-      max-width: 480px;
-      margin: 0 auto;
       border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      border: 1.5px solid var(--border);
-      transition: border-color 0.2s;
+      border: 1.5px solid rgba(255,255,255,0.18);
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .hero-audit-form:focus-within {
+    .stats-audit-form:focus-within {
       border-color: var(--green);
-      box-shadow: 0 4px 20px rgba(40,180,133,0.12);
+      box-shadow: 0 0 0 3px rgba(40,180,133,0.15);
     }
 
-    .hero-audit-form input {
-      flex: 1;
-      padding: 0.85rem 1.1rem;
+    .stats-audit-form input {
+      padding: 0.7rem 1rem;
       border: none;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
       font-family: var(--font-sans);
-      font-size: 1rem;
-      color: var(--text);
-      background: #fff;
+      font-size: 0.88rem;
       outline: none;
-      min-width: 0;
+      min-width: 200px;
     }
 
-    .hero-audit-form input::placeholder {
-      color: #aab0bc;
-    }
+    .stats-audit-form input::placeholder { color: rgba(255,255,255,0.35); }
 
-    .hero-audit-form .btn {
+    .stats-audit-form .btn {
       border-radius: 0;
+      padding: 0.7rem 1.1rem;
+      font-size: 0.86rem;
       white-space: nowrap;
-      padding: 0.85rem 1.4rem;
-      font-size: 0.9rem;
     }
 
-    @media (max-width: 520px) {
-      .hero-audit-form {
-        flex-direction: column;
-        border-radius: 10px;
-      }
-      .hero-audit-form .btn {
-        border-radius: 0 0 8px 8px;
-      }
+    @media (max-width: 600px) {
+      .stats-audit-strip { gap: 0.75rem; }
+      .stats-audit-label { white-space: normal; text-align: center; }
+      .stats-audit-form { width: 100%; }
+      .stats-audit-form input { flex: 1; min-width: 0; }
     }
 
     @keyframes fadeUp {
@@ -1359,15 +1353,8 @@
     <span class="hero-label">AI &bull; Websites &bull; Online Presence &bull; Automation</span>
     <h1>The tech partner your small business <span class="accent">actually needs.</span></h1>
     <p>You're great at your craft. You don't need to also be great at websites, Google listings, AI tools, and automation. That's my job. One person. Everything connected. Running in a week.</p>
-    <div class="hero-ctas">
+    <div class="hero-cta-wrap">
       <a href="tel:+18328073093" class="btn btn-primary">&#128222; Call or Text: 832-807-3093</a>
-    </div>
-    <div class="hero-audit-bar">
-      <p class="hero-audit-label">or see how your business looks online — free &amp; instant:</p>
-      <form class="hero-audit-form" onsubmit="goAudit(event)">
-        <input type="text" id="heroAuditUrl" placeholder="yourbusiness.com" required>
-        <button type="submit" class="btn btn-primary">Check My Presence &#8594;</button>
-      </form>
     </div>
   </section>
 </div>
@@ -1380,6 +1367,13 @@
     <div class="stat-item"><strong>40%</strong><span>Faster to first revenue</span></div>
     <div class="stat-item"><strong>7 days</strong><span>First result, guaranteed</span></div>
     <div class="stat-item"><strong>90%+</strong><span>Client renewal rate</span></div>
+  </div>
+  <div class="stats-audit-strip">
+    <span class="stats-audit-label">🔍 See how your business looks online &mdash; free &amp; instant:</span>
+    <form class="stats-audit-form" onsubmit="goAudit(event)">
+      <input type="text" id="heroAuditUrl" placeholder="yourbusiness.com" required>
+      <button type="submit" class="btn btn-primary">Check My Presence &#8594;</button>
+    </form>
   </div>
 </div>
 
