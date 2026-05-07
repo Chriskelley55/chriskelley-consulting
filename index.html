@@ -403,12 +403,12 @@
     }
 
     .stats-audit-eyebrow {
-      font-size: 0.72rem;
+      font-size: 0.9rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--green);
-      margin: 0 0 0.65rem;
+      margin: 0 0 0.8rem;
     }
 
     .stats-audit-headline {
@@ -731,7 +731,7 @@
     .stat-item strong {
       display: block;
       font-family: var(--font-serif);
-      font-size: 2.2rem;
+      font-size: clamp(1.45rem, 2.4vw, 1.9rem);
       color: #fff;
       line-height: 1.1;
     }
@@ -1111,7 +1111,29 @@
       align-items: center;
       justify-content: center;
       margin-bottom: 1.25rem;
-      font-size: 1.4rem;
+      background: rgba(14,107,168,0.08);
+      border: 1px solid rgba(14,107,168,0.12);
+      color: var(--blue);
+    }
+
+    .service-card.featured .service-icon {
+      background: rgba(40,180,133,0.1);
+      border-color: rgba(40,180,133,0.22);
+      color: var(--green-dark);
+    }
+
+    .service-icon svg {
+      width: 23px;
+      height: 23px;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .service-icon .accent {
+      stroke: var(--green);
     }
 
     .service-card h3 {
@@ -1241,7 +1263,38 @@
       transform: translateY(0);
     }
 
-    .who-card .who-emoji { font-size: 2rem; margin-bottom: 0.75rem; }
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 0.85rem;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(14,107,168,0.06);
+      border: 1px solid rgba(14,107,168,0.12);
+      color: var(--blue);
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .brand-icon .accent {
+      stroke: var(--green);
+    }
+
+    .who-card:hover .brand-icon {
+      background: rgba(40,180,133,0.1);
+      border-color: rgba(40,180,133,0.25);
+      color: var(--blue-dark);
+    }
 
     .who-card h4 {
       font-size: 0.95rem;
@@ -1302,7 +1355,27 @@
       flex-direction: column;
       gap: 0.75rem;
     }
-    .cta-card-icon { font-size: 1.5rem; }
+    .cta-card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #6ee7c3;
+    }
+    .cta-card-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+    .cta-card-icon .accent { stroke: #fff; opacity: 0.78; }
     .cta-card h3 { font-family: var(--font-serif); font-size: 1.15rem; color: #fff; margin: 0; }
     .cta-card p { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin: 0; flex: 1; }
     .cta-card .btn { margin-top: auto; align-self: flex-start; font-size: 0.88rem; padding: 0.6rem 1.2rem; }
@@ -1623,11 +1696,10 @@
 <!-- STATS BAR -->
 <div class="stats-bar fade-in">
   <div class="stats-inner">
-    <div class="stat-item"><strong>250+</strong><span>Businesses onboarded</span></div>
-    <div class="stat-item"><strong>10+ yrs</strong><span>Implementation experience</span></div>
-    <div class="stat-item"><strong>40%</strong><span>Faster to first revenue</span></div>
-    <div class="stat-item"><strong>7 days</strong><span>First result, guaranteed</span></div>
-    <div class="stat-item"><strong>90%+</strong><span>Client renewal rate</span></div>
+    <div class="stat-item"><strong>Built in days</strong><span>Not months</span></div>
+    <div class="stat-item"><strong>No tech bloat</strong><span>Only what your business needs</span></div>
+    <div class="stat-item"><strong>Houston-based</strong><span>Serving clients nationwide</span></div>
+    <div class="stat-item"><strong>Small business focused</strong><span>Built for busy owners</span></div>
   </div>
   <div class="stats-audit-strip">
     <div class="stats-audit-copy">
@@ -2010,7 +2082,9 @@
     <div class="services-grid">
       <a href="/workflow-audit.html" class="service-card featured">
         <div class="featured-badge">START HERE</div>
-        <div class="service-icon" style="background: rgba(40,180,133,0.1);">🔍</div>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 5 5"/><path class="accent" d="M8.5 10.5h4M10.5 8.5v4"/></svg>
+        </div>
         <h3>Workflow Audit</h3>
         <div class="service-price">$350 <small>flat</small></div>
         <p>Before we build anything, let's find what's worth building. A 90-minute live session + written findings report + priority action matrix delivered in 48 hours.</p>
@@ -2019,7 +2093,9 @@
       </a>
 
       <a href="/quick-win.html" class="service-card">
-        <div class="service-icon" style="background: rgba(14,107,168,0.08);">&#9889;</div>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M13 3 5 13h6l-1 8 9-12h-6l0-6Z"/><path class="accent" d="M7 20h5"/></svg>
+        </div>
         <h3>Quick Win</h3>
         <div class="service-price">$500 <small>flat</small></div>
         <p>One high-impact automation or workflow fix. Identified from the audit. Built and running in a week. Also covers Google presence setup — Business Profile, Search Console, and site SEO — so your business shows up before your competitors.</p>
@@ -2027,7 +2103,9 @@
       </a>
 
       <a href="/systems-buildout.html" class="service-card">
-        <div class="service-icon" style="background: rgba(14,107,168,0.08);">&#9881;&#65039;</div>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><path class="accent" d="M9.8 12h4.4"/></svg>
+        </div>
         <h3>Systems Buildout</h3>
         <div class="service-price">$1,500 <small>project</small></div>
         <p>A connected set of automations built around one key area of your business &mdash; onboarding, lead follow-up, reporting, ops. Designed to save 5&ndash;15 hours per week from day one.</p>
@@ -2035,7 +2113,9 @@
       </a>
 
       <a href="/lead-engine.html" class="service-card">
-        <div class="service-icon" style="background: rgba(14,107,168,0.08);">&#127919;</div>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/><path class="accent" d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+        </div>
         <h3>AI-Powered Lead Engine</h3>
         <div class="service-price">$3,000 <small>project</small></div>
         <p>Full CRM setup + automated lead scoring, follow-up sequences, and pipeline visibility. Built for businesses that need to stop losing deals to slow response and inconsistent follow-through.</p>
@@ -2044,7 +2124,9 @@
 
       <a href="/ai-employee.html" class="service-card">
         <div class="featured-badge">NEW</div>
-        <div class="service-icon" style="background: rgba(40,180,133,0.1);">&#129302;</div>
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="6" y="8" width="12" height="10" rx="3"/><path d="M9 8V5h6v3"/><path d="M9.5 13h.01M14.5 13h.01"/><path class="accent" d="M10 17h4M4 12H2M22 12h-2"/></svg>
+        </div>
         <h3>Your First AI Employee</h3>
         <div class="service-price">$750 <small>setup</small></div>
         <p>A Claude-powered AI agent connected to your CRM, email, calendar, and docs &mdash; doing real work in your business. Handles intake, scheduling, follow-up, or custom tasks you define.</p>
@@ -2095,37 +2177,49 @@
 
     <div class="who-grid">
       <a href="/realestate.html" class="who-card">
-        <div class="who-emoji">&#127969;</div>
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/><path class="accent" d="M16.5 7.5h3V11"/></svg>
+        </div>
         <h4>Real Estate</h4>
         <p>Agents &amp; teams tired of losing leads to slow follow-up</p>
         <span class="who-link-hint">See how it works &rarr;</span>
       </a>
       <a href="/service-businesses.html" class="who-card">
-        <div class="who-emoji">&#128736;</div>
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M14.5 5.5a4.4 4.4 0 0 0 4.8 5l-8.7 8.7a2.2 2.2 0 0 1-3.1 0l-1.7-1.7a2.2 2.2 0 0 1 0-3.1l8.7-8.9Z"/><path class="accent" d="M16.5 3.8 20.2 7.5"/></svg>
+        </div>
         <h4>Service Businesses</h4>
         <p>Contractors, agencies, consultants running on manual processes</p>
         <span class="who-link-hint">See how it works &rarr;</span>
       </a>
       <a href="/healthcare.html" class="who-card">
-        <div class="who-emoji">&#127973;</div>
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 21v-5h6v5"/><path class="accent" d="M12 8v5M9.5 10.5h5"/></svg>
+        </div>
         <h4>Healthcare &amp; Wellness</h4>
         <p>Clinics and practices drowning in scheduling &amp; intake</p>
         <span class="who-link-hint">See how it works &rarr;</span>
       </a>
       <a href="/ecommerce.html" class="who-card">
-        <div class="who-emoji">&#128717;</div>
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M6 8h15l-2 8H8L6 4H3"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path class="accent" d="M10 11h5"/></svg>
+        </div>
         <h4>E-commerce &amp; Retail</h4>
         <p>Store owners wanting smarter ops without more headcount</p>
         <span class="who-link-hint">See how it works &rarr;</span>
       </a>
       <a href="/professional-services.html" class="who-card">
-        <div class="who-emoji">&#128202;</div>
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="6" y="3.5" width="12" height="17" rx="2"/><path d="M9 7.5h6M9 11h2M13 11h2M9 14.5h2M13 14.5h2"/><path class="accent" d="M9 18h6"/></svg>
+        </div>
         <h4>Professional Services</h4>
         <p>Law, finance, accounting &mdash; high-value work buried in admin</p>
         <span class="who-link-hint">See how it works &rarr;</span>
       </a>
       <a href="/coaches.html" class="who-card">
-        <div class="who-emoji">&#127897;&#65039;</div>
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="9" y="4" width="6" height="10" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/><path d="M8.5 21h7"/><path class="accent" d="M17 6l2-2M7 6 5 4"/></svg>
+        </div>
         <h4>Coaches &amp; Content Creators</h4>
         <p>Solopreneurs buried in DMs, onboarding, and content ops</p>
         <span class="who-link-hint">See how it works &rarr;</span>
@@ -2193,7 +2287,9 @@
 
         <!-- Card 1: Discovery Call -->
         <div class="cta-card">
-          <div class="cta-card-icon">📅</div>
+          <div class="cta-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/><path class="accent" d="M8 14h3M8 17h5"/></svg>
+          </div>
           <h3>Book a Discovery Call</h3>
           <p>30 minutes to understand how your business runs, where time is leaking, and whether there's a fit. No agenda, no pitch — just an honest conversation.</p>
           <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-primary">Book Free Call &rarr;</a>
@@ -2201,7 +2297,9 @@
 
         <!-- Card 2: Presence Audit -->
         <div class="cta-card">
-          <div class="cta-card-icon">🔍</div>
+          <div class="cta-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 5 5"/><path class="accent" d="M8.5 10.5h4M10.5 8.5v4"/></svg>
+          </div>
           <h3>Free Presence Audit</h3>
           <p>See exactly how your business shows up online — scored across website, Google, reviews, and social. Takes 30 seconds.</p>
           <a href="/audit.html" class="btn btn-primary">Run My Audit &rarr;</a>
@@ -2209,7 +2307,9 @@
 
         <!-- Card 3: Newsletter -->
         <div class="cta-card cta-card-newsletter" id="ctaNewsletterCard">
-          <div class="cta-card-icon">⚡</div>
+          <div class="cta-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M13 3 5 13h6l-1 8 9-12h-6l0-6Z"/><path class="accent" d="M7 20h5"/></svg>
+          </div>
           <h3>The 5-Minute Fix</h3>
           <p>One practical AI or automation win, every week. Free.</p>
           <form id="ctaNewsletterForm" style="display:flex;flex-direction:column;gap:0.5rem;margin-top:auto;">
