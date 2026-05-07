@@ -648,6 +648,12 @@
       align-items: center;
     }
 
+    .shift-side {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
     .shift-points {
       display: flex;
       flex-direction: column;
@@ -719,6 +725,80 @@
       border-radius: 50px;
       margin-bottom: 0.5rem;
       margin-right: 0.4rem;
+    }
+
+    .shift-read-card {
+      display: block;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .shift-read-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(14,107,168,0.35);
+      box-shadow: 0 12px 32px rgba(14,107,168,0.1);
+    }
+
+    .shift-read-kicker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.9rem;
+      color: var(--blue);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .shift-read-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(40,180,133,0.12);
+      color: var(--green);
+      font-size: 1rem;
+      letter-spacing: 0;
+      flex-shrink: 0;
+    }
+
+    .shift-read-card h3 {
+      font-family: var(--font-serif);
+      color: var(--blue-dark);
+      font-size: 1.45rem;
+      line-height: 1.22;
+      margin-bottom: 0.65rem;
+    }
+
+    .shift-read-card p {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .shift-read-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .shift-read-meta span {
+      border-radius: 50px;
+      background: var(--off-white);
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
     }
 
     /* HOW IT WORKS */
@@ -1474,12 +1554,25 @@
         </div>
       </div>
 
-      <div class="shift-callout">
-        <h3>Built for businesses that run on doing &mdash; not on managing software.</h3>
-        <p>No jargon. No 6-month rollouts. No bloated tech stacks. I map what you actually do, find where time and money are leaking, and build systems that fix it &mdash; in days, not quarters.</p>
-        <span class="pill">No-code friendly</span>
-        <span class="pill">Results in 7 days</span>
-        <span class="pill">ROI tracked monthly</span>
+      <div class="shift-side">
+        <div class="shift-callout">
+          <h3>Built for businesses that run on doing &mdash; not on managing software.</h3>
+          <p>No jargon. No 6-month rollouts. No bloated tech stacks. I map what you actually do, find where time and money are leaking, and build systems that fix it &mdash; in days, not quarters.</p>
+          <span class="pill">No-code friendly</span>
+          <span class="pill">Results in 7 days</span>
+          <span class="pill">ROI tracked monthly</span>
+        </div>
+
+        <a href="/ai-got-the-keys.html" class="shift-read-card">
+          <span class="shift-read-kicker">Read the essay <span class="shift-read-arrow">&rarr;</span></span>
+          <h3>AI got the keys. Now it needs a system.</h3>
+          <p>A field essay on the leap from GPT-3 and ChatGPT to reasoning agents, Claude Code, and the new work of managing AI operators. And why now is unlike any other time in technology.</p>
+          <span class="shift-read-meta">
+            <span>Feature essay</span>
+            <span>12 min read</span>
+            <span>Agents + workflow</span>
+          </span>
+        </a>
       </div>
     </div>
   </div>
