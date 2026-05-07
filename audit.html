@@ -372,7 +372,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="/" class="nav-logo" id="navLogo">Chris Kelley Consulting<canvas id="navNodeCanvas" width="22" height="22"></canvas></a>
+  <a href="index.html" class="nav-logo" id="navLogo">Chris Kelley Consulting<canvas id="navNodeCanvas" width="22" height="22"></canvas></a>
   <ul class="nav-links">
     <li class="nav-dropdown">
       <a href="/#services">Services</a>
@@ -558,7 +558,7 @@
   drawNavNode();
   var bounceCount=0,bounceTimeout=null;
   function doNextBounce(){if(bounceCount<=0)return;navLogo.classList.remove("bounce");void navLogo.offsetWidth;navLogo.classList.add("bounce");bounceCount--;bounceTimeout=setTimeout(function(){navLogo.classList.remove("bounce");void navLogo.offsetWidth;if(bounceCount>0)doNextBounce();},420);}
-  navLogo.addEventListener("click",function(e){e.preventDefault();bounceCount++;clearTimeout(bounceTimeout);doNextBounce();});
+  navLogo.addEventListener("click",function(){bounceCount++;clearTimeout(bounceTimeout);doNextBounce();});
 })();
 
 // PRE-FILL FROM URL PARAM (from homepage hero bar)
