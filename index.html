@@ -493,6 +493,144 @@
       }
     }
 
+    /* ── MOBILE OVERFLOW FIX ─────────────────────── */
+    @media (max-width: 680px) {
+      .stats-bar { padding: 2.5rem 1.25rem; overflow-x: hidden; }
+      .stats-audit-strip { padding: 0; }
+      .stats-audit-form { flex-direction: column; border-radius: 10px; }
+      .stats-audit-form input { border-radius: 8px 8px 0 0; }
+      .stats-audit-form .btn { border-radius: 0 0 8px 8px; text-align: center; justify-content: center; }
+      .samples-grid { grid-template-columns: 1fr !important; }
+    }
+
+    /* ── SAMPLE AUDIT CARDS ──────────────────────── */
+    .stats-audit-samples {
+      grid-column: 1 / -1;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 1.5rem;
+      margin-top: 0.25rem;
+    }
+    .samples-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.35);
+      margin: 0 0 1rem;
+    }
+    .samples-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;
+    }
+    .sample-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 1rem 1.1rem;
+      cursor: pointer; text-align: left;
+      transition: all 0.18s; color: #fff; width: 100%;
+      font-family: inherit;
+    }
+    .sample-card:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(40,180,133,0.55);
+      transform: translateY(-1px);
+    }
+    .sample-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .sample-card-name { font-size: 0.82rem; font-weight: 700; line-height: 1.3; }
+    .sample-card-cat { font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-top: 2px; }
+    .sample-card-score-wrap { text-align: right; flex-shrink: 0; }
+    .sample-card-num { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; line-height: 1; }
+    .sample-card-tier { font-size: 0.55rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; display: block; }
+    .score-strong { color: #28b485; }
+    .score-needs   { color: #f59e0b; }
+    .score-critical{ color: #ef4444; }
+    .sample-card-bar {
+      height: 4px; background: rgba(255,255,255,0.1);
+      border-radius: 2px; overflow: hidden;
+    }
+    .sample-card-bar-fill { height: 100%; border-radius: 2px; }
+    .sample-card-cta {
+      font-size: 0.65rem; color: rgba(255,255,255,0.3);
+      margin-top: 0.6rem; display: block;
+    }
+
+    /* ── AUDIT OVERLAY / MODAL ───────────────────── */
+    .audit-overlay {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 1rem;
+    }
+    .audit-overlay.open { display: flex; }
+    .audit-modal {
+      background: #fff; color: #111827;
+      border-radius: 16px; max-width: 600px; width: 100%;
+      max-height: 88vh; overflow-y: auto; position: relative;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+    }
+    .audit-modal-header {
+      background: #0b1628; color: #fff;
+      padding: 1.75rem 2rem 1.5rem; border-radius: 16px 16px 0 0;
+      position: sticky; top: 0; z-index: 1;
+    }
+    .audit-modal-eyebrow {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 4px;
+    }
+    .audit-modal-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 2px; }
+    .audit-modal-url { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin: 0; }
+    .audit-modal-score-row {
+      display: flex; align-items: center; gap: 1rem; margin-top: 1rem;
+    }
+    .audit-modal-score-num { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 700; line-height: 1; }
+    .audit-modal-score-right { display: flex; flex-direction: column; gap: 2px; }
+    .audit-modal-tier { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    .audit-modal-out { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+    .audit-modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: rgba(255,255,255,0.12); border: none;
+      width: 32px; height: 32px; border-radius: 50%;
+      cursor: pointer; color: rgba(255,255,255,0.7); font-size: 1rem; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .audit-modal-close:hover { background: rgba(255,255,255,0.22); color: #fff; }
+    .audit-modal-body { padding: 1.75rem 2rem; }
+    .audit-modal-section-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #9ca3af; margin: 0 0 1rem;
+    }
+    .audit-bar-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .audit-bar-label { font-size: 0.72rem; font-weight: 600; color: #374151; width: 80px; flex-shrink: 0; }
+    .audit-bar-track {
+      flex: 1; height: 10px; background: #f3f4f6;
+      border-radius: 5px; overflow: hidden;
+    }
+    .audit-bar-fill { height: 100%; border-radius: 5px; transition: width 0.6s ease; }
+    .audit-bar-val { font-size: 0.72rem; font-weight: 600; width: 38px; text-align: right; }
+    .audit-findings {
+      background: #f9fafb; border: 1px solid #e5e7eb;
+      border-radius: 10px; padding: 1rem 1.1rem;
+      font-size: 0.875rem; color: #374151; line-height: 1.7;
+      margin-top: 1.5rem;
+    }
+    .audit-findings-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #6b7280; margin-bottom: 0.4rem;
+    }
+    .audit-modal-cta {
+      margin-top: 1.5rem; text-align: center;
+      padding: 1.25rem; background: #f0fdf8;
+      border-radius: 10px; border: 1px solid #bbf7d0;
+    }
+    .audit-modal-cta p { font-size: 0.85rem; color: #374151; margin: 0 0 0.75rem; }
+    .audit-modal-cta a {
+      display: inline-block; background: #28b485; color: #fff;
+      font-weight: 700; font-size: 0.88rem; padding: 0.7rem 1.5rem;
+      border-radius: 8px; text-decoration: none; transition: background 0.15s;
+    }
+    .audit-modal-cta a:hover { background: #1f9e71; }
+    @media (max-width: 540px) {
+      .audit-modal-header { padding: 1.25rem 1.25rem 1.1rem; }
+      .audit-modal-body { padding: 1.25rem; }
+      .audit-modal-score-num { font-size: 2rem; }
+    }
+
     @keyframes fadeUp {
       to { opacity: 1; transform: translateY(0); }
     }
@@ -1511,6 +1649,65 @@
       </form>
       <p class="stats-audit-fine">Instant results &nbsp;&middot;&nbsp; Free</p>
     </div>
+
+    <!-- SAMPLE AUDITS -->
+    <div class="stats-audit-samples">
+      <p class="samples-label">See what real audit results look like</p>
+      <div class="samples-grid">
+        <button class="sample-card" onclick="openSample('dental')">
+          <div class="sample-card-top">
+            <div><div class="sample-card-name">C &amp; C Dental</div><div class="sample-card-cat">Medical · Sugar Land</div></div>
+            <div class="sample-card-score-wrap"><div class="sample-card-num score-strong">72</div><span class="sample-card-tier score-strong">Strong</span></div>
+          </div>
+          <div class="sample-card-bar"><div class="sample-card-bar-fill" style="width:72%;background:#28b485"></div></div>
+          <span class="sample-card-cta">View full audit →</span>
+        </button>
+        <button class="sample-card" onclick="openSample('water')">
+          <div class="sample-card-top">
+            <div><div class="sample-card-name">Imperial Water Co.</div><div class="sample-card-cat">Trades · Sugar Land</div></div>
+            <div class="sample-card-score-wrap"><div class="sample-card-num score-needs">43</div><span class="sample-card-tier score-needs">Needs Work</span></div>
+          </div>
+          <div class="sample-card-bar"><div class="sample-card-bar-fill" style="width:43%;background:#f59e0b"></div></div>
+          <span class="sample-card-cta">View full audit →</span>
+        </button>
+        <button class="sample-card" onclick="openSample('photo')">
+          <div class="sample-card-top">
+            <div><div class="sample-card-name">Your Houston Photographers</div><div class="sample-card-cat">Photography · Sugar Land</div></div>
+            <div class="sample-card-score-wrap"><div class="sample-card-num score-critical">16</div><span class="sample-card-tier score-critical">Critical</span></div>
+          </div>
+          <div class="sample-card-bar"><div class="sample-card-bar-fill" style="width:16%;background:#ef4444"></div></div>
+          <span class="sample-card-cta">View full audit →</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUDIT SAMPLE OVERLAY -->
+<div class="audit-overlay" id="auditOverlay" onclick="if(event.target===this)closeSample()">
+  <div class="audit-modal" id="auditModal">
+    <div class="audit-modal-header" id="auditModalHeader">
+      <button class="audit-modal-close" onclick="closeSample()">✕</button>
+      <div class="audit-modal-eyebrow">Sample Audit Report</div>
+      <h2 class="audit-modal-title" id="auditModalTitle"></h2>
+      <p class="audit-modal-url" id="auditModalUrl"></p>
+      <div class="audit-modal-score-row">
+        <div class="audit-modal-score-num" id="auditModalScore"></div>
+        <div class="audit-modal-score-right">
+          <span class="audit-modal-tier" id="auditModalTier"></span>
+          <span class="audit-modal-out">out of 100</span>
+        </div>
+      </div>
+    </div>
+    <div class="audit-modal-body">
+      <p class="audit-modal-section-label">Score Breakdown</p>
+      <div id="auditModalBars"></div>
+      <div class="audit-findings" id="auditModalFindings"></div>
+      <div class="audit-modal-cta">
+        <p>Where does your business land?</p>
+        <a href="/audit.html">Check My Presence — Free →</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2069,6 +2266,94 @@ function goAudit(e) {
     window.location.href = '/audit.html?url=' + encodeURIComponent(url);
   }
 }
+
+// ── SAMPLE AUDIT OVERLAY ─────────────────────────────────
+const SAMPLE_AUDITS = {
+  dental: {
+    name: 'C & C Dental', url: 'candcdental.com', cat: 'Medical · Sugar Land',
+    score: 72, tier: 'STRONG', tierColor: '#28b485',
+    bars: [
+      { label: 'Website',    val: 18, max: 25 },
+      { label: 'GBP',        val: 20, max: 25 },
+      { label: 'Reviews',    val: 16, max: 20 },
+      { label: 'Visibility', val: 12, max: 15 },
+      { label: 'Social',     val:  6, max: 15 },
+    ],
+    findings: '714 Google reviews and counting. Modern website with clear service pages and fast load times. Active GBP with regular posts and photo updates. This is the benchmark — they show up first because they\'ve done the work everywhere that matters.'
+  },
+  water: {
+    name: 'Imperial Water Co.', url: 'imperialwaterco.com', cat: 'Trades · Sugar Land',
+    score: 43, tier: 'NEEDS WORK', tierColor: '#f59e0b',
+    bars: [
+      { label: 'Website',    val: 19, max: 25 },
+      { label: 'GBP',        val:  8, max: 25 },
+      { label: 'Reviews',    val:  4, max: 20 },
+      { label: 'Visibility', val:  9, max: 15 },
+      { label: 'Social',     val:  3, max: 15 },
+    ],
+    findings: 'Strong custom website — one of the best in the category. But GBP is unverified and nearly invisible in local search. Only 4 Google reviews for an established business. Fixing GBP verification and running a review campaign would move this score into the 60s fast.'
+  },
+  photo: {
+    name: 'Your Houston Photographers', url: 'yourhoustonphotographers.pixieset.com', cat: 'Photography · Sugar Land',
+    score: 16, tier: 'CRITICAL', tierColor: '#ef4444',
+    bars: [
+      { label: 'Website',    val:  4, max: 25 },
+      { label: 'GBP',        val:  0, max: 25 },
+      { label: 'Reviews',    val:  2, max: 20 },
+      { label: 'Visibility', val:  2, max: 15 },
+      { label: 'Social',     val:  8, max: 15 },
+    ],
+    findings: 'No real website — just a Pixieset booking page. No Google Business Profile at all, which means zero presence in local map searches. Entire business runs through Instagram. Strong social following but invisible to anyone who searches "Houston photographer" on Google.'
+  }
+};
+
+function barColor(pct) {
+  if (pct >= 0.7) return '#28b485';
+  if (pct >= 0.4) return '#f59e0b';
+  return '#ef4444';
+}
+
+function openSample(key) {
+  const d = SAMPLE_AUDITS[key];
+  if (!d) return;
+  document.getElementById('auditModalTitle').textContent = d.name;
+  document.getElementById('auditModalUrl').textContent = d.url;
+  const scoreEl = document.getElementById('auditModalScore');
+  scoreEl.textContent = d.score;
+  scoreEl.style.color = d.tierColor;
+  const tierEl = document.getElementById('auditModalTier');
+  tierEl.textContent = d.tier;
+  tierEl.style.color = d.tierColor;
+  // Bars
+  const barsEl = document.getElementById('auditModalBars');
+  barsEl.innerHTML = d.bars.map(b => {
+    const pct = b.val / b.max;
+    const col = barColor(pct);
+    return `<div class="audit-bar-row">
+      <span class="audit-bar-label">${b.label}</span>
+      <div class="audit-bar-track"><div class="audit-bar-fill" style="width:${(pct*100).toFixed(0)}%;background:${col}"></div></div>
+      <span class="audit-bar-val" style="color:${col}">${b.val}/${b.max}</span>
+    </div>`;
+  }).join('');
+  // Findings
+  const findEl = document.getElementById('auditModalFindings');
+  findEl.innerHTML = `<div class="audit-findings-label">Findings</div>${d.findings}`;
+  // Open
+  const overlay = document.getElementById('auditOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // Scroll modal to top
+  document.getElementById('auditModal').scrollTop = 0;
+}
+
+function closeSample() {
+  document.getElementById('auditOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSample();
+});
 
 // ── HAMBURGER ────────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
