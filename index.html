@@ -1628,6 +1628,7 @@
   gtag('js', new Date());
   gtag('config', 'G-ETMDGCEPXJ');
 </script>
+<script src="tracking.js"></script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -1736,7 +1737,7 @@
         </button>
         <button class="sample-card" onclick="openSample('water')">
           <div class="sample-card-top">
-            <div><div class="sample-card-name">Imperial Water Co.</div><div class="sample-card-cat">Trades · Sugar Land</div></div>
+            <div><div class="sample-card-name">Imperial Water Co.</div><div class="sample-card-cat">Trades · Sugar Land · Cypress · Kingwood</div></div>
             <div class="sample-card-score-wrap"><div class="sample-card-num score-needs">43</div><span class="sample-card-tier score-needs">Needs Work</span></div>
           </div>
           <div class="sample-card-bar"><div class="sample-card-bar-fill" style="width:43%;background:#f59e0b"></div></div>
@@ -2382,7 +2383,7 @@ const SAMPLE_AUDITS = {
     findings: '714 Google reviews and counting. Modern website with clear service pages and fast load times. Active GBP with regular posts and photo updates. This is the benchmark — they show up first because they\'ve done the work everywhere that matters.'
   },
   water: {
-    name: 'Imperial Water Co.', url: 'imperialwaterco.com', cat: 'Trades · Sugar Land',
+    name: 'Imperial Water Co.', url: 'imperialwaterco.com', cat: 'Trades · Sugar Land · Cypress · Kingwood',
     score: 43, tier: 'NEEDS WORK', tierColor: '#f59e0b',
     bars: [
       { label: 'Website',    val: 19, max: 25 },
@@ -2391,7 +2392,7 @@ const SAMPLE_AUDITS = {
       { label: 'Visibility', val:  9, max: 15 },
       { label: 'Social',     val:  3, max: 15 },
     ],
-    findings: 'Strong custom website — one of the best in the category. But GBP is unverified and nearly invisible in local search. Only 4 Google reviews for an established business. Fixing GBP verification and running a review campaign would move this score into the 60s fast.'
+    findings: 'Strong custom website — one of the best in the category. But GBP is unverified and nearly invisible in local search. Only 4 Google reviews for an established business serving Sugar Land, Cypress, and Kingwood. Fixing GBP verification and running a review campaign in each service area would move this score into the 60s fast.'
   },
   photo: {
     name: 'Your Houston Photographers', url: 'yourhoustonphotographers.pixieset.com', cat: 'Photography · Sugar Land',
@@ -2756,14 +2757,32 @@ document.getElementById('ctaNewsletterForm').addEventListener('submit', async (e
   btn.disabled = true;
   btn.textContent = 'Subscribing...';
   try {
+    window.CKTracking?.trackEvent('newsletter_submit_attempt', {
+      form_name: 'five_minute_fix_newsletter',
+      cta_location: 'final_cta'
+    });
+
     const res = await fetch('/api/audit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ newsletterOnly: true, email, subscribe: true })
     });
+    if (!res.ok) throw new Error('newsletter_request_failed');
+
+    window.CKTracking?.trackEvent('newsletter_submit_success', {
+      form_name: 'five_minute_fix_newsletter',
+      cta_location: 'final_cta'
+    });
+
     document.getElementById('ctaNewsletterForm').style.display = 'none';
     document.getElementById('ctaNewsletterSuccess').style.display = 'block';
   } catch (err) {
+    window.CKTracking?.trackEvent('newsletter_submit_error', {
+      form_name: 'five_minute_fix_newsletter',
+      cta_location: 'final_cta',
+      error_reason: err.message || 'newsletter_submit_failed'
+    });
+
     btn.disabled = false;
     btn.textContent = 'Subscribe Free →';
     alert('Something went wrong. Please try again.');
