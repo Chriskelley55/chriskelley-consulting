@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navy's LEGO!</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #87CEEB 0%, #98FB98 75%, #228B22 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 7vw, 3.5rem);
+    color: #CC1111;
+    text-shadow: 3px 3px 0 #FFD700, -1px -1px 0 #FFD700;
+    margin-bottom: 1rem;
+    animation: bounce 2s ease infinite;
+    position: relative; z-index: 10;
+  }
+  @keyframes bounce {
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(-10px); }
+  }
+
+  .scene {
+    position: relative;
+    width: 320px;
+    height: 360px;
+  }
+
+  /* ===== LEGO BRICKS ===== */
+  .brick {
+    position: absolute;
+    height: 26px;
+    border-radius: 3px;
+    z-index: 30;
+  }
+  .brick::before, .brick::after {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    top: -10px;
+    background: inherit;
+    filter: brightness(1.15);
+    box-shadow: 0 3px 3px rgba(0,0,0,0.25);
+  }
+  .w1 { width: 36px; }
+  .w1::before { left: 50%; transform: translateX(-50%); }
+  .w1::after  { display: none; }
+  .w2 { width: 68px; }
+  .w2::before { left: 8px; }
+  .w2::after  { right: 8px; }
+  .w3 { width: 100px; }
+  .w3::before { left: 8px; }
+  .w3::after  { right: 8px; }
+
+  .red    { background:#CC1111; box-shadow:inset 0 -5px 0 #990000; }
+  .blue   { background:#1155CC; box-shadow:inset 0 -5px 0 #0033AA; }
+  .yellow { background:#FFCC00; box-shadow:inset 0 -5px 0 #CC9900; }
+  .green  { background:#22AA33; box-shadow:inset 0 -5px 0 #117722; }
+  .white  { background:#EEEEEE; box-shadow:inset 0 -5px 0 #BBBBBB; }
+  .orange { background:#FF6600; box-shadow:inset 0 -5px 0 #CC4400; }
+
+  /* Floating idle */
+  @keyframes f1 { 0%,100%{transform:rotate(-4deg) translateY(0)}  50%{transform:rotate(4deg)  translateY(-12px)} }
+  @keyframes f2 { 0%,100%{transform:rotate(6deg)  translateY(0)}  50%{transform:rotate(-3deg) translateY(-9px)}  }
+  @keyframes f3 { 0%,100%{transform:rotate(-2deg) translateY(0)}  50%{transform:rotate(5deg)  translateY(-15px)} }
+  @keyframes f4 { 0%,100%{transform:rotate(8deg)  translateY(0)}  50%{transform:rotate(-6deg) translateY(-8px)}  }
+
+  .b1  { top:15px;  left:12px;  animation:f1 2.6s ease infinite;       }
+  .b2  { top:8px;   right:18px; animation:f2 3.1s ease infinite 0.4s;  }
+  .b3  { top:65px;  left:45px;  animation:f3 2.2s ease infinite 0.8s;  }
+  .b4  { top:55px;  right:28px; animation:f4 2.8s ease infinite 0.2s;  }
+  .b5  { top:130px; left:6px;   animation:f1 3.4s ease infinite 1.1s;  }
+  .b6  { top:145px; right:4px;  animation:f2 2.4s ease infinite 0.6s;  }
+  .b7  { top:205px; left:18px;  animation:f3 2.9s ease infinite 0.3s;  }
+  .b8  { top:215px; right:14px; animation:f4 2.5s ease infinite 1.4s;  }
+  .b9  { top:270px; left:35px;  animation:f1 3.0s ease infinite 0.9s;  }
+  .b10 { top:280px; right:22px; animation:f2 2.7s ease infinite 0.5s;  }
+  .b11 { top:310px; left:78px;  animation:f3 2.3s ease infinite 1.2s;  }
+  .b12 { top:305px; right:55px; animation:f4 3.2s ease infinite 0.1s;  }
+
+  /* ===== DOGHOUSE ===== */
+  .doghouse {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    margin-left: -110px;
+    width: 220px;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: bottom center;
+    transition: transform 0.7s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
+    z-index: 20;
+  }
+  .doghouse.show { opacity:1; transform:scale(1); }
+
+  .roof-tri {
+    width: 0; height: 0;
+    border-left: 110px solid transparent;
+    border-right: 110px solid transparent;
+    border-bottom: 85px solid #CC1111;
+    margin: 0 auto;
+    position: relative;
+  }
+  .roof-tri::before {
+    content:'';
+    position:absolute;
+    top:12px; left:-88px;
+    width:0; height:0;
+    border-left:88px solid transparent;
+    border-right:88px solid transparent;
+    border-bottom:68px solid #DD2222;
+  }
+  .roof-studs {
+    display:flex; justify-content:center; gap:6px;
+    background:#CC1111;
+    padding:6px 0 2px;
+  }
+  .stud {
+    width:16px; height:16px;
+    border-radius:50%;
+    background:#DD2222;
+    box-shadow:0 2px 3px rgba(0,0,0,0.3);
+  }
+  .walls {
+    width:220px; height:115px;
+    background:#FFCC00;
+    position:relative;
+    border-left:4px solid #CC9900;
+    border-right:4px solid #CC9900;
+  }
+  .walls::before {
+    content:'';
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(90deg,  transparent 0 47px, rgba(0,0,0,0.07) 47px 51px),
+      repeating-linear-gradient(180deg, transparent 0 21px, rgba(0,0,0,0.07) 21px 25px);
+  }
+  .sign {
+    position:absolute;
+    top:8px; left:50%; transform:translateX(-50%);
+    background:white; border:2px solid #555; border-radius:4px;
+    padding:2px 10px; font-size:0.65rem; font-weight:bold;
+    white-space:nowrap; z-index:1;
+  }
+
+  .door {
+    position:absolute;
+    bottom:0; left:50%; transform:translateX(-50%);
+    width:72px; height:88px;
+    background:#8B4513;
+    border-radius:36px 36px 0 0;
+    border:3px solid #5C2A0A; border-bottom:none;
+    transition:transform 0.7s ease;
+    transform-origin:bottom center;
+    z-index:22;
+  }
+  .door.shake { animation:doorShake 0.12s ease infinite; }
+  @keyframes doorShake {
+    0%,100%{transform:translateX(-50%)}
+    33%{transform:translateX(calc(-50% - 4px))}
+    66%{transform:translateX(calc(-50% + 4px))}
+  }
+  .door.open {
+    animation: none !important;
+    transform:translateX(-50%) scaleX(0.05) !important;
+  }
+  .door-panel {
+    position:absolute;
+    top:14px; left:8px; right:8px; bottom:18px;
+    background:#7A3B10;
+    border-radius:24px 24px 0 0;
+    border:2px solid #5C2A0A;
+  }
+  .door-knob {
+    position:absolute;
+    width:10px; height:10px;
+    background:#FFD700; border-radius:50%;
+    bottom:18px; right:10px;
+    border:2px solid #CC9900;
+  }
+
+  .base {
+    width:220px; height:20px;
+    background:#8B4513;
+    border-radius:0 0 4px 4px;
+    box-shadow:inset 0 -6px 0 #5C2A0A;
+  }
+
+  /* ===== WOOF FROM INSIDE BUBBLE ===== */
+  .inside-woof {
+    position:absolute;
+    bottom:148px; left:50%;
+    transform:translateX(-50%) scale(0);
+    transform-origin:bottom center;
+    transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    background:white; border:3px solid #333; border-radius:20px;
+    padding:7px 16px; font-size:1.1rem; font-weight:bold;
+    white-space:nowrap; z-index:35;
+  }
+  .inside-woof::after {
+    content:'';
+    position:absolute; bottom:-13px; left:50%; transform:translateX(-50%);
+    border:7px solid transparent; border-top-color:#333;
+  }
+  .inside-woof::before {
+    content:'';
+    position:absolute; bottom:-9px; left:50%; transform:translateX(-50%);
+    border:5px solid transparent; border-top-color:white; z-index:1;
+  }
+  .inside-woof.show { transform:translateX(-50%) scale(1); }
+
+  /* ===== DOG ===== */
+  .dog {
+    position:absolute;
+    bottom:50px; left:50%; margin-left:-42px;
+    width:84px;
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity 0.4s ease, transform 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    z-index:25;
+  }
+  .dog.show { opacity:1; transform:translateY(0); }
+
+  .woof-bubble {
+    position:absolute;
+    top:-52px; left:-20px;
+    background:white; border:3px solid #333; border-radius:18px;
+    padding:5px 12px; font-size:1.2rem; font-weight:bold;
+    white-space:nowrap;
+    transform:scale(0); transform-origin:bottom left;
+    transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    z-index:40;
+  }
+  .woof-bubble::after {
+    content:''; position:absolute; bottom:-13px; left:18px;
+    border:7px solid transparent; border-top-color:#333;
+  }
+  .woof-bubble::before {
+    content:''; position:absolute; bottom:-9px; left:20px;
+    border:5px solid transparent; border-top-color:white; z-index:1;
+  }
+  .woof-bubble.show { transform:scale(1); }
+
+  .dog-body { position:relative; width:84px; height:72px; }
+  .d-torso {
+    position:absolute; bottom:0; left:14px;
+    width:56px; height:40px;
+    background:#C8934E; border-radius:18px 18px 10px 10px;
+    border:3px solid #A06828;
+  }
+  .d-head {
+    position:absolute; top:0; left:18px;
+    width:48px; height:44px;
+    background:#C8934E; border-radius:24px;
+    border:3px solid #A06828;
+  }
+  .d-ear {
+    position:absolute; top:4px;
+    width:20px; height:24px;
+    background:#A06828; border-radius:50% 50% 40% 40%;
+    border:2px solid #7A4810;
+  }
+  .d-ear.l { left:-4px; transform:rotate(-18deg); }
+  .d-ear.r { right:-4px; transform:rotate(18deg); }
+  .d-eye {
+    position:absolute;
+    width:11px; height:12px;
+    background:white; border-radius:50%;
+    border:2px solid #333; top:12px;
+  }
+  .d-eye::after {
+    content:''; position:absolute;
+    width:5px; height:5px;
+    background:#333; border-radius:50%;
+    top:2px; left:2px;
+    animation:eyeShift 3s ease infinite;
+  }
+  @keyframes eyeShift {
+    0%,100%{transform:translate(0,0)} 25%{transform:translate(2px,0)} 75%{transform:translate(-2px,0)}
+  }
+  .d-eye.l { left:4px; } .d-eye.r { right:4px; }
+  .d-snout {
+    position:absolute; bottom:5px; left:50%; transform:translateX(-50%);
+    width:24px; height:16px;
+    background:#E8B880; border-radius:12px; border:2px solid #A06828;
+  }
+  .d-nose {
+    position:absolute; top:-6px; left:50%; transform:translateX(-50%);
+    width:12px; height:8px; background:#333; border-radius:50% 50% 40% 40%;
+  }
+  .d-mouth {
+    position:absolute; bottom:2px; left:50%; transform:translateX(-50%);
+    width:14px; height:6px;
+    border-bottom:2px solid #7A4810; border-radius:0 0 8px 8px;
+  }
+  .d-tail {
+    position:absolute; bottom:12px; right:6px;
+    width:20px; height:20px;
+    border:4px solid #A06828; border-radius:50%;
+    border-bottom-color:transparent; border-left-color:transparent;
+    transform:rotate(40deg);
+    animation:wag 0.35s ease infinite;
+  }
+  @keyframes wag { 0%,100%{transform:rotate(25deg)} 50%{transform:rotate(65deg)} }
+
+  /* ===== MISC ===== */
+  .confetti {
+    position:fixed; top:-12px; width:10px; height:10px;
+    border-radius:2px; opacity:0; pointer-events:none; z-index:200;
+  }
+  .confetti.fall { animation:cffall 3s ease forwards; }
+  @keyframes cffall {
+    0%{opacity:1;transform:translateY(0) rotate(0deg)}
+    100%{opacity:0;transform:translateY(100vh) rotate(720deg)}
+  }
+
+  .spark { position:absolute; font-size:1.4rem; opacity:0; pointer-events:none; z-index:50; }
+  .spark.pop { animation:sparkPop 1s ease forwards; }
+  @keyframes sparkPop {
+    0%{opacity:0;transform:scale(0) rotate(0)}
+    40%{opacity:1;transform:scale(1.3) rotate(180deg)}
+    100%{opacity:0;transform:scale(0) rotate(360deg) translateY(-50px)}
+  }
+
+  .message {
+    margin-top:1.2rem;
+    font-size:clamp(1rem,4vw,1.6rem);
+    color:#CC1111; text-align:center; min-height:2em;
+    text-shadow:1px 1px 0 #fff,-1px -1px 0 #fff;
+    position:relative; z-index:10;
+  }
+
+  .ground {
+    position:fixed; bottom:0; width:100%; height:55px;
+    background:#228B22;
+    border-radius:50% 50% 0 0 / 20px 20px 0 0;
+    pointer-events:none;
+  }
+
+  .cloud {
+    position:fixed; background:white; border-radius:50px;
+    opacity:0.8; animation:drift linear infinite; pointer-events:none;
+  }
+  .cloud::before,.cloud::after { content:''; position:absolute; background:white; border-radius:50%; }
+  .cloud.c1 { width:90px;height:34px;top:8%;left:-110px;animation-duration:26s; }
+  .cloud.c1::before { width:44px;height:44px;top:-22px;left:12px; }
+  .cloud.c1::after  { width:34px;height:34px;top:-14px;right:12px; }
+  .cloud.c2 { width:70px;height:28px;top:18%;left:-90px;animation-duration:38s;animation-delay:11s; }
+  .cloud.c2::before { width:34px;height:34px;top:-17px;left:8px; }
+  .cloud.c2::after  { width:26px;height:26px;top:-11px;right:8px; }
+  @keyframes drift { from{transform:translateX(0)} to{transform:translateX(calc(100vw + 200px))} }
+</style>
+</head>
+<body>
+
+<div class="cloud c1"></div>
+<div class="cloud c2"></div>
+
+<h1>Navy's LEGO Set!</h1>
+
+<div class="scene" id="scene" onclick="nextStep()">
+
+  <!-- Floating bricks -->
+  <div class="brick w2 red    b1"></div>
+  <div class="brick w1 blue   b2"></div>
+  <div class="brick w2 yellow b3"></div>
+  <div class="brick w1 green  b4"></div>
+  <div class="brick w3 red    b5"></div>
+  <div class="brick w2 white  b6"></div>
+  <div class="brick w1 orange b7"></div>
+  <div class="brick w2 blue   b8"></div>
+  <div class="brick w1 yellow b9"></div>
+  <div class="brick w3 green  b10"></div>
+  <div class="brick w1 red    b11"></div>
+  <div class="brick w2 orange b12"></div>
+
+  <!-- Doghouse -->
+  <div class="doghouse" id="doghouse">
+    <div class="roof-tri"></div>
+    <div class="roof-studs">
+      <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+      <div class="stud"></div><div class="stud"></div><div class="stud"></div>
+    </div>
+    <div class="walls">
+      <div class="sign">🐾 NAVY'S DOG</div>
+      <div class="door" id="door">
+        <div class="door-panel"></div>
+        <div class="door-knob"></div>
+      </div>
+    </div>
+    <div class="base"></div>
+  </div>
+
+  <!-- WOOF from inside bubble -->
+  <div class="inside-woof" id="insideWoof">WOOF! WOOF! WOOF! 🐾</div>
+
+  <!-- Dog -->
+  <div class="dog" id="dog">
+    <div class="woof-bubble" id="woof">WOOF! 🐾</div>
+    <div class="dog-body">
+      <div class="d-torso"></div>
+      <div class="d-tail"></div>
+      <div class="d-head">
+        <div class="d-ear l"></div>
+        <div class="d-ear r"></div>
+        <div class="d-eye l"></div>
+        <div class="d-eye r"></div>
+        <div class="d-snout">
+          <div class="d-nose"></div>
+          <div class="d-mouth"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sparkles -->
+  <div class="spark" style="top:30%;left:12%">⭐</div>
+  <div class="spark" style="top:15%;right:10%;animation-delay:.3s">✨</div>
+  <div class="spark" style="top:45%;left:6%;animation-delay:.6s">⭐</div>
+  <div class="spark" style="top:20%;right:6%;animation-delay:.15s">✨</div>
+  <div class="spark" style="top:10%;left:40%;animation-delay:.45s">🌟</div>
+
+  <!-- Confetti -->
+  <div class="confetti" style="left:8%; background:#CC1111"></div>
+  <div class="confetti" style="left:20%;background:#1155CC;animation-delay:.15s"></div>
+  <div class="confetti" style="left:35%;background:#FFCC00;animation-delay:.3s"></div>
+  <div class="confetti" style="left:50%;background:#22AA33;animation-delay:.1s"></div>
+  <div class="confetti" style="left:65%;background:#FF6600;animation-delay:.4s"></div>
+  <div class="confetti" style="left:80%;background:#CC1111;animation-delay:.25s"></div>
+  <div class="confetti" style="left:92%;background:#1155CC;animation-delay:.5s"></div>
+
+</div>
+
+<div class="message" id="message">Tap to build!</div>
+
+<div class="ground"></div>
+
+<script>
+  // Target positions (scene-relative left, top) for each brick when assembling
+  // Forms a rough doghouse silhouette: roof at top, walls middle, base at bottom
+  const TARGETS = [
+    [78,  126],  // b1  w2 red    — roof left
+    [142,  95],  // b2  w1 blue   — roof top
+    [54,  204],  // b3  w2 yellow — wall left upper
+    [214, 198],  // b4  w1 green  — wall right upper
+    [110, 158],  // b5  w3 red    — roof base wide
+    [182, 204],  // b6  w2 white  — wall right
+    [56,  244],  // b7  w1 orange — wall left lower
+    [182, 244],  // b8  w2 blue   — wall right lower
+    [56,  304],  // b9  w1 yellow — base left
+    [110, 304],  // b10 w3 green  — base center
+    [135, 270],  // b11 w1 red    — above door
+    [182, 304],  // b12 w2 orange — base right
+  ];
+
+  let step = 0;
+  let busy = false;
+
+  const msg        = document.getElementById('message');
+  const doghouse   = document.getElementById('doghouse');
+  const dogEl      = document.getElementById('dog');
+  const door       = document.getElementById('door');
+  const woof       = document.getElementById('woof');
+  const insideWoof = document.getElementById('insideWoof');
+  const scene      = document.getElementById('scene');
+  const bricks     = [...document.querySelectorAll('.brick')];
+  const sparks     = document.querySelectorAll('.spark');
+  const confetti   = document.querySelectorAll('.confetti');
+
+  function nextStep() {
+    if (busy) return;
+    if (step === 0)      { step = 1; busy = true; buildHouse(); }
+    else if (step === 2) { step = 3; busy = true; knockAndBark(); }
+    else if (step === 4) { resetAll(); }
+  }
+
+  function buildHouse() {
+    msg.textContent = 'Building... 🔨';
+    const sceneRect = scene.getBoundingClientRect();
+
+    bricks.forEach((brick, i) => {
+      // Capture exact visual position (includes floating animation offset)
+      const rect     = brick.getBoundingClientRect();
+      const currLeft = rect.left - sceneRect.left;
+      const currTop  = rect.top  - sceneRect.top;
+
+      // Freeze at current visual position then kill float animation
+      brick.style.left      = currLeft + 'px';
+      brick.style.top       = currTop  + 'px';
+      brick.style.right     = 'auto';
+      brick.style.animation = 'none';
+      brick.style.transform = 'none';
+
+      // Stagger each brick flying to its target
+      setTimeout(() => {
+        const dur = 1100 + i * 35;
+        brick.style.transition = `left ${dur}ms cubic-bezier(0.25,0.46,0.45,0.94),
+                                   top  ${dur}ms cubic-bezier(0.25,0.46,0.45,0.94)`;
+        brick.style.left = TARGETS[i][0] + 'px';
+        brick.style.top  = TARGETS[i][1] + 'px';
+      }, i * 55);
+    });
+
+    // Last brick lands at: 11*55 + 1100 + 11*35 = 605 + 1100 + 385 = 2090ms
+    setTimeout(() => {
+      doghouse.classList.add('show');
+      setTimeout(() => {
+        bricks.forEach(b => {
+          b.style.transition += ', opacity 0.6s ease';
+          b.style.opacity = '0';
+        });
+      }, 250);
+      msg.textContent = 'Tap to knock! 🚪';
+      step = 2;
+      busy = false;
+    }, 2300);
+  }
+
+  function knockAndBark() {
+    insideWoof.classList.add('show');
+    door.classList.add('shake');
+    msg.textContent = '...someone\'s home! 👀';
+
+    setTimeout(() => {
+      // Door swings open
+      door.classList.remove('shake');
+      door.classList.add('open');
+      insideWoof.classList.remove('show');
+
+      // Dog bursts out
+      setTimeout(() => {
+        dogEl.classList.add('show');
+
+        setTimeout(() => {
+          woof.classList.add('show');
+          sparks.forEach((s, i) => {
+            s.classList.remove('pop');
+            void s.offsetWidth;
+            setTimeout(() => s.classList.add('pop'), i * 120);
+          });
+          confetti.forEach((c, i) => {
+            c.classList.remove('fall');
+            void c.offsetWidth;
+            setTimeout(() => c.classList.add('fall'), i * 80);
+          });
+          msg.textContent = '🐾 WOOF WOOF! Tap to reset!';
+          step = 4;
+          busy = false;
+        }, 500);
+      }, 400);
+    }, 1400);
+  }
+
+  function resetAll() {
+    step = 0; busy = false;
+    bricks.forEach(b => {
+      b.style.left = b.style.top = b.style.right = '';
+      b.style.animation = b.style.transform = '';
+      b.style.transition = b.style.opacity = '';
+    });
+    doghouse.classList.remove('show');
+    dogEl.classList.remove('show');
+    door.classList.remove('open', 'shake');
+    woof.classList.remove('show');
+    insideWoof.classList.remove('show');
+    sparks.forEach(s => s.classList.remove('pop'));
+    confetti.forEach(c => c.classList.remove('fall'));
+    msg.textContent = 'Tap to build!';
+  }
+</script>
+
+</body>
+</html>

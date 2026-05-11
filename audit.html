@@ -365,6 +365,7 @@
   gtag('js', new Date());
   gtag('config', 'G-ETMDGCEPXJ');
 </script>
+<script src="tracking.js"></script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -706,9 +707,20 @@ form.addEventListener('submit', async (e) => {
 
     loadingState.classList.remove('active');
     document.getElementById('formCard').style.display = 'none';
+    window.CKTracking?.trackEvent('contact_submit_success', {
+      form_name: 'free_presence_audit',
+      cta_location: 'audit_form',
+      service_interest: 'free_presence_audit'
+    });
     renderResults(data.audit, url);
 
   } catch (err) {
+    window.CKTracking?.trackEvent('contact_submit_error', {
+      form_name: 'free_presence_audit',
+      cta_location: 'audit_form',
+      service_interest: 'free_presence_audit',
+      error_reason: err.message || 'audit_submit_failed'
+    });
     clearInterval(stepTimer);
     loadingState.classList.remove('active');
     document.getElementById('formCard').style.display = '';
@@ -732,9 +744,20 @@ async function runAudit(url, email, subscribe, btnEl, formEl) {
     });
     const data = await res.json();
     if (!res.ok || !data.audit) throw new Error(data.error || 'Something went wrong.');
+    window.CKTracking?.trackEvent('contact_submit_success', {
+      form_name: 'free_presence_audit_rerun',
+      cta_location: 'audit_results',
+      service_interest: 'free_presence_audit'
+    });
     renderResults(data.audit, url);
     window.scrollTo({ top: document.getElementById('resultsPanel').offsetTop - 20, behavior: 'smooth' });
   } catch(err) {
+    window.CKTracking?.trackEvent('contact_submit_error', {
+      form_name: 'free_presence_audit_rerun',
+      cta_location: 'audit_results',
+      service_interest: 'free_presence_audit',
+      error_reason: err.message || 'audit_submit_failed'
+    });
     alert(err.message || 'Something went wrong. Please try again.');
   } finally {
     btnEl.disabled = false;

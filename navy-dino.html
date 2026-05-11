@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navy's Dinosaur!</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #87CEEB 0%, #98FB98 80%, #228B22 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 4rem);
+    color: #2E8B57;
+    text-shadow: 2px 2px 0 #fff, -1px -1px 0 #fff;
+    margin-bottom: 1rem;
+    animation: bounce 2s ease infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .scene {
+    position: relative;
+    width: 300px;
+    height: 350px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  /* The egg */
+  .egg {
+    position: relative;
+    width: 160px;
+    height: 200px;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  .egg:hover { transform: scale(1.05); }
+
+  .egg-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 160px;
+    height: 120px;
+    background: #FFF8DC;
+    border-radius: 0 0 80px 80px;
+    border: 4px solid #DEB887;
+    z-index: 10;
+    overflow: hidden;
+  }
+
+  .egg-bottom::before, .egg-bottom::after {
+    content: '';
+    position: absolute;
+    background: #FAEBD7;
+    border-radius: 50%;
+  }
+
+  .egg-bottom::before {
+    width: 40px; height: 30px;
+    top: 20px; left: 20px;
+    transform: rotate(-20deg);
+  }
+
+  .egg-bottom::after {
+    width: 35px; height: 25px;
+    top: 40px; right: 25px;
+    transform: rotate(15deg);
+  }
+
+  .egg-top {
+    position: absolute;
+    bottom: 90px;
+    left: 0;
+    width: 160px;
+    height: 120px;
+    background: #FFF8DC;
+    border-radius: 80px 80px 0 0;
+    border: 4px solid #DEB887;
+    border-bottom: none;
+    z-index: 20;
+    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-origin: bottom right;
+  }
+
+  .egg-top::before {
+    content: '';
+    position: absolute;
+    width: 35px; height: 25px;
+    top: 30px; left: 30px;
+    background: #FAEBD7;
+    border-radius: 50%;
+    transform: rotate(-10deg);
+  }
+
+  /* Crack lines */
+  .crack {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .crack svg { width: 160px; height: 30px; }
+
+  /* Dino hidden behind egg */
+  .dino {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.5s, transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .dino-body {
+    position: relative;
+    width: 120px;
+    height: 160px;
+  }
+
+  /* Dino head */
+  .dino-head {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 60px;
+    background: #4CAF50;
+    border-radius: 35px 35px 20px 20px;
+    border: 3px solid #388E3C;
+  }
+
+  .dino-eye {
+    position: absolute;
+    width: 18px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    top: 15px;
+    border: 2px solid #333;
+  }
+
+  .dino-eye::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #333;
+    border-radius: 50%;
+    top: 5px;
+    left: 5px;
+    animation: look 3s ease infinite;
+  }
+
+  .dino-eye.left { left: 10px; }
+  .dino-eye.right { right: 10px; }
+
+  @keyframes look {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(3px); }
+    75% { transform: translateX(-3px); }
+  }
+
+  .dino-mouth {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 12px;
+    border-bottom: 3px solid #333;
+    border-radius: 0 0 15px 15px;
+  }
+
+  /* Dino body */
+  .dino-belly {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 90px;
+    background: #4CAF50;
+    border-radius: 40px 40px 30px 30px;
+    border: 3px solid #388E3C;
+  }
+
+  .dino-belly::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 60px;
+    background: #A5D6A7;
+    border-radius: 25px;
+  }
+
+  /* Arms */
+  .dino-arm {
+    position: absolute;
+    top: 65px;
+    width: 25px;
+    height: 40px;
+    background: #4CAF50;
+    border: 3px solid #388E3C;
+    border-radius: 12px;
+  }
+
+  .dino-arm.left {
+    left: 5px;
+    transform: rotate(20deg);
+    animation: wave 1.5s ease infinite;
+  }
+
+  .dino-arm.right {
+    right: 5px;
+    transform: rotate(-20deg);
+    animation: wave 1.5s ease infinite 0.3s;
+  }
+
+  @keyframes wave {
+    0%, 100% { transform: rotate(20deg); }
+    50% { transform: rotate(40deg); }
+  }
+
+  /* Spikes on back */
+  .spikes {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2px;
+  }
+
+  .spike {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 14px solid #388E3C;
+  }
+
+  /* Stars / sparkles */
+  .sparkle {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* States */
+  .scene.shake .egg { animation: shake 0.3s ease; }
+
+  @keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+  }
+
+  .scene.cracked .crack { opacity: 1; }
+
+  .scene.hatched .egg-top {
+    transform: rotate(-60deg) translateY(-40px);
+    opacity: 0;
+  }
+
+  .scene.hatched .dino {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-60px);
+  }
+
+  .scene.hatched .sparkle {
+    animation: sparkleAnim 1.5s ease forwards;
+  }
+
+  @keyframes sparkleAnim {
+    0% { opacity: 0; transform: scale(0) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+    100% { opacity: 0; transform: scale(0) rotate(360deg) translateY(-60px); }
+  }
+
+  .message {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 4vw, 1.8rem);
+    color: #2E8B57;
+    text-align: center;
+    min-height: 2em;
+    text-shadow: 1px 1px 0 #fff;
+  }
+
+  /* Confetti */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .scene.hatched .confetti {
+    animation: fall 3s ease forwards;
+  }
+
+  @keyframes fall {
+    0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+  }
+
+  /* Ground */
+  .ground {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background: #228B22;
+    border-radius: 100% 100% 0 0;
+  }
+
+  .grass {
+    position: fixed;
+    bottom: 40px;
+    font-size: 2rem;
+    color: #32CD32;
+    letter-spacing: 0.5rem;
+  }
+
+  /* Clouds */
+  .cloud {
+    position: fixed;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.8;
+    animation: drift linear infinite;
+  }
+
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+  }
+
+  .cloud.c1 {
+    width: 100px; height: 40px;
+    top: 8%; left: -120px;
+    animation-duration: 25s;
+  }
+  .cloud.c1::before { width: 50px; height: 50px; top: -25px; left: 15px; }
+  .cloud.c1::after { width: 40px; height: 40px; top: -15px; right: 15px; }
+
+  .cloud.c2 {
+    width: 80px; height: 30px;
+    top: 15%; left: -100px;
+    animation-duration: 35s;
+    animation-delay: 10s;
+  }
+  .cloud.c2::before { width: 40px; height: 40px; top: -20px; left: 10px; }
+  .cloud.c2::after { width: 30px; height: 30px; top: -10px; right: 10px; }
+
+  @keyframes drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(100vw + 200px)); }
+  }
+</style>
+</head>
+<body>
+
+<h1>Navy's Dinosaur!</h1>
+
+<div class="scene" id="scene" onclick="hatchStep()">
+  <!-- Clouds -->
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+
+  <!-- Dino (behind egg) -->
+  <div class="dino">
+    <div class="dino-body">
+      <div class="spikes">
+        <div class="spike"></div>
+        <div class="spike"></div>
+        <div class="spike"></div>
+        <div class="spike"></div>
+        <div class="spike"></div>
+      </div>
+      <div class="dino-head">
+        <div class="dino-eye left"></div>
+        <div class="dino-eye right"></div>
+        <div class="dino-mouth"></div>
+      </div>
+      <div class="dino-belly"></div>
+      <div class="dino-arm left"></div>
+      <div class="dino-arm right"></div>
+    </div>
+  </div>
+
+  <!-- Egg -->
+  <div class="egg">
+    <div class="egg-top"></div>
+    <div class="crack">
+      <svg viewBox="0 0 160 30">
+        <polyline points="0,15 30,10 50,20 70,5 90,18 110,8 130,22 160,15"
+          fill="none" stroke="#8B7355" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="egg-bottom"></div>
+  </div>
+
+  <!-- Sparkles -->
+  <div class="sparkle" style="top:20%;left:20%;animation-delay:0s">&#11088;</div>
+  <div class="sparkle" style="top:10%;right:20%;animation-delay:0.3s">&#10024;</div>
+  <div class="sparkle" style="top:30%;left:10%;animation-delay:0.6s">&#11088;</div>
+  <div class="sparkle" style="top:15%;right:10%;animation-delay:0.9s">&#10024;</div>
+
+  <!-- Confetti -->
+  <div class="confetti" style="left:10%;background:#FF6B6B;animation-delay:0s"></div>
+  <div class="confetti" style="left:20%;background:#4ECDC4;animation-delay:0.2s"></div>
+  <div class="confetti" style="left:30%;background:#FFE66D;animation-delay:0.4s"></div>
+  <div class="confetti" style="left:40%;background:#A78BFA;animation-delay:0.1s"></div>
+  <div class="confetti" style="left:50%;background:#FF6B6B;animation-delay:0.5s"></div>
+  <div class="confetti" style="left:60%;background:#4ECDC4;animation-delay:0.3s"></div>
+  <div class="confetti" style="left:70%;background:#FFE66D;animation-delay:0.6s"></div>
+  <div class="confetti" style="left:80%;background:#A78BFA;animation-delay:0.2s"></div>
+  <div class="confetti" style="left:90%;background:#FF6B6B;animation-delay:0.4s"></div>
+</div>
+
+<div class="message" id="message">Tap the egg!</div>
+
+<div class="ground"></div>
+
+<script>
+  let step = 0;
+  const scene = document.getElementById('scene');
+  const message = document.getElementById('message');
+
+  function hatchStep() {
+    step++;
+
+    if (step === 1) {
+      scene.classList.add('shake');
+      message.textContent = 'Something is moving inside...';
+      setTimeout(() => scene.classList.remove('shake'), 300);
+    } else if (step === 2) {
+      scene.classList.add('shake');
+      scene.classList.add('cracked');
+      message.textContent = 'It\'s cracking! Tap again!';
+      setTimeout(() => scene.classList.remove('shake'), 300);
+    } else if (step === 3) {
+      scene.classList.add('hatched');
+      message.innerHTML = 'RAWR! Hi Navy! &#129430;';
+    } else {
+      // Reset
+      step = 0;
+      scene.classList.remove('shake', 'cracked', 'hatched');
+      message.textContent = 'Tap the egg!';
+    }
+  }
+</script>
+
+</body>
+</html>
