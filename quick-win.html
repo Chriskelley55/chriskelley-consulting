@@ -324,6 +324,68 @@
 <script src="tracking.js"></script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
+  <!-- Structured data -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Quick Win",
+      "serviceType": "Quick Win",
+      "description": "Get your first AI automation live in 7 days. Houston consultant builds one high-impact workflow that saves hours every week — guaranteed result.",
+      "url": "https://chriskelley.io/quick-win.html",
+      "provider": {
+        "@type": "ProfessionalService",
+        "name": "Chris Kelley Consulting",
+        "telephone": "+1-832-807-3093",
+        "url": "https://chriskelley.io",
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Houston"
+          },
+          {
+            "@type": "State",
+            "name": "Texas"
+          },
+          {
+            "@type": "Country",
+            "name": "United States"
+          }
+        ]
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Houston"
+        },
+        {
+          "@type": "Country",
+          "name": "United States"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chriskelley.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Quick Win",
+          "item": "https://chriskelley.io/quick-win.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

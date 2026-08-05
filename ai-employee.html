@@ -331,6 +331,68 @@
 <script src="tracking.js"></script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
+  <!-- Structured data -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Your First AI Employee",
+      "serviceType": "Your First AI Employee",
+      "description": "A custom AI agent trained on your business. Handles customer questions, qualifies leads, and works 24/7. Houston AI consultant builds it in days, not months.",
+      "url": "https://chriskelley.io/ai-employee.html",
+      "provider": {
+        "@type": "ProfessionalService",
+        "name": "Chris Kelley Consulting",
+        "telephone": "+1-832-807-3093",
+        "url": "https://chriskelley.io",
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Houston"
+          },
+          {
+            "@type": "State",
+            "name": "Texas"
+          },
+          {
+            "@type": "Country",
+            "name": "United States"
+          }
+        ]
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Houston"
+        },
+        {
+          "@type": "Country",
+          "name": "United States"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chriskelley.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Your First AI Employee",
+          "item": "https://chriskelley.io/ai-employee.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

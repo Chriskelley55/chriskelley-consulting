@@ -207,6 +207,52 @@
 <script src="tracking.js"></script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
+  <!-- Structured data -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "name": "Chris Kelley",
+      "jobTitle": "AI Automation Consultant",
+      "url": "https://chriskelley.io",
+      "telephone": "+1-832-807-3093",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Chris Kelley Consulting",
+        "url": "https://chriskelley.io"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Houston",
+        "addressRegion": "TX",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/chriskelley55/"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chriskelley.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "About Chris Kelley",
+          "item": "https://chriskelley.io/about.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

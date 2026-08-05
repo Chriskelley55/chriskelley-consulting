@@ -337,6 +337,46 @@
 <script src="tracking.js"></script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
+  <!-- Structured data -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Case Study: AI Discharge Summary Tool",
+      "description": "How a custom AI tool built on Gemini 2.5 Flash turned a 45-minute manual chart review into a 30-second automated discharge summary — built for real clinical use.",
+      "url": "https://chriskelley.io/pdf-analyzer-case-study.html",
+      "author": {
+        "@type": "Person",
+        "name": "Chris Kelley"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Chris Kelley Consulting",
+        "url": "https://chriskelley.io"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chriskelley.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Case Study: AI Discharge Summary Tool",
+          "item": "https://chriskelley.io/pdf-analyzer-case-study.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 

@@ -804,6 +804,68 @@
 <script src="tracking.js"></script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
+  <!-- Structured data -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "AI for Real Estate Agents",
+      "serviceType": "AI for Real Estate Agents",
+      "description": "AI automation for real estate agents and brokerages. Automated lead follow-up, listing content, client updates, and CRM workflows. Houston-based consultant.",
+      "url": "https://chriskelley.io/realestate.html",
+      "provider": {
+        "@type": "ProfessionalService",
+        "name": "Chris Kelley Consulting",
+        "telephone": "+1-832-807-3093",
+        "url": "https://chriskelley.io",
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Houston"
+          },
+          {
+            "@type": "State",
+            "name": "Texas"
+          },
+          {
+            "@type": "Country",
+            "name": "United States"
+          }
+        ]
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Houston"
+        },
+        {
+          "@type": "Country",
+          "name": "United States"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chriskelley.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "AI for Real Estate Agents",
+          "item": "https://chriskelley.io/realestate.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 
