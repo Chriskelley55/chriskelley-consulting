@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Broken Fences — The Last Delivery Driver, Episode One</title>
+<meta name="description" content="The Last Delivery Driver: Broken Fences — Episode One of the sci-fi series by KC Kenedy. A dying breed in a newly formed country.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="book">
+<meta property="og:title" content="Broken Fences — The Last Delivery Driver, Episode One">
+<meta property="og:description" content="A dying breed in a newly formed country. Sci-fi by KC Kenedy.">
+<meta property="og:image" content="https://chriskelley.io/images/ldd-broken-fences-cover.jpg">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --void:#08050F; --panel:#150E2A; --line:rgba(180,150,255,.16);
+    --text:#EDE7F8; --muted:#9C90C4;
+    --peach:#F6AC80; --magenta:#FF5FB0; --cyan:#4FE3F5; --violet:#8B5CF6;
+    --display:'Chakra Petch','Helvetica Neue',Arial,sans-serif;
+    --body:'DM Sans',system-ui,sans-serif;
+  }
+  body{
+    font-family:var(--body);background:var(--void);color:var(--text);
+    line-height:1.7;font-weight:300;-webkit-font-smoothing:antialiased;min-height:100vh;
+    background-image:
+      radial-gradient(ellipse 70% 45% at 78% 4%, rgba(255,95,176,.20), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 12% 22%, rgba(79,227,245,.11), transparent 70%);
+    background-attachment:fixed;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1000px;margin:0 auto;padding:3.5rem 1.5rem 4rem}
+  .eyebrow{font-family:var(--display);font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);font-weight:600}
+
+  .hero{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:3.2rem;align-items:center;margin-bottom:3.5rem}
+  .cover{width:100%;border-radius:5px;display:block;
+    box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 30px 80px -24px rgba(255,95,176,.45), 0 20px 50px -30px #000}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(2.7rem,6.6vw,4.2rem);line-height:.96;
+    letter-spacing:.01em;color:var(--peach);margin:.85rem 0 .35rem;text-transform:uppercase}
+  .byline{font-size:.98rem;color:var(--muted);margin-bottom:1.3rem;letter-spacing:.02em}
+  .tagline{font-family:var(--display);font-size:1.18rem;font-weight:500;color:var(--magenta);
+    line-height:1.35;margin-bottom:1.15rem;letter-spacing:.01em}
+  .blurb{color:var(--text);opacity:.86;font-size:1rem;max-width:46ch;margin-bottom:1.7rem}
+  .meta{display:flex;gap:1.5rem;flex-wrap:wrap;font-family:var(--display);font-size:.8rem;
+    color:var(--muted);margin-bottom:2rem;letter-spacing:.04em}
+  .meta b{color:var(--cyan);font-weight:600}
+
+  .cta-row{display:flex;gap:.85rem;flex-wrap:wrap;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 1.7rem;border-radius:40px;
+    font-family:var(--display);font-size:.84rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    transition:transform .22s ease, box-shadow .22s ease, background .22s ease;border:1px solid transparent}
+  .btn-buy{background:linear-gradient(95deg,var(--cyan),var(--magenta) 55%,var(--peach));color:#14061C;
+    box-shadow:0 10px 34px -12px rgba(255,95,176,.8)}
+  .btn-buy:hover{transform:translateY(-2px);box-shadow:0 16px 42px -12px rgba(255,95,176,.95)}
+  .btn-dl{background:transparent;color:var(--text);border-color:rgba(180,150,255,.35)}
+  .btn-dl:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+  .hint{font-size:.8rem;color:var(--muted);margin-top:.9rem}
+
+  section{border-top:1px solid var(--line);padding-top:2.5rem;margin-bottom:2.5rem}
+  section .eyebrow{display:block;margin-bottom:1.1rem}
+  .excerpt p{font-size:1.14rem;line-height:1.8;color:#DCD3F0;max-width:62ch}
+  .excerpt p + p{margin-top:1rem}
+
+  .ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.5rem 1.6rem;
+    font-size:.9rem;color:var(--muted)}
+  .ch-grid span{padding:.18rem 0}
+  .ch-grid b{color:var(--cyan);font-family:var(--display);font-weight:600;font-size:.82rem;margin-right:.45rem}
+
+  footer{border-top:1px solid var(--line);padding-top:1.7rem;font-size:.85rem;color:var(--muted);
+    display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  footer a{color:var(--cyan)}
+  footer a:hover{text-decoration:underline}
+
+  @media(max-width:760px){
+    .hero{grid-template-columns:1fr;gap:2.2rem}
+    .cover{max-width:250px;margin:0 auto}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .btn{transition:none}
+    .btn:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <img class="cover" src="/images/ldd-broken-fences-cover.jpg" alt="The Last Delivery Driver: Broken Fences — cover art: a sheriff's truck on a neon desert highway beneath a gradient moon">
+    <div>
+      <span class="eyebrow">The Last Delivery Driver &middot; Episode One</span>
+      <h1>Broken<br>Fences</h1>
+      <div class="byline">by KC Kenedy</div>
+      <p class="tagline">A dying breed in a newly formed country.</p>
+      <p class="blurb">Post-civil war, the United States has fractured into four nations. Adrian Kuldell &mdash; a NAVO, a non-automated vehicle operator &mdash; runs his family's delivery fleet out of Houston, Texas with the help of his AI, Chip. Business is declining. The fleet is aging. And somewhere beneath it all, a bigger question: what actually happened to his parents?</p>
+      <div class="meta">
+        <span><b>14</b> chapters</span>
+        <span><b>20</b> years</span>
+        <span><b>~66,000</b> words</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-buy" href="https://www.amazon.com/Last-Delivery-Driver-Broken-Fences/dp/B09YYJ9C5W" target="_blank" rel="noopener">Get it on Amazon</a>
+        <a class="btn btn-dl" href="/books/last-delivery-driver-broken-fences.epub" download>Download EPUB</a>
+      </div>
+      <p class="hint">Available on Kindle, paperback, and hardcover. The EPUB opens in Apple Books, Kobo, or any e-reader.</p>
+    </div>
+  </div>
+
+  <section class="excerpt">
+    <span class="eyebrow">How it opens</span>
+    <p>Jay and Rusty traveled up a traversing highway in a mountainous valley. Tall pines and aspens lined the road like columns &mdash; leaving a window of stars above them in the night's sky.</p>
+    <p>Inside the dimly lit cabin of their autonomously driven truck, subtle neon mood lights slowly cycled through violet, indigo, blue and green. An animated route traced the road's bends on the heads-up display while indicating the vehicle's speed in miles per hour on the windshield.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">Contents</span>
+    <div class="ch-grid">
+      <span><b>01</b>A Mercenary Mission</span>
+      <span><b>02</b>One Steppe at a Time</span>
+      <span><b>03</b>Sugartown</span>
+      <span><b>04</b>Godspeed</span>
+      <span><b>05</b>The Penny Bar</span>
+      <span><b>06</b>A Fleet-ing Age</span>
+      <span><b>07</b>El Tej&oacute;n</span>
+      <span><b>08</b>Wingmate</span>
+      <span><b>09</b>Broken Glass</span>
+      <span><b>10</b>Visions</span>
+      <span><b>11</b>The Earls of Marsh</span>
+      <span><b>12</b>Twin Matriculations, Part I</span>
+      <span><b>13</b>Twin Matriculations, Part II</span>
+      <span><b>14</b>The Commute</span>
+    </div>
+  </section>
+
+  <footer>
+    <span>&copy; KC Kenedy. All rights reserved.</span>
+    <span><a href="https://lastdeliverydriver.com" target="_blank" rel="noopener">lastdeliverydriver.com</a> &nbsp;&middot;&nbsp; <a href="https://chriskelley.io">chriskelley.io</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
