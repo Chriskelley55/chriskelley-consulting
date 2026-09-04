@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/local-presence.html",
+      "destination": "/google-business-profile-help.html",
+      "permanent": true
+    },
+    {
+      "source": "/how-we-build.html",
+      "destination": "/systems-buildout.html",
+      "permanent": true
+    }
+  ]
+}
