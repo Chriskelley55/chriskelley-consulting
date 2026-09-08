@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-<title>AI for Coaches — Stop Doing Onboarding by Hand</title>
-<meta name="description" content="DM auto-responders, client onboarding, content scheduling, and brand-trained AI. Get your admin hours back. Built by one Houston consultant.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<title>Why Your Website Isn't Getting Leads, Even If It Looks Fine</title>
+<meta name="description" content="Most service business sites don't fail because they're ugly. They fail because they never answer the five questions a buyer has before calling.">
 <meta name="author" content="Chris Kelley">
-<link rel="canonical" href="https://chriskelley.io/coaches.html">
+<link rel="canonical" href="https://chriskelley.io/blog/why-your-website-isnt-getting-leads.html">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://chriskelley.io/coaches.html">
-<meta property="og:title" content="AI for Coaches — Stop Doing Onboarding by Hand">
-<meta property="og:description" content="DM auto-responders, client onboarding, content scheduling, and brand-trained AI. Get your admin hours back. Built by one Houston consultant.">
+<meta property="og:url" content="https://chriskelley.io/blog/why-your-website-isnt-getting-leads.html">
+<meta property="og:title" content="Why Your Website Isn't Getting Leads, Even If It Looks Fine">
+<meta property="og:description" content="Most service business sites don't fail because they're ugly. They fail because they never answer the five questions a buyer has before calling.">
 <meta property="og:site_name" content="Chris Kelley Consulting">
-  <meta property="og:image" content="https://chriskelley.io/og-image.png">
+  <meta property="og:image" content="https://chriskelley.io/images/blog/website-not-getting-leads.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AI for Coaches — Stop Doing Onboarding by Hand">
-<meta name="twitter:image" content="https://chriskelley.io/og-image.png">
-  <meta name="twitter:description" content="DM auto-responders, client onboarding, content scheduling, and brand-trained AI. Get your admin hours back. Built by one Houston consultant.">
+<meta name="twitter:title" content="Why Your Website Isn't Getting Leads, Even If It Looks Fine">
+<meta name="twitter:image" content="https://chriskelley.io/images/blog/website-not-getting-leads.jpg">
+  <meta name="twitter:description" content="Most service business sites don't fail because they're ugly. They fail because they never answer the five questions a buyer has before calling.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
@@ -28,65 +28,80 @@
   :root {
     --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
     --green: #28B485; --green-dark: #1e9068;
-    --rose: #E11D48; --rose-light: rgba(225,29,72,0.1);
     --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
     --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
   }
-  html { scroll-behavior: smooth; }
   body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
   nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
   .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
   .nav-logo span { color: var(--green); }
-  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; font-family: var(--font-sans); }
   .btn-primary { background: var(--green); color: #fff; }
   .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
   .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
   .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+
+  .hero {
+    padding: 7rem 2rem 5rem;
+    background: var(--blue-deeper);
+    color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '⚡';
+    position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+    font-size: 18rem; opacity: 0.04; line-height: 1;
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .price-badge {
+    display: inline-flex; align-items: baseline; gap: 0.5rem;
+    background: rgba(40,180,133,0.15); border: 1px solid rgba(40,180,133,0.3);
+    border-radius: 8px; padding: 0.5rem 1.1rem;
+    margin-bottom: 2rem;
+  }
+  .price-badge strong { font-family: var(--font-serif); font-size: 1.6rem; color: var(--green); }
+  .price-badge span { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.12; margin-bottom: 1.5rem; }
+  .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 580px; margin-bottom: 2.5rem; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
   .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
   .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
 
-  .hero { padding: 7rem 2rem 5rem; background: #1a0a2e; color: #fff; position: relative; overflow: hidden; }
-  .hero::before { content: '🎙️'; position: absolute; right: 4%; top: 50%; transform: translateY(-50%); font-size: 18rem; opacity: 0.05; line-height: 1; pointer-events: none; }
-  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
-  .hero-badge { display: inline-block; background: var(--rose-light); border: 1px solid rgba(225,29,72,0.3); border-radius: 8px; padding: 0.4rem 1rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #FDA4AF; margin-bottom: 1.75rem; }
-  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: 1.12; margin-bottom: 1.25rem; }
-  .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 580px; margin-bottom: 2.5rem; }
-  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .what-section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .what-section h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--blue-dark); margin-bottom: 1rem; }
+  .what-section .lead { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 3rem; max-width: 620px; }
 
-  .questions { padding: 5rem 2rem; background: var(--off-white); }
-  .questions-inner { max-width: 860px; margin: 0 auto; }
-  .section-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.75rem; display: block; }
-  .questions h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--blue-dark); margin-bottom: 1rem; }
-  .questions .lead { font-size: 1.05rem; color: var(--text-muted); max-width: 620px; line-height: 1.7; margin-bottom: 3rem; }
-  .q-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
-  .q-card { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 1.5rem; }
-  .q-card .q-icon { font-size: 1.75rem; margin-bottom: 0.75rem; display: block; }
-  .q-card p { font-size: 1rem; color: var(--text); line-height: 1.6; font-style: italic; }
+  .example-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+  .example-card { background: var(--off-white); border: 1.5px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+  .example-card .tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.75rem; }
+  .example-card h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; }
+  .example-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
 
-  /* TWO COLUMN SECTIONS */
-  .two-col { padding: 5rem 2rem; }
-  .two-col.alt { background: var(--off-white); }
-  .two-col-inner { max-width: 860px; margin: 0 auto; }
-  .two-col h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--blue-dark); margin-bottom: 0.75rem; }
-  .two-col .lead { font-size: 1.05rem; color: var(--text-muted); max-width: 620px; line-height: 1.7; margin-bottom: 3rem; }
+  .how-bar { background: var(--off-white); padding: 4rem 2rem; }
+  .how-bar-inner { max-width: 900px; margin: 0 auto; }
+  .how-bar h2 { font-family: var(--font-serif); font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--blue-dark); margin-bottom: 2.5rem; }
+  .timeline { display: flex; gap: 0; }
+  .tl-item { flex: 1; position: relative; padding-right: 2rem; }
+  .tl-item::after { content: '→'; position: absolute; right: 0.25rem; top: 0; color: var(--border); font-size: 1.2rem; }
+  .tl-item:last-child::after { display: none; }
+  .tl-day { font-family: var(--font-serif); font-size: 1.8rem; color: var(--green); line-height: 1; margin-bottom: 0.4rem; }
+  .tl-label { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+  .tl-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
 
-  .change-list { display: flex; flex-direction: column; gap: 1.25rem; }
-  .change-item { border: 1.5px solid var(--border); border-radius: 12px; padding: 1.75rem; display: grid; grid-template-columns: 48px 1fr; gap: 1.25rem; align-items: start; transition: border-color 0.2s, box-shadow 0.2s; background: #fff; }
-  .change-item:hover { border-color: var(--blue); box-shadow: 0 4px 18px rgba(14,107,168,0.08); }
-  .change-icon { font-size: 1.75rem; text-align: center; padding-top: 0.15rem; }
-  .change-item h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
-  .change-item p { font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 0.6rem; }
-  .tools-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; color: var(--blue); background: rgba(14,107,168,0.08); border-radius: 5px; padding: 0.2rem 0.6rem; }
-
-  .stat-bar { background: #1a0a2e; color: #fff; padding: 3.5rem 2rem; text-align: center; }
-  .stat-bar .stat-num { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4rem); color: var(--green); display: block; line-height: 1; margin-bottom: 0.5rem; }
-  .stat-bar p { font-size: 1rem; color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto; line-height: 1.6; }
-
-  .cta-bar { background: var(--blue-deeper); color: #fff; padding: 5rem 2rem; text-align: center; }
+  .cta-bar { background: var(--blue-dark); color: #fff; padding: 4rem 2rem; text-align: center; }
   .cta-bar h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1rem; }
-  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
-  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
-  @media (max-width: 600px) { .q-grid { grid-template-columns: 1fr; } }
+  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; }
+  footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+
+  @media (max-width: 640px) { .timeline { flex-direction: column; gap: 1.5rem; } .tl-item::after { display: none; } }
+
+  
+  
+  
+  
+  
+
 
     /* FOOTER */
     footer {
@@ -94,8 +109,6 @@
       color: rgba(255,255,255,0.55);
       font-size: 0.85rem;
     }
-    .footer-brand { text-align: left; }
-    footer, .footer-inner, .footer-brand, .footer-contact { text-align: left; }
     .footer-inner {
       max-width: 1100px;
       margin: 0 auto;
@@ -105,6 +118,8 @@
       gap: 2rem;
       align-items: start;
     }
+    .footer-brand { text-align: left; }
+    footer, .footer-inner, .footer-brand, .footer-contact { text-align: left; }
     .footer-brand .footer-logo {
       font-weight: 600;
       font-size: 1rem;
@@ -316,10 +331,10 @@
   "@graph": [
     {
       "@type": "Service",
-      "name": "AI for Coaches & Content Creators",
-      "serviceType": "AI for Coaches & Content Creators",
-      "description": "DM auto-responders, client onboarding, content scheduling, and brand-trained AI. Get your admin hours back. Built by one Houston consultant.",
-      "url": "https://chriskelley.io/coaches.html",
+      "name": "Quick Win",
+      "serviceType": "Quick Win",
+      "description": "One high-impact workflow, built and running in a week, for $500 flat. No retainer, no agency. Houston consultant — call 832-807-3093.",
+      "url": "https://chriskelley.io/quick-win.html",
       "provider": {
         "@type": "ProfessionalService",
         "name": "Chris Kelley Consulting",
@@ -363,14 +378,118 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "AI for Coaches & Content Creators",
-          "item": "https://chriskelley.io/coaches.html"
+          "name": "Quick Win",
+          "item": "https://chriskelley.io/quick-win.html"
         }
       ]
     }
   ]
 }
   </script>
+
+<style>
+  .bl-hero{background:var(--blue-deeper);color:#fff;padding:4rem 1.5rem 3.5rem;text-align:center}
+  .bl-hero .label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-weight:700}
+  .bl-hero h1{font-family:var(--font-serif);font-size:clamp(2.1rem,4.6vw,3rem);line-height:1.12;margin:1rem auto .8rem;max-width:20ch}
+  .bl-hero p{color:rgba(255,255,255,.72);max-width:52ch;margin:0 auto;line-height:1.7}
+  .bl-wrap{max-width:1000px;margin:0 auto;padding:3.5rem 1.5rem 4.5rem}
+  .bl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.6rem}
+  .bl-card{display:flex;flex-direction:column;background:#fff;border:1.5px solid var(--border);border-radius:14px;
+           overflow:hidden;text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s}
+  .bl-card:hover{transform:translateY(-3px);border-color:var(--green);box-shadow:0 16px 36px -18px rgba(14,107,168,.4)}
+  .bl-thumb{aspect-ratio:16/9;width:100%;height:auto;object-fit:cover;display:block;background:var(--off-white)}
+  .bl-thumb-t{aspect-ratio:16/9;display:flex;align-items:center;padding:1.4rem;
+              background:linear-gradient(135deg,var(--blue-dark),var(--blue-deeper));color:#fff}
+  .bl-thumb-t span{font-family:var(--font-serif);font-size:1.15rem;line-height:1.3}
+  .bl-body{padding:1.3rem 1.4rem 1.5rem;display:flex;flex-direction:column;flex:1}
+  .bl-meta{font-size:.76rem;color:var(--text-muted);letter-spacing:.03em;margin-bottom:.55rem}
+  .bl-card h2{font-size:1.06rem;color:var(--blue-dark);line-height:1.35;margin-bottom:.5rem}
+  .bl-card p{color:var(--text-muted);font-size:.9rem;line-height:1.6;flex:1}
+  .bl-more{color:var(--green-dark);font-weight:700;font-size:.86rem;margin-top:.9rem}
+
+  .po-head{background:var(--blue-deeper);color:#fff;padding:3.5rem 1.5rem 3rem}
+  .po-head .in{max-width:760px;margin:0 auto}
+  .po-crumb{font-size:.8rem;color:rgba(255,255,255,.55);margin-bottom:1.1rem}
+  .po-crumb a{color:var(--green);text-decoration:none}
+  .po-crumb a:hover{text-decoration:underline}
+  .po-head h1{font-family:var(--font-serif);font-size:clamp(1.9rem,4.2vw,2.8rem);line-height:1.16;margin-bottom:.9rem}
+  .po-meta{font-size:.85rem;color:rgba(255,255,255,.6)}
+  .po-cover{max-width:900px;margin:-2rem auto 0;padding:0 1.5rem}
+  .po-cover img{width:100%;height:auto;max-height:560px;object-fit:cover;object-position:top;border-radius:14px;display:block;box-shadow:0 22px 50px -22px rgba(0,0,0,.5)}
+  .po-art{max-width:720px;margin:0 auto;padding:3rem 1.5rem 1rem;font-size:1.06rem;line-height:1.8;color:var(--text)}
+  .po-art p{margin-bottom:1.3rem}
+  .po-art h2{font-family:var(--font-serif);font-size:clamp(1.4rem,2.6vw,1.75rem);color:var(--blue-dark);
+             margin:2.6rem 0 1rem;line-height:1.28}
+  .po-art h3{font-size:1.12rem;color:var(--blue-dark);margin:2rem 0 .7rem}
+  .po-art ul{margin:0 0 1.4rem 1.2rem}
+  .po-art li{margin-bottom:.55rem}
+  .po-art li p{margin:0}
+  .po-art a{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
+  .po-art strong{color:var(--blue-dark)}
+  .po-art hr{border:0;border-top:1px solid var(--border);margin:2.2rem 0}
+  .po-cta{max-width:720px;margin:2.5rem auto 0;padding:2rem 1.8rem;background:var(--off-white);
+          border-left:3px solid var(--green);border-radius:0 12px 12px 0}
+  .po-cta h3{font-family:var(--font-serif);font-size:1.3rem;color:var(--blue-dark);margin-bottom:.6rem}
+  .po-cta p{color:var(--text-muted);line-height:1.7;margin-bottom:1.2rem}
+  .po-cta .btns{display:flex;gap:.7rem;flex-wrap:wrap}
+  .po-next{max-width:1000px;margin:4rem auto 0;padding:0 1.5rem 4rem}
+  .po-next h3{font-family:var(--font-serif);font-size:1.4rem;color:var(--blue-dark);margin-bottom:1.4rem}
+  @media(max-width:600px){.po-art{font-size:1rem}}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Why Your Website Isn't Getting Leads, Even If It Looks Fine",
+      "description": "Most service business sites don't fail because they're ugly. They fail because they never answer the five questions a buyer has before calling.",
+      "url": "https://chriskelley.io/blog/why-your-website-isnt-getting-leads.html",
+      "datePublished": "2026-05-11",
+      "dateModified": "2026-05-11",
+      "wordCount": 1376,
+      "author": {
+        "@type": "Person",
+        "name": "Chris Kelley",
+        "url": "https://chriskelley.io/about.html"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Chris Kelley Consulting",
+        "url": "https://chriskelley.io"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://chriskelley.io/blog/why-your-website-isnt-getting-leads.html"
+      },
+      "image": "https://chriskelley.io/images/blog/website-not-getting-leads.jpg"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chriskelley.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://chriskelley.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Why Your Website Isn't Getting Leads, Even If It Looks Fine",
+          "item": "https://chriskelley.io/blog/why-your-website-isnt-getting-leads.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -423,137 +542,204 @@
   <a href="tel:+18328073093" class="btn btn-primary mobile-cta">&#128222; 832-807-3093</a>
 </div>
 
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-badge">Coaches &amp; Content Creators</div>
-    <h1>You became a creator to create. Not to manage a small business's worth of admin.</h1>
-    <p>DMs, onboarding, content scheduling, brand deals, client check-ins — the operational layer is real work. AI handles it so you can stay in your zone.</p>
-    <div class="hero-ctas">
-      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
-      <a href="#for-coaches" class="btn" style="color:rgba(255,255,255,0.8); border:1.5px solid rgba(255,255,255,0.25);">See what changes</a>
-    </div>
+<article>
+<div class="po-head">
+  <div class="in">
+    <div class="po-crumb"><a href="/">Home</a> &rsaquo; <a href="/blog/">Blog</a></div>
+    <h1>Why Your Website Isn&#x27;t Getting Leads, Even If It Looks Fine</h1>
+    <div class="po-meta">May 11, 2026 &middot; 7 min read &middot; by Chris Kelley</div>
   </div>
-</section>
+</div>
+<div class="po-cover"><img src="/images/blog/website-not-getting-leads.jpg" alt="" width="1200" height="675"></div>
+<div class="po-art">
+<p>Many small business owners think their website problems are design issues.</p>
+<p>They look at the homepage and think, “It looks professional enough. The logo is there. The services are listed. The phone number is somewhere. What else does it need to do?”</p>
+<p>But most service business websites do not fail because they are ugly.</p>
+<p>They fail because they do not answer the questions a real customer has before they reach out.</p>
+<p>That is the part people miss.</p>
+<p>A website is not just there to prove you exist. It is there to help someone quickly decide whether you are the right business to call.</p>
+<p>And if that decision feels unclear, they leave.</p>
+<p>They may not <em>dislike</em> your business. They may not even notice what was missing. They just bounce back to Google and click the next option.</p>
+<h2>A Good-Looking Website Can Still Be a Dead End</h2>
+<p>I see this all the time with contractors, clinics, local service businesses, coaches, and professional service firms.</p>
+<p>The site looks fine at first glance. Maybe it even looks trendy.</p>
+<p>But once you look at it like a customer, the gaps show up fast.</p>
+<p>A visitor wants to know:</p>
+<ul>
+<li><p>Do you handle the problem I have?</p>
+</li>
+<li><p>Do you work in my area?</p>
+</li>
+<li><p>Have you done this before?</p>
+</li>
+<li><p>Can I trust you?</p>
+</li>
+<li><p>What happens after I reach out?</p>
+</li>
+<li><p>Is this business still active?</p>
+</li>
+<li><p>Will someone actually respond?</p>
+</li>
+</ul>
+<p>If your site does not answer those questions fast, it is not really doing its job.</p>
+<p>It is more like a digital business card sitting in the corner.</p>
+<p>That might have worked years back. It does not work well now.</p>
+<p>People compare you before they contact you. They check your website, your Google profile, your reviews, your photos, your service pages, and sometimes your social presence. By the time they call, they have already formed an opinion.</p>
+<p>The website’s job is to make that opinion easier.</p>
+<h2>The Five Biggest Lead Blockers</h2>
+<p>When I audit a small business website, I usually find the same problems.</p>
+<p>Not always all five. But usually at least two or three.</p>
+<h3>1. Vague Service Pages</h3>
+<p>This is the most common one.</p>
+<p>The website says things like:</p>
+<p>“We offer quality solutions for your home or business.”</p>
+<p>That sounds nice. It also says almost nothing.</p>
+<p>A customer is not searching for “quality solutions.” They are searching for a water softener installer, a metal roofing company, a microdermabrasion med spa consultation, outsourced bookkeeping help, ductless mini-split system HVAC repair, or someone who can fix the very specific thing in front of them.</p>
+<p>Your service pages should make it obvious what you do, and not be afraid to be specific.</p>
+<p>Not in clever language. In clear language.</p>
+<p>If you install water filtration systems in Sugar Land, say that. If you automate intake and follow-up for service businesses, say that. If you help contractors stop losing leads after the first call, say that.</p>
+<p>Clarity beats polish.</p>
+<p>Every time.</p>
+<h3>2. Weak Local Signals</h3>
+<p>For local businesses, this one matters a lot.</p>
+<p>Google and customers both want to understand where you operate.</p>
+<p>If your site never clearly mentions your city, service area, nearby communities, or local context, you are making Google guess. You are also making customers wonder if you serve them.</p>
+<p>That does not mean stuffing “Houston TX” into every sentence like it is 2008.</p>
+<p>It means being naturally specific.</p>
+<p>Examples:</p>
+<ul>
+<li><p>“Serving Sugar Land, Richmond, and the greater Houston area”</p>
+</li>
+<li><p>“Water softener maintenance for homes in Fort Bend County”</p>
+</li>
+<li><p>“Automation systems for North Houston contractors and service businesses”</p>
+</li>
+</ul>
+<p>Those details help the right people recognize themselves.</p>
+<p>And recognition is what gets clicks.</p>
+<h3>3. No Trust Proof</h3>
+<p>Most small business websites do not need more adjectives.</p>
+<p>They need more proof.</p>
+<p>“Reliable.” “Experienced.” “Professional.” “Customer-focused.”</p>
+<p>Those words are fine, but everyone uses them.</p>
+<p>Proof is stronger.</p>
+<p>Show the work. Show the reviews. Show before and afters. Show project photos. Show the owner. Show the process. Show what happens after someone contacts you.</p>
+<p>People do not need you to sound impressive. They need to feel safe taking the next step.</p>
+<p>That is especially true for service businesses, where the customer may be inviting you into their home, trusting you with their health, handing over business operations, or spending real money before they fully understand the work.</p>
+<p>Trust proof lowers the emotional risk.</p>
+<h3>4. Buried Contact Info</h3>
+<p>This one is simple, but it costs businesses money.</p>
+<p>If someone has to hunt for your phone number, form, booking link, or email, the site is leaking leads.</p>
+<p>Your contact path should be obvious on every major page.</p>
+<p>Not aggressive. Just easy.</p>
+<p>A good test: open your website on your phone and pretend you are a busy customer between meetings. Can you figure out how to contact the business in under five seconds?</p>
+<p>If not, fix that before spending another dollar on ads.</p>
+<p>For many businesses, the best conversion improvement is not a redesign. It is making the next step impossible to miss.</p>
+<h3>5. No Follow-Up System</h3>
+<p>This is the one that quietly hurts the most.</p>
+<p>Even if the website gets the lead, what happens next?</p>
+<p>Does the form go to an inbox no one checks?</p>
+<p>Does the customer get a confirmation?</p>
+<p>Does the business owner remember to follow up?</p>
+<p>Does the lead get added to a CRM?</p>
+<p>Does anyone know where that lead came from?</p>
+<p>A website without follow-up is only half a system.</p>
+<p>The form submission is not the finish line. It is the beginning of the sales process.</p>
+<p>If someone reaches out and hears nothing for six hours, or a day, or longer, the lead goes cold. They may call someone else. They may forget. They may decide the business is not responsive.</p>
+<p>Speed matters.</p>
+<p>So does consistency.</p>
+<p>This is where simple automation can make a huge difference. A form can trigger an email, a text, a CRM entry, a reminder, a follow-up sequence, or a quote workflow. None of that has to be complicated.</p>
+<p>It just has to happen.</p>
+<h2>Your Google Profile Matters Too</h2>
+<p>Your website is not working alone.</p>
+<p>For local and service businesses, your Google Business Profile may be just as important.</p>
+<p>Sometimes more important.</p>
+<p>A potential customer might see your Google profile before they ever land on your website. They are looking at your reviews, photos, hours, services, location, and whether the business looks active.</p>
+<p>If your website says one thing and your Google profile says another, that creates friction.</p>
+<p>If your reviews are old, photos are missing, services are incomplete, or your description is vague, that affects trust.</p>
+<p>The best online presence is connected.</p>
+<p>Your website, Google profile, reviews, service pages, and contact process should all tell the same story:</p>
+<p>Here is who we help.<br />Here is what we do.<br />Here is where we work.<br />Here is why people trust us.<br />Here is what to do next.</p>
+<p>That sounds basic.</p>
+<p>Most businesses still do not have it dialed in.</p>
+<h2>What I Look at First in a Website Audit</h2>
+<p>When I audit a small business website, I am not just asking, “Does this look nice?”</p>
+<p>I am asking:</p>
+<ul>
+<li><p>Can Google understand what this business does?</p>
+</li>
+<li><p>Can a customer understand it in five seconds?</p>
+</li>
+<li><p>Is the next step obvious?</p>
+</li>
+<li><p>Are there trust signals?</p>
+</li>
+<li><p>Is the business clearly local or clearly niche?</p>
+</li>
+<li><p>Does the site connect to Google, reviews, forms, tracking, and follow-up?</p>
+</li>
+<li><p>Is there a system behind the page?</p>
+</li>
+</ul>
+<p>Because that is what actually creates leads.</p>
+<p>The goal is not to have a prettier website.</p>
+<p>The goal is to stop losing people who were already interested.</p>
+<h2>Before You Spend More on Ads</h2>
+<p>Ads can work.</p>
+<p>But sending paid traffic to a weak website is like pouring water into a bucket with holes in it.</p>
+<p>You might get some results, but you are paying extra for every leak.</p>
+<p>Before you spend more money trying to get attention, make sure the place you are sending people can actually convert that attention into action.</p>
+<p>That means clear services, local relevance, trust proof, easy contact, and follow-up.</p>
+<p>Not someday.</p>
+<p>Now.</p>
+<p>Because people are already looking. The question is whether your online presence gives them enough confidence to choose you.</p>
+<p>Want to see where your website, Google profile, reviews, and online presence are leaking leads?</p>
+<p>Run the free presence score here:</p>
+<p><a href="/audit.html"><strong>Check My Presence</strong></a></p>
+</div>
+</article>
 
-<section class="questions">
-  <div class="questions-inner">
-    <span class="section-tag">The opportunity</span>
-    <h2>Questions worth asking</h2>
-    <p class="lead">Every hour spent on admin is an hour not spent on the work that actually grows your business.</p>
-    <div class="q-grid">
-      <div class="q-card"><span class="q-icon">💬</span><p>"What if every DM or inquiry got an instant reply — in your voice?"</p></div>
-      <div class="q-card"><span class="q-icon">🚀</span><p>"What if new client onboarding ran itself the moment someone paid?"</p></div>
-      <div class="q-card"><span class="q-icon">🎨</span><p>"What if your content always sounded like you — even when AI helped write it?"</p></div>
-      <div class="q-card"><span class="q-icon">🤝</span><p>"What if your influencer partnerships ran on autopilot — briefs, tracking, payouts?"</p></div>
-    </div>
+<div class="po-cta">
+  <h3>Want this handled instead?</h3>
+  <p>I build websites, fix Google listings, and automate the busywork for Houston small businesses and contractors. One person, everything connected, usually running inside a week.</p>
+  <div class="btns">
+    <a href="/audit.html" class="btn btn-primary">Free presence check</a>
+    <a href="tel:+18328073093" class="btn btn-outline">&#128222; 832-807-3093</a>
   </div>
-</section>
+</div>
 
-<!-- FOR COACHES -->
-<section class="two-col" id="for-coaches">
-  <div class="two-col-inner">
-    <span class="section-tag">For Coaches</span>
-    <h2>Client ops on autopilot</h2>
-    <p class="lead">Less time managing the business of coaching. More time doing it.</p>
-    <div class="change-list">
-      <div class="change-item">
-        <div class="change-icon">💬</div>
-        <div>
-          <h3>DM auto-responder that sounds like you</h3>
-          <p>Warm leads get an instant reply that captures their info and starts the conversation — in your voice, not a generic bot. No lead goes cold because you were busy.</p>
-          <span class="tools-tag">Tools: ManyChat · Claude custom brand skill</span>
+<div class="po-next">
+  <h3>More from the blog</h3>
+  <div class="bl-grid">
+      <a class="bl-card" href="/blog/google-business-profile-locked-out.html">
+        <div class="bl-thumb-t"><span>Locked Out of Your Own Google Business Profile? Here&#x27;s How to Get It Back</span></div>
+        <div class="bl-body">
+          <div class="bl-meta">September 8, 2026 &middot; 5 min read</div>
+          <h2>Locked Out of Your Own Google Business Profile? Here&#x27;s How to Get It Back</h2>
+          <p>Somebody else has the keys to your Google listing. The real process for getting them back — plus the step most people skip that works fastest.</p>
+          <div class="bl-more">Read it &rarr;</div>
         </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">🚀</div>
-        <div>
-          <h3>Automated client onboarding</h3>
-          <p>Welcome sequence, intake form, session prep guide, resource delivery — all triggered the moment someone pays. Every client gets a great first experience, every time.</p>
-          <span class="tools-tag">Tools: Kajabi · Dubsado · ConvertKit · Zapier</span>
+      </a>
+      <a class="bl-card" href="/blog/5-things-before-you-spend-on-ads.html">
+        <img class="bl-thumb" src="/images/blog/5-things-before-ads.jpg" alt="" loading="lazy" width="1200" height="675">
+        <div class="bl-body">
+          <div class="bl-meta">May 5, 2026 &middot; 4 min read</div>
+          <h2>5 Things Every Service Business Should Have Online Before Spending a Dime on Ads</h2>
+          <p>Five things that need to work on your site before you spend a dollar on ads. Skip them and you&#x27;re paying to pour traffic into a leaky bucket.</p>
+          <div class="bl-more">Read it &rarr;</div>
         </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">📲</div>
-        <div>
-          <h3>Between-session check-ins on autopilot</h3>
-          <p>Accountability texts, reflection prompts, progress reminders — sent automatically between sessions so clients stay engaged and get better results.</p>
-          <span class="tools-tag">Tools: GoHighLevel · ActiveCampaign · custom sequence</span>
+      </a>
+      <a class="bl-card" href="/blog/imperial-water-online-presence-in-one-week.html">
+        <img class="bl-thumb" src="/images/blog/imperial-water-one-week.jpg" alt="" loading="lazy" width="1200" height="675">
+        <div class="bl-body">
+          <div class="bl-meta">April 28, 2026 &middot; 2 min read</div>
+          <h2>How I Built Imperial Water&#x27;s Entire Online Presence in One Week</h2>
+          <p>A Sugar Land water treatment company went from no website to a full online presence in seven days. Here&#x27;s the exact build order I used.</p>
+          <div class="bl-more">Read it &rarr;</div>
         </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">🎙️</div>
-        <div>
-          <h3>Brand-aligned AI skill for all comms</h3>
-          <p>A custom Claude skill trained on your voice means every email, post, and message that goes out sounds like you — not a template, not a generic AI. Your expertise, at scale.</p>
-          <span class="tools-tag">Tools: Claude custom skill · your email platform</span>
-        </div>
-      </div>
-    </div>
+      </a>
   </div>
-</section>
-
-<!-- FOR CREATORS -->
-<section class="two-col alt" id="for-creators">
-  <div class="two-col-inner">
-    <span class="section-tag">For Content Creators</span>
-    <h2>Content and creator partnerships, systematized</h2>
-    <p class="lead">More output, more partnerships, less time managing the logistics.</p>
-    <div class="change-list">
-      <div class="change-item">
-        <div class="change-icon">📝</div>
-        <div>
-          <h3>Campaign brief generation</h3>
-          <p>Briefs generated automatically from your brand guidelines and campaign talking points. Send more briefs, maintain more consistency, spend less time writing them.</p>
-          <span class="tools-tag">Tools: Claude brand skill · Notion · Airtable</span>
-        </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">📨</div>
-        <div>
-          <h3>Influencer outreach and follow-up sequences</h3>
-          <p>Find, reach out, follow up, track responses — without doing each step manually. Your outreach pipeline runs while you create.</p>
-          <span class="tools-tag">Tools: n8n · Make · your outreach tool</span>
-        </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">📅</div>
-        <div>
-          <h3>Content calendar and posting automation</h3>
-          <p>Content approved → automatically scheduled across platforms. No more manual posting, no more "I forgot to post today."</p>
-          <span class="tools-tag">Tools: Buffer · Later · Publer · Zapier</span>
-        </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">💸</div>
-        <div>
-          <h3>Creator payout tracking and automation</h3>
-          <p>Milestone hit → payment triggered → confirmation sent. No spreadsheet, no manual Venmo, no "hey did I pay you yet?" moments.</p>
-          <span class="tools-tag">Tools: n8n · Stripe · Wise · Airtable</span>
-        </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">🎨</div>
-        <div>
-          <h3>Brand-consistent content at scale</h3>
-          <p>A custom AI skill trained on your brand guidelines — so every caption, email, and brief is unmistakably yours, no matter who or what produces it.</p>
-          <span class="tools-tag">Tools: Claude custom brand skill · your content workflow</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="stat-bar">
-  <span class="stat-num">3×</span>
-  <p>Creators running automated influencer workflows manage 3× more partnerships with the same team. Coaches using automated onboarding report 60% less admin time in the first 30 days with a new client.</p>
-</section>
-
-<section class="cta-bar">
-  <h2>Ready to get back to the work you actually love?</h2>
-  <p>We start with a quick audit and map exactly where AI can take the admin off your plate.</p>
-  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
-</section>
-
+</div>
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -586,6 +772,7 @@
   </div>
   <div class="footer-bottom">&copy; 2026 Chris Kelley Consulting &middot; Houston, TX &middot; <a href="mailto:chris@chriskelley.io" style="color:inherit;">chris@chriskelley.io</a></div>
 </footer>
+
 <script>
 // ── HAMBURGER ────────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');

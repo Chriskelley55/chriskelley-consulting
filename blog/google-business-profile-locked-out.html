@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-<title>AI for Coaches — Stop Doing Onboarding by Hand</title>
-<meta name="description" content="DM auto-responders, client onboarding, content scheduling, and brand-trained AI. Get your admin hours back. Built by one Houston consultant.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<title>Locked Out of Your Google Business Profile? Get It Back</title>
+<meta name="description" content="Somebody else has the keys to your Google listing. The real process for getting them back — plus the step most people skip that works fastest.">
 <meta name="author" content="Chris Kelley">
-<link rel="canonical" href="https://chriskelley.io/coaches.html">
+<link rel="canonical" href="https://chriskelley.io/blog/google-business-profile-locked-out.html">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://chriskelley.io/coaches.html">
-<meta property="og:title" content="AI for Coaches — Stop Doing Onboarding by Hand">
-<meta property="og:description" content="DM auto-responders, client onboarding, content scheduling, and brand-trained AI. Get your admin hours back. Built by one Houston consultant.">
+<meta property="og:url" content="https://chriskelley.io/blog/google-business-profile-locked-out.html">
+<meta property="og:title" content="Locked Out of Your Google Business Profile? Get It Back">
+<meta property="og:description" content="Somebody else has the keys to your Google listing. The real process for getting them back — plus the step most people skip that works fastest.">
 <meta property="og:site_name" content="Chris Kelley Consulting">
   <meta property="og:image" content="https://chriskelley.io/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AI for Coaches — Stop Doing Onboarding by Hand">
+<meta name="twitter:title" content="Locked Out of Your Google Business Profile? Get It Back">
 <meta name="twitter:image" content="https://chriskelley.io/og-image.png">
-  <meta name="twitter:description" content="DM auto-responders, client onboarding, content scheduling, and brand-trained AI. Get your admin hours back. Built by one Houston consultant.">
+  <meta name="twitter:description" content="Somebody else has the keys to your Google listing. The real process for getting them back — plus the step most people skip that works fastest.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
@@ -28,65 +28,80 @@
   :root {
     --blue: #0E6BA8; --blue-dark: #1A3C5E; --blue-deeper: #0d2c47;
     --green: #28B485; --green-dark: #1e9068;
-    --rose: #E11D48; --rose-light: rgba(225,29,72,0.1);
     --off-white: #F7F8FA; --text: #1a1a2e; --text-muted: #5a6070; --border: #e4e8ef;
     --font-sans: 'DM Sans', sans-serif; --font-serif: 'DM Serif Display', serif;
   }
-  html { scroll-behavior: smooth; }
   body { font-family: var(--font-sans); color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
   nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
   .nav-logo { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
   .nav-logo span { color: var(--green); }
-  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1.4rem; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; font-family: var(--font-sans); }
   .btn-primary { background: var(--green); color: #fff; }
   .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
   .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
   .btn-outline:hover { border-color: var(--text); background: var(--off-white); }
+
+  .hero {
+    padding: 7rem 2rem 5rem;
+    background: var(--blue-deeper);
+    color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '⚡';
+    position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+    font-size: 18rem; opacity: 0.04; line-height: 1;
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+  .price-badge {
+    display: inline-flex; align-items: baseline; gap: 0.5rem;
+    background: rgba(40,180,133,0.15); border: 1px solid rgba(40,180,133,0.3);
+    border-radius: 8px; padding: 0.5rem 1.1rem;
+    margin-bottom: 2rem;
+  }
+  .price-badge strong { font-family: var(--font-serif); font-size: 1.6rem; color: var(--green); }
+  .price-badge span { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.12; margin-bottom: 1.5rem; }
+  .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 580px; margin-bottom: 2.5rem; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
   .btn-white { background: #fff; color: var(--blue-dark); font-weight: 700; }
   .btn-white:hover { background: var(--off-white); transform: translateY(-1px); }
 
-  .hero { padding: 7rem 2rem 5rem; background: #1a0a2e; color: #fff; position: relative; overflow: hidden; }
-  .hero::before { content: '🎙️'; position: absolute; right: 4%; top: 50%; transform: translateY(-50%); font-size: 18rem; opacity: 0.05; line-height: 1; pointer-events: none; }
-  .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
-  .hero-badge { display: inline-block; background: var(--rose-light); border: 1px solid rgba(225,29,72,0.3); border-radius: 8px; padding: 0.4rem 1rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #FDA4AF; margin-bottom: 1.75rem; }
-  .hero h1 { font-family: var(--font-serif); font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: 1.12; margin-bottom: 1.25rem; }
-  .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.72); line-height: 1.7; max-width: 580px; margin-bottom: 2.5rem; }
-  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .what-section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .what-section h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--blue-dark); margin-bottom: 1rem; }
+  .what-section .lead { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 3rem; max-width: 620px; }
 
-  .questions { padding: 5rem 2rem; background: var(--off-white); }
-  .questions-inner { max-width: 860px; margin: 0 auto; }
-  .section-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.75rem; display: block; }
-  .questions h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--blue-dark); margin-bottom: 1rem; }
-  .questions .lead { font-size: 1.05rem; color: var(--text-muted); max-width: 620px; line-height: 1.7; margin-bottom: 3rem; }
-  .q-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
-  .q-card { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; padding: 1.5rem; }
-  .q-card .q-icon { font-size: 1.75rem; margin-bottom: 0.75rem; display: block; }
-  .q-card p { font-size: 1rem; color: var(--text); line-height: 1.6; font-style: italic; }
+  .example-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+  .example-card { background: var(--off-white); border: 1.5px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+  .example-card .tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.75rem; }
+  .example-card h4 { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; }
+  .example-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
 
-  /* TWO COLUMN SECTIONS */
-  .two-col { padding: 5rem 2rem; }
-  .two-col.alt { background: var(--off-white); }
-  .two-col-inner { max-width: 860px; margin: 0 auto; }
-  .two-col h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--blue-dark); margin-bottom: 0.75rem; }
-  .two-col .lead { font-size: 1.05rem; color: var(--text-muted); max-width: 620px; line-height: 1.7; margin-bottom: 3rem; }
+  .how-bar { background: var(--off-white); padding: 4rem 2rem; }
+  .how-bar-inner { max-width: 900px; margin: 0 auto; }
+  .how-bar h2 { font-family: var(--font-serif); font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--blue-dark); margin-bottom: 2.5rem; }
+  .timeline { display: flex; gap: 0; }
+  .tl-item { flex: 1; position: relative; padding-right: 2rem; }
+  .tl-item::after { content: '→'; position: absolute; right: 0.25rem; top: 0; color: var(--border); font-size: 1.2rem; }
+  .tl-item:last-child::after { display: none; }
+  .tl-day { font-family: var(--font-serif); font-size: 1.8rem; color: var(--green); line-height: 1; margin-bottom: 0.4rem; }
+  .tl-label { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+  .tl-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
 
-  .change-list { display: flex; flex-direction: column; gap: 1.25rem; }
-  .change-item { border: 1.5px solid var(--border); border-radius: 12px; padding: 1.75rem; display: grid; grid-template-columns: 48px 1fr; gap: 1.25rem; align-items: start; transition: border-color 0.2s, box-shadow 0.2s; background: #fff; }
-  .change-item:hover { border-color: var(--blue); box-shadow: 0 4px 18px rgba(14,107,168,0.08); }
-  .change-icon { font-size: 1.75rem; text-align: center; padding-top: 0.15rem; }
-  .change-item h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
-  .change-item p { font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 0.6rem; }
-  .tools-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; color: var(--blue); background: rgba(14,107,168,0.08); border-radius: 5px; padding: 0.2rem 0.6rem; }
-
-  .stat-bar { background: #1a0a2e; color: #fff; padding: 3.5rem 2rem; text-align: center; }
-  .stat-bar .stat-num { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4rem); color: var(--green); display: block; line-height: 1; margin-bottom: 0.5rem; }
-  .stat-bar p { font-size: 1rem; color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto; line-height: 1.6; }
-
-  .cta-bar { background: var(--blue-deeper); color: #fff; padding: 5rem 2rem; text-align: center; }
+  .cta-bar { background: var(--blue-dark); color: #fff; padding: 4rem 2rem; text-align: center; }
   .cta-bar h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 1rem; }
-  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
-  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
-  @media (max-width: 600px) { .q-grid { grid-template-columns: 1fr; } }
+  .cta-bar p { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; }
+  footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+
+  @media (max-width: 640px) { .timeline { flex-direction: column; gap: 1.5rem; } .tl-item::after { display: none; } }
+
+  
+  
+  
+  
+  
+
 
     /* FOOTER */
     footer {
@@ -94,8 +109,6 @@
       color: rgba(255,255,255,0.55);
       font-size: 0.85rem;
     }
-    .footer-brand { text-align: left; }
-    footer, .footer-inner, .footer-brand, .footer-contact { text-align: left; }
     .footer-inner {
       max-width: 1100px;
       margin: 0 auto;
@@ -105,6 +118,8 @@
       gap: 2rem;
       align-items: start;
     }
+    .footer-brand { text-align: left; }
+    footer, .footer-inner, .footer-brand, .footer-contact { text-align: left; }
     .footer-brand .footer-logo {
       font-weight: 600;
       font-size: 1rem;
@@ -316,10 +331,10 @@
   "@graph": [
     {
       "@type": "Service",
-      "name": "AI for Coaches & Content Creators",
-      "serviceType": "AI for Coaches & Content Creators",
-      "description": "DM auto-responders, client onboarding, content scheduling, and brand-trained AI. Get your admin hours back. Built by one Houston consultant.",
-      "url": "https://chriskelley.io/coaches.html",
+      "name": "Quick Win",
+      "serviceType": "Quick Win",
+      "description": "One high-impact workflow, built and running in a week, for $500 flat. No retainer, no agency. Houston consultant — call 832-807-3093.",
+      "url": "https://chriskelley.io/quick-win.html",
       "provider": {
         "@type": "ProfessionalService",
         "name": "Chris Kelley Consulting",
@@ -363,14 +378,117 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "AI for Coaches & Content Creators",
-          "item": "https://chriskelley.io/coaches.html"
+          "name": "Quick Win",
+          "item": "https://chriskelley.io/quick-win.html"
         }
       ]
     }
   ]
 }
   </script>
+
+<style>
+  .bl-hero{background:var(--blue-deeper);color:#fff;padding:4rem 1.5rem 3.5rem;text-align:center}
+  .bl-hero .label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);font-weight:700}
+  .bl-hero h1{font-family:var(--font-serif);font-size:clamp(2.1rem,4.6vw,3rem);line-height:1.12;margin:1rem auto .8rem;max-width:20ch}
+  .bl-hero p{color:rgba(255,255,255,.72);max-width:52ch;margin:0 auto;line-height:1.7}
+  .bl-wrap{max-width:1000px;margin:0 auto;padding:3.5rem 1.5rem 4.5rem}
+  .bl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.6rem}
+  .bl-card{display:flex;flex-direction:column;background:#fff;border:1.5px solid var(--border);border-radius:14px;
+           overflow:hidden;text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s}
+  .bl-card:hover{transform:translateY(-3px);border-color:var(--green);box-shadow:0 16px 36px -18px rgba(14,107,168,.4)}
+  .bl-thumb{aspect-ratio:16/9;width:100%;height:auto;object-fit:cover;display:block;background:var(--off-white)}
+  .bl-thumb-t{aspect-ratio:16/9;display:flex;align-items:center;padding:1.4rem;
+              background:linear-gradient(135deg,var(--blue-dark),var(--blue-deeper));color:#fff}
+  .bl-thumb-t span{font-family:var(--font-serif);font-size:1.15rem;line-height:1.3}
+  .bl-body{padding:1.3rem 1.4rem 1.5rem;display:flex;flex-direction:column;flex:1}
+  .bl-meta{font-size:.76rem;color:var(--text-muted);letter-spacing:.03em;margin-bottom:.55rem}
+  .bl-card h2{font-size:1.06rem;color:var(--blue-dark);line-height:1.35;margin-bottom:.5rem}
+  .bl-card p{color:var(--text-muted);font-size:.9rem;line-height:1.6;flex:1}
+  .bl-more{color:var(--green-dark);font-weight:700;font-size:.86rem;margin-top:.9rem}
+
+  .po-head{background:var(--blue-deeper);color:#fff;padding:3.5rem 1.5rem 3rem}
+  .po-head .in{max-width:760px;margin:0 auto}
+  .po-crumb{font-size:.8rem;color:rgba(255,255,255,.55);margin-bottom:1.1rem}
+  .po-crumb a{color:var(--green);text-decoration:none}
+  .po-crumb a:hover{text-decoration:underline}
+  .po-head h1{font-family:var(--font-serif);font-size:clamp(1.9rem,4.2vw,2.8rem);line-height:1.16;margin-bottom:.9rem}
+  .po-meta{font-size:.85rem;color:rgba(255,255,255,.6)}
+  .po-cover{max-width:900px;margin:-2rem auto 0;padding:0 1.5rem}
+  .po-cover img{width:100%;height:auto;max-height:560px;object-fit:cover;object-position:top;border-radius:14px;display:block;box-shadow:0 22px 50px -22px rgba(0,0,0,.5)}
+  .po-art{max-width:720px;margin:0 auto;padding:3rem 1.5rem 1rem;font-size:1.06rem;line-height:1.8;color:var(--text)}
+  .po-art p{margin-bottom:1.3rem}
+  .po-art h2{font-family:var(--font-serif);font-size:clamp(1.4rem,2.6vw,1.75rem);color:var(--blue-dark);
+             margin:2.6rem 0 1rem;line-height:1.28}
+  .po-art h3{font-size:1.12rem;color:var(--blue-dark);margin:2rem 0 .7rem}
+  .po-art ul{margin:0 0 1.4rem 1.2rem}
+  .po-art li{margin-bottom:.55rem}
+  .po-art li p{margin:0}
+  .po-art a{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
+  .po-art strong{color:var(--blue-dark)}
+  .po-art hr{border:0;border-top:1px solid var(--border);margin:2.2rem 0}
+  .po-cta{max-width:720px;margin:2.5rem auto 0;padding:2rem 1.8rem;background:var(--off-white);
+          border-left:3px solid var(--green);border-radius:0 12px 12px 0}
+  .po-cta h3{font-family:var(--font-serif);font-size:1.3rem;color:var(--blue-dark);margin-bottom:.6rem}
+  .po-cta p{color:var(--text-muted);line-height:1.7;margin-bottom:1.2rem}
+  .po-cta .btns{display:flex;gap:.7rem;flex-wrap:wrap}
+  .po-next{max-width:1000px;margin:4rem auto 0;padding:0 1.5rem 4rem}
+  .po-next h3{font-family:var(--font-serif);font-size:1.4rem;color:var(--blue-dark);margin-bottom:1.4rem}
+  @media(max-width:600px){.po-art{font-size:1rem}}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Locked Out of Your Own Google Business Profile? Here's How to Get It Back",
+      "description": "Somebody else has the keys to your Google listing. The real process for getting them back — plus the step most people skip that works fastest.",
+      "url": "https://chriskelley.io/blog/google-business-profile-locked-out.html",
+      "datePublished": "2026-09-08",
+      "dateModified": "2026-09-08",
+      "wordCount": 1114,
+      "author": {
+        "@type": "Person",
+        "name": "Chris Kelley",
+        "url": "https://chriskelley.io/about.html"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Chris Kelley Consulting",
+        "url": "https://chriskelley.io"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://chriskelley.io/blog/google-business-profile-locked-out.html"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chriskelley.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://chriskelley.io/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Locked Out of Your Own Google Business Profile? Here's How to Get It Back",
+          "item": "https://chriskelley.io/blog/google-business-profile-locked-out.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -423,137 +541,128 @@
   <a href="tel:+18328073093" class="btn btn-primary mobile-cta">&#128222; 832-807-3093</a>
 </div>
 
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-badge">Coaches &amp; Content Creators</div>
-    <h1>You became a creator to create. Not to manage a small business's worth of admin.</h1>
-    <p>DMs, onboarding, content scheduling, brand deals, client check-ins — the operational layer is real work. AI handles it so you can stay in your zone.</p>
-    <div class="hero-ctas">
-      <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
-      <a href="#for-coaches" class="btn" style="color:rgba(255,255,255,0.8); border:1.5px solid rgba(255,255,255,0.25);">See what changes</a>
-    </div>
+<article>
+<div class="po-head">
+  <div class="in">
+    <div class="po-crumb"><a href="/">Home</a> &rsaquo; <a href="/blog/">Blog</a></div>
+    <h1>Locked Out of Your Own Google Business Profile? Here&#x27;s How to Get It Back</h1>
+    <div class="po-meta">September 8, 2026 &middot; 5 min read &middot; by Chris Kelley</div>
   </div>
-</section>
+</div>
 
-<section class="questions">
-  <div class="questions-inner">
-    <span class="section-tag">The opportunity</span>
-    <h2>Questions worth asking</h2>
-    <p class="lead">Every hour spent on admin is an hour not spent on the work that actually grows your business.</p>
-    <div class="q-grid">
-      <div class="q-card"><span class="q-icon">💬</span><p>"What if every DM or inquiry got an instant reply — in your voice?"</p></div>
-      <div class="q-card"><span class="q-icon">🚀</span><p>"What if new client onboarding ran itself the moment someone paid?"</p></div>
-      <div class="q-card"><span class="q-icon">🎨</span><p>"What if your content always sounded like you — even when AI helped write it?"</p></div>
-      <div class="q-card"><span class="q-icon">🤝</span><p>"What if your influencer partnerships ran on autopilot — briefs, tracking, payouts?"</p></div>
-    </div>
+<div class="po-art">
+<p>It is not a tech problem. It is a keys problem.</p>
+<p>Somebody has the keys to your business on Google, and it is not you.</p>
+<p>I get this call a couple times a month, and it almost always starts the same way. Someone tries to update their hours, or fix a phone number that has been wrong since March, or add photos from a job they are actually proud of &mdash; and Google tells them they do not have permission. On their own business.</p>
+<h2>How this happens to normal people</h2>
+<p>Nobody loses their Google listing on purpose. It is almost always one of these four:</p>
+<ul>
+<li><p><strong>The marketing company you fired.</strong> They set it up in 2021 as part of a package, they still hold it, and nobody thought to ask about it on the way out.</p></li>
+<li><p><strong>The employee who left.</strong> He created it on his personal Gmail because he was the one holding the phone that afternoon. He has since moved to Denver.</p></li>
+<li><p><strong>The guy who built your website.</strong> Claiming the listing was step nine of his onboarding checklist. You never saw the login.</p></li>
+<li><p><strong>Your own old email.</strong> The one from two phones ago that you cannot get into anymore. This one stings the most, because technically you <em>do</em> own it.</p></li>
+</ul>
+<p>None of these are your fault. All of them are your problem.</p>
+<h2>Why this is urgent and not just annoying</h2>
+<p>When somebody looks for a plumber, a roofer, or a water treatment guy, they open Maps, look at the three businesses Google shows them, glance at the star ratings, and call one. That is the whole decision. It takes about eight seconds and your website barely factors into it.</p>
+<p>Now think about running that gauntlet with a listing you cannot touch.</p>
+<p>Your hours are wrong and you cannot fix them. Somebody left a bad review and you cannot respond to it. A customer sent a message through the profile three weeks ago and you have never seen it. Google added a "temporarily closed" label because nobody has logged in and confirmed otherwise.</p>
+<p>Every one of those is a job walking out the door, and none of them show up anywhere you would think to look.</p>
+<h2>Step 1: Find out who actually has it</h2>
+<p>Search your business name on Google and click your listing. Look for <strong>"Own this business?"</strong> or <strong>"Claim this business."</strong></p>
+<p>When you start the claim, Google will tell you it is already managed by somebody &mdash; and it will show you a masked version of that person's email. Something like <strong>j&bull;&bull;&bull;&bull;@gmail.com</strong>.</p>
+<p>That masking looks useless. It is not. Nine times out of ten it is enough to tell you exactly who you are dealing with. Four dots after a <em>j</em>, and you parted ways with a guy named Jason two years ago? There is your answer.</p>
+<p>Write it down. You need it for step three.</p>
+<h2>Step 2: Request access through Google</h2>
+<p>Google walks you through a short form. Fill it out and it emails whoever currently holds the listing. They get <strong>seven days</strong> to respond.</p>
+<p>Three things can happen:</p>
+<ul>
+<li><p><strong>They approve it.</strong> Best case. Sometimes same day.</p></li>
+<li><p><strong>They deny it.</strong> Annoying, but not the end. You can appeal, and you will need documentation that ties you to the business.</p></li>
+<li><p><strong>They ignore it.</strong> This is by far the most common outcome, and it is actually fine.</p></li>
+</ul>
+<h2>Step 3: Skip the form and call the person</h2>
+<p>This is the step everybody skips, and it is the one that works fastest.</p>
+<p>That masked email told you who it is. So call them. Text them. Most of the time this is not malice &mdash; it is a guy who forgot the listing existed, and he will approve it in about four seconds once he understands what you are asking for. Google's automated email went to an inbox he stopped checking in 2023.</p>
+<p>I have resolved more of these with a phone call than with the form.</p>
+<h2>Step 4: When the seven days run out</h2>
+<p>If nobody responds, Google may let you claim the listing directly. You will get prompted to verify that you actually run the business, and these days that usually means <strong>video verification</strong> &mdash; you record yourself walking up to your sign, your truck, your equipment, proving the operation is real and you are the one running it.</p>
+<p>A few things that make video verification go smoothly:</p>
+<ul>
+<li><p>Do it in <strong>one unbroken take</strong>. No cuts, no edits.</p></li>
+<li><p>Show something with your business name on it that is not a printout &mdash; a truck wrap, a permanent sign, an embroidered shirt.</p></li>
+<li><p>Show your actual tools or equipment.</p></li>
+<li><p>Show your face.</p></li>
+<li><p>Do not film it from your couch.</p></li>
+</ul>
+<p>If you are a service-area business with no storefront, this still works fine. Your truck and your gear are the proof.</p>
+<h2>Step 5: Get back in, then lock the door behind you</h2>
+<p>Once you have access, spend ten more minutes doing the part that keeps this from happening again:</p>
+<ul>
+<li><p>Make yourself <strong>Primary Owner</strong>, not just a manager.</p></li>
+<li><p>Add a <strong>second owner you trust</strong> &mdash; your spouse, your ops person &mdash; on an email address the business actually controls.</p></li>
+<li><p>Remove every old user still sitting on the account.</p></li>
+<li><p>Turn on notifications so you see reviews and messages when they land.</p></li>
+</ul>
+<p>The second-owner step is the one people skip and regret. If you ever lose access to your own account, a second owner is the difference between a two-minute phone call and doing all of this over again.</p>
+<h2>How long this actually takes</h2>
+<p>Fastest I have seen was two days, because the previous owner picked up the phone. Slowest was about six weeks, with a denied appeal and a re-verification stacked on top. Most land somewhere around two to three weeks.</p>
+<p>The seven-day waiting period is the floor. Nothing gets you past it.</p>
+<h2>When to just do it yourself</h2>
+<p>Most people reading this can handle it alone, and honestly you should. It is free, it is your listing, and the process above is the whole process.</p>
+<p>Where it gets genuinely messy:</p>
+<ul>
+<li><p>There are two listings for your business and they need to be merged</p></li>
+<li><p>Your profile is <em>also</em> suspended, which is a separate problem stacked on this one</p></li>
+<li><p>You have already been denied once</p></li>
+<li><p>The person holding it is being difficult on purpose</p></li>
+</ul>
+<p>That is when it makes sense to hand it off. I do this work for Houston businesses &mdash; you can read what that looks like on the <a href="/google-business-profile-help.html">Google Business Profile help page</a>.</p>
+<p>But if yours is the simple version, go start it right now. Twenty minutes, and it is probably the highest-value twenty minutes you will spend on marketing this month.</p>
+</div>
+</article>
+
+<div class="po-cta">
+  <h3>Want this handled instead?</h3>
+  <p>I build websites, fix Google listings, and automate the busywork for Houston small businesses and contractors. One person, everything connected, usually running inside a week.</p>
+  <div class="btns">
+    <a href="/audit.html" class="btn btn-primary">Free presence check</a>
+    <a href="tel:+18328073093" class="btn btn-outline">&#128222; 832-807-3093</a>
   </div>
-</section>
+</div>
 
-<!-- FOR COACHES -->
-<section class="two-col" id="for-coaches">
-  <div class="two-col-inner">
-    <span class="section-tag">For Coaches</span>
-    <h2>Client ops on autopilot</h2>
-    <p class="lead">Less time managing the business of coaching. More time doing it.</p>
-    <div class="change-list">
-      <div class="change-item">
-        <div class="change-icon">💬</div>
-        <div>
-          <h3>DM auto-responder that sounds like you</h3>
-          <p>Warm leads get an instant reply that captures their info and starts the conversation — in your voice, not a generic bot. No lead goes cold because you were busy.</p>
-          <span class="tools-tag">Tools: ManyChat · Claude custom brand skill</span>
+<div class="po-next">
+  <h3>More from the blog</h3>
+  <div class="bl-grid">
+      <a class="bl-card" href="/blog/why-your-website-isnt-getting-leads.html">
+        <img class="bl-thumb" src="/images/blog/website-not-getting-leads.jpg" alt="" loading="lazy" width="1200" height="675">
+        <div class="bl-body">
+          <div class="bl-meta">May 11, 2026 &middot; 7 min read</div>
+          <h2>Why Your Website Isn&#x27;t Getting Leads, Even If It Looks Fine</h2>
+          <p>Most service business sites don&#x27;t fail because they&#x27;re ugly. They fail because they never answer the five questions a buyer has before calling.</p>
+          <div class="bl-more">Read it &rarr;</div>
         </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">🚀</div>
-        <div>
-          <h3>Automated client onboarding</h3>
-          <p>Welcome sequence, intake form, session prep guide, resource delivery — all triggered the moment someone pays. Every client gets a great first experience, every time.</p>
-          <span class="tools-tag">Tools: Kajabi · Dubsado · ConvertKit · Zapier</span>
+      </a>
+      <a class="bl-card" href="/blog/5-things-before-you-spend-on-ads.html">
+        <img class="bl-thumb" src="/images/blog/5-things-before-ads.jpg" alt="" loading="lazy" width="1200" height="675">
+        <div class="bl-body">
+          <div class="bl-meta">May 5, 2026 &middot; 4 min read</div>
+          <h2>5 Things Every Service Business Should Have Online Before Spending a Dime on Ads</h2>
+          <p>Five things that need to work on your site before you spend a dollar on ads. Skip them and you&#x27;re paying to pour traffic into a leaky bucket.</p>
+          <div class="bl-more">Read it &rarr;</div>
         </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">📲</div>
-        <div>
-          <h3>Between-session check-ins on autopilot</h3>
-          <p>Accountability texts, reflection prompts, progress reminders — sent automatically between sessions so clients stay engaged and get better results.</p>
-          <span class="tools-tag">Tools: GoHighLevel · ActiveCampaign · custom sequence</span>
+      </a>
+      <a class="bl-card" href="/blog/imperial-water-online-presence-in-one-week.html">
+        <img class="bl-thumb" src="/images/blog/imperial-water-one-week.jpg" alt="" loading="lazy" width="1200" height="675">
+        <div class="bl-body">
+          <div class="bl-meta">April 28, 2026 &middot; 2 min read</div>
+          <h2>How I Built Imperial Water&#x27;s Entire Online Presence in One Week</h2>
+          <p>A Sugar Land water treatment company went from no website to a full online presence in seven days. Here&#x27;s the exact build order I used.</p>
+          <div class="bl-more">Read it &rarr;</div>
         </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">🎙️</div>
-        <div>
-          <h3>Brand-aligned AI skill for all comms</h3>
-          <p>A custom Claude skill trained on your voice means every email, post, and message that goes out sounds like you — not a template, not a generic AI. Your expertise, at scale.</p>
-          <span class="tools-tag">Tools: Claude custom skill · your email platform</span>
-        </div>
-      </div>
-    </div>
+      </a>
   </div>
-</section>
-
-<!-- FOR CREATORS -->
-<section class="two-col alt" id="for-creators">
-  <div class="two-col-inner">
-    <span class="section-tag">For Content Creators</span>
-    <h2>Content and creator partnerships, systematized</h2>
-    <p class="lead">More output, more partnerships, less time managing the logistics.</p>
-    <div class="change-list">
-      <div class="change-item">
-        <div class="change-icon">📝</div>
-        <div>
-          <h3>Campaign brief generation</h3>
-          <p>Briefs generated automatically from your brand guidelines and campaign talking points. Send more briefs, maintain more consistency, spend less time writing them.</p>
-          <span class="tools-tag">Tools: Claude brand skill · Notion · Airtable</span>
-        </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">📨</div>
-        <div>
-          <h3>Influencer outreach and follow-up sequences</h3>
-          <p>Find, reach out, follow up, track responses — without doing each step manually. Your outreach pipeline runs while you create.</p>
-          <span class="tools-tag">Tools: n8n · Make · your outreach tool</span>
-        </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">📅</div>
-        <div>
-          <h3>Content calendar and posting automation</h3>
-          <p>Content approved → automatically scheduled across platforms. No more manual posting, no more "I forgot to post today."</p>
-          <span class="tools-tag">Tools: Buffer · Later · Publer · Zapier</span>
-        </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">💸</div>
-        <div>
-          <h3>Creator payout tracking and automation</h3>
-          <p>Milestone hit → payment triggered → confirmation sent. No spreadsheet, no manual Venmo, no "hey did I pay you yet?" moments.</p>
-          <span class="tools-tag">Tools: n8n · Stripe · Wise · Airtable</span>
-        </div>
-      </div>
-      <div class="change-item">
-        <div class="change-icon">🎨</div>
-        <div>
-          <h3>Brand-consistent content at scale</h3>
-          <p>A custom AI skill trained on your brand guidelines — so every caption, email, and brief is unmistakably yours, no matter who or what produces it.</p>
-          <span class="tools-tag">Tools: Claude custom brand skill · your content workflow</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="stat-bar">
-  <span class="stat-num">3×</span>
-  <p>Creators running automated influencer workflows manage 3× more partnerships with the same team. Coaches using automated onboarding report 60% less admin time in the first 30 days with a new client.</p>
-</section>
-
-<section class="cta-bar">
-  <h2>Ready to get back to the work you actually love?</h2>
-  <p>We start with a quick audit and map exactly where AI can take the admin off your plate.</p>
-  <a href="https://calendar.app.google/JxvnN4JBC61zMBkM6" class="btn btn-white">Book a Discovery Call &rarr;</a>
-</section>
-
+</div>
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -586,6 +695,7 @@
   </div>
   <div class="footer-bottom">&copy; 2026 Chris Kelley Consulting &middot; Houston, TX &middot; <a href="mailto:chris@chriskelley.io" style="color:inherit;">chris@chriskelley.io</a></div>
 </footer>
+
 <script>
 // ── HAMBURGER ────────────────────────────────────────────
 const hamburger = document.getElementById('hamburger');
