@@ -11,5 +11,11 @@
       "destination": "/systems-buildout.html",
       "permanent": true
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/audit-digest",
+      "schedule": "0 13 * * 1"
+    }
   ]
 }

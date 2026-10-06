@@ -1,5 +1,7 @@
 const Anthropic = require('@anthropic-ai/sdk');
 const { Resend } = require('resend');
+const { kv } = require('@vercel/kv');
+const { inspectEmail, classify } = require('../lib/lead-quality');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -105,6 +107,41 @@ Tier thresholds: 0-40 = Invisible, 41-65 = Findable but Leaking, 66-85 = Solid F
     if (!jsonMatch) throw new Error('Could not parse audit response.');
     const audit = JSON.parse(jsonMatch[0]);
 
+    // --- Lead quality -------------------------------------------------------
+    // Junk audits (dead URL + undeliverable email) no longer trigger an instant
+    // alert. Everything is queued for the weekly digest in api/audit-digest.js.
+    let leadTier = 'maybe', leadReasons = [], emailInfo = null;
+    try {
+      emailInfo = await inspectEmail(email);
+      const verdict = classify({ siteStatus, audit, emailInfo });
+      leadTier = verdict.tier; leadReasons = verdict.reasons;
+    } catch (qErr) {
+      console.error('Lead quality error:', qErr.message);
+    }
+    try {
+      const pending = (await kv.get('audit:leads:pending')) || [];
+      pending.push({
+        ts: new Date().toISOString(),
+        url, email, siteStatus,
+        score: audit.total_score,
+        tier_label: audit.tier,
+        business_name: audit.business_name,
+        location: audit.location,
+        industry: audit.industry,
+        top_wins: audit.top_wins || [],
+        lead_tier: leadTier,
+        lead_reasons: leadReasons,
+        email_domain: emailInfo ? emailInfo.domain : '',
+        email_has_mx: !!(emailInfo && emailInfo.hasMx),
+        email_is_free: !!(emailInfo && emailInfo.isFree),
+        email_is_disposable: !!(emailInfo && emailInfo.isDisposable)
+      });
+      await kv.set('audit:leads:pending', pending);
+      console.log('Lead queued:', leadTier, email, '|', leadReasons.join('; '));
+    } catch (kvErr) {
+      console.error('Lead queue error:', kvErr.message);
+    }
+
     // Send results email
     try {
       if (!process.env.RESEND_API_KEY) throw new Error('No Resend key');
@@ -120,9 +157,10 @@ Tier thresholds: 0-40 = Invisible, 41-65 = Findable but Leaking, 66-85 = Solid F
       console.error('Email error:', emailErr.message, JSON.stringify(emailErr));
     }
 
-    // Notify Chris when someone runs an audit
+    // Notify Chris immediately ONLY for high-quality leads.
+    // Junk + 'maybe' leads go out in the weekly digest instead.
     try {
-      if (process.env.RESEND_API_KEY) {
+      if (process.env.RESEND_API_KEY && leadTier === 'hot') {
         const resend2 = new Resend(process.env.RESEND_API_KEY);
         await resend2.emails.send({
           from: 'Audit Alert <chris@chriskelley.io>',
